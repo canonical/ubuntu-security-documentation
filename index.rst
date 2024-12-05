@@ -75,6 +75,7 @@ Ubuntu security
    :maxdepth: 1
    :caption: Comply
 
-   compliance/index
+   compliance/usg
+   compliance/fips
 
   
