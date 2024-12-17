@@ -1,5 +1,5 @@
-How to customize the DISA-STIG compliance
-#########################################
+Customize DISA-STIG profiles
+############################    
 
 Not all rules can be applied without additional input from the operator. You can provide that input using a tailoring file, as demonstrated below. Furthermore, a tailoring file allows you to select the rules to comply or not comply against.
 

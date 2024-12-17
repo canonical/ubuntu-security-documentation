@@ -27,13 +27,12 @@ Ubuntu security
 
       :doc:`USG <compliance/usg>`
 
-      :doc:`DISA Strig <compliance/disa-stig>`
+      :doc:`CIS <compliance/usg/cis>`
+
+      :doc:`DISA Strig <compliance/usg/disa>`
 
       :doc:`FIPS <compliance/fips>`
 
-      :doc:`Common Criteria <compliance/common-criteria>`
-
-      :doc:`CIS <compliance/cis>`
      
 
    .. grid-item:: **Manage security**
@@ -73,9 +72,10 @@ Ubuntu security
 .. toctree::
    :hidden: 
    :maxdepth: 1
-   :caption: Comply
+   :caption: Compliance automation
 
    compliance/usg
    compliance/fips
+
 
   

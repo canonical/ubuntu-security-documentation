@@ -1,5 +1,5 @@
-How to audit an Ubuntu System for DISA-STIG compliance
-######################################################
+Auditing an Ubuntu system for DISA-STIG compliance
+##################################################
 
 An Ubuntu system can be audited for the DISA-STIG rules using the `usg` command:
 

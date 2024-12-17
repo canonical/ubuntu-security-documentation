@@ -1,12 +1,8 @@
-Getting started with the Ubuntu Security Guide
-##############################################
-
-Security Technical Implementation Guides like the CIS benchmark or DISA-STIG have hundreds of configuration recommendations, so hardening and auditing a Linux system manually can be very tedious. Ubuntu Security Guide (USG) is a new tool available with Ubuntu 20.04 LTS that greatly improves the usability of hardening and auditing, and allows for environment-specific customizations. The following sections provide more information on hardening and auditing with usg.
-
-In this tutorial, you will learn how to audit with the CIS benchmark or DISA-STIG on Ubuntu 20.04 LTS machines, while using an Ubuntu Pro subscription.
+Install Ubuntu Security Guide
+##############################
 
 Prerequisites
--------------
+=============
 
 * An `Ubuntu One account <https://login.ubuntu.com/>`_ with the email address you used to purchase your subscription.
 
@@ -30,9 +26,7 @@ Attach the subscription
 
 .. NOTE:: Skip this step if you are using an Ubuntu Pro instance from a public cloud marketplace.
 
-
-
-#. Check the status of to the Pro client:
+1. Check the status of to the Pro client:
 
 .. code-block:: bash
 
@@ -55,7 +49,7 @@ Attach the subscription
     This machine is not attached to an Ubuntu Pro subscription.
     See https://ubuntu.com/pro
 
-#. Attach your machine to a subscription:
+2. Attach your machine to a subscription:
 
 .. code-block:: bash
 
@@ -73,11 +67,11 @@ You will see an ouput similar to the following example with a link and a code:
     https://ubuntu.com/pro/attach
     And provide the following code: 123456
 
-#. Follow the link and enter the code. 
+3. Follow the link and enter the code. 
 
-#. Choose which subscription you want to attach to. By default, the Free Personal Token will be selected.
+4. Choose which subscription you want to attach to. By default, the Free Personal Token will be selected.
 
-#. Click **Submit**.
+5. Click **Submit**.
 
 The attachment process will continue in the terminal window, you shoul see a similar output:
 
@@ -127,25 +121,16 @@ Run the following commands to enable and install the USG:
     sudo apt install usg
 
 
-Install CIS benchmarks
-======================  
+Transition from the previous compliance tooling
+===============================================
 
-If you want to use `CIS benchmarks <https://ubuntu.com/security/certifications/docs/usg/cis/compliance>`_, install them: 
+The previous compliance tooling available in Ubuntu provided per-release scripts for CIS compliance. The following points map the old commands to the Ubuntu Security Guide syntax.
 
-.. code-block:: bash
-    
-    sudo apt install usg-benchmarks-1
+.. csv-table:: 
+    :header: "Command", "Replacement"
 
-
-Run the USG
-===========
-
-You have successfully enabled USG tool and can now use it to audit or harden your Ubuntu machine. 
-
-To audit use the following command replacing `<PROFILE>` with `cis_level1_server`, with `cis_level1_workstation`, or `disa_stig`, depending on the compliance target:
-
-.. code-block:: bash
-    
-    sudo usg audit <PROFILE>
-
-The output of this command will show the compliance status and will point to an HTML file with the audit report. 
+    "/usr/share/ubuntu-scap-security-guides/cis-hardening/Canonical_Ubuntu_20.04_CIS-harden.sh", "usg fix"
+    "/usr/share/ubuntu-scap-security-guides/cis-hardening/Canonical_Ubuntu_18.04_CIS-harden.sh", "usg fix"
+    "/usr/share/ubuntu-scap-security-guides/cis-hardening/Canonical_Ubuntu_16.04_CIS_v1.1.0-harden.sh", "usg fix"
+    "cis-audit", "usg audit"
+    "Custom configuration with ruleset-params.conf", "Profile customization"
