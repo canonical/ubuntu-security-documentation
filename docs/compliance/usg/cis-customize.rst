@@ -57,9 +57,11 @@ By replacing the ``selected=true`` with ``selected=false`` we no longer enforce 
 3. Audit using the new tailoring file:
 
 .. code-block:: bash
+
     usg audit --tailoring-file tailor.xml
 
 4. Fix using the new tailoring file:
     
 .. code-block:: bash
+    
     usg fix --tailoring-file tailor.xml

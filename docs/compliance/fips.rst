@@ -70,6 +70,7 @@ The installer creates the LUKS encrypted partitions using Argon2i. Before enabli
 First determine which partition is encrypted with LUKS (your partition will likely be named differently):
 
 .. code-block:: bash
+   
    lsblk --fs -p -r | grep LUKS | awk '{print $1}'
    > /dev/nvme0n1p3
 

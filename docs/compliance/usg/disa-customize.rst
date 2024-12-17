@@ -13,7 +13,7 @@ Not all rules can be applied without additional input from the operator. You can
 
 For example to set the remote auditd server (rule UBTU-20-010216), find the text:
 
-.. code-block:: xml 
+.. code-block:: 
 
     <!-- UBTU-20-010216
     <xccdf:set-value idref="var_audispd_remote_server">logcollector</xccdf:set-value>
