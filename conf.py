@@ -23,7 +23,7 @@ import ast
 #
 # TODO: Update with the official name of your project or product
 
-project = "Documentation starter pack"
+project = "Ubuntu security documentation"
 author = "Canonical Ltd."
 
 
