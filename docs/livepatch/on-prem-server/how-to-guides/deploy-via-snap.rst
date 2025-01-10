@@ -102,19 +102,30 @@ daemon. For the purpose of this tutorial, we have provided you one with
 the username as ``admin`` and password as ``admin123``:
 
    Please note, special characters are escaped using single quotes and
-   the password is/must be bcrypt hashed
+   the password must be 'bcrypt' hashed
 
 ::
 
-    sudo snap set canonical-livepatch-server\
-    lp.auth.basic.users='admin:$2y$10$c25NVkdeIMqWdbgR4883YuE/s2CT1mCmGPm5Ma1XbUqGqM26ClTGe'
+    sudo snap set canonical-livepatch-server \
+       lp.auth.basic.users='admin:$2y$10$c25NVkdeIMqWdbgR4883YuE/s2CT1mCmGPm5Ma1XbUqGqM26ClTGe'
 
-If you would like to generate your own, you can do so as follows:
+If you would like to generate your own password and hash, you can do so as 
+follows:
 
 ::
 
-    sudo apt-get install apache2-utils
-    htpasswd -bnBC 10 <username> <password>
+    $ sudo apt-get -y install whois
+    $ mkpasswd -m bcrypt admin123
+
+You can also combine this into a single command that prompts for the password. 
+Note that this uses double-quotes and not single quotes. 
+
+   $ sudo snap set canonical-livepatch-server lp.auth.basic.users="admin:$(mkpasswd -m bcrypt)"
+
+Or you can pass the password in, if you want to use this non-interactively:
+
+   $ sudo snap set canonical-livepatch-server lp.auth.basic.users="admin:$(mkpasswd -m bcrypt admin123)"
+
 
 Next, we need to manually enable basic authentication:
 

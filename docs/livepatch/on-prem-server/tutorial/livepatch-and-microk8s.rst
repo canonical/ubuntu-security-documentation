@@ -160,7 +160,7 @@ After that, provide the url_template setting as follows:
 
 ::
 
-   juju config livepatch server.url-template="http://10.1.236.9:8080/v1/patches/{filename}"
+   $ juju config livepatch server.url-template="http://10.1.236.9:8080/v1/patches/{filename}"
 
 The url_template specifies the url where patch files can be downloaded
 by livepatch clients. The url template should be of the form
@@ -195,7 +195,7 @@ Follow up on this by changing the url-template to match the ingress with
 
 ::
 
-   juju config livepatch server.url-template="http://livepatch.test.com/v1/patches/{filename}"
+   $ juju config livepatch server.url-template="http://livepatch.test.com/v1/patches/{filename}"
 
 To run this in a production environment, you will need to expose this
 microk8s cluster publicly.
@@ -231,20 +231,27 @@ Generate the password hash using:
 
 ::
 
-   $ sudo apt-get install apache2-utils
-   $ htpasswd -bnBC 10 <username> <password>
-   username:$2y$10$74ZpDgHaxnUQo.AJZk1cMuSRfef5oK5xq5o/GLbUH/Bbw6W2bmctm
+   $ sudo apt-get -y install whois
+   $ mkpasswd -m bcrypt admin123
+   $2b$05$s0eYp0o4aTd/sNq4Qh1AceUiqUaq4KKK5pau9X92Jh/yk3B5jmhZu
 
-The above is a ``username:<hashed-password>`` pair that was generated
-from the pair “username:password” exactly. This should be changed for a
-production workload.
+The above is a hashed password that can be used to log into your server. This 
+should be changed for a production workload.
 
 Use the output of the previous command to configure livepatch:
 
 ::
 
    $ juju config livepatch auth.basic.enabled=true
-   $ juju config livepatch auth.basic.users='username:$2y$10$74ZgHaxn...UH/Bbw6W2bmctm'
+   $ juju config livepatch auth.basic.users='username:$2b$05$s0eY..B5jmhZu'
+
+You can also combine this into a single command that prompts for the password:
+
+   $ juju config livepatch auth.basic.users=$(mkpasswd -m bcrypt)
+
+Or you can pass the password in, if you want to use this non-interactively:
+
+   $ juju config livepatch auth.basic.users=$(mkpasswd -m bcrypt admin123)
 
 See `Administration
 Tool <https://discourse.ubuntu.com/t/livepatch-server-administration-tool/22551>`__
