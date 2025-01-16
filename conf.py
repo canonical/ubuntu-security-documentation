@@ -141,7 +141,7 @@ html_context = {
     # Docs location in the repo; used in links for viewing the source files
     #
     # TODO: To customise the directory, uncomment and update as needed.
-    "github_folder": "/sp-docs/",
+    "repo_folder": "/sp-docs/",
 
     # TODO: To enable or disable the Previous / Next buttons at the bottom of pages
     # Valid options: none, prev, next, both
@@ -244,7 +244,7 @@ exclude_patterns = [
 # Adds custom CSS files, located under 'html_static_path'
 
 html_css_files = [
-    "css/pdf.css",
+    "css/pdf.css", 
 ]
 
 

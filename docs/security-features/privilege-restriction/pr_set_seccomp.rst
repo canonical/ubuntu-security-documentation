@@ -1,5 +1,5 @@
-File integrity monitoring
-=========================
+PR_SET_SECCOMP
+==============
 
 .. tab-set::
 
@@ -27,12 +27,6 @@ File integrity monitoring
 
         TBA
 
-   
-   
-   
-   
+Setting SECCOMP for a process is meant to confine it to a small subsystem of system calls, used for specialized processing-only programs.
 
-   
-
-   
-
+See test-kernel-security.py for regression tests. 
