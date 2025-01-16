@@ -29,8 +29,8 @@ some values for later use. Install it like so:
 
 ::
 
-   sudo apt update
-   sudo apt install jq
+   $ sudo apt update
+   $ sudo apt -y install jq
 
 LXD
 ---
@@ -44,7 +44,7 @@ To install LXD, run:
 
 ::
 
-   sudo snap install lxd --channel=5.0/stable
+   $ sudo snap install lxd --channel=5.0/stable
 
 Next, LXD must be initialised, run the following command and either
 accept the defaults or choose different options when prompted (you may
@@ -52,7 +52,7 @@ also use the –auto flag):
 
 ::
 
-   lxd init --auto
+   $ lxd init --auto
 
 Juju
 ----
@@ -66,7 +66,7 @@ Juju can be installed locally via a
 
 ::
 
-   sudo snap install juju
+   $ sudo snap install juju
 
 Ubuntu Pro
 ----------
@@ -87,15 +87,15 @@ Let us bootstrap a controller on LXD:
 
 ::
 
-   mkdir -p ~/.local/share
-   juju bootstrap lxd livepatch-onprem
+   $ mkdir -p ~/.local/share
+   $ juju bootstrap lxd livepatch-onprem
 
 After some time the controller should be ready. Next, we’ll create a
 model to deploy Livepatch.
 
 ::
 
-   juju add-model livepatch
+   $ juju add-model livepatch
 
 2. Deploying the bundle
 -----------------------
@@ -104,19 +104,19 @@ Ensure you’re on the livepatch model:
 
 ::
 
-   juju switch livepatch
+   $ juju switch livepatch
 
 And deploy the bundle:
 
 ::
 
-   juju deploy canonical-livepatch-onprem --channel=machine
+   $ juju deploy canonical-livepatch-onprem --channel=machine
 
 You can watch the status of the deployment:
 
 ::
 
-   juju status --watch 2s
+   $ juju status --watch 2s
 
 After some time, your model will resemble the following:
 
@@ -136,7 +136,7 @@ Maintenance). Using your token from https://ubuntu.com/pro run:
 
 ::
 
-   juju config ubuntu-advantage token='<token>'
+   $ juju config ubuntu-advantage token='<token>'
 
 On a successful attach, you will see something similar to the follow in
 your status output:
@@ -151,7 +151,7 @@ charm.
 
 ::
 
-   juju remove-application ubuntu-advantage
+   $ juju remove-application ubuntu-advantage
 
 4. Enabling Livepatch
 ---------------------
@@ -160,7 +160,7 @@ Next, to enable Livepatch on-prem, we’ll run:
 
 ::
 
-   juju run livepatch/0 enable token='<token>'
+   $ juju run livepatch/0 enable token='<token>'
 
 You will see the following action output if successful:
 
@@ -219,7 +219,7 @@ You can confirm this was successful by running:
 
 ::
 
-   juju config livepatch server.url-template
+   $ juju config livepatch server.url-template
 
 Database Migration
 ~~~~~~~~~~~~~~~~~~
@@ -229,7 +229,7 @@ migration using a charm action:
 
 ::
 
-   juju run livepatch/0 schema-upgrade
+   $ juju run livepatch/0 schema-upgrade
 
 The output will look like:
 
@@ -260,30 +260,37 @@ Enable basic authentication:
 
 ::
 
-   juju config livepatch auth.basic.enabled=true
+   $ juju config livepatch auth.basic.enabled=true
 
-Install the following for bcrypt utilities:
-
-::
-
-   sudo apt-get install apache2-utils -y
-
-Next, create a user and password:
+Install the following for the mkpasswd tool:
 
 ::
 
-   htpasswd -bnBC 10 admin admin123
-   admin:$2y$10$jEmTFsxm7dpqxptch8u3UuilVbzzmT6HGTeu6kKMta5Gdqnj9cOHG
+   $ sudo apt-get -y install whois
 
-Using the output verbatim, run (note the single quotes to escape special
-characters):
+Next, create a hashed password:
 
 ::
 
-   juju config livepatch auth.basic.users='admin:$2y$10$jEmTFsxm7dpqxptch8u3UuilVbzzmT6HGTeu6kKMta5Gdqnj9cOHG'
+   mkpasswd -m bcrypt admin123
+   $2b$05$1xjs/kbfWPqi/eX0gvpUYeuhbBr9rYEc/lyEYpPKVBu2zyGAOyEja
 
-If you wish to add more users, this is a comma-separated list of
-user:passwords.
+Using the output verbatim, run (note the single quotes used below to escape
+special characters when using a raw hash, and double quotes when passing it 
+inline):
+
+::
+
+   $ juju config livepatch auth.basic.users='admin:$2y$10$jEmTFsxm7dpqxptch8u3UuilVbzzmT6HGTeu6kKMta5Gdqnj9cOHG'
+
+You can also combine this into a single command that prompts for the password:
+
+   $ juju config livepatch auth.basic.users="admin:$(mkpasswd -m bcrypt)"
+
+Or you can pass the password in, if you want to use this non-interactively:
+
+   $ juju config livepatch auth.basic.users="admin:$(mkpasswd -m bcrypt admin123)"
+
 
 Now an administrator can login using the admin tool.
 
@@ -300,20 +307,20 @@ via ``livepatch-admin``:
 
 ::
 
-   sudo snap alias canonical-livepatch-server-admin.livepatch-admin livepatch-admin
+   $ sudo snap alias canonical-livepatch-server-admin.livepatch-admin livepatch-admin
 
 Next, we’ll export an environment variable called LIVEPATCH_URL. It must
 point at your DNS/HAProxy unit as discussed previously in this tutorial.
 
 ::
 
-   export LIVEPATCH_URL=http://$HAPROXY_ADDRESS
+   $ export LIVEPATCH_URL=http://$HAPROXY_ADDRESS
 
 Now, with one of your administrators, you can login:
 
 ::
 
-   livepatch-admin login -a admin:admin123
+   $ livepatch-admin login -a admin:admin123
 
 The final step before attaching client machines to the server is to
 download patches from Canonical’s hosted Livepatch server.
@@ -322,7 +329,7 @@ Trigger a sync with:
 
 ::
 
-   livepatch-admin sync trigger --wait
+   $ livepatch-admin sync trigger --wait
 
 For further information on the admin tool, see the `Administration
 tool <>`__ topic. Additionally, see how-to `configure patch sync
@@ -339,7 +346,7 @@ on what information is sent is available
 
 ::
 
-   juju config livepatch patch-sync.send-machine-reports=true
+   $ juju config livepatch patch-sync.send-machine-reports=true
 
 This can be disabled at any time by setting the flag to ``false``.
 
@@ -350,4 +357,4 @@ Should you wish to clean up your deployment, you can do so via:
 
 ::
 
-   juju destroy-controller livepatch-onprem --destroy-all-models
+   $ juju destroy-controller livepatch-onprem --destroy-all-models

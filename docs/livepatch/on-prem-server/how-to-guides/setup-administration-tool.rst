@@ -28,24 +28,24 @@ Password authentication
 -----------------------
 
 To configure password authentication, username/password hash pairs will
-need to be generated using the ``htpasswd`` tool available in the
-``apache2-utils`` package.
+need to be generated using the ``mkpasswd`` tool available in the
+``whois`` package.
 
-\`\`\ ``{note} The``\ apache2-utils\` package can be installed by using
+\`\`\ ``{note} The``\ whois\` package can be installed by using
 the following commands:
 
 ::
 
    $ sudo apt-get update
-   $ sudo apt-get install apache2-utils
+   $ sudo apt-get -y install whois
 
 ::
 
 
    This will generate a username/password hash pair:
 
-$ htpasswd -bnBC 10
-username:$2y$10$74ZpDgHaxnUQo.AJZk1cMuSRfef5oK5xq5o/GLbUH/Bbw6W2bmctm
+$ mkpasswd -m bcrypt admin123
+$2b$05$BmmTKkhnl1w303GO.JZTtOS5BIqZS.BYZU2kJzRIYOFx6SuQ9A.yG
 
 ::
 

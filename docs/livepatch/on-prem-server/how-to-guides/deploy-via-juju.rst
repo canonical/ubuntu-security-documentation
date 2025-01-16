@@ -107,18 +107,27 @@ options: token:
 
    Generate the password hash using:
 
-$ sudo apt-get install apache2-utils
+$ sudo apt-get -y install whois
 
-$ htpasswd -bnBC 10
-username:$2y$10$74ZpDgHaxnUQo.AJZk1cMuSRfef5oK5xq5o/GLbUH/Bbw6W2bmctm
+$ mkpasswd -m bcrypt admin123
+$2b$05$BmmTKkhnl1w303GO.JZTtOS5BIqZS.BYZU2kJzRIYOFx6SuQ9A.yG
 
 ::
 
-
-   Use the output of the previous command to configure livepatch:
+   Use the output of the previous command to configure livepatch. (note the 
+single quotes used below to escape special characters when using a raw hash, 
+and double quotes when passing it inline):
 
 $ juju config livepatch
-auth_basic_users=‘username:$2y$10$74ZgHaxn…UH/Bbw6W2bmctm’
+auth_basic_users=‘username:$2b$05$BmmTKk..IYOFx6SuQ9A.yG’
+
+You can also combine this into a single command that prompts for the password:
+
+   $ juju config livepatch auth.basic.users="admin:$(mkpasswd -m bcrypt)"
+
+Or you can pass the password in, if you want to use this non-interactively:
+
+   $ juju config livepatch auth.basic.users="admin:$(mkpasswd -m bcrypt admin123)"
 
 ::
 
