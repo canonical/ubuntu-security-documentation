@@ -1,2 +1,0 @@
-Disk encryption in-depth
-========================
