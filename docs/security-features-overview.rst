@@ -70,8 +70,7 @@ Matrix of features
 Privilege restriction
 =====================
 
-.. note::
-    For in-depth technical documentation about privilige restriction mechanisms, see :ref:`Privilige restriction in-depth`
+For in-depth technical documentation about privilige restriction mechanisms, see :ref:`Privilige restriction`
 
 
 MAC is handled via kernel LSM hooks.
@@ -132,8 +131,7 @@ See test-kernel-security.py for regression tests.
 Storage and filesystem
 =======================
 
-.. note::
-    For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Storage and filesystem in-depth`
+For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Storage and filesystem`
 
 Symlink restrictions
 -----------------------
@@ -196,8 +194,7 @@ See the kernel admin-guide for documentation.
 Network and firewalls
 =====================
 
-.. note::
-    For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Network and firewalls in-depth`
+For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Network and firewalls`
 
 No Open Ports
 -------------
@@ -227,14 +224,13 @@ Ufw is well-suited for host-based firewalls, providing a framework for managing 
 
 Regression tests: `ufw tests <https://bazaar.launchpad.net/~jdstrand/ufw/trunk/files>`_.
 
-For in-depth information about how firewall works in Ubuntu, see :ref:`Firewall in-depth`
+For in-depth information about how firewall works in Ubuntu, see :ref:`Firewall`
 
 
-Process integrity and memory
+Process and memory integrity
 ============================
 
-.. note::
-    For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Process and memory integrity in-depth`
+For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Process and memory integrity`
 
 Stack Protector
 ---------------
@@ -429,8 +425,7 @@ See test-kernel-security.py for configuration regression tests.
 Kernel
 ======
 
-.. note::
-    For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Kernel in-depth`
+For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Kernel`
 
 Kernel Address Display Restriction
 ----------------------------------
@@ -507,8 +502,7 @@ Starting with Ubuntu 20.04, the Linux kernel's lockdown mode is enabled in integ
 Cryptography
 ============
 
-.. note::
-    For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Cryptography in-depth`
+For in-depth technical documentation about storage protection mechanisms mechanisms, see :ref:`Cryptography`
 
 Password Hashing
 -----------------

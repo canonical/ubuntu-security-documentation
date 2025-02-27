@@ -1,1 +1,1 @@
-.. |ubuntu-latest-version| replace:: Ubuntu 24.04
+.. |ubuntu-latest-version| replace:: Ubuntu 24.10

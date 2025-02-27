@@ -1,5 +1,5 @@
-Storage and filesystem in-depth
-===============================
+Storage and filesystem
+======================
 
 This section contains **in-depth technical documentation** about the design, functionality, and configurations Ubuntu security features for storage and filesystem protection. For a high-level overview of security features present in Ubuntu, see :ref:`Matrix of features`
 
