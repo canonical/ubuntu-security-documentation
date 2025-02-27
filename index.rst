@@ -19,7 +19,6 @@
    docs/security-features-overview
    docs/security-features/privelege-restriction/index
    docs/security-features/cryptography/index
-   docs/security-features/kernel/index
    docs/security-features/process-memory/index
    docs/security-features/storage/index
    docs/security-features/network/index

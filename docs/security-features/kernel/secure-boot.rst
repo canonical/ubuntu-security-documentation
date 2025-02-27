@@ -1,5 +1,0 @@
-Secure Boot
-===========
-
-Kernel Lockdown
----------------
