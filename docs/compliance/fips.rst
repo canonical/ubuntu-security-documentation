@@ -1,4 +1,6 @@
-FIPS for Ubuntu 22.04
+.. include:: ../../reuse/substitutions.rst
+
+FIPS for |ubuntu-latest-version|
 #####################
 
 Ubuntu Pro provides FIPS 140 certified cryptographic modules. This allows you to use Ubuntu within the Federal Government, DoD and other agencies which have a requirement to for NIST certified crypto. We certify the Linux kernel and core system libraries: OpenSSL, libgcrypt and GnuTLS.

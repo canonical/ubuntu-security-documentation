@@ -23,7 +23,7 @@ import ast
 #
 # TODO: Update with the official name of your project or product
 
-project = "Ubuntu security"
+project = "Ubuntu 24.10 security documentation"
 author = "Canonical Ltd."
 
 
@@ -33,7 +33,7 @@ author = "Canonical Ltd."
 #
 # TODO: To disable the title, set to an empty string.
 
-html_title = project + " documentation"
+html_title = project + " "
 
 
 # Copyright string; shown at the bottom of the page
@@ -231,9 +231,9 @@ linkcheck_anchors_ignore_for_url = [r"https://github\.com/.*"]
 extensions = [
     "canonical_sphinx",
     "sphinxcontrib.cairosvgconverter",
-    "sphinx_last_updated_by_git"
+    "sphinx_last_updated_by_git",
+    "sphinx.ext.autosectionlabel",
 ]
-
 
 # Excludes files or directories from processing
 
