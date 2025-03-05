@@ -10,11 +10,11 @@
 # License: GPLv3
 from __future__ import print_function
 
+import json
 import optparse
 import os
 import sys
 import tempfile
-import cve_lib
 
 parser = optparse.OptionParser()
 parser.add_option("--historical", help="Display all releases", action='store_true')
@@ -23,8 +23,17 @@ parser.add_option("--edit", help="Edit the generated output before handing it to
 (opt, args) = parser.parse_args()
 
 target = sys.stdout
+
+def check_editmoin():
+    # Make sure editmoin would actually work
+    if not os.path.exists(os.path.expanduser('~/.moin_ids')) and not os.path.exists(os.path.expanduser('~/.moin_users')):
+        print("Error: Need to configure editmoin to use this option (usually ~/.moin_ids).\n", file=sys.stderr)
+        return False
+
+    return True
+
 if opt.editmoin:
-    if cve_lib.check_editmoin():
+    if check_editmoin():
         target = tempfile.NamedTemporaryFile(mode="w", prefix='dump-features-', suffix='.txt')
     else:
         sys.exit(1)
@@ -41,6 +50,10 @@ color = { UNIMPLEMENTED: 'dddddd', AVAILABLE: '98fd98', DEFAULT: '00dd00' }
 #features[name]['depth']
 #features[name]['matrix']['dapper']['status'] = 'policy'
 #features[name]['matrix']['dapper']['state'] = AVAILABLE
+
+# Load the releases list
+with open("releases.json") as f:
+    releases = json.load(f)
 
 feature_list = [
 	{ 'name':'configuration', 'short':'Configuration',
@@ -514,20 +527,20 @@ for details in feature_list:
             continue
         features[details['name']].setdefault(item, details[item])
     features[details['name']].setdefault('matrix', dict())
-    for rel in cve_lib.releases:
-        features[details['name']]['matrix'].setdefault(rel, dict())
-        features[details['name']]['matrix'][rel].setdefault('status', '--')
-        features[details['name']]['matrix'][rel].setdefault('state',
+    for rel in releases:
+        features[details['name']]['matrix'].setdefault(rel["code_name"], dict())
+        features[details['name']]['matrix'][rel["code_name"]].setdefault('status', '--')
+        features[details['name']]['matrix'][rel["code_name"]].setdefault('state',
                                                             UNIMPLEMENTED)
 
 def add_status(name, release, status, state):
     overwrite = False
-    for rel in cve_lib.releases:
-        if rel == release:
+    for rel in releases:
+        if rel["code_name"] == release:
             overwrite = True
         if overwrite:
-            features[name]['matrix'][rel]['status'] = status
-            features[name]['matrix'][rel]['state'] = state
+            features[name]['matrix'][rel["code_name"]]['status'] = status
+            features[name]['matrix'][rel["code_name"]]['state'] = state
 
 add_status('ports', 'dapper', 'policy', DEFAULT)
 
@@ -730,10 +743,10 @@ target.write('''
 || '\''feature'\''              ||''')
 
 # Report release name headers
-for rel in cve_lib.releases:
-    if not opt.historical and rel in cve_lib.eol_releases:
+for rel in releases:
+    if not opt.historical and rel["is_eol"]:
         continue
-    name = cve_lib.release_name(rel)
+    name = rel["human_name"]
     name = name.replace('Ubuntu ', "'\''").replace(' (', "'\'' (")
     target.write('%-20s\'\'\' ||' % (name))
 target.write("\n")
@@ -745,10 +758,10 @@ for details in feature_list:
     name = details['name']
     target.write('|| [[#%s|%20s]] ||' % (name, features[name]['short']))
 
-    for rel in cve_lib.releases:
-        if not opt.historical and rel in cve_lib.eol_releases:
+    for rel in releases:
+        if not opt.historical and rel["is_eol"]:
             continue
-        item = features[name]['matrix'][rel]
+        item = features[name]['matrix'][rel["code_name"]]
         target.write('<#%s> %-20s ||' % (color[item['state']], item['status']))
     target.write('\n')
 
