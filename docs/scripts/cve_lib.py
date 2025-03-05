@@ -1,0 +1,4340 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+# Author: Kees Cook <kees@ubuntu.com>
+# Author: Jamie Strandboge <jamie@ubuntu.com>
+# Copyright (C) 2005-2017 Canonical Ltd.
+#
+# This script is distributed under the terms and conditions of the GNU General
+# Public License, Version 3 or later. See http://www.gnu.org/copyleft/gpl.html
+# for details.
+from __future__ import print_function
+
+import codecs
+import datetime
+import glob
+import math
+import os
+import re
+import signal
+import subprocess
+import sys
+import time
+from collections import defaultdict
+
+import cache_urllib
+import json
+import yaml
+import urllib.error
+import urllib.request
+from uct.config import read_uct_config
+
+from functools import reduce
+from functools import lru_cache
+
+CVE_FILTER_NAME = "cve_filter_name"
+CVE_FILTER_ARGS = "cve_filter_args"
+
+GLOBAL_TAGS_KEY = '*'
+
+def set_cve_dir(path):
+    '''Return a path with CVEs in it. Specifically:
+       - if 'path' has CVEs in it, return path
+       - if 'path' is a relative directory with no CVEs, see if UCT is defined
+         and if so, see if 'UCT/path' has CVEs in it and return path
+    '''
+    p = path
+    found = False
+    if len(glob.glob("%s/CVE-*" % path)) > 0:
+        found = True
+    elif not path.startswith('/') and 'UCT' in os.environ:
+        tmp = os.path.join(os.environ['UCT'], path)
+        if len(glob.glob("%s/CVE-*" % tmp)) > 0:
+            found = True
+            p = tmp
+            #print("INFO: using '%s'" % p, file=sys.stderr)
+
+    if not found:
+        print("WARN: could not find CVEs in '%s' (or relative to UCT)" % path, file=sys.stderr)
+    return p
+
+if 'UCT' in os.environ:
+    active_dir = set_cve_dir(os.environ['UCT'] + "/active")
+    retired_dir = set_cve_dir(os.environ['UCT'] + "/retired")
+    ignored_dir = set_cve_dir(os.environ['UCT'] + "/ignored")
+    embargoed_dir = os.environ['UCT'] + "/embargoed"
+    meta_dir = os.path.join(os.environ['UCT'], 'meta_lists')
+    subprojects_dir = os.environ['UCT'] + "/subprojects"
+    boilerplates_dir = os.environ['UCT'] + "/boilerplates"
+else:
+    active_dir = set_cve_dir("active")
+    retired_dir = set_cve_dir("retired")
+    ignored_dir = set_cve_dir("ignored")
+    embargoed_dir = "embargoed"     # Intentionally not using set_cve_dir()
+    meta_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'meta_lists')
+    subprojects_dir = "subprojects"
+    boilerplates_dir = "boilerplates"
+
+PRODUCT_UBUNTU = "ubuntu"
+PRODUCT_ESM = ["esm", "esm-infra", "esm-apps", "esm-infra-legacy", "esm-apps-legacy"]
+PRODUCT_FIPS = ["fips", "fips-updates", "fips-preview"]
+PRIORITY_REASON_REQUIRED = ["low", "high", "critical"]
+PRIORITY_REASON_DATE_START = "2023-07-11"
+
+# common to all scripts
+# these get populated by the contents of subprojects defined below
+all_releases = []
+eol_releases = []
+external_releases = []
+interim_releases = []
+releases = []
+devel_release = ""
+active_external_subprojects = {}
+eol_external_subprojects = {}
+
+# known subprojects which are supported by cve_lib - in general each
+# subproject is defined by the combination of a product and series as
+# <product/series>.
+#
+# For each subproject, it is either internal (ie is part of this static
+# dict) or external (found dynamically at runtime by
+# load_external_subprojects()).
+#
+# eol specifies whether the subproject is now end-of-life.  packages
+# specifies list of files containing the names of supported packages for the
+# subproject. alias defines an alternate preferred name for the subproject
+# (this is often used to support historical names for projects etc).
+subprojects = {
+    "bluefield/jammy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["bluefield-jammy-supported.txt"],
+        "name": "Ubuntu 22.04 LTS for NVIDIA BlueField",
+        "codename": "Jammy Jellyfish",
+        "ppas": [
+                 {"ppa": "canonical-kernel-bluefield/release", "pocket": "release"}
+                ],
+        "parent": "ubuntu/jammy",
+        "description": "Available for NVIDIA BlueField platforms",
+    },
+    "stable-phone-overlay/vivid": {
+        "eol": True,
+        "packages": ["vivid-stable-phone-overlay-supported.txt"],
+        "name": "Ubuntu Touch 15.04",
+        "alias": "vivid/stable-phone-overlay",
+    },
+    "ubuntu-core/vivid": {
+        "eol": True,
+        "packages": ["vivid-ubuntu-core-supported.txt"],
+        "name": "Ubuntu Core 15.04",
+        "alias": "vivid/ubuntu-core",
+    },
+    "esm/precise": {
+        "eol": True,
+        "packages": ["precise-esm-supported.txt"],
+        "name": "Ubuntu 12.04 ESM",
+        "codename": "Precise Pangolin",
+        "alias": "precise/esm",
+        "ppas": [{ "ppa": "ubuntu-esm/esm", "pocket": "security"}],
+        "parent": "ubuntu/precise",
+        "description": "Available with UA Infra or UA Desktop: https://ubuntu.com/advantage",
+        "stamp": 1493521200,
+    },
+    "esm/trusty": {
+        "eol": True,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["trusty-esm-supported.txt"],
+        "name": "Ubuntu 14.04 LTS",
+        "codename": "Trusty Tahr",
+        "alias": "trusty/esm",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-infra-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-infra-updates",  "pocket": "updates"}
+                ],
+        "parent": "ubuntu/trusty",
+        "description": "Available with Ubuntu Pro (Infra-only): https://ubuntu.com/pro",
+        "stamp": 1556593200,
+    },
+    "esm-infra/xenial": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted"],
+        "packages": ["esm-infra-xenial-supported.txt"],
+        "name": "Ubuntu 16.04 LTS",
+        "codename": "Xenial Xerus",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-infra-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-infra-updates",  "pocket": "updates"}
+                ],
+        "parent": "ubuntu/xenial",
+        "description": "Available with Ubuntu Pro (Infra-only): https://ubuntu.com/pro",
+        "stamp": 1618963200,
+    },
+    "esm-infra/bionic": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted"],
+        "packages": ["esm-infra-bionic-supported.txt"],
+        "name": "Ubuntu 18.04 LTS",
+        "codename": "Bionic Beaver",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-infra-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-infra-updates",  "pocket": "updates"}
+                ],
+        "parent": "ubuntu/bionic",
+        "description": "Available with Ubuntu Pro (Infra-only): https://ubuntu.com/pro",
+        "stamp": 1685539024,
+    },
+    "esm-infra-legacy/trusty": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["esm-infra-legacy-trusty-supported.txt"],
+        "name": "Ubuntu 14.04 LTS",
+        "codename": "Trusty Tahr",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-infra-legacy-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-infra-legacy-updates",  "pocket": "updates"}
+                ],
+        "parent": "esm/trusty",
+        "description": "Available with Ubuntu Pro with Legacy support add-on: https://ubuntu.com/pro",
+        "stamp": 173263734,
+    },
+    "esm-apps/xenial": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["universe", "multiverse"],
+        "packages": ["esm-apps-xenial-supported.txt"],
+        "name": "Ubuntu 16.04 LTS",
+        "codename": "Xenial Xerus",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-apps-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-apps-updates",  "pocket": "updates"}
+                ],
+        "parent": "esm-infra/xenial",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+        "stamp": 1618963200,
+    },
+    "esm-apps/bionic": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["universe", "multiverse"],
+        "packages": ["esm-apps-bionic-supported.txt"],
+        "name": "Ubuntu 18.04 LTS",
+        "codename": "Bionic Beaver",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-apps-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-apps-updates",  "pocket": "updates"}
+                ],
+        "parent": "esm-infra/bionic",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+        "stamp": 1524870000,
+    },
+    "esm-apps/focal": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["universe", "multiverse"],
+        "packages": ["esm-apps-focal-supported.txt"],
+        "name": "Ubuntu 20.04 LTS",
+        "codename": "Focal Fossa",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-apps-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-apps-updates",  "pocket": "updates"}
+                ],
+        "parent": "ubuntu/focal",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+        "stamp": 1587567600,
+    },
+    "esm-apps/jammy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["universe", "multiverse"],
+        "packages": ["esm-apps-jammy-supported.txt"],
+        "name": "Ubuntu 22.04 LTS",
+        "codename": "Jammy Jellyfish",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-apps-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-apps-updates",  "pocket": "updates"}
+                ],
+        "parent": "ubuntu/jammy",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+        "stamp": 1650693600,
+    },
+    "esm-apps/noble": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["universe", "multiverse"],
+        "packages": ["esm-apps-noble-supported.txt"],
+        "name": "Ubuntu 24.04 LTS",
+        "codename": "Noble Numbat",
+        "ppas": [
+                 {"ppa": "ubuntu-esm/esm-apps-security", "pocket": "security"},
+                 {"ppa": "ubuntu-esm/esm-apps-updates",  "pocket": "updates"}
+                ],
+        "parent": "ubuntu/noble",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+        "stamp": 1714060800,
+    },
+    "fips/xenial": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-xenial-supported.txt"],
+        "name": "Ubuntu Pro FIPS 16.04 LTS",
+        "codename": "Xenial Xerus",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips", "pocket": "security"},
+            {"ppa" : "ubuntu-advantage/pro-fips", "pocket": "security"}
+        ],
+        "parent": "esm-apps/xenial",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips/bionic": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-bionic-supported.txt"],
+        "name": "Ubuntu Pro FIPS 18.04 LTS",
+        "codename": "Bionic Beaver",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips", "pocket": "security"},
+            {"ppa" : "ubuntu-advantage/pro-fips", "pocket": "security"}
+        ],
+        "parent": "esm-apps/bionic",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips/focal": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-focal-supported.txt"],
+        "name": "Ubuntu Pro FIPS 20.04 LTS",
+        "codename": "Focal Fossa",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips", "pocket": "security"},
+            {"ppa" : "ubuntu-advantage/pro-fips", "pocket": "security"}
+        ],
+        "parent": "esm-apps/focal",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips-updates/xenial": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-updates-xenial-supported.txt"],
+        "name": "Ubuntu Pro FIPS 16.04 LTS",
+        "codename": "Xenial Xerus",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips-updates", "pocket": "updates"},
+            {"ppa" : "ubuntu-advantage/pro-fips-updates", "pocket": "updates"}
+        ],
+        "parent": "esm-apps/xenial",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips-updates/bionic": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-updates-bionic-supported.txt"],
+        "name": "Ubuntu Pro FIPS-updates 18.04 LTS",
+        "codename": "Bionic Beaver",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips-updates", "pocket": "updates"},
+            {"ppa" : "ubuntu-advantage/pro-fips-updates", "pocket": "updates"}
+        ],
+        "parent": "esm-apps/bionic",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips-updates/focal": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-updates-focal-supported.txt"],
+        "name": "Ubuntu Pro FIPS-updates 20.04 LTS",
+        "codename": "Focal Fossa",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips-updates", "pocket": "updates"},
+            {"ppa" : "ubuntu-advantage/pro-fips-updates", "pocket": "updates"}
+        ],
+        "parent": "esm-apps/focal",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips-updates/jammy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-updates-jammy-supported.txt"],
+        "name": "Ubuntu Pro FIPS-updates 22.04 LTS",
+        "codename": "Jammy Jellyfish",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips-updates", "pocket": "updates"},
+            {"ppa" : "ubuntu-advantage/pro-fips-updates", "pocket": "updates"}
+        ],
+        "parent": "esm-apps/jammy",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "fips-preview/jammy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["fips-preview-jammy-supported.txt"],
+        "name": "Ubuntu Pro FIPS-preview 22.04 LTS",
+        "codename": "Jammy Jellyfish",
+        "ppas": [
+            {"ppa" : "ubuntu-advantage/fips-preview", "pocket": "security"},
+            {"ppa" : "ubuntu-advantage/pro-fips-preview", "pocket": "security"}
+        ],
+        "parent": "esm-apps/jammy",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "realtime/jammy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["realtime-jammy-supported.txt"],
+        "name": "Ubuntu 22.04 LTS",
+        "codename": "Jammy Jellyfish",
+        "ppas": [{"ppa": "ubuntu-advantage/realtime-updates", "pocket": "release"}],
+        "parent": "ubuntu/jammy",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "realtime/noble": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "packages": ["realtime-noble-supported.txt"],
+        "name": "Ubuntu 24.04 LTS",
+        "codename": "Noble Numbat",
+        "ppas": [{"ppa": "ubuntu-advantage/realtime-updates", "pocket": "release"}],
+        "parent": "ubuntu/noble",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "ros-esm/foxy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": False,
+            "osv": False,
+            "vex": False,
+        },
+        "packages": ["ros-esm-focal-foxy-supported.txt"],
+        "name": "Ubuntu 20.04 ROS ESM",
+        "codename": "Focal Fossa",
+        "alias": "ros-esm/focal",
+        "ppas": [{"ppa": "ubuntu-robotics-packagers/ros-security", "pocket": "security"}],
+        "parent": "ubuntu/focal",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "ros-esm/kinetic": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": False,
+            "osv": False,
+            "vex": False,
+        },
+        "packages": ["ros-esm-xenial-kinetic-supported.txt"],
+        "name": "Ubuntu 16.04 ROS ESM",
+        "codename": "Xenial Xerus",
+        "alias": "ros-esm/xenial",
+        "ppas": [{"ppa": "ubuntu-robotics-packagers/ros-security", "pocket": "security"}],
+        "parent": "ubuntu/xenial",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "ros-esm/melodic": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": False,
+            "osv": False,
+            "vex": False,
+        },
+        "packages": ["ros-esm-bionic-melodic-supported.txt"],
+        "name": "Ubuntu 18.04 ROS ESM",
+        "codename": "Bionic Beaver",
+        "alias": "ros-esm/bionic",
+        "ppas": [{"ppa": "ubuntu-robotics-packagers/ros-security", "pocket": "security"}],
+        "parent": "ubuntu/bionic",
+        "description": "Available with Ubuntu Pro: https://ubuntu.com/pro",
+    },
+    "ubuntu/warty": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 4.10",
+        "version": 4.10,
+        "codename": "Warty Warthog",
+        "alias": "warty",
+        "description": "Interim Release",
+        "stamp": 1098748800,
+    },
+    "ubuntu/hoary": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 5.04",
+        "version": 5.04,
+        "codename": "Hoary Hedgehog",
+        "alias": "hoary",
+        "description": "Interim Release",
+        "stamp": 1112918400,
+    },
+    "ubuntu/breezy": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 5.10",
+        "version": 5.10,
+        "codename": "Breezy Badger",
+        "alias": "breezy",
+        "description": "Interim Release",
+        "stamp": 1129075200,
+    },
+    "ubuntu/dapper": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 6.06 LTS",
+        "version": 6.06,
+        "codename": "Dapper Drake",
+        "alias": "dapper",
+        "description": "Long Term Support",
+        "stamp": 1149120000,
+    },
+    "ubuntu/edgy": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 6.10",
+        "version": 6.10,
+        "codename": "Edgy Eft",
+        "alias": "edgy",
+        "description": "Interim Release",
+        "stamp": 1161864000,
+    },
+    "ubuntu/feisty": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 7.04",
+        "version": 7.04,
+        "codename": "Feisty Fawn",
+        "alias": "feisty",
+        "description": "Interim Release",
+        "stamp": 1176984000,
+    },
+    "ubuntu/gutsy": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 7.10",
+        "version": 7.10,
+        "codename": "Gutsy Gibbon",
+        "alias": "gutsy",
+        "description": "Interim Release",
+        "stamp": 1192708800,
+    },
+    "ubuntu/hardy": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 8.04 LTS",
+        "version": 8.04,
+        "codename": "Hardy Heron",
+        "alias": "hardy",
+        "description": "Long Term Support",
+        "stamp": 1209038400,
+    },
+    "ubuntu/intrepid": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 8.10",
+        "version": 8.10,
+        "codename": "Intrepid Ibex",
+        "alias": "intrepid",
+        "description": "Interim Release",
+        "stamp": 1225368000,
+    },
+    "ubuntu/jaunty": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 9.04",
+        "version": 9.04,
+        "codename": "Jaunty Jackalope",
+        "alias": "jaunty",
+        "description": "Interim Release",
+        "stamp": 1240488000,
+    },
+    "ubuntu/karmic": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 9.10",
+        "version": 9.10,
+        "codename": "Karmic Koala",
+        "alias": "karmic",
+        "description": "Interim Release",
+        "stamp": 1256817600,
+    },
+    "ubuntu/lucid": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 10.04 LTS",
+        "version": 10.04,
+        "codename": "Lucid Lynx",
+        "alias": "lucid",
+        "description": "Long Term Support",
+        "stamp": 1272565800,
+    },
+    "ubuntu/maverick": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 10.10",
+        "version": 10.10,
+        "codename": "Maverick Meerkat",
+        "alias": "maverick",
+        "description": "Interim Release",
+        "stamp": 1286706600,
+    },
+    "ubuntu/natty": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 11.04",
+        "version": 11.04,
+        "codename": "Natty Narwhal",
+        "alias": "natty",
+        "description": "Interim Release",
+        "stamp": 1303822800,
+    },
+    "ubuntu/oneiric": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 11.10",
+        "version": 11.10,
+        "codename": "Oneiric Ocelot",
+        "alias": "oneiric",
+        "description": "Interim Release",
+        "stamp": 1318446000,
+    },
+    "ubuntu/precise": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 12.04 LTS",
+        "version": 12.04,
+        "codename": "Precise Pangolin",
+        "alias": "precise",
+        "description": "Long Term Support",
+        "stamp": 1335423600,
+    },
+    "ubuntu/quantal": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 12.10",
+        "version": 12.10,
+        "codename": "Quantal Quetzal",
+        "alias": "quantal",
+        "description": "Interim Release",
+        "stamp": 1350547200,
+    },
+    "ubuntu/raring": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 13.04",
+        "version": 13.04,
+        "codename": "Raring Ringtail",
+        "alias": "raring",
+        "description": "Interim Release",
+        "stamp": 1366891200,
+    },
+    "ubuntu/saucy": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 13.10",
+        "version": 13.10,
+        "codename": "Saucy Salamander",
+        "alias": "saucy",
+        "description": "Interim Release",
+        "stamp": 1381993200,
+    },
+    "ubuntu/trusty": {
+        "eol": True,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 14.04 LTS",
+        "version": 14.04,
+        "codename": "Trusty Tahr",
+        "alias": "trusty",
+        "description": "Long Term Support",
+        "stamp": 1397826000,
+    },
+    "ubuntu/utopic": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 14.10",
+        "version": 14.10,
+        "codename": "Utopic Unicorn",
+        "alias": "utopic",
+        "description": "Interim Release",
+        "stamp": 1414083600,
+    },
+    "ubuntu/vivid": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 15.04",
+        "version": 15.04,
+        "codename": "Vivid Vervet",
+        "alias": "vivid",
+        "description": "Interim Release",
+        "stamp": 1429027200,
+    },
+    "ubuntu/wily": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 15.10",
+        "version": 15.10,
+        "codename": "Wily Werewolf",
+        "alias": "wily",
+        "description": "Interim Release",
+        "stamp": 1445518800,
+    },
+    "ubuntu/xenial": {
+        "eol": True,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 16.04 LTS",
+        "version": 16.04,
+        "codename": "Xenial Xerus",
+        "alias": "xenial",
+        "description": "Long Term Support",
+        "stamp": 1461279600,
+    },
+    "ubuntu/yakkety": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 16.10",
+        "version": 16.10,
+        "codename": "Yakkety Yak",
+        "alias": "yakkety",
+        "description": "Interim Release",
+        "stamp": 1476518400,
+    },
+    "ubuntu/zesty": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 17.04",
+        "version": 17.04,
+        "codename": "Zesty Zapus",
+        "alias": "zesty",
+        "description": "Interim Release",
+        "stamp": 1492153200,
+    },
+    "ubuntu/artful": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 17.10",
+        "version": 17.10,
+        "codename": "Artful Aardvark",
+        "alias": "artful",
+        "description": "Interim Release",
+        "stamp": 1508418000,
+    },
+    "ubuntu/bionic": {
+        "eol": True,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 18.04 LTS",
+        "version": 18.04,
+        "codename": "Bionic Beaver",
+        "alias": "bionic",
+        "description": "Long Term Support",
+        "stamp": 1524870000,
+    },
+    "ubuntu/cosmic": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 18.10",
+        "version": 18.10,
+        "codename": "Cosmic Cuttlefish",
+        "alias": "cosmic",
+        "description": "Interim Release",
+        "stamp": 1540040400,
+    },
+    "ubuntu/disco": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 19.04",
+        "version": 19.04,
+        "codename": "Disco Dingo",
+        "alias": "disco",
+        "description": "Interim Release",
+        "stamp": 1555581600,
+    },
+    "ubuntu/eoan": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 19.10",
+        "version": 19.10,
+        "codename": "Eoan Ermine",
+        "alias": "eoan",
+        "description": "Interim Release",
+        "stamp": 1571234400,
+    },
+    "ubuntu/focal": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 20.04 LTS",
+        "version": 20.04,
+        "codename": "Focal Fossa",
+        "alias": "focal",
+        "description": "Long Term Support",
+        "stamp": 1587567600,
+    },
+    "ubuntu/groovy": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 20.10",
+        "version": 20.10,
+        "codename": "Groovy Gorilla",
+        "alias": "groovy",
+        "description": "Interim Release",
+        "stamp": 1603288800,
+    },
+    "ubuntu/hirsute": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 21.04",
+        "version": 21.04,
+        "codename": "Hirsute Hippo",
+        "alias": "hirsute",
+        "description": "Interim Release",
+        "stamp": 1619049600,
+    },
+    "ubuntu/impish": {
+        "eol": True,
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 21.10",
+        "version": 21.10,
+        "codename": "Impish Indri",
+        "alias": "impish",
+        "description": "Interim Release",
+        "stamp": 1634220000,
+    },
+    "ubuntu/jammy": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 22.04 LTS",
+        "version": 22.04,
+        "codename": "Jammy Jellyfish",
+        "alias": "jammy",
+        "description": "Long Term Support",
+        "stamp": 1650693600,
+    },
+    "ubuntu/kinetic": {
+        "eol": True,
+        "data_formats": {
+            "oval": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 22.10",
+        "version": 22.10,
+        "codename": "Kinetic Kudu",
+        "alias": "kinetic",
+        "devel": False,
+        "description": "Interim Release",
+        "stamp": 1666461600,
+    },
+    "ubuntu/lunar": {
+        "eol": True,
+        "data_formats": {
+            "oval": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 23.04",
+        "version": 23.04,
+        "codename": "Lunar Lobster",
+        "alias": "lunar",
+        "devel": False,
+        "description": "Interim Release",
+        "stamp": 1682431200,
+    },
+    "ubuntu/mantic": {
+        "eol": True,
+        "data_formats": {
+            "oval": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 23.10",
+        "version": 23.10,
+        "codename": "Mantic Minotaur",
+        "alias": "mantic",
+        "devel": False,  # there can be only one ⚔
+        "description": "Interim Release",
+        "stamp": 1697493600,
+    },
+    "ubuntu/noble": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": True,
+            "oval": True,
+            "osv": True,
+            "vex": True,
+        },
+        "components": ["main", "restricted", "universe", "multiverse"],
+        "name": "Ubuntu 24.04 LTS",
+        "version": 24.04,
+        "codename": "Noble Numbat",
+        "alias": "noble",
+        "devel": False,  # there can be only one ⚔
+        "description": "Long Term Release",
+        "stamp": 1714060800,
+    },
+   "ubuntu/oracular": {
+       "eol": False,
+       "data_formats": {
+           "json-pkg": True,
+           "oval": True,
+           "osv": True,
+           "vex": True,
+       },
+       "components": ["main", "restricted", "universe", "multiverse"],
+       "name": "Ubuntu 24.10",
+       "version": 24.10,
+       "codename": "Oracular Oriole",
+       "alias": "oracular",
+       "devel": False,  # there can be only one ⚔
+       "description": "Interim Release",
+       "stamp": 1728961200,
+   },
+   "ubuntu/plucky": {
+       "eol": False,
+       "data_formats": {
+           "json-pkg": True,
+           "oval": True,
+           "osv": True,
+           "vex": True,
+       },
+       "components": ["main", "restricted", "universe", "multiverse"],
+       "name": "Ubuntu 25.04",
+       "version": 25.04,
+       "codename": "Plucky Puffin",
+       "alias": "plucky",
+       "devel": True,  # there can be only one ⚔
+       "description": "Interim Release",
+   },
+    "snap": {
+        "eol": False,
+        "data_formats": {
+            "json-pkg": False,
+            "oval": False,
+            "osv": False,
+            "vex": False,
+        },
+        "packages": ["snap-supported.txt"],
+    }
+}
+
+@lru_cache(maxsize=None)
+def product_series(rel):
+    """Return the product,series tuple for rel."""
+    if rel in external_releases:
+        product = subprojects[rel]['product']
+        series = subprojects[rel]['release']
+    else:
+        series = ""
+        parts = rel.split('/', 1)
+        if len(parts) == 2:
+            product = parts[0]
+            series = parts[1]
+            # handle trusty/esm case
+            if product in releases:
+                product, series = series, product
+        elif parts[0] in releases:
+            # by default ubuntu releases have an omitted ubuntu product
+            # this avoids cases like snaps
+            product = PRODUCT_UBUNTU
+            series = parts[0]
+        else:
+            product = parts[0]
+    return product, series
+
+# get the subproject details for rel along with it's canonical name, product and series
+@lru_cache(maxsize=None)
+def get_subproject_details(rel):
+    """Return the canonical name,product,series,details tuple for rel."""
+    canon, product, series, details, release = None, None, None, None, None
+    if rel in subprojects:
+        details = subprojects[rel]
+        release = rel
+    else:
+        for r in subprojects:
+            try:
+                if subprojects[r]["alias"] == rel \
+                  or (rel == "devel" and subprojects[r]["devel"]):
+                    details = subprojects[r]
+                    release = r
+                    break
+            except KeyError:
+                pass
+
+    if release:
+        product, series = product_series(release)
+        canon = release
+    return canon, product, series, details
+
+def get_subproject_details_by_ppa_url_and_series(url, series):
+    """Return the canonical_name,product,series,details subproject tuple matching url and series.
+
+    Searches for a known subproject that defines series and which has a ppa
+    property defined that is a substring of url.
+
+    """
+    canon = None
+    product = None
+    details = None
+    for rel in subprojects:
+        prod, ser = product_series(rel)
+        if ser == series:
+            subproject_matches_url = False
+            try:
+                ppas_in_subproject = [ppa_info["ppa"] for ppa_info in subprojects[rel]["ppas"]]
+                staging_ppa = subprojects[rel].get("staging_updates_ppa", None)
+                if staging_ppa is not None and staging_ppa.startswith("ppa:"):
+                    ppas_in_subproject.append(staging_ppa.split("ppa:")[1])
+                for ppa in ppas_in_subproject:
+                    # surround PPA name with "/", in order to avoid matching the URL against a PPA whose name
+                    # is a substring of the one in the URL (e.g., we don't want to match a URL like
+                    # "https://server.com/team/ppa-staging/ubuntu" against a PPA named "team/ppa". Also see
+                    # TestSubprojects.test_get_subproject_details_by_ppa_url_and_series in test_cve_lib.py)
+                    if "/" + ppa + "/" in url:
+                        subproject_matches_url = True
+            except KeyError:
+                pass
+            if subproject_matches_url:
+                product = prod
+                canon = rel
+                details = subprojects[rel]
+    return canon, product, series, details
+
+def get_active_subprojects_by_release(release, include_esm=False):
+    """Return all active subprojects that matches a release"""
+    products = set()
+    for subproject in subprojects:
+        if not is_active_subproject(subproject, include_esm=include_esm) \
+           or subproject in external_releases:
+            continue
+
+        prod, ser = product_series(subproject)
+        if ser == release and prod != 'ubuntu':
+            products.add(prod)
+    return sorted(list(products))
+
+def release_ppa_pocket(rel, ppa):
+    _, _, _, details = get_subproject_details(rel)
+    pocket = None
+    try:
+        for ppa_pocket in details["ppas"]:
+            if ppa_pocket["ppa"] == ppa:
+                pocket = ppa_pocket["pocket"]
+                break
+        staging_ppa = details.get("staging_updates_ppa", None)
+        if staging_ppa is not None:
+            if (staging_ppa.startswith("ppa:") and staging_ppa.split("ppa:")[1] == ppa) or \
+                    staging_ppa == ppa:
+                pocket = "proposed"
+    except (KeyError, TypeError):
+        pass
+    return pocket
+
+def lp_distribution(rel):
+    """
+        Get the Launchpad distribution for the given release.
+        Intended use is for Launchpad API.
+    """
+    _, _, _, details = get_subproject_details(rel)
+    if not 'lp_distribution' in details:
+        return 'ubuntu'
+
+    return details['lp_distribution']
+
+def release_name(rel):
+    name = None
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        name = details["name"]
+    except (KeyError, TypeError):
+        pass
+    return name
+
+def release_alias(rel):
+    """Return the alias for rel or just rel if no alias is defined."""
+    alias = rel
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        alias = details["alias"]
+    except (KeyError, TypeError):
+        pass
+    return alias
+
+def release_eol(rel):
+    eol = None
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        eol = details["eol"]
+    except (KeyError, TypeError):
+        pass
+    return eol
+
+def release_parent(rel):
+    """Return the parent for rel or None if no parent is defined."""
+    parent = None
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        parent = release_alias(details["parent"])
+    except (KeyError, TypeError):
+        pass
+    return parent
+
+def release_progenitor(rel):
+    parent = release_parent(rel)
+    while release_parent(parent):
+        parent = release_parent(parent)
+
+    return parent
+
+def release_stamp(rel):
+    """Return the time stamp for rel or its parent if it doesn't define one."""
+    stamp = -1
+    _, _, _, details = get_subproject_details(rel)
+    if details:
+        # devel is special and so is assumed to be released in the future
+        if "devel" in details and details["devel"]:
+            stamp = sys.maxsize
+        try:
+            stamp = details["stamp"]
+        except KeyError:
+            rel = release_progenitor(rel)
+            _, _, _, details = get_subproject_details(rel)
+            if details:
+                stamp = details["stamp"]
+    return stamp
+
+def release_version(rel):
+    """Return the version for rel or its parent if it doesn't have one."""
+    version = 0.0
+    _, _, _, details = get_subproject_details(rel)
+    if details:
+        try:
+            version = details["version"]
+        except KeyError:
+            return release_version(release_progenitor(rel))
+    return version
+
+def release_ppas(rel):
+    """Return the ppas for a given subproject."""
+    ppas = None
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        ppas = details["ppas"]
+    except (KeyError, TypeError):
+        pass
+    return ppas
+
+def needs_json_pkg(rel):
+    """Return if OVAL data should be generated for a given subproject"""
+    needs_json_pkg = False
+    _, product, series, details = get_subproject_details(rel)
+    try:
+        needs_json_pkg = details["data_formats"]["json-pkg"]
+    except (KeyError, TypeError):
+        pass
+    return needs_json_pkg
+
+def needs_oval(rel):
+    """Return if OVAL data should be generated for a given subproject"""
+    needs_oval = False
+    _, product, series, details = get_subproject_details(rel)
+    try:
+        needs_oval = details["data_formats"]["oval"]
+    except (KeyError, TypeError):
+        pass
+    return needs_oval
+
+def needs_osv(rel):
+    """Return if OSV data should be generated for a given subproject"""
+    needs_osv = False
+    _, product, series, details = get_subproject_details(rel)
+    try:
+        needs_osv = details["data_formats"]["osv"]
+    except (KeyError, TypeError):
+        pass
+    return needs_osv
+
+def needs_vex(rel):
+    """Return if VEX data should be generated for a given subproject"""
+    needs_vex = False
+    _, product, series, details = get_subproject_details(rel)
+    try:
+        needs_vex = details["data_formats"]["vex"]
+    except (KeyError, TypeError):
+        pass
+    return needs_vex
+
+def get_data_formats(rel):
+    data_formats = None
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        data_formats = details["data_formats"]
+    except (KeyError, TypeError):
+        pass
+    return data_formats
+
+def get_subproject_description(rel):
+    """Return the description for a given release."""
+    description = "?"
+    _, _, _, details = get_subproject_details(rel)
+    try:
+        description = details["description"]
+    except (KeyError, TypeError):
+        pass
+
+    return description
+
+def is_cve_triage_required(rel):
+    """Check if CVE triage is required for a given release"""
+    if rel not in external_releases:
+        return True
+
+    try:
+        _,_,_,details = get_subproject_details(rel)
+        return details['support_metadata']['cve_triage']
+    except KeyError:
+        # Taking the safe option here
+        return True
+
+def get_external_subproject_cve_dir(subproject):
+    """Get the directory where CVE files are stored for the subproject.
+
+    Get the directory where CVE files are stored for a subproject. In
+    general this is within the higher level project directory, not within
+    the specific subdirectory for the particular series that defines this
+    subproject.
+
+    """
+    rel, product, _, _ = get_subproject_details(subproject)
+    if rel not in external_releases:
+        raise ValueError("%s is not an external subproject" % rel)
+    # CVEs live in the product dir
+    return os.path.join(subprojects_dir, product)
+
+def get_external_subproject_dir(subproject):
+    """Get the directory for the given external subproject."""
+    rel, _, _, _ = get_subproject_details(subproject)
+    if rel not in external_releases:
+        raise ValueError("%s is not an external subproject" % rel)
+    return os.path.join(subprojects_dir, rel)
+
+def read_external_subproject_config(subproject_dir):
+    """Read and return the configuration for the given subproject directory."""
+    config_yaml = os.path.join(subproject_dir, "config.yml")
+    with open(config_yaml) as cfg:
+        return yaml.safe_load(cfg)
+
+
+def read_external_subproject_details(subproject):
+    """Read and return the project details for the given subproject."""
+    sp_dir = get_external_subproject_dir(subproject)
+    # project.yml is located in the top level folder for the subproject
+    project_dir = sp_dir[:sp_dir.rfind("/")]
+    project_yaml = os.path.join(project_dir, "project.yml")
+    if os.path.isfile(project_yaml):
+        with open(project_yaml) as cfg:
+            return yaml.safe_load(cfg)
+
+def find_files_recursive(path, name):
+    """Return a list of all files under path with name."""
+    matches = []
+    for root, _, files in os.walk(path, followlinks=True):
+        for f in files:
+            if f == name:
+                filepath = os.path.join(root, f)
+                matches.append(filepath)
+    return matches
+
+def find_external_subproject_cves(cve, realpath=False):
+    """Return the list of external subproject CVE snippets for the given CVE."""
+    cves = []
+    # Use the cache if it's not empty
+    if subproject_dir_cache_cves:
+        if cve not in subproject_dir_cache_cves:
+            return cves
+        for entry in subproject_dir_cache_dirs:
+            path = os.path.join(entry, cve)
+            if os.path.exists(path):
+                if realpath:
+                    path = os.path.realpath(path)
+                if path not in cves:
+                    cves.append(path)
+    else:
+        for rel in external_releases:
+            # fallback to the series specific subdir rather than just the
+            # top-level project directory even though this is preferred
+            for path in [get_external_subproject_dir(rel),
+                         get_external_subproject_cve_dir(rel)]:
+                path = os.path.join(path, cve)
+                if os.path.exists(path):
+                    if realpath:
+                        path = os.path.realpath(path)
+                    if path not in cves:
+                        cves.append(path)
+                    break
+
+    return cves
+
+# Keys in config.yml for a external subproject
+# should follow the same as any other subproject
+# except for the extra 'product' and 'release' keys.
+MANDATORY_EXTERNAL_SUBPROJECT_KEYS = ['cve_triage', 'cve_patching', 'cve_notification', 'security_updates_notification', 'binary_copies_only', 'seg_support', 'owners', 'subprojects']
+MANDATORY_EXTERNAL_SUBPROJECT_PPA_KEYS = ['ppas', 'data_formats', 'product', 'release', 'supported_packages']
+OPTIONAL_EXTERNAL_SUBPROJECT_PPA_KEYS =  ['parent', 'name', 'codename', 'description', 'aliases', 'archs', 'lp_distribution', 'staging_updates_ppa', 'staging_lp_distribution', 'build_ppa', 'build_lp_distribution']
+
+def load_external_subprojects(strict=False):
+    """Search for and load subprojects into the global subprojects dict.
+
+    Search for and load subprojects into the global subprojects dict.
+
+    A subproject is defined as a directory which resides within
+    subprojects_dir and references a supported.txt file and a PPA.
+    This information is stored in config.yml, which contains all the
+    information in regards the subproject. It can also contain
+    a project.yml file which specifies metadata for the project as well
+    as snippet CVE files. By convention, a subproject is usually defined
+    as the combination of a product and series, ie:
+
+    esm-apps/focal
+
+    as such in this case there would expect to be within subprojects_dir a
+    directory called esm-apps/ and within that, in the config.yml, an entry
+    of type 'esm-apps/focal'. Inside this entry, a reference to the designated
+    supported.txt file, which would list the packages which are supported by
+    the esm-apps/focal subproject. By convention, snippet CVE files should
+    reside within the esm-apps/ project directory.
+
+    The strict argument determines whether to continue processing if
+    there are any missing components to the subproject or not.
+    """
+    for config_yaml in find_files_recursive(subprojects_dir, "config.yml"):
+        subproject_path = config_yaml[:-len("config.yml")-1]
+        # use config to populate other parts of the
+        # subproject settings
+        main_config = read_external_subproject_config(subproject_path)
+
+        for key in MANDATORY_EXTERNAL_SUBPROJECT_KEYS:
+            if key not in main_config:
+                error_msg = '%s missing "%s" field.' % (subproject_path, key)
+                if strict:
+                    raise ValueError(error_msg)
+                else:
+                    print(error_msg, file=sys.stderr)
+
+        for subproject in main_config['subprojects']:
+            config = main_config['subprojects'][subproject]
+            if 'product' not in config or 'release' not in config:
+                error_msg = '%s: missing "product" or "release".' % (subproject_path)
+                if strict:
+                    raise ValueError(error_msg)
+                else:
+                    print(error_msg, file=sys.stderr)
+
+            external_releases.append(subproject)
+            subprojects.setdefault(subproject, {"packages": []})
+            # an external subproject can append to an internal one
+            subprojects[subproject]["packages"].append(\
+                os.path.join(subproject_path, config['supported_packages']))
+
+            # check if aliases for packages exist
+            if 'aliases' in config:
+                subprojects[subproject].setdefault("aliases", \
+                    os.path.join(subproject_path, config['aliases']))
+
+            for key in MANDATORY_EXTERNAL_SUBPROJECT_PPA_KEYS + OPTIONAL_EXTERNAL_SUBPROJECT_PPA_KEYS:
+                if key in config:
+                    subprojects[subproject].setdefault(key, config[key])
+                elif key in OPTIONAL_EXTERNAL_SUBPROJECT_PPA_KEYS:
+                    _, _, _, original_release_details = get_subproject_details(config['release'])
+                    if original_release_details and key in original_release_details:
+                        subprojects[subproject].setdefault(key, original_release_details[key])
+                else:
+                    error_msg = '%s missing "%s" field.' % (subproject_path, key)
+                    del subprojects[subproject]
+                    external_releases.remove(subproject)
+                    if strict:
+                        raise ValueError(error_msg)
+                    else:
+                        print(error_msg, file=sys.stderr)
+
+            subprojects[subproject].update({
+                key: value for key, value in main_config.items() if key != "subprojects"
+            })
+
+            # Introducing a new "eol" tag for subprojects, earlier the eol tag was marked
+            # as "False" for all subprojects and introducing a new "eol" tag will add the
+            # details to "support_metadata" but not that actual subprojects[subproject]["eol"]
+            # field, so this assignment will make subprojects[subproject]["eol"] in sync
+            # with "eol" tag marked in subproject config
+            subprojects[subproject]["eol"] = config.get("eol", False)
+
+            # populate `eol_external_subprojects` and `active_external_subprojects`
+            (eol_external_subprojects if subprojects[subproject]["eol"] else active_external_subprojects)[subproject] = subprojects[subproject]
+
+            project = read_external_subproject_details(subproject)
+            if project:
+                subprojects[subproject].setdefault("customer", project)
+
+    # now ensure they are consistent
+    global devel_release
+    for release in subprojects:
+        details = subprojects[release]
+        rel = release_alias(release)
+        # prefer the alias name
+        all_releases.append(rel)
+        if details["eol"]:
+            eol_releases.append(rel)
+        if "devel" in details and details["devel"]:
+            if devel_release != "" and devel_release != rel:
+                raise ValueError("there can be only one ⚔ devel")
+            devel_release = rel
+        if (
+            "description" in details
+            and details["description"] == "Interim Release"
+            and rel not in external_releases
+        ):
+            interim_releases.append(rel)
+        # ubuntu specific releases
+        product, _ = product_series(release)
+        if product == PRODUCT_UBUNTU:
+            releases.append(rel)
+
+
+load_external_subprojects()
+
+def release_sort(release_list):
+    '''takes a list of release names and sorts them in release order
+
+    This is not a strict ordering based on when the release was made but a logic
+    ordering used for human consumption.
+    '''
+
+    # turn list into a tuples of (name, version) - we want sub-releases to sort
+    # later than their parent, so introduce a hack to add one month to their
+    # release version so they sort after their parent
+    rels = [(x, release_version(x) + 0.01 if "/" in x else release_version(x))
+            for x in release_list]
+    # sort by release version but also append the release name so releases that
+    # have the same stamp sort in alphabetical order by name, then pull out just
+    # the names
+    return [x[0] for x in sorted(rels, key=lambda x: ("%05.2f" % x[1]) + x[0])]
+
+
+def release_is_older_than(release_a, release_b):
+    '''return True if release_a appeared before release_b'''
+
+    # NOTE: foo/esm will be considered older than foo+1, even if the
+    # actual esm event occurred far later than foo+1's release
+    return all_releases.index(release_a) < all_releases.index(release_b)
+
+
+# releases to display for flavors
+flavor_releases = [
+    'lucid', 'precise', 'trusty', 'utopic', 'vivid', 'wily', 'xenial',
+    'yakkety', 'zesty', 'artful', 'bionic', 'cosmic', 'disco', 'eoan',
+    'focal', 'groovy', 'hirsute', 'impish', 'jammy', 'kinetic', 'lunar',
+    'mantic','noble', 'oracular', 'plucky',
+]
+
+all_releases = release_sort(all_releases)
+flavor_releases = release_sort(flavor_releases)
+releases = release_sort(releases)
+
+# list of current supported ubuntu releases (does not include ESM)
+active_ubuntu_releases = release_sort(set(releases) - set(eol_releases))
+
+# all_releases - eol_releases
+all_active_releases = release_sort(set(all_releases) - set(eol_releases))
+
+# list of esm release in the form of 'product'/'series'
+active_esm_releases = []
+
+# all the following store only the 'series' of a release that is in such 'product'
+esm_releases= []
+esm_infra_releases = []
+esm_apps_releases = []
+esm_infra_legacy_releases = []
+esm_apps_legacy_releases = []
+ros_esm_releases = []
+realtime_releases = []
+fips_releases = []
+fips_updates_releases = []
+
+product_releases_map = {
+    'esm': esm_releases,
+    'esm-infra': esm_infra_releases,
+    'esm-apps': esm_apps_releases,
+    'esm-infra-legacy': esm_infra_legacy_releases,
+    'esm-apps-legacy': esm_apps_legacy_releases,
+    'ros-esm': ros_esm_releases,
+    'realtime' : realtime_releases,
+    'fips': fips_releases,
+    'fips-updates': fips_updates_releases,
+}
+
+for rel in all_active_releases:
+    try:
+        product, series = product_series(rel)
+        product_releases_map[product].append(series)
+        if product in PRODUCT_ESM:
+            active_esm_releases.append(rel)
+    except KeyError:
+        pass
+
+# all of the following are only valid for the Tags field of the CVE file itself
+valid_cve_tags = {
+        'cisa-kev': 'This vulnerability is listed in the CISA Known Exploited Vulnerabilities Catalog. For more details see https://www.cisa.gov/known-exploited-vulnerabilities-catalog',
+}
+
+# all of the following are only valid for a Tags_srcpkg field
+valid_package_tags = {
+    'universe-binary': 'Binaries built from this source package are in universe and so are supported by the community. For more details see https://wiki.ubuntu.com/SecurityTeam/FAQ#Official_Support',
+    'not-ue': 'This package is not directly supported by the Ubuntu Security Team',
+    'apparmor': 'This vulnerability is mitigated in part by an AppArmor profile. For more details see https://wiki.ubuntu.com/Security/Features#apparmor',
+    'stack-protector': 'This vulnerability is mitigated in part by the use of gcc\'s stack protector in Ubuntu. For more details see https://wiki.ubuntu.com/Security/Features#stack-protector',
+    'fortify-source': 'This vulnerability is mitigated in part by the use of -D_FORTIFY_SOURCE=2 in Ubuntu. For more details see https://wiki.ubuntu.com/Security/Features#fortify-source',
+    'symlink-restriction': 'This vulnerability is mitigated in part by the use of symlink restrictions in Ubuntu. For more details see https://wiki.ubuntu.com/Security/Features#symlink',
+    'hardlink-restriction': 'This vulnerability is mitigated in part by the use of hardlink restrictions in Ubuntu. For more details see https://wiki.ubuntu.com/Security/Features#hardlink',
+    'heap-protector': 'This vulnerability is mitigated in part by the use of GNU C Library heap protector in Ubuntu. For more details see https://wiki.ubuntu.com/Security/Features#heap-protector',
+    'pie': 'This vulnerability is mitigated in part by the use of Position Independent Executables in Ubuntu. For more details see https://wiki.ubuntu.com/Security/Features#pie',
+    'review-break-fix': 'This vulnerability automatically received break-fix commits entries when it was added and needs to be reviewed.',
+}
+
+# eol and unsupported kernel_srcs
+#                   'linux-source-2.6.15',
+#                   'linux-ti-omap',
+#                   'linux-linaro',
+#                   'linux-qcm-msm',
+#                   'linux-ec2',
+#                   'linux-fsl-imx51',
+#                   'linux-mvl-dove',
+#                    'linux-lts-backport-maverick',
+#                    'linux-lts-backport-natty',
+#                    'linux-lts-backport-oneiric',
+kernel_srcs = set(['linux',
+                   'linux-ti-omap4',
+                   'linux-armadaxp',
+                   'linux-mako',
+                   'linux-manta',
+                   'linux-flo',
+                   'linux-goldfish',
+                   'linux-joule',
+                   'linux-raspi',
+                   'linux-raspi-5.4',
+                   'linux-raspi-realtime',
+                   'linux-raspi2',
+                   'linux-raspi2-5.3',
+                   'linux-snapdragon',
+                   'linux-allwinner',
+                   'linux-allwinner-5.19',
+                   'linux-aws',
+                   'linux-aws-5.0',
+                   'linux-aws-5.3',
+                   'linux-aws-5.4',
+                   'linux-aws-5.8',
+                   'linux-aws-5.11',
+                   'linux-aws-5.13',
+                   'linux-aws-5.15',
+                   'linux-aws-5.19',
+                   'linux-aws-6.2',
+                   'linux-aws-6.5',
+                   'linux-aws-6.8',
+                   'linux-aws-hwe',
+                   'linux-aws-edge',
+                   'linux-aws-fips',
+                   'linux-azure',
+                   'linux-azure-4.15',
+                   'linux-azure-5.3',
+                   'linux-azure-5.4',
+                   'linux-azure-5.8',
+                   'linux-azure-5.11',
+                   'linux-azure-5.13',
+                   'linux-azure-5.15',
+                   'linux-azure-5.19',
+                   'linux-azure-6.2',
+                   'linux-azure-6.5',
+                   'linux-azure-6.8',
+                   'linux-azure-fde',
+                   'linux-azure-fde-5.15',
+                   'linux-azure-fde-5.19',
+                   'linux-azure-fde-6.2',
+                   'linux-azure-fips',
+                   'linux-azure-edge',
+                   'linux-bluefield',
+                   'linux-dell300x',
+                   'linux-fips',
+                   'linux-gcp',
+                   'linux-gcp-4.15',
+                   'linux-gcp-5.3',
+                   'linux-gcp-5.4',
+                   'linux-gcp-5.8',
+                   'linux-gcp-5.11',
+                   'linux-gcp-5.13',
+                   'linux-gcp-5.15',
+                   'linux-gcp-5.19',
+                   'linux-gcp-6.2',
+                   'linux-gcp-6.5',
+                   'linux-gcp-6.8',
+                   'linux-gcp-edge',
+                   'linux-gcp-fips',
+                   'linux-gke',
+                   'linux-gke-4.15',
+                   'linux-gke-5.0',
+                   'linux-gke-5.3',
+                   'linux-gke-5.4',
+                   'linux-gke-5.15',
+                   'linux-gkeop',
+                   'linux-gkeop-5.4',
+                   'linux-gkeop-5.15',
+                   'linux-ibm',
+                   'linux-ibm-5.4',
+                   'linux-ibm-5.15',
+                   'linux-intel',
+                   'linux-intel-5.13',
+                   'linux-intel-iot-realtime',
+                   'linux-intel-iotg',
+                   'linux-intel-iotg-5.15',
+                   'linux-iot',
+                   'linux-laptop',
+                   'linux-lowlatency',
+                   'linux-lowlatency-hwe-5.15',
+                   'linux-lowlatency-hwe-5.19',
+                   'linux-lowlatency-hwe-6.2',
+                   'linux-lowlatency-hwe-6.5',
+                   'linux-lowlatency-hwe-6.8',
+                   'linux-lowlatency-hwe-6.11',
+                   'linux-kvm',
+                   'linux-nvidia',
+                   'linux-nvidia-6.2',
+                   'linux-nvidia-6.5',
+                   'linux-nvidia-6.8',
+                   'linux-nvidia-lowlatency',
+                   'linux-oem',
+                   'linux-oem-5.4',
+                   'linux-oem-5.6',
+                   'linux-oem-5.10',
+                   'linux-oem-5.13',
+                   'linux-oem-5.14',
+                   'linux-oem-5.17',
+                   'linux-oem-6.0',
+                   'linux-oem-6.1',
+                   'linux-oem-6.5',
+                   'linux-oem-6.8',
+                   'linux-oem-6.11',
+                   'linux-oem-osp1',
+                   'linux-oracle',
+                   'linux-oracle-4.15',
+                   'linux-oracle-5.0',
+                   'linux-oracle-5.3',
+                   'linux-oracle-5.4',
+                   'linux-oracle-5.8',
+                   'linux-oracle-5.11',
+                   'linux-oracle-5.13',
+                   'linux-oracle-5.15',
+                   'linux-oracle-6.5',
+                   'linux-oracle-6.8',
+                   'linux-euclid',
+                   'linux-lts-xenial',
+                   'linux-hwe',
+                   'linux-hwe-5.4',
+                   'linux-hwe-5.8',
+                   'linux-hwe-5.11',
+                   'linux-hwe-5.13',
+                   'linux-hwe-5.15',
+                   'linux-hwe-5.19',
+                   'linux-hwe-6.2',
+                   'linux-hwe-6.5',
+                   'linux-hwe-6.8',
+                   'linux-hwe-6.11',
+                   'linux-hwe-edge',
+                   'linux-realtime',
+                   'linux-realtime-6.8',
+                   'linux-riscv',
+                   'linux-riscv-5.8',
+                   'linux-riscv-5.11',
+                   'linux-riscv-5.15',
+                   'linux-riscv-5.19',
+                   'linux-riscv-6.5',
+                   'linux-riscv-6.8',
+                   'linux-starfive',
+                   'linux-starfive-5.19',
+                   'linux-starfive-6.2',
+                   'linux-starfive-6.5',
+                   'linux-xilinx-zynqmp',
+                   'linux-5.9'])
+kernel_topic_branches = kernel_srcs.difference(['linux'])
+
+
+
+# "arch_list" is all the physical architectures buildable
+# "official_architectures" includes everything that should be reported on
+official_architectures = ['amd64', 'armel', 'armhf', 'arm64', 'i386', 'lpia', 'powerpc', 'ppc64el', 'riscv64', 's390x', 'sparc']
+# ports_architectures are architectures that are hosted on ports.ubuntu.com
+ports_architectures = ['armel', 'armhf', 'arm64', 'lpia', 'powerpc', 'ppc64el', 'riscv64', 's390x', 'sparc']
+arch_list = official_architectures + ['hppa', 'ia64']
+official_architectures = ['source', 'all'] + official_architectures
+
+# The build expectations per release, per arch
+release_expectations = {
+    'dapper': {
+        'required': ['amd64', 'i386', 'sparc', 'powerpc'],
+        'expected': ['ia64', 'hppa'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'edgy': {
+        'required': ['amd64', 'i386', 'sparc', 'powerpc'],
+        'expected': [],
+        'bonus': ['ia64', 'hppa'],
+        'arch_all': 'i386',
+    },
+    'feisty': {
+        'required': ['amd64', 'i386', 'sparc'],
+        'expected': ['powerpc'],
+        'bonus': ['hppa'],
+        'arch_all': 'i386',
+    },
+    'gutsy': {
+        'required': ['amd64', 'i386', 'sparc'],
+        'expected': ['powerpc', 'hppa', 'lpia'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'hardy': {
+        'required': ['amd64', 'i386', 'lpia'],
+        'expected': ['powerpc', 'hppa', 'sparc'],
+        'bonus': ['ia64'],
+        'arch_all': 'i386',
+    },
+    'intrepid': {
+        'required': ['amd64', 'i386', 'lpia'],
+        'expected': ['powerpc', 'hppa', 'sparc'],
+        'bonus': ['ia64'],
+        'arch_all': 'i386',
+    },
+    'jaunty': {
+        'required': ['amd64', 'i386'],
+        'expected': ['lpia', 'powerpc', 'hppa', 'sparc', 'armel'],
+        'bonus': ['ia64'],
+        'arch_all': 'i386',
+    },
+    'karmic': {
+        'required': ['amd64', 'i386', 'armel'],
+        'expected': ['lpia', 'powerpc', 'sparc'],
+        'bonus': ['ia64'],
+        'arch_all': 'i386',
+    },
+    'lucid': {
+        'required': ['amd64', 'i386', 'armel'],
+        'expected': ['powerpc', 'sparc'],
+        'bonus': ['ia64'],
+        'arch_all': 'i386',
+    },
+    'maverick': {
+        'required': ['amd64', 'i386', 'armel'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'natty': {
+        'required': ['amd64', 'i386', 'armel'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'oneiric': {
+        'required': ['amd64', 'i386', 'armel'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'precise': {
+        'required': ['amd64', 'i386', 'armhf'],
+        'expected': ['armel', 'powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'quantal': {
+        'required': ['amd64', 'i386', 'armhf'],
+        'expected': ['armel', 'powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'raring': {
+        'required': ['amd64', 'i386', 'armhf'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'saucy': {
+        'required': ['amd64', 'i386', 'armhf'],
+        'expected': ['powerpc'],
+        'bonus': ['arm64'],
+        'arch_all': 'i386',
+    },
+    'trusty': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'utopic': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'i386',
+    },
+    'vivid': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'wily': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'xenial': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'yakkety': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['powerpc'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'zesty': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': [],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'artful': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': [],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'bionic': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': [],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'cosmic': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': [],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'disco': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': [],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'eoan': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': [],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'focal': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['riscv64'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'groovy': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['riscv64'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'hirsute': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['riscv64'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'impish': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['riscv64'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'jammy': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['riscv64'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'kinetic': {
+        'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+        'expected': ['riscv64'],
+        'bonus': [],
+        'arch_all': 'amd64',
+    },
+    'lunar': {
+       'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+       'expected': ['riscv64'],
+       'bonus': [],
+       'arch_all': 'amd64',
+    },
+    'mantic': {
+       'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+       'expected': ['riscv64'],
+       'bonus': [],
+       'arch_all': 'amd64',
+    },
+    'noble': {
+       'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+       'expected': ['riscv64'],
+       'bonus': [],
+       'arch_all': 'amd64',
+    },
+   'oracular': {
+      'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+      'expected': ['riscv64'],
+      'bonus': [],
+      'arch_all': 'amd64',
+   },
+   'plucky': {
+      'required': ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x'],
+      'expected': ['riscv64'],
+      'bonus': [],
+      'arch_all': 'amd64',
+   },
+}
+
+# components in the archive
+components = ['main', 'restricted', 'universe', 'multiverse']
+
+# non-overlapping release package name changes, first-match wins
+pkg_aliases = {
+    'linux': ['linux-source-2.6.15'],
+    'xen': ['xen-3.3', 'xen-3.2', 'xen-3.1'],
+    'eglibc': ['glibc'],
+    'qemu-kvm': ['kvm'],
+}
+
+# alternate names for packages in graphs
+pkg_alternates = {
+    'linux-source-2.6.15': 'linux',
+    'linux-source-2.6.17': 'linux',
+    'linux-source-2.6.20': 'linux',
+    'linux-source-2.6.22': 'linux',
+    'linux-restricted-modules-2.6.15': 'linux',
+    'linux-backports-modules-2.6.15': 'linux',
+    'linux-restricted-modules-2.6.17': 'linux',
+    'linux-restricted-modules-2.6.20': 'linux',
+    'linux-backports-modules-2.6.20': 'linux',
+    'linux-restricted-modules-2.6.22': 'linux',
+    'linux-backports-modules-2.6.22': 'linux',
+    'linux-ubuntu-modules-2.6.22': 'linux',
+    'linux-restricted-modules-2.6.24': 'linux',
+    'linux-backports-modules-2.6.24': 'linux',
+    'linux-ubuntu-modules-2.6.24': 'linux',
+    'linux-restricted-modules': 'linux',
+    'linux-backports-modules-2.6.27': 'linux',
+    'linux-backports-modules-2.6.28': 'linux',
+    'linux-backports-modules-2.6.31': 'linux',
+    'xen-3.1': 'xen',
+    'xen-3.2': 'xen',
+    'xen-3.3': 'xen',
+    'firefox-3.0': 'firefox',
+    'firefox-3.5': 'firefox',
+    'xulrunner-1.9': 'firefox',
+    'xulrunner-1.9.1': 'firefox',
+    'xulrunner-1.9.2': 'firefox',
+    'ruby1.8': 'ruby',
+    'ruby1.9': 'ruby',
+    'python2.4': 'python',
+    'python2.5': 'python',
+    'python2.6': 'python',
+    'openoffice.org-amd64': 'openoffice.org',
+    'gnutls12': 'gnutls',
+    'gnutls13': 'gnutls',
+    'gnutls26': 'gnutls',
+    'postgresql-8.1': 'postgresql',
+    'postgresql-8.2': 'postgresql',
+    'postgresql-8.3': 'postgresql',
+    'compiz-fusion-plugins-main': 'compiz',
+    'mysql-dfsg-5.0': 'mysql',
+    'mysql-dfsg-5.1': 'mysql',
+    'mysql-5.1': 'mysql',
+    'gst-plugins-base0.10': 'gstreamer',
+    'gst-plugins-good0.10': 'gstreamer',
+    'mozilla-thunderbird': 'thunderbird',
+    'openjdk-6b18': 'openjdk-6',
+}
+
+
+# The CVE states considered "closed"
+status_closed = set(['released', 'not-affected', 'ignored', 'DNE'])
+# Possible CVE priorities
+priorities = ['negligible', 'low', 'medium', 'high', 'critical']
+
+# For LTS releases going into ESM -> ignored (end of standard support, was xxxxxx)
+# For interim releases or releases after the 10-year period -> ignored (end of life, was xxxxxxx)
+EOL_LTS_STATUS = "ignored (end of standard support, was {state})"
+EOL_ESM_STATUS = "ignored (end of ESM support, was {state})"
+EOL_STATUS = "ignored (end of life, was {state})"
+
+CVE_RE = re.compile(r'^CVE-\d\d\d\d-[N\d]{4,7}$')
+
+NOTE_RE = re.compile(r'^\s+([A-Za-z0-9-]+)([>|]) *(.*)$')
+
+# as per
+# https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-version
+# ideally we would use dpkg --validate-version for this but it is much more
+# expensive to shell out than match via a regex so even though this is both
+# slightly more strict and also less strict that what dpkg --validate-version
+# would permit, it should be good enough for our purposes
+VERSION_RE = re.compile(r'^([0-9]+:)?([0-9]+[a-zA-Z0-9~.+-]*)$')
+
+def validate_version(version):
+    return VERSION_RE.match(version) is not None
+
+cve_dirs = [active_dir, retired_dir, ignored_dir]
+if os.path.islink(embargoed_dir):
+    cve_dirs.append(embargoed_dir)
+
+EXIT_FAIL = 1
+EXIT_OKAY = 0
+
+subproject_dir_cache_cves = set()
+subproject_dir_cache_dirs = set()
+
+config = {}
+
+def build_subproject_dir_cache():
+    """Build a pre-cached list of the subproject files"""
+    for rel in external_releases:
+        # fallback to the series specific subdir rather than just the
+        # top-level project directory even though this is preferred
+        for path in [get_external_subproject_dir(rel),
+                     get_external_subproject_cve_dir(rel)]:
+            subproject_dir_cache_dirs.update([path])
+            cves = glob.glob("%s/CVE-*" % path)
+            for cve in cves:
+                cve = os.path.basename(cve)
+                subproject_dir_cache_cves.update([cve])
+
+def parse_CVEs_from_uri(url):
+    """Return a list of all CVE numbers mentioned in the given URL."""
+
+    list = []
+    cvere = re.compile(r"((?:CAN|can|CVE|cve)-\d\d\d\d-(\d|N){3,6}\d)")
+    try:
+        text = cache_urllib.urlopen(url).read().splitlines()
+        for line in text:
+            comment = line.find('#')
+            if comment != -1:
+                line = line[:comment]
+            for cve in cvere.finditer(line):
+                list.append(cve.group().upper().replace('CAN', 'CVE', 1))
+    except IOError:
+        print("Could not open", url, file=sys.stderr)
+
+    return list
+
+
+def read_config_file(config_file):
+    '''Read in and do basic validation on config file'''
+    try:
+        from configobj import ConfigObj
+    except ImportError:
+        # Dapper lacks this class, so reimplement it quickly
+        class ConfigObj(dict):
+            def __init__(self, filepath):
+                with open(filepath) as inF:
+                    lines = inF.readlines()
+                for line in lines:
+                    line = line.strip()
+                    if line.startswith('#') or len(line) == 0:
+                        continue
+                    name, stuff = line.strip().split('=', 1)
+                    self[name] = eval(stuff)
+
+            def __attr__(self, name):
+                return self.stuff[name]
+
+    return ConfigObj(config_file)
+
+
+# this function has been deprecated in favor of
+# uct.config.read_uct_config() and callers should be converted to use
+# that directly
+def read_config():
+    global config
+    config = read_uct_config()
+    return config
+
+
+def drop_dup_release(cve, rel):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    saw = set()
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if line.startswith('%s_' % (rel)):
+            pkg = line.split('_')[1].split(':')[0]
+            if pkg not in saw:
+                output.write(line)
+                saw.add(pkg)
+        else:
+            output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+def drop_pkg_release(cve, pkg, rel):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if not line.startswith('%s_%s:' % (rel, pkg)):
+            output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+def clone_release(cve, pkg, oldrel, newrel):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if line.startswith('%s_%s:' % (oldrel, pkg)):
+            newline = line.replace('%s_%s:' % (oldrel, pkg), '%s_%s:' % (newrel, pkg), 1)
+            output.write(newline)
+        output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+
+def update_state(cve, pkg, rel, state, details=None):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if line.startswith('%s_%s:' % (rel, pkg)):
+            line = '%s_%s: %s' % (rel, pkg, state)
+            if details:
+                line += ' (%s)' % (details)
+            line += '\n'
+        output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+
+def add_state(cve, pkg, rel, state, details=None, after_rel=None):
+    new_line = '%s_%s: %s' % (rel, pkg, state)
+    if details:
+        new_line += ' (%s)' % (details)
+    new_line += '\n'
+
+    # This is a new file
+    if not os.path.exists(cve):
+        with open(cve, "w") as f:
+            f.write(new_line)
+        return
+
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+
+    if after_rel == None:
+        index = None
+        if rel != 'devel':
+            index = all_releases.index(rel)
+        done = False
+        found_pkg = False
+        for line in lines:
+            if done:
+                output.write(line)
+                continue
+            if not ('_%s:' % pkg) in line:
+                # If we're past the package section, and we wanted to add
+                # the devel release, stick it here
+                if rel == 'devel' and found_pkg == True:
+                    output.write(new_line)
+                    done = True
+                output.write(line)
+                continue
+
+            found_pkg = True
+            if rel != 'devel':
+                line_rel = line.split('_')[0]
+                # Whoa, we hit the devel release, stick it here
+                if line_rel == "devel":
+                    output.write(new_line)
+                    output.write(line)
+                    done = True
+                    continue
+
+                # Does this look like a release name?
+                if line_rel not in all_releases:
+                    output.write(line)
+                    continue
+
+                # See if the release is bigger than ours, if so, stick it here
+                if all_releases.index(line_rel) > index:
+                    output.write(new_line)
+                    output.write(line)
+                    done = True
+                    continue
+
+            # Nothing to see here, move along
+            output.write(line)
+
+        # If we made it here, we didn't find a place to put it, just
+        # stick it at the end of the file
+        if done == False:
+            output.write(new_line)
+
+    else:
+        for line in lines:
+            if line.startswith('%s_%s:' % (after_rel, pkg)):
+                output.write(line)
+                output.write(new_line)
+            else:
+                output.write(line)
+
+    output.close()
+    os.rename(cve + '.new', cve)
+
+
+def prepend_field(cve, field, value):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    output.write('%s: %s\n' % (field, value))
+    output.write(codecs.open(cve, encoding="utf-8").read())
+    output.close()
+    os.rename(cve + '.new', cve)
+
+
+def update_field(cve, field, value=None):
+    found = False
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if line.startswith('%s:' % (field)):
+            found = True
+            if value is None:
+                continue
+            else:
+                output.write('%s: %s\n' % (field, value))
+        else:
+            output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+    # Do we actually need to add it instead?
+    if not found and value:
+        prepend_field(cve, field, value)
+
+
+def drop_field(cve, field):
+    update_field(cve, field)
+
+def insert_field(cve, field, value, after):
+    found = False
+    # insert field with valye after the field 'after'
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        output.write(line)
+        if line.startswith('%s:' % (after)):
+            found = True
+            output.write('%s: %s\n' % (field, value))
+    output.close()
+    os.rename(cve + '.new', cve)
+    if not found:
+        raise ValueError("Field '%s' not found in '%s'" % (after, cve))
+
+def add_reference(cve, url):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    in_references = False
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if in_references and not line.startswith(' '):
+            output.write(' ' + url + '\n')
+            in_references = False
+        elif in_references and url in line:
+            # skip if already there
+            print("Skipped adding reference for '%s' (already present)" % (cve), file=sys.stderr)
+            output.close()
+            os.unlink(cve + '.new')
+            return False
+        elif not in_references and line.startswith('References:'):
+            in_references = True
+        output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+    return True
+
+def remove_reference(cve, url):
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    in_references = False
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if not in_references:
+            if line.startswith('References:'):
+                in_references = True
+            output.write(line)
+        else: # in_references
+            if not line.startswith(' '): # entering new section
+                in_references = False
+                output.write(line)
+            elif url not in line:
+                output.write(line)
+            else: # removing this url by skippng write
+                pass
+    output.close()
+    os.rename(cve + '.new', cve)
+    return True
+
+def output_cvss(filehandler, source, vector, score, severity):
+    filehandler.write(' ' + source + ': ' + vector + ' [' + score + ' ' + severity + ']\n')
+
+def add_cvss(cve, source, cvss):
+    try:
+        js = parse_cvss(cvss)
+        score = str(js['baseMetricV3']['cvssV3']['baseScore'])
+        severity = js['baseMetricV3']['cvssV3']['baseSeverity']
+    except ValueError as e:
+        print("Not adding invalid CVSS entry: %s" % e)
+        return False
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    in_cvss = False
+    found_cvss = False
+    updated = False
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if not line.startswith('CVSS:') and not in_cvss:
+            output.write(line)
+            continue
+        elif line.startswith('CVSS:'):
+            output.write('CVSS:\n')
+            in_cvss = True
+            found_cvss = True
+            continue
+
+        # we have reached the end of the CVSS: block but haven't yet
+        # updated it so append it by writing it here
+        if not updated and in_cvss and not line.startswith(' '):
+            output_cvss(output, source, cvss, score, severity)
+            # write original line too so we don't lost it
+            output.write(line)
+            updated = True
+            in_cvss = False
+        # we have found a CVSS vector
+        elif in_cvss and 'CVSS' in line:
+            # we have a cvss from another source in the CVE file, so keep it there
+            if source not in line:
+                result = re.search(r' (.+)\: (\S+)( \[(.*) (.*)\])?', line)
+                other_source = result.group(1)
+                other_cvss = result.group(2)
+                other_js = parse_cvss(other_cvss)
+                other_score = str(other_js['baseMetricV3']['cvssV3']['baseScore'])
+                other_severity = other_js['baseMetricV3']['cvssV3']['baseSeverity']
+                output_cvss(output, other_source, other_cvss, other_score, other_severity)
+                # if we didn't write the new cvss already
+                if not updated:
+                    output_cvss(output, source, cvss, score, severity)
+                updated = True
+            # we have a cvss from same source, but a different CVSS vector
+            elif cvss not in line:
+                # if we didn't write the cvss already
+                if not updated:
+                    output_cvss(output, source, cvss, score, severity)
+                    updated = True
+                # we want to make sure to store all versions of CVSS which
+                # we know about and so for a given source, replace it only
+                # if it has the same version - otherwise we will add it at
+                # the end
+                result = re.search(r' (.+)\: (\S+)( \[(.*) (.*)\])?', line)
+                other_source = result.group(1)
+                other_cvss = result.group(2)
+                other_js = parse_cvss(other_cvss)
+                v1 = other_js["baseMetricV3"]["cvssV3"]["version"]
+                v2 = js["baseMetricV3"]["cvssV3"]["version"]
+                if v2 != v1:
+                    other_score = str(other_js['baseMetricV3']['cvssV3']['baseScore'])
+                    other_severity = other_js['baseMetricV3']['cvssV3']['baseSeverity']
+                    output_cvss(output, other_source, other_cvss, other_score, other_severity)
+            # if source and cvss are already in the CVE file and we didn't
+            # write it down
+            elif not updated:
+                output_cvss(output, source, cvss, score, severity)
+                updated = True
+        elif line.startswith('\n'):
+            output.write(line)
+            in_cvss = False
+
+    output.close()
+    if updated:
+        os.rename(cve + '.new', cve)
+    else:
+        os.unlink(cve + '.new')
+    if not found_cvss:
+        prepend_field(cve, 'CVSS', '')
+        updated = add_cvss(cve, source, cvss)
+
+    return updated
+
+
+def add_patch(cve, pkg, url, type="unknown"):
+    patch_header = "Patches_%s:" % (pkg)
+    in_patch = False
+
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if in_patch and not line.startswith(' '):
+            # if type is None then don't indent so we can abuse this for
+            # appending a Tags_ field
+            if type is not None:
+                output.write(' ' + type + ': ' + url + '\n')
+            else:
+                output.write(url + '\n')
+            in_patch = False
+        elif in_patch and url in line:
+            # skip if already there
+            print("Skipped adding debdiff for '%s' (already present)" % (cve), file=sys.stderr)
+            output.close()
+            os.unlink(cve + '.new')
+            return False
+        elif not in_patch and line.startswith(patch_header):
+            in_patch = True
+        output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+    return True
+
+def add_tag(cve, pkg, tag):
+    if pkg == GLOBAL_TAGS_KEY:
+        tag_header = "Tags:"
+    else:
+        tag_header = "Tags_%s:" % (pkg)
+    added = False
+
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if not added and line.startswith(tag_header):
+            line = line.replace("\n", " " + tag + "\n")
+            added = True
+        output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+
+    if not added:
+        # no Tags field - put Tags after Patches if this is for a package
+        # otherwise append the Tags field after Assigned-to which is a
+        # single-line field and is present in every CVE file
+        if pkg == GLOBAL_TAGS_KEY:
+            insert_field(cve, 'Tags', tag, 'Assigned-to')
+        else:
+            add_patch(cve, pkg, tag_header + " " + tag, type=None)
+
+    return True
+
+
+def update_multiline_field(cve, field, text):
+    update = ""
+    text = text.rstrip()
+    # this is a multi-line entry -- it must start with a newline
+    if not text.startswith('\n'):
+        text = '\n' + text
+    output = codecs.open(cve + ".new", 'w', encoding="utf-8")
+    skip = 0
+    with codecs.open(cve, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        if skip and line.startswith(' '):
+            continue
+        skip = 0
+        if line.startswith('%s:' % (field)):
+            prefix = '%s:' % (field)
+            for textline in text.split('\n'):
+                wanted = '%s%s\n' % (prefix, textline)
+                output.write(wanted)
+                prefix = ' '
+                update += wanted
+            skip = 1
+            continue
+        output.write(line)
+    output.close()
+    os.rename(cve + '.new', cve)
+    return update
+
+
+# This returns the list of open CVEs and embargoed CVEs (which are included
+# in the first list).
+def get_cve_list():
+    cves = [elem for elem in os.listdir(active_dir)
+            if re.match(r'^CVE-\d+-(\d|N)+$', elem)]
+
+    uems = []
+    if os.path.islink(embargoed_dir):
+        uems = [elem for elem in os.listdir(embargoed_dir)
+                if re.match(r'^CVE-\d{4}-\w+$', elem)]
+        for cve in uems:
+            if cve in cves:
+                print("Duplicated CVE (in embargoed): %s" % (cve), file=sys.stderr)
+        cves = cves + uems
+
+    return (cves, uems)
+
+
+# This returns the list of embargoed CVEs only
+def get_embargoed_cve_list():
+    uems = []
+    if os.path.islink(embargoed_dir):
+        uems = [elem for elem in os.listdir(embargoed_dir)
+                if CVE_RE.match(elem)]
+
+    return uems
+
+
+def get_cve_list_and_retired():
+    cves, uems = get_cve_list()
+    rcves = [elem for elem in os.listdir(retired_dir)
+             if re.match(r'^CVE-\d+-(\d|N)+$', elem)]
+    return (cves + rcves, uems, rcves)
+
+
+def get_all_cve_list():
+    cves, uems, rcves = get_cve_list_and_retired()
+    icves = [elem for elem in os.listdir(ignored_dir)
+             if re.match(r'^CVE-\d+-(\d|N)+$', elem)]
+    return (cves + icves, uems, rcves, icves)
+
+
+def contextual_priority(cveinfo, pkg=None, rel=None):
+    '''Return the priority based on release, then package, then global'''
+    if pkg:
+        pkg_p = 'Priority_%s' % (pkg)
+        if rel:
+            rel_p = '%s_%s' % (pkg_p, rel)
+            if rel_p in cveinfo:
+                return 2, cveinfo[rel_p]
+        if pkg_p in cveinfo:
+            return 1, cveinfo[pkg_p][0]
+    return 0, cveinfo['Priority'][0] if 'Priority' in cveinfo else 'untriaged'
+
+
+def find_cve(cve):
+    '''Return filepath for a given CVE'''
+    for dir in cve_dirs:
+        filename = os.path.join(dir, cve)
+        if os.path.exists(filename):
+            return filename
+    raise ValueError("Cannot locate path for '%s'" % (cve))
+
+
+# New CVE file format for release package field is:
+# <product>[/<where or who>]_SOFTWARE[/<modifier>]: <status> [(<when>)]
+# <product> is the Canonical product or supporting technology (eg, ‘esm-apps’
+# or ‘snap’). ‘ubuntu’ is the implied product when ‘<product>/’ is omitted
+# from the ‘<product>[/<where or who>]’ tuple (ie, where we might use
+# ‘ubuntu/bionic_DEBSRCPKG’ for consistency, we continue to use
+# ‘bionic_DEBSRCPKG’)
+# <where or who> indicates where the software lives or in the case of snaps or
+# other technologies with a concept of publishers, who the publisher is
+# SOFTWARE is the name of the software as dictated by the product (eg, the deb
+# source package, the name of the snap or the name of the software project
+# <modifier> is an optional key for grouping collections of packages (eg,
+# ‘melodic’ for the ROS Melodic release or ‘rocky’ for the OpenStack Rocky
+# release)
+# <status> indicates the statuses as defined in UCT (eg, needs-triage, needed,
+# pending, released, etc)
+# <when> indicates ‘when’ the software will be/was fixed when used with the
+# ‘pending’ or ‘released’ status (eg, the source package version, snap
+# revision, etc)
+# e.g.: esm-apps/xenial_jackson-databind: released (2.4.2-3ubuntu0.1~esm2)
+# e.g.: git/github.com/gogo/protobuf_gogoprotobuf: needs-triage
+# This method should keep supporting existing current format:
+# e.g.: bionic_jackson-databind: needs-triage
+def parse_cve_release_package_field(cvefile, field, data, value, code, msg, linenum):
+    package = ""
+    release = ""
+    state = ""
+    details = ""
+    try:
+        release, package = field.split('_', 1)
+    except ValueError:
+        msg += "%s: %d: bad field with '_': '%s'\n" % (cvefile, linenum, field)
+        code = EXIT_FAIL
+        return False, package, release, state, details, code, msg
+
+    try:
+        info = value.split(' ', 1)
+    except ValueError:
+        msg += "%s: %d: missing state for '%s': '%s'\n" % (cvefile, linenum, field, value)
+        code = EXIT_FAIL
+        return False, package, release, state, details, code, msg
+
+    state = info[0]
+    if state == '':
+        state = 'needs-triage'
+
+    if len(info) < 2:
+        details = ""
+    else:
+        details = info[1].strip()
+
+    if details.startswith("["):
+        msg += "%s: %d: %s has details that starts with a bracket: '%s'\n" % (cvefile, linenum, field, details)
+        code = EXIT_FAIL
+        return False, package, release, state, details, code, msg
+
+    if details.startswith('('):
+        details = details[1:]
+    if details.endswith(')'):
+        details = details[:-1]
+
+    # Work-around for old-style of only recording released versions
+    if details == '' and state[0] in ('0123456789'):
+        details = state
+        state = 'released'
+
+    valid_states = ['needs-triage', 'needed', 'in-progress', 'pending', 'released', 'deferred', 'DNE', 'ignored', 'not-affected']
+    if state not in valid_states:
+        msg += "%s: %d: %s has unknown state: '%s' (valid states are: %s)\n" % (cvefile, linenum, field, state,
+                                                                                   ' '.join(valid_states))
+        code = EXIT_FAIL
+        return False, package, release, state, details, code, msg
+
+    # if the state is released or pending then the details needs to be a valid
+    # debian package version number
+    if details != "" and state in ['released', 'pending'] and release not in ['upstream', 'snap']:
+        if not validate_version(details):
+            msg += "%s: %d: %s has invalid version for state %s: '%s'\n" % (cvefile, linenum, field, state, details)
+            code = EXIT_FAIL
+            return False, package, release, state, details, code, msg
+
+    # Verify "released" kernels have version details
+    #if state == 'released' and package in kernel_srcs and details == '':
+    #    msg += "%s: %s_%s has state '%s' but lacks version note\n" % (cvefile, package, release, state)
+    #    code = EXIT_FAIL
+
+    # Verify "active" states have an Assignee
+    if state == 'in-progress' and data['Assigned-to'].strip() == "":
+        msg += "%s: %d: %s has state '%s' but lacks 'Assigned-to'\n" % (cvefile, linenum, field, state)
+        code = EXIT_FAIL
+        return False, package, release, state, details, code, msg
+
+    return True, package, release, state, details, code, msg
+
+
+class NotesParser(object):
+    def __init__(self):
+        self.notes = list()
+        self.user = None
+        self.separator = None
+        self.note = None
+
+    def parse_line(self, cve, line, linenum, code):
+        msg = ""
+        m = NOTE_RE.match(line)
+        if m is not None:
+            new_user = m.group(1)
+            new_sep = m.group(2)
+            new_note = m.group(3)
+        else:
+            # follow up comments should have 2 space indent and
+            # an author
+            if self.user is None:
+                msg += ("%s: %d: Note entry with no author: '%s'\n" %
+                        (cve, linenum, line[1:]))
+                code = EXIT_FAIL
+            if not line.startswith('  '):
+                msg += ("%s: %d: Note continuations should be indented by 2 spaces: '%s'.\n" %
+                        (cve, linenum, line))
+                code = EXIT_FAIL
+            new_user = self.user
+            new_sep = self.separator
+            new_note = line.strip()
+        if self.user and self.separator and self.note:
+            # if is different user, start a new note
+            if new_user != self.user:
+                self.notes.append([self.user, self.note])
+                self.user = new_user
+                self.note = new_note
+                self.separator = new_sep
+            elif new_sep != self.separator:
+                # finish this note and start a new one since this has new
+                # semantics
+                self.notes.append([self.user, self.note])
+                self.separator = new_sep
+                self.note = new_note
+            else:
+                if self.separator == '|':
+                    self.note = self.note + " " + new_note
+                else:
+                    assert(self.separator == '>')
+                    self.note = self.note + "\n" + new_note
+        else:
+            # this is the first note
+            self.user = new_user
+            self.separator = new_sep
+            self.note = new_note
+        return code, msg
+
+    def finalize(self):
+        if self.user is not None and self.note is not None:
+            # add last Note
+            self.notes.append([self.user, self.note])
+            self.user = None
+            self.note = None
+        notes = self.notes
+        self.user = None
+        self.separator = None
+        self.notes = None
+        return notes
+
+
+
+def amend_external_subproject_pkg(cve, data, srcmap, amendments, code, msg):
+    linenum = 0
+    for line in amendments.splitlines():
+        linenum += 1
+        if len(line) == 0 or line.startswith('#') or line.startswith(' '):
+            continue
+        try:
+            field, value = line.split(':', 1)
+            field = field.strip()
+            value = value.strip()
+        except ValueError as e:
+            msg += "%s: bad line '%s' (%s)\n" % (cve, line, e)
+            code = EXIT_FAIL
+            return code, msg
+
+        if '_' in field:
+            success, pkg, rel, state, details, code, msg = parse_cve_release_package_field(cve, field, data, value, code, msg, linenum)
+            if not success:
+                return code, msg
+
+            canon, _, _, _ = get_subproject_details(rel)
+            if canon is None and rel not in ['upstream', 'devel']:
+                msg += "%s: %d: unknown entry '%s'\n" % (cve, linenum, rel)
+                code = EXIT_FAIL
+                return code, msg
+            data.setdefault("pkgs", dict())
+            data["pkgs"].setdefault(pkg, dict())
+            srcmap["pkgs"].setdefault(pkg, dict())
+            if rel in data["pkgs"][pkg]:
+                msg += ("%s: %d: duplicate entry for '%s': original at %s line %d (%s)\n"
+                        % (cve, linenum, rel, srcmap['pkgs'][pkg][rel][0], srcmap['pkgs'][pkg][rel][1], data["pkgs"][pkg][rel]))
+                code = EXIT_FAIL
+                return code, msg
+            data["pkgs"][pkg][rel] = [state, details]
+            srcmap["pkgs"][pkg][rel] = (cve, linenum)
+
+    return code, msg
+
+
+def load_external_subproject_cve_data(cve, data, srcmap, code, msg):
+    cve_id = os.path.basename(cve)
+    for f in find_external_subproject_cves(cve_id):
+        with codecs.open(f, 'r', encoding="utf-8") as fp:
+            amendments = fp.read()
+            fp.close()
+        code, msg = amend_external_subproject_pkg(f, data, srcmap, amendments, code, msg)
+
+    return code, msg
+
+def load_cve(cvefile, strict=False, srcmap=None):
+    '''Loads a given CVE into:
+       dict( fields...
+             'pkgs' -> dict(  pkg -> dict(  release ->  (state, details)   ) )
+           )
+    '''
+
+    msg = ''
+    code = EXIT_OKAY
+    required_fields = ['Candidate', 'PublicDate', 'References', 'Description',
+                       'Ubuntu-Description', 'Notes', 'Bugs',
+                       'Priority', 'Discovered-by', 'Assigned-to', 'CVSS']
+    extra_fields = ['CRD', 'PublicDateAtUSN', 'Mitigation', 'Tags']
+
+    data = dict()
+    # maps entries in data to their source line - if didn't supply one
+    # create a local one to simplify the code
+    if srcmap is None:
+        srcmap = dict()
+    srcmap.setdefault('pkgs', dict())
+    srcmap.setdefault('tags', dict())
+    data.setdefault('tags', dict())
+    srcmap.setdefault('patches', dict())
+    data.setdefault('patches', dict())
+    affected = dict()
+    lastfield = ""
+    fields_seen = set()
+    if not os.path.exists(cvefile):
+        raise ValueError("File does not exist: '%s'" % cvefile)
+    linenum = 0
+    notes_parser = NotesParser()
+    priority_reason = {}
+    cvss_entries = []
+    with codecs.open(cvefile, encoding="utf-8") as inF:
+        lines = inF.readlines()
+    for line in lines:
+        line = line.rstrip()
+        linenum += 1
+
+        # Ignore blank/commented lines
+        if len(line) == 0 or line.startswith('#'):
+            continue
+        if line.startswith(' '):
+            try:
+                # parse Notes properly
+                if lastfield == 'Notes':
+                    code, newmsg = notes_parser.parse_line(cvefile, line, linenum, code)
+                    if code != EXIT_OKAY:
+                        msg += newmsg
+                elif lastfield.startswith('Priority'):
+                    priority_part = lastfield.split('_')[1] if '_' in lastfield else None
+                    if priority_part in priority_reason:
+                        priority_reason[priority_part].append(line.strip())
+                    else:
+                        priority_reason[priority_part] = [line.strip()]
+                elif 'Patches_' in lastfield:
+                    try:
+                        _, pkg = lastfield.split('_', 1)
+                        patch_type, entry = line.split(':', 1)
+                        patch_type = patch_type.strip()
+                        entry = entry.strip()
+                        data['patches'][pkg].append((patch_type, entry))
+                        srcmap['patches'][pkg].append((cvefile, linenum))
+                    except Exception as e:
+                        msg += "%s: %d: Failed to parse '%s' entry %s: %s\n" % (cvefile, linenum, lastfield, line, e)
+                        code = EXIT_FAIL
+                elif lastfield == 'CVSS':
+                    try:
+                        cvss = dict()
+                        result = re.search(r' (.+)\: (\S+)( \[(.*) (.*)\])?', line)
+                        if result is None:
+                            continue
+                        cvss['source'] = result.group(1)
+                        cvss['vector'] = result.group(2)
+                        entry = parse_cvss(cvss['vector'])
+                        if entry is None:
+                            raise RuntimeError('Failed to parse_cvss() without raising an exception.')
+                        if result.group(3):
+                            cvss['baseScore'] = result.group(4)
+                            cvss['baseSeverity'] = result.group(5)
+
+                        cvss_entries.append(cvss)
+                        # CVSS in srcmap will be a tuple since this is the
+                        # line where the CVSS block starts - so convert it
+                        # to a dict first if needed
+                        if type(srcmap["CVSS"]) is tuple:
+                            srcmap["CVSS"] = dict()
+                        srcmap["CVSS"].setdefault(cvss['source'], (cvefile, linenum))
+                    except Exception as e:
+                        msg += "%s: %d: Failed to parse CVSS: %s\n" % (cvefile, linenum, e)
+                        code = EXIT_FAIL
+                else:
+                    data[lastfield] += '\n%s' % (line[1:])
+            except KeyError as e:
+                msg += "%s: %d: bad line '%s' (%s)\n" % (cvefile, linenum, line, e)
+                code = EXIT_FAIL
+            continue
+
+        try:
+            field, value = line.split(':', 1)
+        except ValueError as e:
+            msg += "%s: %d: bad line '%s' (%s)\n" % (cvefile, linenum, line, e)
+            code = EXIT_FAIL
+            continue
+
+        lastfield = field = field.strip()
+        if field in fields_seen:
+            msg += "%s: %d: repeated field '%s'\n" % (cvefile, linenum, field)
+            code = EXIT_FAIL
+        else:
+            fields_seen.add(field)
+        value = value.strip()
+        if field == 'Candidate':
+            data.setdefault(field, value)
+            srcmap.setdefault(field, (cvefile, linenum))
+            if value != "" and not value.startswith('CVE-') and not value.startswith('UEM-') and not value.startswith('EMB-'):
+                msg += "%s: %d: unknown Candidate '%s' (must be /(CVE|UEM|EMB)-/)\n" % (cvefile, linenum, value)
+                code = EXIT_FAIL
+        elif 'Priority' in field:
+            # For now, throw away comments on Priority fields
+            if ' ' in value:
+                value = value.split()[0]
+            if 'Priority_' in field:
+                try:
+                    _, pkg = field.split('_', 1)
+                except ValueError:
+                    msg += "%s: %d: bad field with 'Priority_': '%s'\n" % (cvefile, linenum, field)
+                    code = EXIT_FAIL
+                    continue
+            # initially set the priority reason as an empty string - this will
+            # be fixed up later with a real value if one is found
+            data.setdefault(field, [value, ""])
+            srcmap.setdefault(field, (cvefile, linenum))
+            if value not in ['untriaged', 'not-for-us'] + priorities:
+                msg += "%s: %d: unknown Priority '%s'\n" % (cvefile, linenum, value)
+                code = EXIT_FAIL
+        elif 'Patches_' in field:
+            try:
+                _, pkg = field.split('_', 1)
+            except ValueError:
+                msg += "%s: %d: bad field with 'Patches_': '%s'\n" % (cvefile, linenum, field)
+                code = EXIT_FAIL
+                continue
+            # value should be empty
+            if len(value) > 0:
+                msg += "%s: %d: '%s' field should have no value\n" % (cvefile, linenum, field)
+                code = EXIT_FAIL
+                continue
+            data['patches'].setdefault(pkg, list())
+            srcmap['patches'].setdefault(pkg, list())
+        elif 'Tags' in field:
+            '''These are processed into the "tags" hash'''
+            try:
+                _, pkg = field.split('_', 1)
+            except ValueError:
+                # no package specified - this is the global tags field - use a
+                # key of '*' to store it in the package hash
+                pkg = GLOBAL_TAGS_KEY
+            data['tags'].setdefault(pkg, set())
+            srcmap['tags'].setdefault(pkg, (cvefile, linenum))
+            for word in value.strip().split(' '):
+                if pkg == GLOBAL_TAGS_KEY and word not in valid_cve_tags:
+                    msg += "%s: %d: invalid CVE tag '%s': '%s'\n" % (cvefile, linenum, word, field)
+                    code = EXIT_FAIL
+                    continue
+                elif pkg != GLOBAL_TAGS_KEY and word not in valid_package_tags:
+                    msg += "%s: %d: invalid package tag '%s': '%s'\n" % (cvefile, linenum, word, field)
+                    code = EXIT_FAIL
+                    continue
+                data['tags'][pkg].add(word)
+        elif '_' in field:
+            success, pkg, rel, state, details, code, msg = parse_cve_release_package_field(cvefile, field, data, value, code, msg, linenum)
+            if not success:
+                assert(code == EXIT_FAIL)
+                continue
+            canon, _, _, _ = get_subproject_details(rel)
+            if canon is None and rel not in ['upstream', 'devel']:
+                msg += "%s: %d: unknown entry '%s'\n" % (cvefile, linenum, rel)
+                code = EXIT_FAIL
+                continue
+            affected.setdefault(pkg, dict())
+            if rel in affected[pkg]:
+                msg += ("%s: %d: duplicate entry for '%s': original at %s line %d\n"
+                        % (cvefile, linenum, rel, srcmap['pkgs'][pkg][rel][0], srcmap['pkgs'][pkg][rel][1]))
+                code = EXIT_FAIL
+                continue
+            affected[pkg].setdefault(rel, [state, details])
+            srcmap['pkgs'].setdefault(pkg, dict())
+            srcmap['pkgs'][pkg].setdefault(rel, (cvefile, linenum))
+        elif field not in required_fields + extra_fields:
+            msg += "%s: %d: unknown field '%s'\n" % (cvefile, linenum, field)
+            code = EXIT_FAIL
+        else:
+            data.setdefault(field, value)
+            srcmap.setdefault(field, (cvefile, linenum))
+
+    data['Notes'] = notes_parser.finalize()
+    data['CVSS'] = cvss_entries
+
+    # Check for required fields
+    for field in required_fields:
+        # boilerplate files are special and can (should?) be empty
+        nonempty = [] if "boilerplate" in cvefile else ['Candidate']
+        if strict:
+            nonempty += ['PublicDate']
+
+        if field not in data or field not in fields_seen:
+            msg += "%s: %d: missing field '%s'\n" % (cvefile, linenum, field)
+            code = EXIT_FAIL
+        elif field in nonempty and data[field].strip() == "":
+            linenum = srcmap[field][1]
+            msg += "%s: %d: required field '%s' is empty\n" % (cvefile, linenum, field)
+            code = EXIT_FAIL
+
+    # Fill in defaults for missing fields
+    if 'Priority' not in data:
+        data.setdefault('Priority', ['untriaged'])
+        srcmap.setdefault('Priority', (cvefile, 1))
+    # Perform override fields
+    if 'PublicDateAtUSN' in data:
+        data['PublicDate'] = data['PublicDateAtUSN']
+        srcmap['PublicDate'] = srcmap['PublicDateAtUSN']
+    if 'CRD' in data and data['CRD'].strip() != '' and data['PublicDate'] != data['CRD']:
+        if cvefile.startswith("embargoed"):
+            print("%s: %d: adjusting PublicDate to use CRD: %s" % (cvefile, linenum, data['CRD']), file=sys.stderr)
+        data['PublicDate'] = data['CRD']
+        srcmap['PublicDate'] = srcmap['CRD']
+
+    if data["PublicDate"] > PRIORITY_REASON_DATE_START and \
+            data["Priority"][0] in PRIORITY_REASON_REQUIRED and not priority_reason:
+        linenum = srcmap["Priority"][1]
+        msg += "%s: %d: needs a reason for being '%s'\n" % (cvefile, linenum, data["Priority"][0])
+        code = EXIT_FAIL
+    for item in priority_reason:
+        field = 'Priority' if not item else 'Priority_' + item
+        data[field][1] = ' '.join(priority_reason[item])
+
+    # entries need an upstream entry if any entries are from the internal
+    # list of subprojects
+    for pkg in affected:
+        needs_upstream = False
+        for rel in affected[pkg]:
+            if rel not in external_releases:
+                needs_upstream = True
+        if needs_upstream and 'upstream' not in affected[pkg]:
+            msg += "%s: %d: missing upstream '%s'\n" % (cvefile, linenum, pkg)
+            code = EXIT_FAIL
+
+    data['pkgs'] = affected
+
+    if not "boilerplate" in cvefile:
+        code, msg = load_external_subproject_cve_data(cvefile, data, srcmap, code, msg)
+
+    if code != EXIT_OKAY:
+        raise ValueError(msg.strip())
+    return data
+
+def load_all(cves, uems, rcves=[]):
+    table = dict()
+    priority = dict()
+    for cve in cves:
+        priority.setdefault(cve, dict())
+        cvedir = active_dir
+        if cve in uems:
+            cvedir = embargoed_dir
+        if cve in rcves:
+            cvedir = retired_dir
+        cvefile = os.path.join(cvedir, cve)
+        info = load_cve(cvefile)
+        table.setdefault(cve, info)
+    return table
+
+# Get CVE date information only, in the format of "%Y-%m-%d"
+def parse_cve_pub_date(cve_public_date_from_file):
+    cve_public_date = None
+    date_only = cve_public_date_from_file.split()[0]
+    if date_only != "unknown":
+        try:
+            cve_public_date = datetime.datetime.strptime(date_only, "%Y-%m-%d")
+        except ValueError as e:
+            print(f"WARN: Invalid CVE PublicDate: {date_only}. {e}")
+    return cve_public_date
+
+
+def cve_published_since(cve_info, published_since):
+    cve_public_date = parse_cve_pub_date(cve_info['PublicDate'])
+    return cve_public_date and cve_public_date > published_since
+
+
+def cve_published_until(cve_info, published_until):
+    cve_public_date = parse_cve_pub_date(cve_info['PublicDate'])
+    return cve_public_date and cve_public_date < published_until
+
+
+def cve_published_in_range(cve_info, published_since, published_until):
+    return cve_published_since(cve_info, published_since) and cve_published_until(cve_info, published_until)
+
+
+def cve_affecting_pkgs(cve_info, packages):
+    # removing whitespaces, if they exist before cchecking
+    cve_affected_packages = [x.strip(' ') for x in cve_info['pkgs']]
+    packages_in_filter = [x.strip(' ') for x in packages]
+    return [pkg for pkg in packages_in_filter if pkg in cve_affected_packages]
+
+
+def cve_in_list(cve_info, cve_list):
+    cve_id = cve_info["id"]
+    return cve_id in cve_list
+
+
+
+# supported options for opt argument
+#  pkgfamily = rename linux-source-* packages to "linux", or "xen-*" to "xen"
+#  packages = list of packages to pay attention to
+#  debug = bool, display debug information
+
+#  filters = list of functions and , only load CVEs matching the filters criteria
+def load_table(cves, uems, opt=None, rcves=[], icves=[], filters=[]):
+    # Grabbing the enclosed scope environment directories
+    _active = active_dir
+    _embargoed = embargoed_dir
+    _retired = retired_dir
+    _ignored = ignored_dir
+    _development = devel_release
+
+    # The CVE table is a nested dict from CVE -> package -> release information
+    # dict[str,dict[dict[str,str]]]
+    table = defaultdict(lambda: defaultdict(dict))
+    priority = defaultdict(dict)
+    name_mapping = defaultdict(dict)
+    cve_data = dict()
+    cve_list = []
+
+    embargo_entries, retired, ignored = set(), set(), set()
+
+    # Convert to set for faster lookup, sticking with the same function parameter names
+    if uems:
+        embargo_entries = set(uems)
+    if rcves:
+        retired = set(rcves)
+    if icves:
+        ignored = set(icves)
+
+    for cve in cves:
+        cve_directory = _active
+        if cve in embargo_entries:
+            cve_directory = _embargoed
+        elif cve in retired:
+            cve_directory = _retired
+        elif cve in ignored:
+            cve_directory = _ignored
+
+        # Load the individual CVE
+        cve_file = os.path.join(cve_directory, cve)
+        cve_info = load_cve(cve_file)
+
+        # Allowing to filter based on a list of filter functions
+        # with their corresponding args
+        # TODO: explore doing this with filter()
+        filters_matched = True
+        for f in filters:
+            filter_name = f[CVE_FILTER_NAME]
+            filter_args = f[CVE_FILTER_ARGS]
+            # always adding cve_info to any filter function its needed
+            cve_info["id"] = cve
+            filter_args["cve_info"] = cve_info
+            if not filter_name(**filter_args):
+                filters_matched = False
+                break
+
+        # Skipping CVEs which have not matched the provided filters (AND logic)
+        if not filters_matched:
+            continue
+
+        cve_data[cve] = cve_info
+
+        # Allow for Priority overrides
+        try:
+            priority[cve]['default'] = cve_info['Priority'][0]
+        except KeyError:
+            priority[cve]['default'] = 'untriaged'
+
+        for package in cve_info['pkgs']:
+            pkg = package
+
+            # Check for optional arguments
+            if opt:
+                if 'linux' in opt.pkgfamily:
+                    # TODO: check if still relevant
+                    if pkg in {'linux-source-2.6.15', 'linux-source-2.6.20', 'linux-source-2.6.22'}:
+                        pkg = 'linux'
+                # special-case xen, since it is per-release
+                if 'xen' in opt.pkgfamily:
+                    if pkg in {'xen-3.0', 'xen-3.1', 'xen-3.2', 'xen-3.3'}:
+                        pkg = 'xen'
+                if opt.packages and pkg not in opt.packages:
+                    continue
+
+            for release in cve_info['pkgs'][package]:
+                rel = release
+                if rel == 'devel':
+                    rel = _development
+
+                status = cve_info['pkgs'][package][release][0]
+
+                if opt:
+                    if 'linux' in opt.pkgfamily and status == 'DNE':
+                        continue
+                    if 'xen' in opt.pkgfamily:
+                        if status == 'DNE':
+                            continue
+                        # Skip xen-3.1 for non-gutsy when using pkgfamily override
+                        if package == 'xen-3.1' and rel != 'gutsy':
+                            continue
+
+                # Releases are unique entries
+                table[cve][pkg][rel] = status
+                name_mapping[pkg][rel] = package
+
+                # Add status comments only if they exist
+                if len(cve_info['pkgs'][package][release]) > 1:
+                    status_comment = " ".join(cve_info['pkgs'][package][release][1:]).strip()
+                    if status_comment != "":
+                        table[cve][pkg].setdefault("%s_comment" % rel, " ".join(cve_info['pkgs'][package][release][1:]))
+
+            field = 'Priority_' + pkg
+            if field in cve_info:
+                priority[cve][pkg] = cve_info[field][0]
+
+            if opt and opt.debug:
+                print("Loaded '%s'" % pkg, file=sys.stderr)
+
+        # Ignore CVEs with no packages
+        if len(table[cve]) > 0:
+            cve_list.append(cve)
+
+    # Type correction: defaultdict is its own type
+    # To ensure no type divergence occurs downrange, re-wrap in a plain dict before returning
+    # Performance overhead is minimal due to fast copy constructor
+    table = {key: dict(value) for key, value in table.items()}
+
+    return table, dict(priority), cve_list, dict(name_mapping), cve_data
+
+def parse_boilerplate(filepath):
+    cve_data = {}
+    try:
+        cve_data = load_cve(filepath)
+    except ValueError as e:
+        print(e, file=sys.stderr)
+    # capture tags, Notes, and package relationships
+    data = dict()
+    data.setdefault("aliases", list())
+    data.setdefault("tags", cve_data.get("tags", dict()))
+    data.setdefault("notes", cve_data.get("Notes", list()))
+    data.setdefault("pkgs", cve_data.get("pkgs", dict()))
+    return data
+
+
+def load_boilerplates():
+    data = dict()
+    aliases = dict()
+    for filepath in glob.glob(os.path.join(boilerplates_dir, "*")):
+        name = os.path.basename(filepath)
+        # check if is a symlink and if so don't bother loading the file
+        # directly but add an entry as this is an alias
+        if os.path.islink(filepath):
+            orig_name = os.readlink(filepath)
+            aliases.setdefault(orig_name, set())
+            aliases[orig_name].add(name)
+            continue
+        bpdata = parse_boilerplate(filepath)
+        data.setdefault(name, bpdata)
+    for alias in aliases:
+        data[alias]["aliases"] = sorted(list(aliases[alias]))
+    return data
+
+def load_json_file_overrides(json_file):
+    with open(os.path.join(meta_dir, json_file), "r") as fp:
+        data = json.load(fp)
+        return data
+
+# for sanity, try to keep these in alphabetical order in the json file
+package_info_overrides = load_json_file_overrides("package_info_overrides.json")
+
+def load_package_db():
+    pkg_db = load_boilerplates()
+
+    # add lookups based on aliases - we can't iterate over pkg_db and
+    # modify it so collect aliases then add them manually
+    alias_info = {}
+    for p in pkg_db:
+        # set a name field for each package entry as the preferred name
+        # - this is then used when looking up by alias later
+        pkg_db[p]["name"] = p
+        try:
+            aliases = pkg_db[p]["aliases"]
+            if len(aliases) > 0:
+                alias_info[p] = aliases
+        except KeyError:
+            pass
+    for p in alias_info.keys():
+        for a in alias_info[p]:
+            if a not in pkg_db:
+                # use original info if already in pkg_db
+                pkg_db[a] = pkg_db[p]
+
+    return pkg_db
+
+package_db = load_package_db()
+
+def lookup_package_override_title(source):
+    global package_info_overrides
+    res = package_info_overrides.get(source)
+    if isinstance(res, dict):
+        return(res.get("title"))
+
+    return None
+
+def lookup_package_override_description(source):
+    global package_info_overrides
+    res = package_info_overrides.get(source)
+    if isinstance(res, dict):
+        return(res.get("description"))
+
+    return None
+
+def is_overlay_ppa(rel):
+    return '/' in rel
+
+
+@lru_cache(maxsize=None)
+def is_active_release(rel):
+    return rel not in eol_releases
+
+
+@lru_cache(maxsize=None)
+def is_active_subproject(rel, include_ubuntu=False, include_esm=False):
+    """
+    Return True if a release is an active subproject release, excluding
+    regular ubuntu releases and ESM releasesby default, that can be
+    included using the extra arguments.
+    """
+    wanted_set = set(all_active_releases)
+
+    if not include_ubuntu:
+        wanted_set.difference_update(active_ubuntu_releases)
+
+    if not include_esm:
+        wanted_set.difference_update(active_esm_releases)
+
+    return rel in wanted_set
+
+
+# takes a standard release name
+# XXX should perhaps adjust that
+@lru_cache(maxsize=None)
+def is_active_esm_release(rel, component='main'):
+    if not is_active_release(rel) or \
+        component == 'universe' or component == 'multiverse':
+        esm_rel = get_esm_name(rel, component)
+        if esm_rel:
+            return esm_rel not in eol_releases
+    return False
+
+@lru_cache(maxsize=None)
+def get_active_releases_with_esm():
+    """Return Ubuntu releases with, at least, one active ESM release."""
+    all_esm_releases = release_sort(set(esm_releases +
+                                        esm_apps_releases +
+                                        esm_infra_releases +
+                                        ros_esm_releases +
+                                        esm_infra_legacy_releases +
+                                        esm_apps_legacy_releases))
+
+    return all_esm_releases
+
+def get_active_releases_with_subprojects(include_esm=False):
+    """Return Ubuntu releases with, at least, one active subproject release."""
+    all_subproject_releases = set(fips_releases + fips_updates_releases + realtime_releases)
+    if include_esm:
+        all_subproject_releases.update(set(get_active_releases_with_esm()))
+
+    for release in all_subproject_releases.copy():
+        if not include_esm and is_active_esm_release(release):
+            all_subproject_releases.remove(release)
+
+    return release_sort(all_subproject_releases)
+
+@lru_cache(maxsize=None)
+def get_active_esm_releases():
+    """Return all active ESM releases."""
+    return active_esm_releases
+
+# Defaults to main for historical reasons
+@lru_cache(maxsize=None)
+def get_esm_name(rel, component='main'):
+    if rel in esm_releases: # continuing to keep trusty case separate for simplicity
+        return 'esm-infra-legacy/' + rel
+    elif rel in esm_apps_legacy_releases and \
+        (component == 'universe' or component == 'multiverse'):
+        return 'esm-apps-legacy/' + rel
+    elif rel in esm_infra_legacy_releases and \
+        (component == 'main' or component == 'restricted'):
+        return 'esm-infra-legacy/' + rel
+    elif rel in esm_apps_releases and \
+        (component == 'universe' or component == 'multiverse'):
+        return 'esm-apps/' + rel
+    elif rel in esm_infra_releases and \
+        (component == 'main' or component == 'restricted'):
+        return 'esm-infra/' + rel
+    elif rel in ros_esm_releases and \
+        component == 'ros':
+        return 'ros-esm/' + rel
+    return None
+
+
+# get the series (original release name) of a esm release or subproject
+def get_orig_rel_name(rel):
+    _, series = product_series(rel)
+    return series
+
+
+def is_supported(map, pkg, rel, cvedata=None):
+    # Allow for a tagged override to declare a pkg (from the perspective of
+    # a given CVE item) to be unsupported.
+    if cvedata and pkg in cvedata['tags'] and \
+       ('universe-binary' in cvedata['tags'][pkg] or
+        'not-ue' in cvedata['tags'][pkg]):
+        return False
+
+    # If it's inside a subproject, it's supported
+    if (rel in external_releases or rel in get_active_esm_releases()) and rel in map \
+        and pkg in map[rel]:
+        return True
+
+    # Look for a supported component
+    if rel in map and pkg in map[rel] and \
+       (map[rel][pkg]['section'] == 'main' or
+        map[rel][pkg]['section'] == 'restricted'):
+        return True
+    return False
+
+
+def any_supported(map, pkg, releases, cvedata):
+    for rel in releases:
+        if is_supported(map, pkg, rel, cvedata):
+            return True
+    return False
+
+
+def is_universe(map, pkg, rel, cvedata):
+    if is_supported(map, pkg, rel, cvedata):
+        return False
+    return True
+
+
+def any_universe(map, pkg, releases, cvedata):
+    for rel in releases:
+        if is_universe(map, pkg, rel, cvedata):
+            return True
+    return False
+
+
+def in_universe(map, pkg, rel, cve, cvedata):
+    if pkg in map[rel] and map[rel][pkg]['section'] == 'universe':
+        return True
+    else:
+        if not cvedata:
+            cvedata = load_cve(find_cve(cve))
+        if pkg in cvedata['tags'] and 'universe-binary' in cvedata['tags'][pkg]:
+            return True
+    return False
+
+def load_debian_dsas(filename, verbose=True):
+    dsa = None
+    debian = dict()
+
+    dsalist = open(filename)
+    if verbose:
+        print("Loading %s ..." % (filename))
+    count = 0
+    for line in dsalist:
+        count += 1
+        line = line.rstrip()
+        try:
+            if line == "":
+                continue
+            if line.startswith('\t'):
+                if not dsa:
+                    continue
+                line = line.lstrip()
+                if line.startswith('{'):
+                    debian[dsa]['cves'] = line.strip(r'[{}]').split()
+                elif line.startswith('['):
+                    package = line.split()
+                    if len(package) < 4:
+                        raise Exception("Expected the released package to have 4 fields, but it only had " + str(len(package)))
+                    release = package[0].strip("[]")
+                    debian[dsa]["releases"].setdefault(release, dict())
+                    debian[dsa]["releases"][release].setdefault("package", package[2])
+                    debian[dsa]["releases"][release].setdefault("fixed_version", package[3])
+            elif line.startswith('['):
+                # [DD Mon YYYY] <dsa> <pkg1> <pkg2> ... - <description>
+                dsa = line.split()[3]
+                date = datetime.datetime.strptime(line.split(r']')[0].lstrip('['), "%d %b %Y")
+                desc = " ".join(" ".join(line.split()[4:]).split(' - ')[1:]).strip()
+                debian.setdefault(dsa, {'date': date, 'desc': desc, 'cves': [], 'releases': dict()})
+        except:
+            print("Error parsing line %d: '%s'" % (count, line), file=sys.stderr)
+            raise
+    dsalist.close()
+    return debian
+
+
+def load_debian_cves(filename, verbose=True):
+    cve = None
+    debian = dict()
+
+    cvelist = open(filename)
+    if verbose:
+        print("Loading %s ..." % (filename))
+    count = 0
+    for line in cvelist:
+        count += 1
+        line = line.rstrip()
+        try:
+            if line == "":
+                continue
+            if line.startswith('\t'):
+                if not cve:
+                    continue
+                line = line.lstrip()
+                if line.startswith('['):
+                    continue
+                if line.startswith('{'):
+                    continue
+                if line.startswith('-'):
+                    info = line[1:].lstrip().split(' ', 1)
+                    pkg = info[0]
+                    line = ""
+                    if len(info) > 1:
+                        line = info[1]
+
+                    info = line.lstrip().split(' ', 1)
+                    state = info[0]
+                    if state == "":
+                        state = "<unfixed>"
+                    line = ""
+                    if len(info) > 1:
+                        line = info[1]
+
+                    priority = "needs-triage"
+                    bug = None
+                    note = None
+                    if '(' in line and ')' in line:
+                        info = line.split('(')[1].split(')')[0]
+                        bits = info.split(';')
+                        for bit in bits:
+                            bit = bit.strip()
+                            if bit.startswith('#'):
+                                bug = bit[1:]
+                            elif bit.startswith('bug #'):
+                                bug = bit[5:]
+                            else:
+                                priority = bit
+                    else:
+                        note = line
+                    if priority == 'unimportant':
+                        priority = 'negligible'
+
+                    debian[cve]['pkgs'].setdefault(pkg, {'priority': priority, 'bug': bug, 'note': note, 'state': state})
+
+                    debian[cve]['state'] = 'FOUND'
+                if line.startswith('RESERVED'):
+                    debian[cve]['state'] = 'RESERVED'
+                if line.startswith('REJECTED'):
+                    debian[cve]['state'] = 'REJECTED'
+                if line.startswith('NOT-FOR-US'):
+                    debian[cve]['state'] = line
+                if line.startswith('NOTE'):
+                    debian[cve]['note'] += [line]
+                if line.startswith('TODO'):
+                    if not line.endswith('TODO: check'):
+                        debian[cve]['note'] += [line]
+            else:
+                #if cve:
+                #    print("Previous CVE: %s: %s" % (cve, debian[cve]))
+                cve = line.split().pop(0)
+                debian.setdefault(cve, {'pkgs': dict(), 'state': None, 'note': [], 'desc': " ".join(line.split()[1:])})
+        except:
+            print("Error parsing line %d: '%s'" % (count, line), file=sys.stderr)
+            raise
+
+    cvelist.close()
+    return debian
+
+
+def load_ignored_reasons(filename):
+    '''Load CVEs from a list of form "CVE-YYYY-NNNN # Reason"'''
+
+    ignored = dict()
+
+    with open(filename) as inF:
+        lines = inF.readlines()
+
+    for line in lines:
+        line = line.strip()
+        if len(line) == 0 or line.startswith('#'):
+            continue
+        reason = "Ignored"
+        if line.startswith('CVE') and '#' in line:
+            line, reason = line.split('#', 1)
+        reason = reason.strip()
+        if reason.startswith('DNE -') or reason.startswith('NFU -'):
+            reason = reason[5:].lstrip('-')
+        reason = reason.strip()
+        if ' ' in line:
+            cves = line.split(' ')
+        else:
+            cves = [line]
+        for cve in cves:
+            if len(cve) == 0:
+                continue
+            ignored.setdefault(cve, reason)
+
+    return ignored
+
+
+def debian_truncate(desc):
+    i = 0
+    while i < len(desc) and (i < 60 or desc[i] != ' '):
+        i += 1
+    if i == len(desc):
+        return desc
+    return desc[:i] + " ..."
+
+
+def prepend_debian_cve(filename, cve, desc):
+    '''This is prefix the Debian CVE list with a new CVE and
+       truncated description with a TODO: check marker'''
+
+    input = open(filename)
+    output = open(filename + ".new", 'w')
+
+    print("Prepending %s ..." % (cve))
+    output.write(cve)
+    if len(desc) > 0:
+        output.write(' (%s)' % (debian_truncate(desc)))
+    output.write('\n\tTODO: check\n')
+    output.write(input.read())
+    input.close()
+    output.close()
+    os.rename(filename + ".new", filename)
+
+
+def update_debian_todo_cves(ignored, known, filename, debian_sources, verbose=False, update=True):
+    '''This will replace any "TODO: check" entries with
+    knowledge from the Ubuntu CVE Tracker'''
+
+    input = open(filename)
+    if update:
+        if verbose:
+            print("Updating %s ..." % (filename))
+        output = open(filename + ".new", 'w')
+    else:
+        if verbose:
+            print("Dry run ...")
+        output = open('/dev/null', 'w')
+    cves = dict()
+
+    count = 0
+    cve = None
+    reserved = False
+    reserved_text = None
+    todo = False
+    for line in input:
+        count += 1
+        line = line.rstrip('\n')
+        if line.startswith('CVE'):
+            # finish up previous CVE processing
+            if todo and reserved:
+                if cve in ignored and reserved_text.rstrip('\n') == '\tRESERVED':
+                    print("\tNOT-FOR-US: %s" % (ignored[cve]), file=output)
+                else:
+                    print(reserved_text.rstrip('\n'), file=output)
+
+            # now start the new CVE processing
+            cve = line.split().pop(0)
+            todo = True
+            reserved = False
+            reserved_text = []
+        elif line.startswith('\t'):
+            if todo and (line == '\tTODO: check' or line == '\tRESERVED'):
+                if cve in ignored:
+                    if line == '\tRESERVED':
+                        reserved_text = line + "\n"
+                        reserved = True
+                    elif line == '\tTODO: check':
+                        print("\tNOT-FOR-US: %s" % (ignored[cve]), file=output)
+                        todo = False
+                        if verbose:
+                            print("%s: NFU" % (cve))
+                    continue
+                if cve in known:
+                    if cve not in cves:
+                        cves[cve] = load_cve('%s/%s' % (active_dir, cve))
+                    pkgs = cves[cve]['pkgs']
+                    # HACK: Debian package name fix-ups
+                    if 'linux' in pkgs:
+                        pkgs = ['linux-2.6']
+                    for src in pkgs:
+                        # Skip packages not in Debian
+                        if src not in debian_sources:
+                            continue
+                        print("\t- %s <unfixed>" % (src), file=output)
+                        if verbose:
+                            print("%s: %s" % (cve, src))
+                        todo = False
+                    # If the CVE is known to Ubuntu but doesn't hit anything, leave it alone
+                    if todo and not reserved:
+                        print(line, file=output)
+                    continue
+            elif reserved:
+                if line.startswith('\tNOT-FOR-US: '):
+                    print(reserved_text.rstrip('\n'), file=output)
+                    todo = False
+                else:
+                    reserved_text += line + "\n"
+                    continue
+        elif line.startswith('begin') or line.startswith('end'):
+            pass
+        else:
+            raise ValueError("Error parsing line %d: '%s'" % (count, line))
+        print(line, file=output)
+    input.close()
+    output.close()
+    if update:
+        os.rename(filename + ".new", filename)
+
+
+
+
+def cve_age(cve, open_date, close_stamp, oldest=None):
+    # 'oldest' is a timestamp that is used to add a lower bound to
+    # dates in "open_date" and "close_stamp"
+    if open_date == 'unknown' or len(open_date) == 0:
+        raise ValueError("%s: empty PublicDate" % (cve))
+    date = open_date
+    # CRDs are traditionally 1400UTC, so use this unless something else
+    # is specified.
+    mytime = '14:00:00'
+    if ' ' in date:
+        tmp = date
+        date = tmp.split()[0]
+        mytime = tmp.split()[1]
+    year, mon, day = [int(x) for x in date.split('-')]
+    hour, minute, second = [int(x) for x in mytime.split(':')]
+    open_obj = datetime.datetime(year, mon, day, hour, minute, second)
+    close_obj = datetime.datetime.utcfromtimestamp(int(close_stamp))
+    if oldest:
+        oldest = datetime.datetime.utcfromtimestamp(oldest)
+        if open_obj < oldest:
+            open_obj = oldest
+        if close_obj < oldest:
+            close_obj = oldest
+    delta = close_obj - open_obj
+    return delta.days
+
+
+def recursive_rm(dirPath):
+    '''recursively remove directory'''
+    names = os.listdir(dirPath)
+    for name in names:
+        path = os.path.join(dirPath, name)
+        if not os.path.isdir(path):
+            os.unlink(path)
+        else:
+            recursive_rm(path)
+    os.rmdir(dirPath)
+
+
+def git_add(filename):
+    '''Add a modified file to the git index, preparing for commit'''
+    rc, output = cmd(['git', 'add', filename])
+    if rc != 0:
+        raise ValueError('git add "%s" failed: %s' % (filename, output))
+
+
+# @message = string, git commit message
+# @filenames = list of filenames to commit (they need to be added to the
+#    index first); if nothing is passed, all changes in the index will
+#    be committed
+def git_commit(message, filenames=None, edit=False, debug=False):
+
+    git_cmd = ['git', 'commit', '-s']
+    if debug:
+        git_cmd.append('--quiet')
+    git_cmd += ['-m', message]
+    if filenames:
+        git_cmd += filenames
+
+    rc, output = cmd(git_cmd)
+    if rc != 0:
+        raise ValueError('failed to commit to git\n%s' % (output))
+    return True
+
+
+def git_is_tree_clean(debug=False):
+    rc, output = cmd(['git', 'diff-index', '--quiet', 'HEAD', '--'])
+    if debug and rc != 0:
+        _, output = cmd(['git', 'diff-index', '--name-only', 'HEAD', '--'])
+        print('git believes the following files have been modified:\n%s' % output,
+              file=sys.stderr)
+    return rc == 0
+
+
+def git_get_branch_name():
+    rc, output = cmd(['git', 'symbolic-ref', '--short', '-q', 'HEAD'])
+    if rc != 0:
+        raise ValueError('failed to get current git branch:\n%s' % (output))
+    return output.strip()
+
+
+def git_checkout_new_branch(branch, tracking_branch='origin/master', debug=False):
+    git_cmd = ['git', 'checkout']
+    if debug:
+        git_cmd.append('--quiet')
+    git_cmd += ['-b', branch, tracking_branch]
+    rc, output = cmd(git_cmd)
+    if rc != 0:
+        raise ValueError('failed to get current git branch:\n%s' % (output))
+    return True
+
+
+def git_checkout_existing_branch(branch, debug=False):
+    git_cmd = ['git', 'checkout']
+    if debug:
+        git_cmd.append('--quiet')
+    git_cmd.append(branch)
+    rc, output = cmd(git_cmd)
+    if rc != 0:
+        raise ValueError('failed to get current git branch:\n%s' % (output))
+    return True
+
+
+def git_delete_branch(branch, debug=False):
+    if git_get_branch_name() == branch:
+        print("Error: can't delete currently checked out branch %s" % branch, file=sys.stderr)
+        return False
+
+    git_cmd = ['git', 'branch']
+    if debug:
+        git_cmd.append('--quiet')
+    git_cmd += ['-D', branch]
+    rc, output = cmd(git_cmd)
+    if rc != 0:
+        raise ValueError('failed to delete git branch:\n%s' % (output))
+    return True
+
+
+# Usage:
+# config = ConfigObj(os.path.expanduser("~/.ubuntu-cve-tracker.conf"))
+# cve_lib.check_mirror_timestamp(config)
+# cve_lib.check_mirror_timestamp(config, mirror='packages_mirror')
+def check_mirror_timestamp(config, mirror=None):
+    mirrors = ['packages_mirror']
+    if mirror is not None:
+        mirrors = [mirror]
+    for m in mirrors:
+        if m not in config:
+            continue
+        a = config[m]
+
+        secs = 86400
+
+        if os.path.exists(a + ".timestamp") and time.mktime(time.localtime()) - os.stat(a + ".timestamp").st_mtime > secs:
+            print("WARNING: '%s' is %1.1f days older than %1.1f day(s). Please run '$UCT/scripts/packages-mirror -t'." %
+                  (a, float(time.mktime(time.localtime()) - os.stat(a + ".timestamp").st_mtime - secs) / 86400, float(secs) / 86400), file=sys.stderr)
+
+
+# return the arch that the arch 'all' packages are built on. For utopic
+# and prior, it was i386, but vivid and later are built on amd64
+def get_all_arch(release):
+    return release_expectations[release]['arch_all']
+
+
+def arch_is_valid_for_release(arch, release):
+    return (arch in release_expectations[release]['required'] or
+            arch in release_expectations[release]['expected'] or
+            arch in release_expectations[release]['bonus'])
+
+
+def oldest_supported_release():
+    '''Get oldest non-eol release'''
+    for r in all_releases:
+        if r not in eol_releases:
+            return r
+
+
+def subprocess_setup():
+    # Python installs a SIGPIPE handler by default. This is usually not what
+    # non-Python subprocesses expect.
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
+
+def cmd(command, input=None, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, stdin=None, timeout=None):
+    '''Try to execute given command (array) and return its stdout, or return
+    a textual error if it failed.'''
+
+    try:
+        sp = subprocess.Popen(command, stdin=stdin, stdout=stdout, stderr=stderr, close_fds=True, universal_newlines=True, preexec_fn=subprocess_setup)
+    except OSError as e:
+        return [127, str(e)]
+
+    out, outerr = sp.communicate(input)
+    # Handle redirection of stdout
+    if out is None:
+        out = ''
+    # Handle redirection of stderr
+    if outerr is None:
+        outerr = ''
+    return [sp.returncode, out + outerr]
+
+
+def check_editmoin():
+    # Make sure editmoin would actually work
+    if not os.path.exists(os.path.expanduser('~/.moin_ids')) and not os.path.exists(os.path.expanduser('~/.moin_users')):
+        print("Error: Need to configure editmoin to use this option (usually ~/.moin_ids).\n", file=sys.stderr)
+        return False
+
+    return True
+
+def cve_sort(a, b):
+
+    # Strip any path elements before sorting
+    a = a.split("/")[-1]
+    b = b.split("/")[-1]
+
+    a_year = int(a.split("-")[1])
+    a_number = int(a.split("-")[2])
+    b_year = int(b.split("-")[1])
+    b_number = int(b.split("-")[2])
+
+    if a_year > b_year:
+        return 1
+    elif a_year < b_year:
+        return -1
+    elif a_number > b_number:
+        return 1
+    elif a_number < b_number:
+        return -1
+    else:
+        return 0
+
+def is_retired(cve):
+    return os.path.exists(os.path.join(retired_dir, cve))
+
+def parse_cvss(cvss):
+    # parse a CVSS string into components suitable for MITRE / NVD JSON
+    # format - assumes only the Base metric group from
+    # https://www.first.org/cvss/specification-document since this is
+    # mandatory - also validates by raising exceptions on errors
+    metrics = {
+        'attackVector': {
+            'abbrev': 'AV',
+            'values': {'NETWORK': 0.85,
+                       'ADJACENT': 0.62,
+                       'LOCAL': 0.55,
+                       'PHYSICAL': 0.2}
+        },
+        'attackComplexity': {
+            'abbrev': 'AC',
+            'values': {'LOW': 0.77,
+                       'HIGH': 0.44}
+        },
+        'privilegesRequired': {
+            'abbrev': 'PR',
+            'values': {'NONE': 0.85,
+                       # [ scope unchanged, changed ]
+                       'LOW': [0.62, 0.68], # depends on scope
+                       'HIGH': [0.27, 0.5]} # depends on scope
+        },
+        'userInteraction': {
+            'abbrev': 'UI',
+            'values': {'NONE': 0.85,
+                       'REQUIRED': 0.62}
+        },
+        'scope': {
+            'abbrev': 'S',
+            'values': {'UNCHANGED', 'CHANGED'}
+        },
+        'confidentialityImpact': {
+            'abbrev': 'C',
+            'values': {'HIGH': 0.56,
+                       'LOW': 0.22,
+                       'NONE': 0}
+        },
+        'integrityImpact': {
+            'abbrev': 'I',
+            'values': {'HIGH': 0.56,
+                       'LOW': 0.22,
+                       'NONE': 0}
+        },
+        'availabilityImpact': {
+            'abbrev': 'A',
+            'values': {'HIGH': 0.56,
+                       'LOW': 0.22,
+                       'NONE': 0}
+        }
+    }
+    severities = {'NONE': 0.0,
+                  'LOW': 3.9,
+                  'MEDIUM': 6.9,
+                  'HIGH': 8.9,
+                  'CRITICAL': 10.0 }
+    js = None
+    # coerce cvss into a string
+    cvss = str(cvss)
+    for c in cvss.split('/'):
+        elements = c.split(':')
+        if len(elements) != 2:
+            raise ValueError("Invalid CVSS element '%s'" % c)
+        valid = False
+        metric = elements[0]
+        value = elements[1]
+        if metric == 'CVSS':
+            if value == '3.0' or value == '3.1':
+                js = {'baseMetricV3':
+                      { 'cvssV3':
+                        { 'version': value }}}
+                valid = True
+            else:
+                raise ValueError("Unable to process CVSS version '%s' (we only support 3.x)" % value)
+        else:
+            for m in metrics.keys():
+                if metrics[m]['abbrev'] == metric:
+                    for val in metrics[m]['values']:
+                        if val[0:1] == value:
+                            js['baseMetricV3']['cvssV3'][m] = val
+                            valid = True
+        if not valid:
+            raise ValueError("Invalid CVSS elements '%s:%s'" % (metric, value))
+    for m in metrics.keys():
+        if m not in js['baseMetricV3']['cvssV3']:
+            raise ValueError("Missing required CVSS base element %s" % m)
+    # add vectorString
+    js['baseMetricV3']['cvssV3']['vectorString'] = cvss
+
+    # now calculate CVSS scores
+    iss = 1 - ((1 - metrics['confidentialityImpact']['values'][js['baseMetricV3']['cvssV3']['confidentialityImpact']]) *
+               (1 - metrics['integrityImpact']['values'][js['baseMetricV3']['cvssV3']['integrityImpact']]) *
+               (1 - metrics['availabilityImpact']['values'][js['baseMetricV3']['cvssV3']['availabilityImpact']]))
+    if js['baseMetricV3']['cvssV3']['scope'] == 'UNCHANGED':
+        impact = 6.42 * iss
+    else:
+        impact = 7.52 * (iss - 0.029) - 3.25 * pow(iss - 0.02, 15)
+    attackVector = metrics['attackVector']['values'][js['baseMetricV3']['cvssV3']['attackVector']]
+    attackComplexity = metrics['attackComplexity']['values'][js['baseMetricV3']['cvssV3']['attackComplexity']]
+    privilegesRequired = metrics['privilegesRequired']['values'][js['baseMetricV3']['cvssV3']['privilegesRequired']]
+    # privilegesRequires could be a list if is LOW or HIGH (and then the
+    # value depends on whether the scope is unchanged or not)
+    if isinstance(privilegesRequired, list):
+        if js['baseMetricV3']['cvssV3']['scope'] == 'UNCHANGED':
+            privilegesRequired = privilegesRequired[0]
+        else:
+            privilegesRequired = privilegesRequired[1]
+    userInteraction = metrics['userInteraction']['values'][js['baseMetricV3']['cvssV3']['userInteraction']]
+    exploitability = (8.22 * attackVector * attackComplexity * privilegesRequired * userInteraction)
+    if impact <= 0:
+        base_score = 0
+    elif js['baseMetricV3']['cvssV3']['scope'] == 'UNCHANGED':
+        # use ceil and * 10 / 10 to get rounded up to nearest 10th decimal (where rounded-up is say 0.01 -> 0.1)
+        base_score = math.ceil(min(impact + exploitability, 10) * 10) / 10
+    else:
+        base_score = math.ceil(min(1.08 * (impact + exploitability), 10) * 10) / 10
+    js['baseMetricV3']['cvssV3']['baseScore'] = base_score
+    for severity in severities.keys():
+        if base_score <= severities[severity]:
+            js['baseMetricV3']['cvssV3']['baseSeverity'] = severity
+            break
+    # these use normal rounding to 1 decimal place
+    js['baseMetricV3']['exploitabilityScore'] = round(exploitability * 10) / 10
+    js['baseMetricV3']['impactScore'] = round(impact * 10) / 10
+    return js
+
+def wordwrap(text, width):
+    """
+    A word-wrap function that preserves existing line breaks
+    and most spaces in the text. Expects that existing line
+    breaks are posix newlines (\n).
+    """
+    return reduce(lambda line, word, width=width:
+                  '%s%s%s' %
+                  (line,
+                   ' \n'[(len(line) - line.rfind('\n') - 1 + len(word.split('\n', 1)[0]) >= width)],
+                   word),
+                  text.split(' ')
+                  )
+
+def wrap_text(text, width=75):
+    """
+    Wrap text to width chars wide.
+    """
+    return wordwrap(text, width).replace(' \n', '\n')
+
+def git_cmd(command, commit, repo=os.getcwd(), args=list()):
+    rc, report = cmd(['git', '-C', repo, command, commit] + args)
+    if rc != 0:
+        print("Error running git -C %s %s %s %s: %s" % (repo, command, commit, " ".join(args), report), file=sys.stderr)
+        return None
+    return report
+
+def git_show(commit, repo=os.getcwd()):
+    '''Look up a commit from a local git clone.'''
+    return git_cmd('show', commit, repo, args=["--pretty=email"])
+
+def git_revparse(commit, repo=os.getcwd()):
+    '''Run git rev-parse on a local git clone.'''
+    return git_cmd('rev-parse', commit, repo)
+
+def fetch_kernel_fixes(url):
+    '''Downloads a kernel commit and returns a list of break-fixes'''
+    commit_hash = None
+    fixes = []
+
+    # Strip off comment at the end
+    if ' ' in url:
+        url = url.split(' ')[0]
+
+    # Short URL, turn it into long one
+    if url.startswith('https://git.kernel.org/linus/'):
+        url = url.replace('https://git.kernel.org/linus/',
+                          'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=')
+    if url.startswith('https://git.kernel.org/stable/c/'):
+        url = url.replace('https://git.kernel.org/stable/c/',
+                          'https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=')
+    # old URL style - replace to be more modern
+    if url.startswith('http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h='):
+        url = url.replace('http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=',
+                          'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=')
+
+    # Get the raw patch
+    url = url.replace('/commit/', '/patch/')
+
+    # first try from local git repo
+    patch = None
+    config = read_uct_config()
+    try:
+        commit = url.rsplit('=', maxsplit=1)[1]
+        patch = git_show(commit, config["linux_kernel_path"])
+    except KeyError:
+        # no linux_kernel_path configured - TODO warn user?
+        pass
+    if patch is None:
+        try:
+            with urllib.request.urlopen(url) as response:
+                patch = response.read().decode('utf-8')
+        except urllib.error.HTTPError as e:
+            print("WARNING: Failed to fetch patch URL %s: %s" % (url, str(e)), file=sys.stderr)
+            return fixes
+
+    backport_re = re.compile(r"(commit [0-9a-f]{40} upstream.|\[ Upstream commit [0-9a-f]{40} \])", re.IGNORECASE)
+    for line in patch.split("\n"):
+        # stop early if we have reached the main patch body
+        if line.startswith("---"):
+            break
+        if backport_re.match(line):
+            # This is an LTS backport, skip it
+            return []
+        if not commit_hash and line.startswith("From "):
+            commit_hash = line.split(' ')[1]
+            continue
+        elif line.startswith("Fixes: "):
+            fix_hash = line.split(' ')[1]
+            fixes.append([fix_hash, commit_hash])
+
+    if commit_hash is None:
+        print("Failed to get commit hash from %s" % url, file=sys.stderr)
+        return []
+
+    # If we didn't find a Fixes tag, just use -
+    if fixes == []:
+        fixes.append(['-', commit_hash])
+
+    return fixes
+
+def in_break_fixes(commit, break_fixes):
+    '''See if a commit is in the hash_list'''
+    # properly handle comparing short and long hashes
+    for [break_hash,fix_hash] in break_fixes:
+        if commit.startswith(break_hash):
+            return True
+        if break_hash.startswith(commit):
+            return True
+    return False
+
+def get_long_kernel_hash(short_hash):
+    '''Attempts to get a long kernel hash'''
+    # don't try and fetch the initial kernel git commit as this is huge
+    INITIAL_COMMIT_HASH="1da177e4c3f41524e886b7f1b8a0c1fc7321cac2"
+    # but we also don't want to match on a short_hash like '1' either so if we
+    # are going to use this short-cut ensure we have enough of a short_hash that
+    # it is likely unique
+    # [ $(git rev-parse --short $INITIAL_COMMIT_HASH | wc -c) -eq 13 ]
+    if len(short_hash) > 12 and INITIAL_COMMIT_HASH.startswith(short_hash):
+        return INITIAL_COMMIT_HASH
+
+    commit_hash = None
+    config = read_uct_config()
+    try:
+        commit_hash = git_revparse(short_hash, config["linux_kernel_path"])
+    except KeyError:
+        pass
+    if commit_hash and commit_hash.startswith(short_hash):
+        return commit_hash.strip()
+
+    url = 'https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id=' + short_hash
+    with urllib.request.urlopen(url) as response:
+        try:
+            # we only need the first line of the patch so limit to the first
+            # 1024 bytes
+            patch = response.read(1024).decode('utf-8')
+        except Exception as e:
+            print("Failed to fetch patch via url '%s': %s" % (url, str(e)), file=sys.stderr)
+            return short_hash
+
+    for line in patch.split("\n"):
+        if line.startswith("From "):
+            commit_hash = line.split(' ')[1]
+            if commit_hash.startswith(short_hash):
+                return commit_hash
+
+    return short_hash
+
+
+def validate_kernel_fixes(break_fixes):
+    '''Validate list of break-fixes'''
+
+    if break_fixes == []:
+        return []
+
+    # Make sure a breaks URL wasn't listed in the URLs by mistake
+    validated = []
+    for [break_hash,fix_hash] in break_fixes:
+        # Don't check this for now, it can result in false positives
+        #if not in_break_fixes(fix_hash, break_fixes):
+        if True:
+            if break_hash is None or fix_hash is None:
+                continue
+            if break_hash != '-' and len(break_hash) < 40:
+                break_hash = get_long_kernel_hash(break_hash)
+            # Make sure it's not a dupe
+            dupe = False
+            for [v_break_hash,v_fix_hash] in validated:
+                if break_hash == v_break_hash and fix_hash == v_fix_hash:
+                    dupe = True
+            if not dupe:
+                validated.append([break_hash, fix_hash])
+
+    return validated

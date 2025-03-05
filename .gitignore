@@ -7,6 +7,7 @@
 .sphinx/.doctrees/
 .sphinx/node_modules/
 package*.json
+!package_info_overrides.json
 _build
 .DS_Store
 __pycache__
