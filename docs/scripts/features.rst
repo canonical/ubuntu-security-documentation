@@ -3,14 +3,13 @@
 Features
 ========
 
-<<Anchor(configuration)>>
+.. _configuration:
 
 Configuration
 -------------
 
-<<Anchor(ports)>>
 
-.. _no_open_ports:
+.. _ports:
 
 No Open Ports
 ~~~~~~~~~~~~~
@@ -21,9 +20,8 @@ Ports ==", to="==")>>
 Testing for this can be done with \`netstat -an --inet \| grep LISTEN \|
 grep -v 127.0.0.1:\` on a fresh install.
 
-<<Anchor(hashing)>>
 
-.. _password_hashing:
+.. _hashing:
 
 Password hashing
 ~~~~~~~~~~~~~~~~
@@ -45,9 +43,8 @@ See
 `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`__
 for regression tests.
 
-<<Anchor(syn-cookies)>>
 
-.. _syn_cookies:
+.. _syn-cookies:
 
 SYN cookies
 ~~~~~~~~~~~
@@ -59,9 +56,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(unattended-upgrades)>>
 
-.. _automatic_security_updates:
+.. _unattended-upgrades:
 
 Automatic security updates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,9 +68,8 @@ be
 `configured <https://help.ubuntu.com/14.04/serverguide/automatic-updates.html>`__
 to automatically apply security updates.
 
-<<Anchor(kernel-livepatches)>>
 
-.. _kernel_livepatches:
+.. _kernel-livepatches:
 
 Kernel Livepatches
 ~~~~~~~~~~~~~~~~~~
@@ -86,9 +81,8 @@ Ubuntu users can take advantage of the service on up to three nodes for
 free. All machines covered by an Ubuntu Advantage support subscription
 are able to receive livepatches.
 
-<<Anchor(disable-legacy-tls)>>
 
-.. _disable_legacy_tls:
+.. _disable-legacy-tls:
 
 Disable legacy TLS
 ~~~~~~~~~~~~~~~~~~
@@ -104,14 +98,13 @@ protocols. See `this discourse
 article <https://discourse.ubuntu.com/t/default-to-tls-v1-2-in-all-tls-libraries-in-20-04-lts/12464/8>`__
 for more information.
 
-<<Anchor(subsystems)>>
+.. _subsystems:
 
 Subsystems
 ----------
 
-<<Anchor(fscaps)>>
 
-.. _filesystem_capabilities:
+.. _fscaps:
 
 Filesystem Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -127,9 +120,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(firewall)>>
 
-.. _configurable_firewall:
+.. _firewall:
 
 Configurable Firewall
 ~~~~~~~~~~~~~~~~~~~~~
@@ -148,9 +140,8 @@ See `ufw
 tests <https://bazaar.launchpad.net/~jdstrand/ufw/trunk/files>`__ for
 regression tests.
 
-<<Anchor(prng-cloud)>>
 
-.. _cloud_prng_seed:
+.. _prng-cloud:
 
 Cloud PRNG seed
 ~~~~~~~~~~~~~~~
@@ -169,7 +160,7 @@ See
 `pollen_test.go <https://bazaar.launchpad.net/~kirkland/pollen/trunk/view/head:/pollen_test.go>`__
 for regression tests
 
-<<Anchor(seccomp)>>
+.. _seccomp:
 
 PR_SET_SECCOMP
 ~~~~~~~~~~~~~~
@@ -182,16 +173,16 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(mac)>>
 
-.. _mandatory_access_control_mac:
+.. _mac:
 
 Mandatory Access Control (MAC)
 ------------------------------
 
 Mandatory Access Controls are handled via the kernel LSM hooks.
 
-<<Anchor(apparmor)>>
+
+.. _apparmor:
 
 `AppArmor <AppArmor>`__
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -241,9 +232,8 @@ and
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(apparmor-unprivileged-userns-restrictions)>>
 
-.. _apparmor_unprivileged_user_namespace_restrictions:
+.. _apparmor-unprivileged-userns-restrictions:
 
 `AppArmor <AppArmor>`__ unprivileged user namespace restrictions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -261,7 +251,7 @@ See
 `test-apparmor.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-apparmor.py>`__
 for regression tests.
 
-<<Anchor(selinux)>>
+.. _selinux:
 
 SELinux
 ~~~~~~~
@@ -274,7 +264,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(smack)>>
+
+.. _smack:
 
 SMACK
 ~~~~~
@@ -285,16 +276,14 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(encryption)>>
 
-.. _storage_encryption:
+.. _encryption:
 
 Storage Encryption
 ------------------
 
-<<Anchor(encrypted-lvm)>>
 
-.. _encrypted_lvm:
+.. _encrypted-lvm:
 
 Encrypted LVM
 ~~~~~~~~~~~~~
@@ -304,9 +293,8 @@ encrypted LVM, which allows all partitions in the logical volume,
 including swap, to be encrypted. Between 6.06 LTS and 12.04 LTS the
 alternate installer can install to an encrypted LVM.
 
-<<Anchor(encrypted-files)>>
 
-.. _file_encryption:
+.. _encrypted-files:
 
 File Encryption
 ~~~~~~~~~~~~~~~
@@ -332,9 +320,8 @@ Starting in Ubuntu 18.04 LTS, it is also possible to install and use
 on ext4 filesystems. Note that fscrypt is not officially supported but
 is available via the fscrypt package in universe.
 
-<<Anchor(TPM)>>
 
-.. _trusted_platform_module:
+.. _TPM:
 
 Trusted Platform Module
 -----------------------
@@ -343,9 +330,8 @@ TPM 1.2 support was added in Ubuntu 7.10. "tpm-tools" and related
 libraries are available in Ubuntu universe. For TPM 2.0, tpm2-tools is
 available in Ubuntu universe.
 
-<<Anchor(userspace-hardening)>>
 
-.. _userspace_hardening:
+.. _userspace-hardening:
 
 Userspace Hardening
 -------------------
@@ -355,9 +341,8 @@ flags <CompilerFlags>`__ used to build packages and through the kernel
 in Ubuntu. **Note:** Ubuntu's compiler hardening applies not only to its
 official builds but also anything built on Ubuntu using its compiler.
 
-<<Anchor(stack-protector)>>
 
-.. _stack_protector:
+.. _stack-protector:
 
 Stack Protector
 ~~~~~~~~~~~~~~~
@@ -374,9 +359,8 @@ See
 `test-gcc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-gcc-security.py>`__
 for regression tests.
 
-<<Anchor(heap-protector)>>
 
-.. _heap_protector:
+.. _heap-protector:
 
 Heap Protector
 ~~~~~~~~~~~~~~
@@ -400,9 +384,8 @@ See
 `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`__
 for regression tests.
 
-<<Anchor(pointer-obfuscation)>>
 
-.. _pointer_obfuscation:
+.. _pointer-obfuscation:
 
 Pointer Obfuscation
 ~~~~~~~~~~~~~~~~~~~
@@ -416,9 +399,8 @@ See
 `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`__
 for regression tests.
 
-<<Anchor(aslr)>>
 
-.. _address_space_layout_randomisation_aslr:
+.. _aslr:
 
 Address Space Layout Randomisation (ASLR)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -435,9 +417,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests for all the different types of ASLR.
 
-<<Anchor(stack-aslr)>>
 
-.. _stack_aslr:
+.. _stack-aslr:
 
 Stack ASLR
 ^^^^^^^^^^
@@ -447,9 +428,8 @@ layout. This makes it harder to locate in memory where to attack or
 deliver an executable attack payload. This was available in the mainline
 kernel since 2.6.15 (Ubuntu 6.06).
 
-<<Anchor(mmap-aslr)>>
 
-.. _libsmmap_aslr:
+.. _mmap-aslr:
 
 Libs/mmap ASLR
 ^^^^^^^^^^^^^^
@@ -460,9 +440,8 @@ different locations each time). This makes it harder to locate in memory
 where to jump to for "return to libc" to similar attacks. This was
 available in the mainline kernel since 2.6.15 (Ubuntu 6.06).
 
-<<Anchor(exec-aslr)>>
 
-.. _exec_aslr:
+.. _exec-aslr:
 
 Exec ASLR
 ^^^^^^^^^
@@ -473,9 +452,8 @@ locate in memory where to attack or jump to when performing
 memory-corruption-based attacks. This was available in the mainline
 kernel since 2.6.25 (and was backported to Ubuntu 8.04 LTS).
 
-<<Anchor(brk-aslr)>>
 
-.. _brk_aslr:
+.. _brk-aslr:
 
 brk ASLR
 ^^^^^^^^
@@ -489,9 +467,8 @@ allocated immediately after the exec region (so it was technically
 randomized, but not randomized with respect to the text region until
 8.10).
 
-<<Anchor(vdso-aslr)>>
 
-.. _vdso_aslr:
+.. _vdso-aslr:
 
 VDSO ASLR
 ^^^^^^^^^
@@ -508,9 +485,8 @@ vdso. People needing ancient pre-libc6 static high vdso mappings can use
 -  https://lwn.net/Articles/184734/
 -  https://articles.manugarg.com/systemcallinlinux2_6.html
 
-<<Anchor(pie)>>
 
-.. _built_as_pie:
+.. _pie:
 
 Built as PIE
 ~~~~~~~~~~~~
@@ -535,9 +511,8 @@ See
 `test-built-binaries.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-built-binaries.py>`__
 for regression tests.
 
-<<Anchor(fortify-source)>>
 
-.. _built_with_fortify_source:
+.. _fortify-source:
 
 Built with Fortify Source
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -558,9 +533,8 @@ See
 `test-gcc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-gcc-security.py>`__
 for regression tests.
 
-<<Anchor(relro)>>
 
-.. _built_with_relro:
+.. _relro:
 
 Built with RELRO
 ~~~~~~~~~~~~~~~~
@@ -574,9 +548,8 @@ See
 `test-gcc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-gcc-security.py>`__
 for regression tests.
 
-<<Anchor(bindnow)>>
 
-.. _built_with_bind_now:
+.. _bindnow:
 
 Built with BIND_NOW
 ~~~~~~~~~~~~~~~~~~~
@@ -589,9 +562,8 @@ See
 `test-built-binaries.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-built-binaries.py>`__
 for regression tests.
 
-<<Anchor(stack-clash-protection)>>
 
-.. _built_with__fstack_clash_protection:
+.. _stack-clash-protection:
 
 Built with -fstack-clash-protection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -607,9 +579,8 @@ See
 `test-built-binaries.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-built-binaries.py>`__
 for regression tests.
 
-<<Anchor(cf-protection)>>
 
-.. _built_with__fcf_protection:
+.. _cf-protection:
 
 Built with -fcf-protection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -621,9 +592,8 @@ See
 `test-built-binaries.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-built-binaries.py>`__
 for regression tests.
 
-<<Anchor(nx)>>
 
-.. _non_executable_memory:
+.. _nx:
 
 Non-Executable Memory
 ~~~~~~~~~~~~~~~~~~~~~
@@ -690,9 +660,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(proc-maps)>>
 
-.. _procpidmaps_protection:
+.. _proc-maps:
 
 /proc/$pid/maps protection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -709,9 +678,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(symlink)>>
 
-.. _symlink_restrictions:
+.. _symlink:
 
 Symlink restrictions
 ~~~~~~~~~~~~~~~~~~~~
@@ -735,9 +703,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(hardlink)>>
 
-.. _hardlink_restrictions:
+.. _hardlink:
 
 Hardlink restrictions
 ~~~~~~~~~~~~~~~~~~~~~
@@ -765,9 +732,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(protected-fifos)>>
 
-.. _fifo_restrictions:
+.. _protected-fifos:
 
 FIFO restrictions
 ~~~~~~~~~~~~~~~~~
@@ -780,9 +746,8 @@ See the `kernel
 admin-guide <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-fifos>`__
 for documentation.
 
-<<Anchor(protected-regular)>>
 
-.. _regular_file_restrictions:
+.. _protected-regular:
 
 Regular file restrictions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -795,9 +760,8 @@ See the `kernel
 admin-guide <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-regular>`__
 for documentation.
 
-<<Anchor(ptrace)>>
 
-.. _ptrace_scope:
+.. _ptrace:
 
 ptrace scope
 ~~~~~~~~~~~~
@@ -824,9 +788,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(kernel-hardening)>>
 
-.. _kernel_hardening:
+.. _kernel-hardening:
 
 Kernel Hardening
 ----------------
@@ -834,9 +797,8 @@ Kernel Hardening
 The kernel itself has protections enabled to make it more difficult to
 become compromised.
 
-<<Anchor(null-mmap)>>
 
-.. _address_protection:
+.. _null-mmap:
 
 0-address protection
 ~~~~~~~~~~~~~~~~~~~~
@@ -852,9 +814,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(dev-mem)>>
 
-.. _devmem_protection:
+.. _dev-mem:
 
 /dev/mem protection
 ~~~~~~~~~~~~~~~~~~~
@@ -870,9 +831,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(dev-kmem)>>
 
-.. _devkmem_disabled:
+.. _dev-kmem:
 
 /dev/kmem disabled
 ~~~~~~~~~~~~~~~~~~
@@ -888,9 +848,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(block-modules)>>
 
-.. _block_module_loading:
+.. _block-modules:
 
 Block module loading
 ~~~~~~~~~~~~~~~~~~~~
@@ -910,9 +869,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(rodata)>>
 
-.. _read_only_data_sections:
+.. _rodata:
 
 Read-only data sections
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -925,9 +883,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(kernel-stack-protector)>>
 
-.. _stack_protector_1:
+.. _kernel-stack-protector:
 
 Stack protector
 ~~~~~~~~~~~~~~~
@@ -940,9 +897,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(module-ronx)>>
 
-.. _module_ronx:
+.. _module-ronx:
 
 Module RO/NX
 ~~~~~~~~~~~~
@@ -956,9 +912,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for configuration regression tests.
 
-<<Anchor(kptr-restrict)>>
 
-.. _kernel_address_display_restriction:
+.. _kptr-restrict:
 
 Kernel Address Display Restriction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -977,9 +932,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(kASLR)>>
 
-.. _kernel_address_space_layout_randomisation:
+.. _kASLR:
 
 Kernel Address Space Layout Randomisation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -998,9 +952,8 @@ line to use kASLR.
 **Note:** Before 16.10, enabling kASLR will disable the ability to enter
 hibernation mode.
 
-<<Anchor(denylist-rare-net)>>
 
-.. _denylist_rare_protocols:
+.. _denylist-rare-net:
 
 Denylist Rare Protocols
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1019,9 +972,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(seccomp-filter)>>
 
-.. _syscall_filtering:
+.. _seccomp-filter:
 
 Syscall Filtering
 ~~~~~~~~~~~~~~~~~
@@ -1036,9 +988,8 @@ See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
 for regression tests.
 
-<<Anchor(dmesg-restrict)>>
 
-.. _dmesg_restrictions:
+.. _dmesg-restrict:
 
 dmesg restrictions
 ~~~~~~~~~~~~~~~~~~
@@ -1050,9 +1001,8 @@ attacker. Starting with Ubuntu 12.04 LTS,
 ``/proc/sys/kernel/dmesg_restrict`` can be set to "1" to treat dmesg
 output as sensitive. Starting with 20.10, this is enabled by default.
 
-<<Anchor(kexec)>>
 
-.. _block_kexec:
+.. _kexec:
 
 Block kexec
 ~~~~~~~~~~~
@@ -1066,9 +1016,8 @@ and modules_disabled are set, for example. When Secure Boot is in use,
 kexec is restricted by default to only load appropriately signed and
 trusted kernels.
 
-<<Anchor(secure-boot)>>
 
-.. _uefi_secure_boot_amd64:
+.. _secure-boot:
 
 UEFI Secure Boot (amd64)
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1084,7 +1033,8 @@ backported for Ubuntu 16.04 LTS and Ubuntu 14.04 LTS (however only with
 kernel signature enforcement for Ubuntu 14.04 LTS, not kernel module
 signature enforcement).
 
-<<Anchor(usbguard)>>
+
+.. _usbguard:
 
 usbguard
 ~~~~~~~~
@@ -1094,7 +1044,8 @@ universe to provide a tool for using the Linux kernel's USB
 authorization support, to control device IDs and device classes that
 will be recognized.
 
-<<Anchor(usbauth)>>
+
+.. _usbauth:
 
 usbauth
 ~~~~~~~
@@ -1104,7 +1055,8 @@ universe to provide a tool for using the Linux kernel's USB
 authorization support, to control device IDs and device classes that
 will be recognized.
 
-<<Anchor(bolt)>>
+
+.. _bolt:
 
 bolt
 ~~~~
@@ -1113,9 +1065,8 @@ Starting with Ubuntu 18.04, the bolt package has been available in main
 to provide a desktop-oriented tool for using the Linux kernel's
 Thunderbolt authorization support.
 
-<<Anchor(thunderbolt-tools)>>
 
-.. _thunderbolt_tools:
+.. _thunderbolt-tools:
 
 thunderbolt-tools
 ~~~~~~~~~~~~~~~~~
@@ -1124,9 +1075,8 @@ Starting with Ubuntu 18.04, the thunderbolt-tools package has been
 available in universe to provide a server-oriented tool for using the
 Linux kernel's Thunderbolt authorization support.
 
-<<Anchor(kernel-lockdown)>>
 
-.. _kernel_lockdown:
+.. _kernel-lockdown:
 
 Kernel Lockdown
 ~~~~~~~~~~~~~~~
@@ -1135,6 +1085,7 @@ Starting with Ubuntu 20.04, the Linux kernel's lockdown mode is enabled
 in integrity mode. This prevents the root account from loading arbitrary
 modules or BPF programs that can manipulate kernel datastructures.
 Lockdown enforcement is tied to UEFI secure boot.
+
 
 .. _additional_documentation:
 
