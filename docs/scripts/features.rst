@@ -1,3 +1,5 @@
+\__NOTOC\_\_
+
 Features
 ========
 
@@ -13,8 +15,8 @@ Configuration
 No Open Ports
 ~~~~~~~~~~~~~
 
-<<Include(SecurityTeam/Policies, , from="== No Open Ports ==",
-to="==")>>
+<<Include(`SecurityTeam <SecurityTeam>`__/Policies, , from="== No Open
+Ports ==", to="==")>>
 
 Testing for this can be done with \`netstat -an --inet \| grep LISTEN \|
 grep -v 127.0.0.1:\` on a fresh install.
@@ -211,7 +213,8 @@ path-based MAC. It can mediate:
 -  ptrace(2) starting with Ubuntu 14.04 LTS
 -  unix(7) abstract and anonymous sockets starting with Ubuntu 14.10
 
-AppArmor is a core technology for application confinement for `Ubuntu
+`AppArmor <AppArmor>`__ is a core technology for application confinement
+for `Ubuntu
 Touch <https://wiki.ubuntu.com/SecurityTeam/Specifications/ApplicationConfinement>`__
 and `Snappy for Ubuntu Core and
 Personal <https://developer.ubuntu.com/en/snappy/guides/security-policy/>`__.
@@ -221,8 +224,8 @@ universe, and by-default shipped `enforcing
 profiles <SecurityTeam/KnowledgeBase/AppArmorProfiles>`__ are being
 built up:
 
-<<Include(SecurityTeam/KnowledgeBase/AppArmorProfiles, , from="===
-Supported profiles in main ===", to="===")>>
+<<Include(`SecurityTeam/KnowledgeBase/AppArmorProfiles <SecurityTeam/KnowledgeBase/AppArmorProfiles>`__,
+, from="=== Supported profiles in main ===", to="===")>>
 
 Starting with Ubuntu 16.10, `AppArmor <AppArmor>`__ can "stack" profiles
 so that the mediation decisions are made using the intersection of
@@ -260,8 +263,8 @@ for regression tests.
 
 <<Anchor(selinux)>>
 
-`SELinux <SELinux>`__
-~~~~~~~~~~~~~~~~~~~~~
+SELinux
+~~~~~~~
 
 `SELinux <SELinux>`__ is an inode-based MAC. Targeted policies are
 available for Ubuntu in universe. Installing the "selinux" package will
@@ -424,14 +427,9 @@ ASLR is implemented by the kernel and the ELF loader by randomising the
 location of memory allocations (stack, heap, shared libraries, etc).
 This makes memory addresses harder to predict when an attacker is
 attempting a memory-corruption exploit. ASLR is controlled system-wide
-by the value of
-
-::
-
-   /proc/sys/kernel/randomize_va_space
-
-. Prior to Ubuntu 8.10, this defaulted to "1" (on). In later releases
-that included brk ASLR, it defaults to "2" (on, with brk ASLR).
+by the value of ``/proc/sys/kernel/randomize_va_space``. Prior to Ubuntu
+8.10, this defaulted to "1" (on). In later releases that included brk
+ASLR, it defaults to "2" (on, with brk ASLR).
 
 See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
@@ -630,144 +628,63 @@ for regression tests.
 Non-Executable Memory
 ~~~~~~~~~~~~~~~~~~~~~
 
-Most modern `CPUs <CPUs>`__ protect against executing non-executable
-memory regions (heap, stack, etc). This is known either as Non-eXecute
-(NX) or eXecute-Disable (XD), and some BIOS manufacturers needlessly
-disable it by default, so check your `BIOS
-Settings <Security/CPUFeatures>`__. This protection reduces the areas an
-attacker can use to perform arbitrary code execution. It requires that
-the kernel use "PAE" addressing (which also allows addressing of
-physical addresses above 3GB). The 64bit and 32bit
-
-::
-
-   -server
-
-and
-
-::
-
-   -generic-pae
-
-kernels are compiled with PAE addressing. Starting in Ubuntu 9.10, this
-protection is partially emulated for processors lacking NX when running
-on a 32bit kernel (built with or without PAE). After booting, you can
-see what NX protection is in effect:
+Most modern CPUs protect against executing non-executable memory regions
+(heap, stack, etc). This is known either as Non-eXecute (NX) or
+eXecute-Disable (XD), and some BIOS manufacturers needlessly disable it
+by default, so check your `BIOS Settings <Security/CPUFeatures>`__. This
+protection reduces the areas an attacker can use to perform arbitrary
+code execution. It requires that the kernel use "PAE" addressing (which
+also allows addressing of physical addresses above 3GB). The 64bit and
+32bit ``-server`` and ``-generic-pae`` kernels are compiled with PAE
+addressing. Starting in Ubuntu 9.10, this protection is partially
+emulated for processors lacking NX when running on a 32bit kernel (built
+with or without PAE). After booting, you can see what NX protection is
+in effect:
 
 -  Hardware-based (via PAE mode):
 
-[ 0.000000] NX (Execute Disable) protection: active
+::
 
-.. raw:: html
-
-   </pre>
+   <nowiki>
+   [    0.000000] NX (Execute Disable) protection: active</nowiki>
 
 -  Partial Emulation (via segment limits):
 
-[ 0.000000] Using x86 segment limits to approximate NX protection
+::
 
-.. raw:: html
-
-   </pre>
+   <nowiki>
+   [    0.000000] Using x86 segment limits to approximate NX protection</nowiki>
 
 If neither are seen, you do not have any NX protections enabled. Check
 your BIOS settings and CPU capabilities. If "nx" shows up in each of the
-"flags" lines in
-
-::
-
-   /proc/cpuinfo
-
-, it is enabled/supported by your hardware (and a PAE kernel is needed
-to actually use it).
+"flags" lines in ``/proc/cpuinfo``, it is enabled/supported by your
+hardware (and a PAE kernel is needed to actually use it).
 
 Starting in Ubuntu 11.04, BIOS NX settings are `ignored by the
 kernel <https://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=ae84739c27b6b3725993202fe02ff35ab86468e1>`__.
 
-\|||||||||\| **Ubuntu 9.04 and earlier** \|\| \||||<rowspan=2> \|||\|
-CPU supports NX \|\| CPU lacks NX \|\| \|\| BIOS enables NX \|\| BIOS
-disables NX \|\| \|\| \||<rowspan=2> i386 \|\|
+===== ========================================
+\     
+\     
+i386  ``|-386``, ``-generic`` kernel (non-PAE)
+\     ``|-server`` kernel (PAE)
+amd64 any kernel (PAE)
+===== ========================================
 
-::
+===== ===========================================
+\     
+\     
+i386  ``|-386``, ``-generic`` kernel (non-PAE)
+\     ``|-server``, ``-generic-pae`` kernel (PAE)
+amd64 any kernel (PAE)
+===== ===========================================
 
-   -386
-
-,
-
-::
-
-   -generic
-
-kernel (non-PAE) \||<#dd0000> nx unsupported \||<#dd0000> nx unsupported
-\||<#dd0000> nx unsupported \|\| \|\|
-
-::
-
-   -server
-
-kernel (PAE) \||<#00dd00> real nx \||<#dd0000> nx unsupported
-\||<#dd0000> nx unsupported \|\| \|\| amd64 \|\| any kernel (PAE)
-\||<#00dd00> real nx \||<#dd0000> nx unsupported \|\| N/A \|\|
-
-\|||||||||\| **Ubuntu 9.10 through 10.10** \|\| \||||<rowspan=2> \|||\|
-CPU supports NX \|\| CPU lacks NX \|\| \|\| BIOS enables NX \|\| BIOS
-disables NX \|\| \|\| \||<rowspan=2> i386 \|\|
-
-::
-
-   -386
-
-,
-
-::
-
-   -generic
-
-kernel (non-PAE) \||<#dddd00> nx-emulation \||<#dddd00> nx-emulation
-\||<#dddd00> nx-emulation \|\| \|\|
-
-::
-
-   -server
-
-,
-
-::
-
-   -generic-pae
-
-kernel (PAE) \||<#00dd00> real nx \||<#dddd00> nx-emulation \||<#dddd00>
-nx-emulation \|\| \|\| amd64 \|\| any kernel (PAE) \||<#00dd00> real nx
-\||<#dd0000> nx unsupported \|\| N/A \|\|
-
-\|||||||||\| **Ubuntu 11.04 and later** \|\| \|||\| \|\| CPU supports NX
-\|\| CPU lacks NX \|\| \||<rowspan=2> i386 \|\|
-
-::
-
-   -386
-
-,
-
-::
-
-   -generic
-
-kernel (non-PAE) \||<#dddd00> nx-emulation \||<#dddd00> nx-emulation
-\|\| \|\|
-
-::
-
-   -server
-
-,
-
-::
-
-   -generic-pae
-
-kernel (PAE) \||<#00dd00> real nx \||<#dddd00> nx-emulation \|\| \|\|
-amd64 \|\| any kernel (PAE) \||<#00dd00> real nx \|\| N/A \|\|
+===== ===========================================
+\     
+i386  ``|-386``, ``-generic`` kernel (non-PAE)
+\     ``|-server``, ``-generic-pae`` kernel (PAE)
+amd64 any kernel (PAE)
+===== ===========================================
 
 See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
@@ -987,13 +904,7 @@ installed. The 2.6.25 Linux kernel (Ubuntu 8.10) changed how bounding
 sets worked, and this functionality disappeared. Starting with Ubuntu
 9.10, it is now `possible to block module
 loading <https://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=3d43321b7015387cfebbe26436d0e9d299162ea1>`__
-again by setting "1" in
-
-::
-
-   /proc/sys/kernel/modules_disabled
-
-.
+again by setting "1" in ``/proc/sys/kernel/modules_disabled``.
 
 See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
@@ -1056,16 +967,11 @@ When attackers try to develop "run anywhere" exploits for kernel
 vulnerabilities, they frequently need to know the location of internal
 kernel structures. By treating kernel addresses as sensitive
 information, those locations are not visible to regular local users.
-Starting with Ubuntu 11.04,
-
-::
-
-   /proc/sys/kernel/kptr_restrict
-
-is set to "1" to block the reporting of known kernel address leaks.
-Additionally, various files and directories were made readable only by
-the root user: \`/boot/vmlinuz*\`, \`/boot/System.map*\`,
-\`/sys/kernel/debug/\`, \`/proc/slabinfo\`
+Starting with Ubuntu 11.04, ``/proc/sys/kernel/kptr_restrict`` is set to
+"1" to block the reporting of known kernel address leaks. Additionally,
+various files and directories were made readable only by the root user:
+\`/boot/vmlinuz*\`, \`/boot/System.map*\`, \`/sys/kernel/debug/\`,
+\`/proc/slabinfo\`
 
 See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
@@ -1100,24 +1006,14 @@ Denylist Rare Protocols
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Normally the kernel allows all network protocols to be autoloaded on
-demand via the
-
-::
-
-   MODULE_ALIAS_NETPROTO(PF_...)
-
-macros. Since many of these protocols are old, rare, or generally of
-little use to the average Ubuntu user and may contain undiscovered
-exploitable vulnerabilities, they have been denylisted since Ubuntu
-11.04. These include: ax25, netrom, x25, rose, decnet, econet, rds, and
-af_802154. If any of the protocols are needed, they can speficially
-loaded via modprobe, or the
-
-::
-
-   /etc/modprobe.d/blacklist-rare-network.conf
-
-file can be updated to remove the denylist entry.
+demand via the ``MODULE_ALIAS_NETPROTO(PF_...)`` macros. Since many of
+these protocols are old, rare, or generally of little use to the average
+Ubuntu user and may contain undiscovered exploitable vulnerabilities,
+they have been denylisted since Ubuntu 11.04. These include: ax25,
+netrom, x25, rose, decnet, econet, rds, and af_802154. If any of the
+protocols are needed, they can speficially loaded via modprobe, or the
+``/etc/modprobe.d/blacklist-rare-network.conf`` file can be updated to
+remove the denylist entry.
 
 See
 `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`__
@@ -1151,13 +1047,8 @@ When attackers try to develop "run anywhere" exploits for
 vulnerabilties, they frequently will use dmesg output. By treating dmesg
 output as sensitive information, this output is not available to the
 attacker. Starting with Ubuntu 12.04 LTS,
-
-::
-
-   /proc/sys/kernel/dmesg_restrict
-
-can be set to "1" to treat dmesg output as sensitive. Starting with
-20.10, this is enabled by default.
+``/proc/sys/kernel/dmesg_restrict`` can be set to "1" to treat dmesg
+output as sensitive. Starting with 20.10, this is enabled by default.
 
 <<Anchor(kexec)>>
 
@@ -1258,6 +1149,4 @@ Additional Documentation
 If you have questions or comments on these features, please `contact the
 security team <SecurityTeam/FAQ#Contact>`__.
 
---------------
-
-CategorySecurityTeam
+`Category:SecurityTeam <Category:SecurityTeam>`__
