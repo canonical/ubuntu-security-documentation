@@ -6,27 +6,131 @@
     },
     {
         "name": "ports",
-        "short": "No Open Ports"
+        "short": "No Open Ports",
+        "matrix": {
+            "dapper": {
+                "status": "policy",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "hashing",
-        "short": "Password hashing"
+        "short": "Password hashing",
+        "matrix": {
+            "dapper": {
+                "status": "md5",
+                "state": "DEFAULT"
+            },
+            "intrepid": {
+                "status": "sha512",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "status": "yescrypt",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "syn-cookies",
-        "short": "SYN cookies"
+        "short": "SYN cookies",
+        "matrix": {
+            "warty": {
+                "status": "kernel",
+                "state": "AVAILABLE"
+            },
+            "jaunty": {
+                "status": "kernel & sysctl",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "unattended-upgrades",
-        "short": "Automatic security updates"
+        "short": "Automatic security updates",
+        "matrix": {
+            "dapper": {
+                "status": "opt-in",
+                "state": "AVAILABLE"
+            },
+            "xenial": {
+                "status": "enabled",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "kernel-livepatches",
-        "short": "Kernel Livepatches"
+        "short": "Kernel Livepatches",
+        "matrix": {
+            "trusty": {
+                "status": "14.04 LTS Kernel",
+                "state": "AVAILABLE"
+            },
+            "utopic": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "xenial": {
+                "status": "16.04 LTS Kernel",
+                "state": "AVAILABLE"
+            },
+            "yakkety": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "bionic": {
+                "status": "18.04 LTS Kernel",
+                "state": "AVAILABLE"
+            },
+            "cosmic": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "disco": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "eoan": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "focal": {
+                "status": "20.04 LTS Kernel",
+                "state": "AVAILABLE"
+            },
+            "groovy": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "jammy": {
+                "status": "22.04 LTS Kernel",
+                "state": "AVAILABLE"
+            },
+            "kinetic": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "noble": {
+                "status": "24.04 LTS Kernel",
+                "state": "AVAILABLE"
+            },
+            "oracular": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            }
+        }
     },
     {
         "name": "disable-legacy-tls",
-        "short": "Disable legacy TLS"
+        "short": "Disable legacy TLS",
+        "matrix": {
+            "focal": {
+                "status": "policy",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "subsystems",
@@ -35,15 +139,41 @@
     },
     {
         "name": "fscaps",
-        "short": "Filesystem Capabilities"
+        "short": "Filesystem Capabilities",
+        "matrix": {
+            "intrepid": {
+                "status": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "trusty": {
+                "status": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "firewall",
-        "short": "Configurable Firewall"
+        "short": "Configurable Firewall",
+        "matrix": {
+            "dapper": {
+                "status": "iptables",
+                "state": "DEFAULT"
+            },
+            "hardy": {
+                "status": "ufw",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "prng-cloud",
-        "short": "Cloud PRNG seed"
+        "short": "Cloud PRNG seed",
+        "matrix": {
+            "trusty": {
+                "status": "pollinate",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "seccomp",
@@ -56,19 +186,167 @@
     },
     {
         "name": "apparmor",
-        "short": "AppArmor"
+        "short": "AppArmor",
+        "matrix": {
+            "feisty": {
+                "status": "2.0 (universe)",
+                "state": "AVAILABLE"
+            },
+            "gutsy": {
+                "status": "2.1",
+                "state": "DEFAULT"
+            },
+            "hardy": {
+                "status": "2.1",
+                "state": "DEFAULT"
+            },
+            "intrepid": {
+                "status": "2.3",
+                "state": "DEFAULT"
+            },
+            "karmic": {
+                "status": "2.3.1",
+                "state": "DEFAULT"
+            },
+            "lucid": {
+                "status": "2.5",
+                "state": "DEFAULT"
+            },
+            "maverick": {
+                "status": "2.5.1",
+                "state": "DEFAULT"
+            },
+            "natty": {
+                "status": "2.6.1",
+                "state": "DEFAULT"
+            },
+            "oneiric": {
+                "status": "2.7.0~beta1",
+                "state": "DEFAULT"
+            },
+            "precise": {
+                "status": "2.7.0",
+                "state": "DEFAULT"
+            },
+            "quantal": {
+                "status": "2.8.0",
+                "state": "DEFAULT"
+            },
+            "raring": {
+                "status": "2.8.0",
+                "state": "DEFAULT"
+            },
+            "saucy": {
+                "status": "2.8.0 (with some v3 backports)",
+                "state": "DEFAULT"
+            },
+            "trusty": {
+                "status": "2.8.95~2430 (with some v3 backports)",
+                "state": "DEFAULT"
+            },
+            "utopic": {
+                "status": "2.8.98",
+                "state": "DEFAULT"
+            },
+            "vivid": {
+                "status": "2.9.1",
+                "state": "DEFAULT"
+            },
+            "wily": {
+                "status": "2.10",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "status": "2.10.95 (2.11 Beta 1)",
+                "state": "DEFAULT"
+            },
+            "yakkety": {
+                "status": "2.10.95 (2.11 Beta 1)",
+                "state": "DEFAULT"
+            },
+            "zesty": {
+                "status": "2.11.0",
+                "state": "DEFAULT"
+            },
+            "artful": {
+                "status": "2.11.0",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "status": "2.12.0",
+                "state": "DEFAULT"
+            },
+            "cosmic": {
+                "status": "2.12.0",
+                "state": "DEFAULT"
+            },
+            "disco": {
+                "status": "2.13.2",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "status": "2.13.3",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "status": "2.13.3",
+                "state": "DEFAULT"
+            },
+            "groovy": {
+                "status": "3.0.0",
+                "state": "DEFAULT"
+            },
+            "hirsute": {
+                "status": "3.0.0",
+                "state": "DEFAULT"
+            },
+            "impish": {
+                "status": "3.0.3",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "status": "3.0.4",
+                "state": "DEFAULT"
+            },
+            "kinetic": {
+                "status": "3.0.7",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "apparmor-unprivileged-userns-restrictions",
-        "short": "AppArmor unprivileged user namespace restrictions"
+        "short": "AppArmor unprivileged user namespace restrictions",
+        "matrix": {
+            "mantic": {
+                "status": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "status": "kernel & userspace",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "selinux",
-        "short": "SELinux"
+        "short": "SELinux",
+        "matrix": {
+            "hardy": {
+                "status": "universe",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "smack",
-        "short": "SMACK"
+        "short": "SMACK",
+        "matrix": {
+            "intrepid": {
+                "status": "kernel",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "encryption",
@@ -77,15 +355,49 @@
     },
     {
         "name": "encrypted-lvm",
-        "short": "Encrypted LVM"
+        "short": "Encrypted LVM",
+        "matrix": {
+            "dapper": {
+                "status": "alt installer",
+                "state": "AVAILABLE"
+            },
+            "quantal": {
+                "status": "main installer",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "encrypted-files",
-        "short": "File Encryption"
+        "short": "File Encryption",
+        "matrix": {
+            "intrepid": {
+                "status": "Encrypted Private in the installer (eCryptfs)",
+                "state": "AVAILABLE"
+            },
+            "jaunty": {
+                "status": "Encrypted Home with filename encryption in the installer (eCryptfs)",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "status": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "status": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "TPM",
-        "short": "Trusted Platform Module"
+        "short": "Trusted Platform Module",
+        "matrix": {
+            "gutsy": {
+                "status": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "userspace-hardening",
@@ -94,15 +406,33 @@
     },
     {
         "name": "stack-protector",
-        "short": "Stack Protector"
+        "short": "Stack Protector",
+        "matrix": {
+            "edgy": {
+                "status": "gcc patch",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "heap-protector",
-        "short": "Heap Protector"
+        "short": "Heap Protector",
+        "matrix": {
+            "dapper": {
+                "status": "glibc",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "pointer-obfuscation",
-        "short": "Pointer Obfuscation"
+        "short": "Pointer Obfuscation",
+        "matrix": {
+            "hardy": {
+                "status": "glibc",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "aslr",
@@ -111,15 +441,41 @@
     },
     {
         "name": "stack-aslr",
-        "short": "Stack ASLR"
+        "short": "Stack ASLR",
+        "matrix": {
+            "dapper": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "mmap-aslr",
-        "short": "Libs/mmap ASLR"
+        "short": "Libs/mmap ASLR",
+        "matrix": {
+            "dapper": {
+                "status": "kernel (i386 only)",
+                "state": "DEFAULT"
+            },
+            "hardy": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "exec-aslr",
-        "short": "Exec ASLR"
+        "short": "Exec ASLR",
+        "matrix": {
+            "hardy": {
+                "status": "kernel (-mm patch)",
+                "state": "DEFAULT"
+            },
+            "intrepid": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "brk-aslr",
