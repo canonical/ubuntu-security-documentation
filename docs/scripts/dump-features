@@ -38,18 +38,10 @@ if opt.editmoin:
     else:
         sys.exit(1)
 
-features = dict()
-
 UNIMPLEMENTED = 0
 AVAILABLE = 1
 DEFAULT = 2
-color = { UNIMPLEMENTED: 'dddddd', AVAILABLE: '98fd98', DEFAULT: '00dd00' }
-
-#features[name]['short']
-#features[name]['desc']
-#features[name]['depth']
-#features[name]['matrix']['dapper']['status'] = 'policy'
-#features[name]['matrix']['dapper']['state'] = AVAILABLE
+color = { "UNIMPLEMENTED": 'dddddd', "AVAILABLE": '98fd98', "DEFAULT": '00dd00' }
 
 # Load the releases list
 with open("releases.json") as f:
@@ -58,216 +50,6 @@ with open("releases.json") as f:
 # Load the features list
 with open("features.json") as f:
     feature_list = json.load(f)
-
-for details in feature_list:
-    features.setdefault(details['name'], dict())
-    for item in details.keys():
-        if item == 'name':
-            continue
-        features[details['name']].setdefault(item, details[item])
-    features[details['name']].setdefault('matrix', dict())
-    for rel in releases:
-        features[details['name']]['matrix'].setdefault(rel["code_name"], dict())
-        features[details['name']]['matrix'][rel["code_name"]].setdefault('status', '--')
-        features[details['name']]['matrix'][rel["code_name"]].setdefault('state',
-                                                            UNIMPLEMENTED)
-
-def add_status(name, release, status, state):
-    overwrite = False
-    for rel in releases:
-        if rel["code_name"] == release:
-            overwrite = True
-        if overwrite:
-            features[name]['matrix'][rel["code_name"]]['status'] = status
-            features[name]['matrix'][rel["code_name"]]['state'] = state
-
-#add_status('ports', 'dapper', 'policy', DEFAULT)
-
-#add_status('hashing', 'dapper', 'md5', DEFAULT)
-#add_status('hashing', 'intrepid', 'sha512', DEFAULT)
-#add_status('hashing', 'jammy', 'yescrypt', DEFAULT)
-
-#add_status('syn-cookies', 'warty', 'kernel', AVAILABLE)
-#add_status('syn-cookies', 'jaunty', 'kernel & sysctl', DEFAULT)
-
-#add_status('unattended-upgrades', 'dapper', 'opt-in', AVAILABLE)
-#add_status('unattended-upgrades', 'xenial', 'enabled', DEFAULT)
-
-# add_status('kernel-livepatches', 'trusty', '14.04 LTS Kernel', AVAILABLE)
-# add_status('kernel-livepatches', 'utopic', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'xenial', '16.04 LTS Kernel', AVAILABLE)
-# add_status('kernel-livepatches', 'yakkety', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'bionic', '18.04 LTS Kernel', AVAILABLE)
-# add_status('kernel-livepatches', 'cosmic', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'disco', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'eoan', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'focal', '20.04 LTS Kernel', AVAILABLE)
-# add_status('kernel-livepatches', 'groovy', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'jammy', '22.04 LTS Kernel', AVAILABLE)
-# add_status('kernel-livepatches', 'kinetic', '--', UNIMPLEMENTED)
-# add_status('kernel-livepatches', 'noble', '24.04 LTS Kernel', AVAILABLE)
-# add_status('kernel-livepatches', 'oracular', '--', UNIMPLEMENTED)
-
-#add_status('disable-legacy-tls', 'focal', 'policy', DEFAULT)
-
-# add_status('apparmor', 'feisty', '2.0 (universe)', AVAILABLE)
-# add_status('apparmor', 'gutsy', '2.1', DEFAULT)
-# add_status('apparmor', 'hardy', '2.1', DEFAULT)
-# add_status('apparmor', 'intrepid', '2.3', DEFAULT)
-# add_status('apparmor', 'karmic', '2.3.1', DEFAULT)
-# add_status('apparmor', 'lucid', '2.5', DEFAULT)
-# add_status('apparmor', 'maverick', '2.5.1', DEFAULT)
-# add_status('apparmor', 'natty', '2.6.1', DEFAULT)
-# add_status('apparmor', 'oneiric', '2.7.0~beta1', DEFAULT)
-# add_status('apparmor', 'precise', '2.7.0', DEFAULT)
-# add_status('apparmor', 'quantal', '2.8.0', DEFAULT)
-# add_status('apparmor', 'raring', '2.8.0', DEFAULT)
-# add_status('apparmor', 'saucy', '2.8.0 (with some v3 backports)', DEFAULT)
-# add_status('apparmor', 'trusty', '2.8.95~2430 (with some v3 backports)', DEFAULT)
-# add_status('apparmor', 'utopic', '2.8.98', DEFAULT)
-# add_status('apparmor', 'vivid', '2.9.1', DEFAULT)
-# add_status('apparmor', 'wily', '2.10', DEFAULT)
-# add_status('apparmor', 'xenial', '2.10.95 (2.11 Beta 1)', DEFAULT)
-# add_status('apparmor', 'yakkety', '2.10.95 (2.11 Beta 1)', DEFAULT)
-# add_status('apparmor', 'zesty', '2.11.0', DEFAULT)
-# add_status('apparmor', 'artful', '2.11.0', DEFAULT)
-# add_status('apparmor', 'bionic', '2.12.0', DEFAULT)
-# add_status('apparmor', 'cosmic', '2.12.0', DEFAULT)
-# add_status('apparmor', 'disco', '2.13.2', DEFAULT)
-# add_status('apparmor', 'eoan', '2.13.3', DEFAULT)
-# add_status('apparmor', 'focal', '2.13.3', DEFAULT)
-# add_status('apparmor', 'groovy', '3.0.0', DEFAULT)
-# add_status('apparmor', 'hirsute', '3.0.0', DEFAULT)
-# add_status('apparmor', 'impish', '3.0.3', DEFAULT)
-# add_status('apparmor', 'jammy', '3.0.4', DEFAULT)
-# add_status('apparmor', 'kinetic', '3.0.7', DEFAULT)
-
-# add_status('apparmor-unprivileged-userns-restrictions', 'mantic', 'kernel & userspace', AVAILABLE)
-# add_status('apparmor-unprivileged-userns-restrictions', 'noble', 'kernel & userspace', DEFAULT)
-
-# add_status('selinux', 'hardy', 'universe', AVAILABLE)
-
-# add_status('smack', 'intrepid', 'kernel', AVAILABLE)
-
-# add_status('fscaps', 'intrepid', 'kernel & userspace', AVAILABLE)
-# add_status('fscaps', 'trusty', 'kernel & userspace (default on server)', DEFAULT)
-
-# add_status('firewall', 'dapper', 'iptables', DEFAULT)
-# add_status('firewall', 'hardy', 'ufw', DEFAULT)
-
-# add_status('prng-cloud', 'trusty', 'pollinate', DEFAULT)
-
-# add_status('encrypted-lvm', 'dapper', 'alt installer', AVAILABLE)
-# add_status('encrypted-lvm', 'quantal', 'main installer', AVAILABLE)
-
-# add_status('encrypted-files', 'intrepid', 'Encrypted Private in the installer (eCryptfs)', AVAILABLE)
-# add_status('encrypted-files', 'jaunty', 'Encrypted Home with filename encryption in the installer (eCryptfs)', AVAILABLE)
-# add_status('encrypted-files', 'bionic', 'Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe', AVAILABLE)
-# add_status('encrypted-files', 'focal', 'ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe', AVAILABLE)
-
-# add_status('TPM', 'gutsy', 'kernel & userspace (tpm-tools)', AVAILABLE)
-
-# add_status('stack-protector', 'edgy', 'gcc patch', DEFAULT)
-
-# add_status('heap-protector', 'dapper', 'glibc', DEFAULT)
-
-# add_status('pointer-obfuscation', 'hardy', 'glibc', DEFAULT)
-
-# add_status('stack-aslr', 'dapper', 'kernel', DEFAULT)
-
-# add_status('mmap-aslr', 'dapper', 'kernel (i386 only)', DEFAULT)
-# add_status('mmap-aslr', 'hardy', 'kernel', DEFAULT)
-
-# add_status('exec-aslr', 'hardy', 'kernel (-mm patch)', DEFAULT)
-# add_status('exec-aslr', 'intrepid', 'kernel', DEFAULT)
-
-# add_status('brk-aslr', 'hardy', 'kernel (exec ASLR)', AVAILABLE)
-# add_status('brk-aslr', 'intrepid', 'kernel', DEFAULT)
-
-# add_status('vdso-aslr', 'hardy', 'kernel', DEFAULT)
-
-# add_status('pie', 'intrepid', 'package list', DEFAULT)
-# add_status('pie', 'xenial', 'gcc patch (s390x), package list for others', DEFAULT)
-# add_status('pie', 'yakkety', 'gcc patch (amd64, ppc64el, s390x), package list for others', DEFAULT)
-
-# add_status('fortify-source', 'intrepid', 'gcc patch', DEFAULT)
-
-# add_status('relro', 'intrepid', 'gcc patch', DEFAULT)
-
-# add_status('bindnow', 'karmic', 'package list', DEFAULT)
-# add_status('bindnow', 'xenial', 'gcc patch (s390x), package list for others', DEFAULT)
-# add_status('bindnow', 'yakkety', 'gcc patch (amd64, ppc64el, s390x), package list for others', DEFAULT)
-
-# add_status('stack-clash-protection', 'eoan', 'gcc patch (i386, amd64, ppc64el, s390x)', DEFAULT)
-# add_status('cf-protection', 'eoan', 'gcc patch (i386, amd64)', DEFAULT)
-
-# add_status('nx', 'dapper', 'PAE only', DEFAULT)
-# add_status('nx', 'karmic', 'PAE, ia32 partial-NX-emulation', DEFAULT)
-
-# add_status('proc-maps', 'hardy', 'kernel & sysctl', DEFAULT)
-# add_status('proc-maps', 'intrepid', 'kernel', DEFAULT)
-
-# add_status('null-mmap', 'hardy', 'kernel & sysctl', DEFAULT)
-# add_status('null-mmap', 'jaunty', 'kernel', DEFAULT)
-
-# add_status('dev-mem', 'dapper', 'kernel', DEFAULT)
-# add_status('dev-mem', 'edgy', '--', UNIMPLEMENTED)
-# add_status('dev-mem', 'hardy', 'kernel (-mm patch)', DEFAULT)
-# add_status('dev-mem', 'intrepid', 'kernel', DEFAULT)
-
-# add_status('dev-kmem', 'hardy', 'kernel (-mm patch)', DEFAULT)
-# add_status('dev-kmem', 'intrepid', 'kernel', DEFAULT)
-
-# add_status('block-modules', 'dapper', 'drop CAP_SYS_MODULES', AVAILABLE)
-# add_status('block-modules', 'intrepid', '--', UNIMPLEMENTED)
-# add_status('block-modules', 'karmic', 'sysctl', AVAILABLE)
-
-# add_status('kernel-lockdown', 'focal', 'integrity only, no confidentiality', DEFAULT)
-
-# add_status('seccomp', 'hardy', 'kernel', AVAILABLE)
-
-# add_status('rodata', 'hardy', 'kernel', DEFAULT)
-
-# add_status('kernel-stack-protector', 'jaunty', 'kernel', DEFAULT)
-
-# add_status('symlink', 'maverick', 'kernel', DEFAULT)
-
-# add_status('hardlink', 'maverick', 'kernel', DEFAULT)
-
-# add_status('ptrace', 'maverick', 'kernel', DEFAULT)
-
-# add_status('kptr-restrict', 'natty', 'kernel', DEFAULT)
-
-# add_status('kASLR', 'utopic', 'kernel (i386 and amd64 only)', AVAILABLE)
-# add_status('kASLR', 'yakkety', 'kernel (i386 and amd64 only)', DEFAULT)
-# add_status('kASLR', 'zesty', 'kernel (i386, amd64, and arm64 only)', DEFAULT)
-# add_status('kASLR', 'eoan', 'kernel (i386, amd64, arm64, and s390 only)', DEFAULT)
-
-# add_status('module-ronx', 'natty', 'kernel', DEFAULT)
-
-# add_status('denylist-rare-net', 'natty', 'kernel', DEFAULT)
-
-# add_status('seccomp-filter', 'oneiric', 'kernel', AVAILABLE)
-
-# add_status('dmesg-restrict', 'precise', 'sysctl', AVAILABLE)
-# add_status('dmesg-restrict', 'groovy', 'kernel', DEFAULT)
-
-# add_status('kexec', 'trusty', 'sysctl', AVAILABLE)
-
-# add_status('secure-boot', 'precise', 'amd64, kernel fallback', AVAILABLE)
-# add_status('secure-boot', 'bionic', 'amd64, kernel signature enforcement', DEFAULT)
-
-# add_status('protected-fifos', 'disco', 'kernel & sysctl', AVAILABLE)
-# add_status('protected-fifos', 'focal', 'kernel & sysctl', DEFAULT)
-# add_status('protected-regular', 'disco', 'kernel & sysctl', AVAILABLE)
-# add_status('protected-regular', 'focal', 'kernel & sysctl', DEFAULT)
-
-# add_status('usbguard', 'yakkety', 'kernel & userspace', AVAILABLE)
-# add_status('usbauth', 'bionic', 'kernel & userspace', AVAILABLE)
-
-# add_status('bolt', 'bionic', 'kernel & userspace', DEFAULT)
-# add_status('thunderbolt-tools', 'bionic', 'kernel & userspace', AVAILABLE)
-
 
 
 target.write('''
@@ -290,18 +72,29 @@ for rel in releases:
     target.write('%-20s\'\'\' ||' % (name))
 target.write("\n")
 
-for details in feature_list:
-    if 'section' in details:
+for feature in feature_list:
+    if 'section' in feature:
         continue
 
-    name = details['name']
-    target.write('|| [[#%s|%20s]] ||' % (name, features[name]['short']))
+    name = feature['name']
+    short = feature['short']
+    matrix = feature["matrix"]
+
+    target.write('|| [[#%s|%20s]] ||' % (name, short))
+
+    feature_default = {"state": "UNIMPLEMENTED", "status": "--"}
+    current_development = feature_default
 
     for rel in releases:
+        item = matrix.get(rel["code_name"])
+
+        if item is not None:
+            current_development = item
+
         if not opt.historical and rel["is_eol"]:
             continue
-        item = features[name]['matrix'][rel["code_name"]]
-        target.write('<#%s> %-20s ||' % (color[item['state']], item['status']))
+        else:
+            target.write('<#%s> %-20s ||' % (color[current_development['state']], current_development['status']))
     target.write('\n')
 
 target.write('''
