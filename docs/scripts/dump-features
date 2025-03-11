@@ -9,6 +9,7 @@
 
 import argparse
 from enum import Enum
+from io import TextIOWrapper
 import json
 import sys
 
@@ -36,7 +37,7 @@ def args_from_cli() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
                     prog=NAME,
                     description=DESCRIPTION)
-    
+
     parser.add_argument(
         '-H',
         '--historical',
@@ -49,6 +50,20 @@ def args_from_cli() -> argparse.Namespace:
         nargs='?',
         type=argparse.FileType('w'),
         default=sys.stdout)
+    parser.add_argument(
+        '-r',
+        '--releases',
+        help="Read release data from this file; by default releases.json",
+        nargs='?',
+        type=argparse.FileType('r'),
+        default="releases.json")
+    parser.add_argument(
+        '-f',
+        '--features',
+        help="Read feature data from this file; by default features.json",
+        nargs='?',
+        type=argparse.FileType('r'),
+        default="features.json")
 
     return parser.parse_args()
 
@@ -73,12 +88,11 @@ class Release(BaseModel):
         """
         return self.human_name.replace("Ubuntu ", "")
 
-def load_releases() -> list[Release]:
+def load_releases(file: TextIOWrapper) -> list[Release]:
     """
     Load the releases list
     """
-    with open("releases.json") as f:
-        raw_releases = json.load(f)
+    raw_releases = json.load(file)
 
     try:
         releases = [Release(**r) for r in raw_releases]
@@ -112,13 +126,12 @@ class Feature(BaseModel):
     section: bool = Field(default=False)
     changes: dict[str, Implementation] = Field(default={})
 
-def load_features() -> list[Feature]:
+def load_features(file: TextIOWrapper) -> list[Feature]:
     """
     Load the features list
     """
-    with open("features.json") as f:
-        raw_features = json.load(f)
-    
+    raw_features = json.load(file)
+
     try:
         features = [Feature(**f) for f in raw_features]
         return features
@@ -139,7 +152,7 @@ def table_row(cells: list[str]) -> str:
             first_cell = False
         else:
             out += f"     - {cell}\n"
-    
+
     return out
 
 INITIAL_HEADER = '''
@@ -222,7 +235,7 @@ def feature_row(feature: Feature):
         else:
             cell = cell_with_markup(current_development)
             cells.append(cell)
-    
+
     args.output.write(table_row(cells))
     args.output.write('\n')
 
@@ -230,9 +243,9 @@ def feature_row(feature: Feature):
 if __name__ == "__main__":
     args = args_from_cli()
 
-    releases = load_releases()
+    releases = load_releases(args.releases)
 
-    features = load_features()
+    features = load_features(args.features)
 
     page_header()
 
