@@ -12,7 +12,7 @@ from enum import Enum
 import json
 import sys
 
-from pydantic import BaseModel, Field, PositiveInt, ValidationError
+from pydantic import BaseModel, Field, ValidationError
 
 NAME = 'dump-features'
 DESCRIPTION = '''
