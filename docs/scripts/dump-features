@@ -12,19 +12,25 @@ from enum import Enum
 import json
 import sys
 
-from pydantic import BaseModel, Field, ValidationError
+def eprint(*args, **kwargs):
+    """
+    Print to stderr
+    """
+    print(*args, file=sys.stderr, **kwargs)
+
+try:
+    from pydantic import BaseModel, Field, ValidationError
+except ModuleNotFoundError:
+    eprint("Please install the Pydantic Python library.")
+    eprint("On Ubuntu and Debian:")
+    eprint("$ sudo apt install python3-pydantic")
+    sys.exit(1)
 
 NAME = 'dump-features'
 DESCRIPTION = '''
 This program generates a table with ReStructuredText markup that lists
 Ubuntu security features and their status in various Ubuntu releases.
 '''
-
-def eprint(*args, **kwargs):
-    """
-    Print to stderr
-    """
-    print(*args, file=sys.stderr, **kwargs)
 
 def args_from_cli() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
