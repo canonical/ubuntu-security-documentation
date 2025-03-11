@@ -181,92 +181,92 @@ def add_status(name, release, status, state):
 # add_status('exec-aslr', 'hardy', 'kernel (-mm patch)', DEFAULT)
 # add_status('exec-aslr', 'intrepid', 'kernel', DEFAULT)
 
-add_status('brk-aslr', 'hardy', 'kernel (exec ASLR)', AVAILABLE)
-add_status('brk-aslr', 'intrepid', 'kernel', DEFAULT)
+# add_status('brk-aslr', 'hardy', 'kernel (exec ASLR)', AVAILABLE)
+# add_status('brk-aslr', 'intrepid', 'kernel', DEFAULT)
 
-add_status('vdso-aslr', 'hardy', 'kernel', DEFAULT)
+# add_status('vdso-aslr', 'hardy', 'kernel', DEFAULT)
 
-add_status('pie', 'intrepid', 'package list', DEFAULT)
-add_status('pie', 'xenial', 'gcc patch (s390x), package list for others', DEFAULT)
-add_status('pie', 'yakkety', 'gcc patch (amd64, ppc64el, s390x), package list for others', DEFAULT)
+# add_status('pie', 'intrepid', 'package list', DEFAULT)
+# add_status('pie', 'xenial', 'gcc patch (s390x), package list for others', DEFAULT)
+# add_status('pie', 'yakkety', 'gcc patch (amd64, ppc64el, s390x), package list for others', DEFAULT)
 
-add_status('fortify-source', 'intrepid', 'gcc patch', DEFAULT)
+# add_status('fortify-source', 'intrepid', 'gcc patch', DEFAULT)
 
-add_status('relro', 'intrepid', 'gcc patch', DEFAULT)
+# add_status('relro', 'intrepid', 'gcc patch', DEFAULT)
 
-add_status('bindnow', 'karmic', 'package list', DEFAULT)
-add_status('bindnow', 'xenial', 'gcc patch (s390x), package list for others', DEFAULT)
-add_status('bindnow', 'yakkety', 'gcc patch (amd64, ppc64el, s390x), package list for others', DEFAULT)
+# add_status('bindnow', 'karmic', 'package list', DEFAULT)
+# add_status('bindnow', 'xenial', 'gcc patch (s390x), package list for others', DEFAULT)
+# add_status('bindnow', 'yakkety', 'gcc patch (amd64, ppc64el, s390x), package list for others', DEFAULT)
 
-add_status('stack-clash-protection', 'eoan', 'gcc patch (i386, amd64, ppc64el, s390x)', DEFAULT)
-add_status('cf-protection', 'eoan', 'gcc patch (i386, amd64)', DEFAULT)
+# add_status('stack-clash-protection', 'eoan', 'gcc patch (i386, amd64, ppc64el, s390x)', DEFAULT)
+# add_status('cf-protection', 'eoan', 'gcc patch (i386, amd64)', DEFAULT)
 
-add_status('nx', 'dapper', 'PAE only', DEFAULT)
-add_status('nx', 'karmic', 'PAE, ia32 partial-NX-emulation', DEFAULT)
+# add_status('nx', 'dapper', 'PAE only', DEFAULT)
+# add_status('nx', 'karmic', 'PAE, ia32 partial-NX-emulation', DEFAULT)
 
-add_status('proc-maps', 'hardy', 'kernel & sysctl', DEFAULT)
-add_status('proc-maps', 'intrepid', 'kernel', DEFAULT)
+# add_status('proc-maps', 'hardy', 'kernel & sysctl', DEFAULT)
+# add_status('proc-maps', 'intrepid', 'kernel', DEFAULT)
 
-add_status('null-mmap', 'hardy', 'kernel & sysctl', DEFAULT)
-add_status('null-mmap', 'jaunty', 'kernel', DEFAULT)
+# add_status('null-mmap', 'hardy', 'kernel & sysctl', DEFAULT)
+# add_status('null-mmap', 'jaunty', 'kernel', DEFAULT)
 
-add_status('dev-mem', 'dapper', 'kernel', DEFAULT)
-add_status('dev-mem', 'edgy', '--', UNIMPLEMENTED)
-add_status('dev-mem', 'hardy', 'kernel (-mm patch)', DEFAULT)
-add_status('dev-mem', 'intrepid', 'kernel', DEFAULT)
+# add_status('dev-mem', 'dapper', 'kernel', DEFAULT)
+# add_status('dev-mem', 'edgy', '--', UNIMPLEMENTED)
+# add_status('dev-mem', 'hardy', 'kernel (-mm patch)', DEFAULT)
+# add_status('dev-mem', 'intrepid', 'kernel', DEFAULT)
 
-add_status('dev-kmem', 'hardy', 'kernel (-mm patch)', DEFAULT)
-add_status('dev-kmem', 'intrepid', 'kernel', DEFAULT)
+# add_status('dev-kmem', 'hardy', 'kernel (-mm patch)', DEFAULT)
+# add_status('dev-kmem', 'intrepid', 'kernel', DEFAULT)
 
-add_status('block-modules', 'dapper', 'drop CAP_SYS_MODULES', AVAILABLE)
-add_status('block-modules', 'intrepid', '--', UNIMPLEMENTED)
-add_status('block-modules', 'karmic', 'sysctl', AVAILABLE)
+# add_status('block-modules', 'dapper', 'drop CAP_SYS_MODULES', AVAILABLE)
+# add_status('block-modules', 'intrepid', '--', UNIMPLEMENTED)
+# add_status('block-modules', 'karmic', 'sysctl', AVAILABLE)
 
-add_status('kernel-lockdown', 'focal', 'integrity only, no confidentiality', DEFAULT)
+# add_status('kernel-lockdown', 'focal', 'integrity only, no confidentiality', DEFAULT)
 
-add_status('seccomp', 'hardy', 'kernel', AVAILABLE)
+# add_status('seccomp', 'hardy', 'kernel', AVAILABLE)
 
-add_status('rodata', 'hardy', 'kernel', DEFAULT)
+# add_status('rodata', 'hardy', 'kernel', DEFAULT)
 
-add_status('kernel-stack-protector', 'jaunty', 'kernel', DEFAULT)
+# add_status('kernel-stack-protector', 'jaunty', 'kernel', DEFAULT)
 
-add_status('symlink', 'maverick', 'kernel', DEFAULT)
+# add_status('symlink', 'maverick', 'kernel', DEFAULT)
 
-add_status('hardlink', 'maverick', 'kernel', DEFAULT)
+# add_status('hardlink', 'maverick', 'kernel', DEFAULT)
 
-add_status('ptrace', 'maverick', 'kernel', DEFAULT)
+# add_status('ptrace', 'maverick', 'kernel', DEFAULT)
 
-add_status('kptr-restrict', 'natty', 'kernel', DEFAULT)
+# add_status('kptr-restrict', 'natty', 'kernel', DEFAULT)
 
-add_status('kASLR', 'utopic', 'kernel (i386 and amd64 only)', AVAILABLE)
-add_status('kASLR', 'yakkety', 'kernel (i386 and amd64 only)', DEFAULT)
-add_status('kASLR', 'zesty', 'kernel (i386, amd64, and arm64 only)', DEFAULT)
-add_status('kASLR', 'eoan', 'kernel (i386, amd64, arm64, and s390 only)', DEFAULT)
+# add_status('kASLR', 'utopic', 'kernel (i386 and amd64 only)', AVAILABLE)
+# add_status('kASLR', 'yakkety', 'kernel (i386 and amd64 only)', DEFAULT)
+# add_status('kASLR', 'zesty', 'kernel (i386, amd64, and arm64 only)', DEFAULT)
+# add_status('kASLR', 'eoan', 'kernel (i386, amd64, arm64, and s390 only)', DEFAULT)
 
-add_status('module-ronx', 'natty', 'kernel', DEFAULT)
+# add_status('module-ronx', 'natty', 'kernel', DEFAULT)
 
-add_status('denylist-rare-net', 'natty', 'kernel', DEFAULT)
+# add_status('denylist-rare-net', 'natty', 'kernel', DEFAULT)
 
-add_status('seccomp-filter', 'oneiric', 'kernel', AVAILABLE)
+# add_status('seccomp-filter', 'oneiric', 'kernel', AVAILABLE)
 
-add_status('dmesg-restrict', 'precise', 'sysctl', AVAILABLE)
-add_status('dmesg-restrict', 'groovy', 'kernel', DEFAULT)
+# add_status('dmesg-restrict', 'precise', 'sysctl', AVAILABLE)
+# add_status('dmesg-restrict', 'groovy', 'kernel', DEFAULT)
 
-add_status('kexec', 'trusty', 'sysctl', AVAILABLE)
+# add_status('kexec', 'trusty', 'sysctl', AVAILABLE)
 
-add_status('secure-boot', 'precise', 'amd64, kernel fallback', AVAILABLE)
-add_status('secure-boot', 'bionic', 'amd64, kernel signature enforcement', DEFAULT)
+# add_status('secure-boot', 'precise', 'amd64, kernel fallback', AVAILABLE)
+# add_status('secure-boot', 'bionic', 'amd64, kernel signature enforcement', DEFAULT)
 
-add_status('protected-fifos', 'disco', 'kernel & sysctl', AVAILABLE)
-add_status('protected-fifos', 'focal', 'kernel & sysctl', DEFAULT)
-add_status('protected-regular', 'disco', 'kernel & sysctl', AVAILABLE)
-add_status('protected-regular', 'focal', 'kernel & sysctl', DEFAULT)
+# add_status('protected-fifos', 'disco', 'kernel & sysctl', AVAILABLE)
+# add_status('protected-fifos', 'focal', 'kernel & sysctl', DEFAULT)
+# add_status('protected-regular', 'disco', 'kernel & sysctl', AVAILABLE)
+# add_status('protected-regular', 'focal', 'kernel & sysctl', DEFAULT)
 
-add_status('usbguard', 'yakkety', 'kernel & userspace', AVAILABLE)
-add_status('usbauth', 'bionic', 'kernel & userspace', AVAILABLE)
+# add_status('usbguard', 'yakkety', 'kernel & userspace', AVAILABLE)
+# add_status('usbauth', 'bionic', 'kernel & userspace', AVAILABLE)
 
-add_status('bolt', 'bionic', 'kernel & userspace', DEFAULT)
-add_status('thunderbolt-tools', 'bionic', 'kernel & userspace', AVAILABLE)
+# add_status('bolt', 'bionic', 'kernel & userspace', DEFAULT)
+# add_status('thunderbolt-tools', 'bionic', 'kernel & userspace', AVAILABLE)
 
 
 

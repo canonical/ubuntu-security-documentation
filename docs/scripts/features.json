@@ -177,7 +177,13 @@
     },
     {
         "name": "seccomp",
-        "short": "PR_SET_SECCOMP"
+        "short": "PR_SET_SECCOMP",
+        "matrix": {
+            "hardy": {
+                "status": "kernel",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "mac",
@@ -479,63 +485,189 @@
     },
     {
         "name": "brk-aslr",
-        "short": "brk ASLR"
+        "short": "brk ASLR",
+        "matrix": {
+            "hardy": {
+                "status": "kernel (exec ASLR)",
+                "state": "AVAILABLE"
+            },
+            "intrepid": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "vdso-aslr",
-        "short": "VDSO ASLR"
+        "short": "VDSO ASLR",
+        "matrix": {
+            "hardy": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "pie",
-        "short": "Built as PIE"
+        "short": "Built as PIE",
+        "matrix": {
+            "intrepid": {
+                "status": "package list",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "status": "gcc patch (s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "yakkety": {
+                "status": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "fortify-source",
-        "short": "Built with Fortify Source"
+        "short": "Built with Fortify Source",
+        "matrix": {
+            "intrepid": {
+                "status": "gcc patch",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "relro",
-        "short": "Built with RELRO"
+        "short": "Built with RELRO",
+        "matrix": {
+            "intrepid": {
+                "status": "gcc patch",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "bindnow",
-        "short": "Built with BIND_NOW"
+        "short": "Built with BIND_NOW",
+        "matrix": {
+            "karmic": {
+                "status": "package list",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "status": "gcc patch (s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "yakkety": {
+                "status": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "stack-clash-protection",
-        "short": "Built with -fstack-clash-protection"
+        "short": "Built with -fstack-clash-protection",
+        "matrix": {
+            "eoan": {
+                "status": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "cf-protection",
-        "short": "Built with -fcf-protection"
+        "short": "Built with -fcf-protection",
+        "matrix": {
+            "eoan": {
+                "status": "gcc patch (i386, amd64)",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "nx",
-        "short": "Non-Executable Memory"
+        "short": "Non-Executable Memory",
+        "matrix": {
+            "dapper": {
+                "status": "PAE only",
+                "state": "DEFAULT"
+            },
+            "karmic": {
+                "status": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "proc-maps",
-        "short": "/proc/$pid/maps protection"
+        "short": "/proc/$pid/maps protection",
+        "matrix": {
+            "hardy": {
+                "status": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "intrepid": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "symlink",
-        "short": "Symlink restrictions"
+        "short": "Symlink restrictions",
+        "matrix": {
+            "maverick": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "hardlink",
-        "short": "Hardlink restrictions"
+        "short": "Hardlink restrictions",
+        "matrix": {
+            "maverick": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "protected-fifos",
-        "short": "FIFO restrictions"
+        "short": "FIFO restrictions",
+        "matrix": {
+            "disco": {
+                "status": "kernel & sysctl",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "status": "kernel & sysctl",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "protected-regular",
-        "short": "Regular file restrictions"
+        "short": "Regular file restrictions",
+        "matrix": {
+            "disco": {
+                "status": "kernel & sysctl",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "status": "kernel & sysctl",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "ptrace",
-        "short": "ptrace scope"
+        "short": "ptrace scope",
+        "matrix": {
+            "maverick": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "kernel-hardening",
@@ -544,78 +676,240 @@
     },
     {
         "name": "null-mmap",
-        "short": "0-address protection"
+        "short": "0-address protection",
+        "matrix": {
+            "hardy": {
+                "status": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "jaunty": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "dev-mem",
-        "short": "/dev/mem protection"
+        "short": "/dev/mem protection",
+        "matrix": {
+            "dapper": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            },
+            "edgy": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "hardy": {
+                "status": "kernel (-mm patch)",
+                "state": "DEFAULT"
+            },
+            "intrepid": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "dev-kmem",
-        "short": "/dev/kmem disabled"
+        "short": "/dev/kmem disabled",
+        "matrix": {
+            "hardy": {
+                "status": "kernel (-mm patch)",
+                "state": "DEFAULT"
+            },
+            "intrepid": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "block-modules",
-        "short": "Block module loading"
+        "short": "Block module loading",
+        "matrix": {
+            "dapper": {
+                "status": "drop CAP_SYS_MODULES",
+                "state": "AVAILABLE"
+            },
+            "intrepid": {
+                "status": "--",
+                "state": "UNIMPLEMENTED"
+            },
+            "karmic": {
+                "status": "sysctl",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "rodata",
-        "short": "Read-only data sections"
+        "short": "Read-only data sections",
+        "matrix": {
+            "hardy": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "kernel-stack-protector",
-        "short": "Stack protector"
+        "short": "Stack protector",
+        "matrix": {
+            "jaunty": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "module-ronx",
-        "short": "Module RO/NX"
+        "short": "Module RO/NX",
+        "matrix": {
+            "natty": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "kptr-restrict",
-        "short": "Kernel Address Display Restriction"
+        "short": "Kernel Address Display Restriction",
+        "matrix": {
+            "natty": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "kASLR",
-        "short": "Kernel Address Space Layout Randomisation"
+        "short": "Kernel Address Space Layout Randomisation",
+        "matrix": {
+            "utopic": {
+                "status": "kernel (i386 and amd64 only)",
+                "state": "AVAILABLE"
+            },
+            "yakkety": {
+                "status": "kernel (i386 and amd64 only)",
+                "state": "DEFAULT"
+            },
+            "zesty": {
+                "status": "kernel (i386, amd64, and arm64 only)",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "status": "kernel (i386, amd64, arm64, and s390 only)",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "denylist-rare-net",
-        "short": "Denylist Rare Protocols"
+        "short": "Denylist Rare Protocols",
+        "matrix": {
+            "natty": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "seccomp-filter",
-        "short": "Syscall Filtering"
+        "short": "Syscall Filtering",
+        "matrix": {
+            "oneiric": {
+                "status": "kernel",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "dmesg-restrict",
-        "short": "dmesg restrictions"
+        "short": "dmesg restrictions",
+        "matrix": {
+            "precise": {
+                "status": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "groovy": {
+                "status": "kernel",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "kexec",
-        "short": "Block kexec"
+        "short": "Block kexec",
+        "matrix": {
+            "trusty": {
+                "status": "sysctl",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "secure-boot",
-        "short": "UEFI Secure Boot (amd64)"
+        "short": "UEFI Secure Boot (amd64)",
+        "matrix": {
+            "precise": {
+                "status": "amd64, kernel fallback",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "status": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "usbguard",
-        "short": "usbguard"
+        "short": "usbguard",
+        "matrix": {
+            "yakkety": {
+                "status": "kernel & userspace",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "usbauth",
-        "short": "usbauth"
+        "short": "usbauth",
+        "matrix": {
+            "bionic": {
+                "status": "kernel & userspace",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "bolt",
-        "short": "bolt"
+        "short": "bolt",
+        "matrix": {
+            "bionic": {
+                "status": "kernel & userspace",
+                "state": "DEFAULT"
+            }
+        }
     },
     {
         "name": "thunderbolt-tools",
-        "short": "thunderbolt-tools"
+        "short": "thunderbolt-tools",
+        "matrix": {
+            "bionic": {
+                "status": "kernel & userspace",
+                "state": "AVAILABLE"
+            }
+        }
     },
     {
         "name": "kernel-lockdown",
-        "short": "Kernel Lockdown"
+        "short": "Kernel Lockdown",
+        "matrix": {
+            "focal": {
+                "status": "integrity only, no confidentiality",
+                "state": "DEFAULT"
+            }
+        }
     }
 ]
