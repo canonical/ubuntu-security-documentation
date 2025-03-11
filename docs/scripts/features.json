@@ -1,913 +1,913 @@
 [
     {
         "name": "configuration",
-        "short": "Configuration",
+        "label": "Configuration",
         "section": 1
     },
     {
         "name": "ports",
-        "short": "No Open Ports",
-        "matrix": {
+        "label": "No Open Ports",
+        "changes": {
             "dapper": {
-                "status": "policy",
+                "comment": "policy",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "hashing",
-        "short": "Password hashing",
-        "matrix": {
+        "label": "Password hashing",
+        "changes": {
             "dapper": {
-                "status": "md5",
+                "comment": "md5",
                 "state": "DEFAULT"
             },
             "intrepid": {
-                "status": "sha512",
+                "comment": "sha512",
                 "state": "DEFAULT"
             },
             "jammy": {
-                "status": "yescrypt",
+                "comment": "yescrypt",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "syn-cookies",
-        "short": "SYN cookies",
-        "matrix": {
+        "label": "SYN cookies",
+        "changes": {
             "warty": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "AVAILABLE"
             },
             "jaunty": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "unattended-upgrades",
-        "short": "Automatic security updates",
-        "matrix": {
+        "label": "Automatic security updates",
+        "changes": {
             "dapper": {
-                "status": "opt-in",
+                "comment": "opt-in",
                 "state": "AVAILABLE"
             },
             "xenial": {
-                "status": "enabled",
+                "comment": "enabled",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "kernel-livepatches",
-        "short": "Kernel Livepatches",
-        "matrix": {
+        "label": "Kernel Livepatches",
+        "changes": {
             "trusty": {
-                "status": "14.04 LTS Kernel",
+                "comment": "14.04 LTS Kernel",
                 "state": "AVAILABLE"
             },
             "utopic": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "xenial": {
-                "status": "16.04 LTS Kernel",
+                "comment": "16.04 LTS Kernel",
                 "state": "AVAILABLE"
             },
             "yakkety": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "bionic": {
-                "status": "18.04 LTS Kernel",
+                "comment": "18.04 LTS Kernel",
                 "state": "AVAILABLE"
             },
             "cosmic": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "disco": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "eoan": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "focal": {
-                "status": "20.04 LTS Kernel",
+                "comment": "20.04 LTS Kernel",
                 "state": "AVAILABLE"
             },
             "groovy": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "jammy": {
-                "status": "22.04 LTS Kernel",
+                "comment": "22.04 LTS Kernel",
                 "state": "AVAILABLE"
             },
             "kinetic": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "noble": {
-                "status": "24.04 LTS Kernel",
+                "comment": "24.04 LTS Kernel",
                 "state": "AVAILABLE"
             },
             "oracular": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             }
         }
     },
     {
         "name": "disable-legacy-tls",
-        "short": "Disable legacy TLS",
-        "matrix": {
+        "label": "Disable legacy TLS",
+        "changes": {
             "focal": {
-                "status": "policy",
+                "comment": "policy",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "subsystems",
-        "short": "Subsystems",
+        "label": "Subsystems",
         "section": 1
     },
     {
         "name": "fscaps",
-        "short": "Filesystem Capabilities",
-        "matrix": {
+        "label": "Filesystem Capabilities",
+        "changes": {
             "intrepid": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             },
             "trusty": {
-                "status": "kernel & userspace (default on server)",
+                "comment": "kernel & userspace (default on server)",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "firewall",
-        "short": "Configurable Firewall",
-        "matrix": {
+        "label": "Configurable Firewall",
+        "changes": {
             "dapper": {
-                "status": "iptables",
+                "comment": "iptables",
                 "state": "DEFAULT"
             },
             "hardy": {
-                "status": "ufw",
+                "comment": "ufw",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "prng-cloud",
-        "short": "Cloud PRNG seed",
-        "matrix": {
+        "label": "Cloud PRNG seed",
+        "changes": {
             "trusty": {
-                "status": "pollinate",
+                "comment": "pollinate",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "seccomp",
-        "short": "PR_SET_SECCOMP",
-        "matrix": {
+        "label": "PR_SET_SECCOMP",
+        "changes": {
             "hardy": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "mac",
-        "short": "Mandatory Access Control (MAC)",
+        "label": "Mandatory Access Control (MAC)",
         "section": 1
     },
     {
         "name": "apparmor",
-        "short": "AppArmor",
-        "matrix": {
+        "label": "AppArmor",
+        "changes": {
             "feisty": {
-                "status": "2.0 (universe)",
+                "comment": "2.0 (universe)",
                 "state": "AVAILABLE"
             },
             "gutsy": {
-                "status": "2.1",
+                "comment": "2.1",
                 "state": "DEFAULT"
             },
             "hardy": {
-                "status": "2.1",
+                "comment": "2.1",
                 "state": "DEFAULT"
             },
             "intrepid": {
-                "status": "2.3",
+                "comment": "2.3",
                 "state": "DEFAULT"
             },
             "karmic": {
-                "status": "2.3.1",
+                "comment": "2.3.1",
                 "state": "DEFAULT"
             },
             "lucid": {
-                "status": "2.5",
+                "comment": "2.5",
                 "state": "DEFAULT"
             },
             "maverick": {
-                "status": "2.5.1",
+                "comment": "2.5.1",
                 "state": "DEFAULT"
             },
             "natty": {
-                "status": "2.6.1",
+                "comment": "2.6.1",
                 "state": "DEFAULT"
             },
             "oneiric": {
-                "status": "2.7.0~beta1",
+                "comment": "2.7.0~beta1",
                 "state": "DEFAULT"
             },
             "precise": {
-                "status": "2.7.0",
+                "comment": "2.7.0",
                 "state": "DEFAULT"
             },
             "quantal": {
-                "status": "2.8.0",
+                "comment": "2.8.0",
                 "state": "DEFAULT"
             },
             "raring": {
-                "status": "2.8.0",
+                "comment": "2.8.0",
                 "state": "DEFAULT"
             },
             "saucy": {
-                "status": "2.8.0 (with some v3 backports)",
+                "comment": "2.8.0 (with some v3 backports)",
                 "state": "DEFAULT"
             },
             "trusty": {
-                "status": "2.8.95~2430 (with some v3 backports)",
+                "comment": "2.8.95~2430 (with some v3 backports)",
                 "state": "DEFAULT"
             },
             "utopic": {
-                "status": "2.8.98",
+                "comment": "2.8.98",
                 "state": "DEFAULT"
             },
             "vivid": {
-                "status": "2.9.1",
+                "comment": "2.9.1",
                 "state": "DEFAULT"
             },
             "wily": {
-                "status": "2.10",
+                "comment": "2.10",
                 "state": "DEFAULT"
             },
             "xenial": {
-                "status": "2.10.95 (2.11 Beta 1)",
+                "comment": "2.10.95 (2.11 Beta 1)",
                 "state": "DEFAULT"
             },
             "yakkety": {
-                "status": "2.10.95 (2.11 Beta 1)",
+                "comment": "2.10.95 (2.11 Beta 1)",
                 "state": "DEFAULT"
             },
             "zesty": {
-                "status": "2.11.0",
+                "comment": "2.11.0",
                 "state": "DEFAULT"
             },
             "artful": {
-                "status": "2.11.0",
+                "comment": "2.11.0",
                 "state": "DEFAULT"
             },
             "bionic": {
-                "status": "2.12.0",
+                "comment": "2.12.0",
                 "state": "DEFAULT"
             },
             "cosmic": {
-                "status": "2.12.0",
+                "comment": "2.12.0",
                 "state": "DEFAULT"
             },
             "disco": {
-                "status": "2.13.2",
+                "comment": "2.13.2",
                 "state": "DEFAULT"
             },
             "eoan": {
-                "status": "2.13.3",
+                "comment": "2.13.3",
                 "state": "DEFAULT"
             },
             "focal": {
-                "status": "2.13.3",
+                "comment": "2.13.3",
                 "state": "DEFAULT"
             },
             "groovy": {
-                "status": "3.0.0",
+                "comment": "3.0.0",
                 "state": "DEFAULT"
             },
             "hirsute": {
-                "status": "3.0.0",
+                "comment": "3.0.0",
                 "state": "DEFAULT"
             },
             "impish": {
-                "status": "3.0.3",
+                "comment": "3.0.3",
                 "state": "DEFAULT"
             },
             "jammy": {
-                "status": "3.0.4",
+                "comment": "3.0.4",
                 "state": "DEFAULT"
             },
             "kinetic": {
-                "status": "3.0.7",
+                "comment": "3.0.7",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "apparmor-unprivileged-userns-restrictions",
-        "short": "AppArmor unprivileged user namespace restrictions",
-        "matrix": {
+        "label": "AppArmor unprivileged user namespace restrictions",
+        "changes": {
             "mantic": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             },
             "noble": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "selinux",
-        "short": "SELinux",
-        "matrix": {
+        "label": "SELinux",
+        "changes": {
             "hardy": {
-                "status": "universe",
+                "comment": "universe",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "smack",
-        "short": "SMACK",
-        "matrix": {
+        "label": "SMACK",
+        "changes": {
             "intrepid": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "encryption",
-        "short": "Storage Encryption",
+        "label": "Storage Encryption",
         "section": 1
     },
     {
         "name": "encrypted-lvm",
-        "short": "Encrypted LVM",
-        "matrix": {
+        "label": "Encrypted LVM",
+        "changes": {
             "dapper": {
-                "status": "alt installer",
+                "comment": "alt installer",
                 "state": "AVAILABLE"
             },
             "quantal": {
-                "status": "main installer",
+                "comment": "main installer",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "encrypted-files",
-        "short": "File Encryption",
-        "matrix": {
+        "label": "File Encryption",
+        "changes": {
             "intrepid": {
-                "status": "Encrypted Private in the installer (eCryptfs)",
+                "comment": "Encrypted Private in the installer (eCryptfs)",
                 "state": "AVAILABLE"
             },
             "jaunty": {
-                "status": "Encrypted Home with filename encryption in the installer (eCryptfs)",
+                "comment": "Encrypted Home with filename encryption in the installer (eCryptfs)",
                 "state": "AVAILABLE"
             },
             "bionic": {
-                "status": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
                 "state": "AVAILABLE"
             },
             "focal": {
-                "status": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "TPM",
-        "short": "Trusted Platform Module",
-        "matrix": {
+        "label": "Trusted Platform Module",
+        "changes": {
             "gutsy": {
-                "status": "kernel & userspace (tpm-tools)",
+                "comment": "kernel & userspace (tpm-tools)",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "userspace-hardening",
-        "short": "Userspace Hardening",
+        "label": "Userspace Hardening",
         "section": 1
     },
     {
         "name": "stack-protector",
-        "short": "Stack Protector",
-        "matrix": {
+        "label": "Stack Protector",
+        "changes": {
             "edgy": {
-                "status": "gcc patch",
+                "comment": "gcc patch",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "heap-protector",
-        "short": "Heap Protector",
-        "matrix": {
+        "label": "Heap Protector",
+        "changes": {
             "dapper": {
-                "status": "glibc",
+                "comment": "glibc",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "pointer-obfuscation",
-        "short": "Pointer Obfuscation",
-        "matrix": {
+        "label": "Pointer Obfuscation",
+        "changes": {
             "hardy": {
-                "status": "glibc",
+                "comment": "glibc",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "aslr",
-        "short": "Address Space Layout Randomisation (ASLR)",
+        "label": "Address Space Layout Randomisation (ASLR)",
         "section": 1
     },
     {
         "name": "stack-aslr",
-        "short": "Stack ASLR",
-        "matrix": {
+        "label": "Stack ASLR",
+        "changes": {
             "dapper": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "mmap-aslr",
-        "short": "Libs/mmap ASLR",
-        "matrix": {
+        "label": "Libs/mmap ASLR",
+        "changes": {
             "dapper": {
-                "status": "kernel (i386 only)",
+                "comment": "kernel (i386 only)",
                 "state": "DEFAULT"
             },
             "hardy": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "exec-aslr",
-        "short": "Exec ASLR",
-        "matrix": {
+        "label": "Exec ASLR",
+        "changes": {
             "hardy": {
-                "status": "kernel (-mm patch)",
+                "comment": "kernel (-mm patch)",
                 "state": "DEFAULT"
             },
             "intrepid": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "brk-aslr",
-        "short": "brk ASLR",
-        "matrix": {
+        "label": "brk ASLR",
+        "changes": {
             "hardy": {
-                "status": "kernel (exec ASLR)",
+                "comment": "kernel (exec ASLR)",
                 "state": "AVAILABLE"
             },
             "intrepid": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "vdso-aslr",
-        "short": "VDSO ASLR",
-        "matrix": {
+        "label": "VDSO ASLR",
+        "changes": {
             "hardy": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "pie",
-        "short": "Built as PIE",
-        "matrix": {
+        "label": "Built as PIE",
+        "changes": {
             "intrepid": {
-                "status": "package list",
+                "comment": "package list",
                 "state": "DEFAULT"
             },
             "xenial": {
-                "status": "gcc patch (s390x), package list for others",
+                "comment": "gcc patch (s390x), package list for others",
                 "state": "DEFAULT"
             },
             "yakkety": {
-                "status": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "fortify-source",
-        "short": "Built with Fortify Source",
-        "matrix": {
+        "label": "Built with Fortify Source",
+        "changes": {
             "intrepid": {
-                "status": "gcc patch",
+                "comment": "gcc patch",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "relro",
-        "short": "Built with RELRO",
-        "matrix": {
+        "label": "Built with RELRO",
+        "changes": {
             "intrepid": {
-                "status": "gcc patch",
+                "comment": "gcc patch",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "bindnow",
-        "short": "Built with BIND_NOW",
-        "matrix": {
+        "label": "Built with BIND_NOW",
+        "changes": {
             "karmic": {
-                "status": "package list",
+                "comment": "package list",
                 "state": "DEFAULT"
             },
             "xenial": {
-                "status": "gcc patch (s390x), package list for others",
+                "comment": "gcc patch (s390x), package list for others",
                 "state": "DEFAULT"
             },
             "yakkety": {
-                "status": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "stack-clash-protection",
-        "short": "Built with -fstack-clash-protection",
-        "matrix": {
+        "label": "Built with -fstack-clash-protection",
+        "changes": {
             "eoan": {
-                "status": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "cf-protection",
-        "short": "Built with -fcf-protection",
-        "matrix": {
+        "label": "Built with -fcf-protection",
+        "changes": {
             "eoan": {
-                "status": "gcc patch (i386, amd64)",
+                "comment": "gcc patch (i386, amd64)",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "nx",
-        "short": "Non-Executable Memory",
-        "matrix": {
+        "label": "Non-Executable Memory",
+        "changes": {
             "dapper": {
-                "status": "PAE only",
+                "comment": "PAE only",
                 "state": "DEFAULT"
             },
             "karmic": {
-                "status": "PAE, ia32 partial-NX-emulation",
+                "comment": "PAE, ia32 partial-NX-emulation",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "proc-maps",
-        "short": "/proc/$pid/maps protection",
-        "matrix": {
+        "label": "/proc/$pid/maps protection",
+        "changes": {
             "hardy": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             },
             "intrepid": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "symlink",
-        "short": "Symlink restrictions",
-        "matrix": {
+        "label": "Symlink restrictions",
+        "changes": {
             "maverick": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "hardlink",
-        "short": "Hardlink restrictions",
-        "matrix": {
+        "label": "Hardlink restrictions",
+        "changes": {
             "maverick": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "protected-fifos",
-        "short": "FIFO restrictions",
-        "matrix": {
+        "label": "FIFO restrictions",
+        "changes": {
             "disco": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "AVAILABLE"
             },
             "focal": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "protected-regular",
-        "short": "Regular file restrictions",
-        "matrix": {
+        "label": "Regular file restrictions",
+        "changes": {
             "disco": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "AVAILABLE"
             },
             "focal": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "ptrace",
-        "short": "ptrace scope",
-        "matrix": {
+        "label": "ptrace scope",
+        "changes": {
             "maverick": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "kernel-hardening",
-        "short": "Kernel Hardening",
+        "label": "Kernel Hardening",
         "section": 1
     },
     {
         "name": "null-mmap",
-        "short": "0-address protection",
-        "matrix": {
+        "label": "0-address protection",
+        "changes": {
             "hardy": {
-                "status": "kernel & sysctl",
+                "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             },
             "jaunty": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "dev-mem",
-        "short": "/dev/mem protection",
-        "matrix": {
+        "label": "/dev/mem protection",
+        "changes": {
             "dapper": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             },
             "edgy": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "hardy": {
-                "status": "kernel (-mm patch)",
+                "comment": "kernel (-mm patch)",
                 "state": "DEFAULT"
             },
             "intrepid": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "dev-kmem",
-        "short": "/dev/kmem disabled",
-        "matrix": {
+        "label": "/dev/kmem disabled",
+        "changes": {
             "hardy": {
-                "status": "kernel (-mm patch)",
+                "comment": "kernel (-mm patch)",
                 "state": "DEFAULT"
             },
             "intrepid": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "block-modules",
-        "short": "Block module loading",
-        "matrix": {
+        "label": "Block module loading",
+        "changes": {
             "dapper": {
-                "status": "drop CAP_SYS_MODULES",
+                "comment": "drop CAP_SYS_MODULES",
                 "state": "AVAILABLE"
             },
             "intrepid": {
-                "status": "--",
+                "comment": "--",
                 "state": "UNIMPLEMENTED"
             },
             "karmic": {
-                "status": "sysctl",
+                "comment": "sysctl",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "rodata",
-        "short": "Read-only data sections",
-        "matrix": {
+        "label": "Read-only data sections",
+        "changes": {
             "hardy": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "kernel-stack-protector",
-        "short": "Stack protector",
-        "matrix": {
+        "label": "Stack protector",
+        "changes": {
             "jaunty": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "module-ronx",
-        "short": "Module RO/NX",
-        "matrix": {
+        "label": "Module RO/NX",
+        "changes": {
             "natty": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "kptr-restrict",
-        "short": "Kernel Address Display Restriction",
-        "matrix": {
+        "label": "Kernel Address Display Restriction",
+        "changes": {
             "natty": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "kASLR",
-        "short": "Kernel Address Space Layout Randomisation",
-        "matrix": {
+        "label": "Kernel Address Space Layout Randomisation",
+        "changes": {
             "utopic": {
-                "status": "kernel (i386 and amd64 only)",
+                "comment": "kernel (i386 and amd64 only)",
                 "state": "AVAILABLE"
             },
             "yakkety": {
-                "status": "kernel (i386 and amd64 only)",
+                "comment": "kernel (i386 and amd64 only)",
                 "state": "DEFAULT"
             },
             "zesty": {
-                "status": "kernel (i386, amd64, and arm64 only)",
+                "comment": "kernel (i386, amd64, and arm64 only)",
                 "state": "DEFAULT"
             },
             "eoan": {
-                "status": "kernel (i386, amd64, arm64, and s390 only)",
+                "comment": "kernel (i386, amd64, arm64, and s390 only)",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "denylist-rare-net",
-        "short": "Denylist Rare Protocols",
-        "matrix": {
+        "label": "Denylist Rare Protocols",
+        "changes": {
             "natty": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "seccomp-filter",
-        "short": "Syscall Filtering",
-        "matrix": {
+        "label": "Syscall Filtering",
+        "changes": {
             "oneiric": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "dmesg-restrict",
-        "short": "dmesg restrictions",
-        "matrix": {
+        "label": "dmesg restrictions",
+        "changes": {
             "precise": {
-                "status": "sysctl",
+                "comment": "sysctl",
                 "state": "AVAILABLE"
             },
             "groovy": {
-                "status": "kernel",
+                "comment": "kernel",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "kexec",
-        "short": "Block kexec",
-        "matrix": {
+        "label": "Block kexec",
+        "changes": {
             "trusty": {
-                "status": "sysctl",
+                "comment": "sysctl",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "secure-boot",
-        "short": "UEFI Secure Boot (amd64)",
-        "matrix": {
+        "label": "UEFI Secure Boot (amd64)",
+        "changes": {
             "precise": {
-                "status": "amd64, kernel fallback",
+                "comment": "amd64, kernel fallback",
                 "state": "AVAILABLE"
             },
             "bionic": {
-                "status": "amd64, kernel signature enforcement",
+                "comment": "amd64, kernel signature enforcement",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "usbguard",
-        "short": "usbguard",
-        "matrix": {
+        "label": "usbguard",
+        "changes": {
             "yakkety": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "usbauth",
-        "short": "usbauth",
-        "matrix": {
+        "label": "usbauth",
+        "changes": {
             "bionic": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "bolt",
-        "short": "bolt",
-        "matrix": {
+        "label": "bolt",
+        "changes": {
             "bionic": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "DEFAULT"
             }
         }
     },
     {
         "name": "thunderbolt-tools",
-        "short": "thunderbolt-tools",
-        "matrix": {
+        "label": "thunderbolt-tools",
+        "changes": {
             "bionic": {
-                "status": "kernel & userspace",
+                "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             }
         }
     },
     {
         "name": "kernel-lockdown",
-        "short": "Kernel Lockdown",
-        "matrix": {
+        "label": "Kernel Lockdown",
+        "changes": {
             "focal": {
-                "status": "integrity only, no confidentiality",
+                "comment": "integrity only, no confidentiality",
                 "state": "DEFAULT"
             }
         }

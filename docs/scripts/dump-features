@@ -86,25 +86,25 @@ class Implementation(BaseModel):
     This is the status of the implementation of a security feature
     in a given Ubuntu release as listed in features.json
     """
-    status: str
+    comment: str
     state: State
 
     def default():
         """"
         The default state of an implementation is unimplemented
         """
-        return Implementation(status="--", state="UNIMPLEMENTED")
+        return Implementation(comment="--", state=State.UNIMPLEMENTED)
 
 class Feature(BaseModel):
     """
     This is a security feature as listed in features.json
     """
     name: str
-    short: str
+    label: str
     # TODO: When we decide how to represent and structure the sections,
     # revisit these lines and make the checking stricter.
     section: bool = Field(default=False)
-    matrix: dict[str, Implementation] = Field(default={})
+    changes: dict[str, Implementation] = Field(default={})
 
 def load_features() -> list[Feature]:
     """
@@ -191,22 +191,22 @@ def cell_with_markup(cell: Implementation) -> str:
     """
     # Default features add special markup, currently bold:
     if cell.state == State.DEFAULT:
-        return f"**{cell.status}**"
+        return f"**{cell.comment}**"
     else:
-        return f"{cell.status}"
+        return f"{cell.comment}"
 
 def feature_row(feature: Feature):
     """
     Draw a row describing a security feature in the RST list table format
     """
     # The first cell in this row names the feature and links to its section
-    cells = [f":ref:`{feature.short} <{feature.name}>`"]
+    cells = [f":ref:`{feature.label} <{feature.name}>`"]
 
     # Every feature starts as unimplemented until the first recorded change
     current_development = Implementation.default()
 
     for rel in releases:
-        item = feature.matrix.get(rel.code_name)
+        item = feature.changes.get(rel.code_name)
 
         if item is not None:
             current_development = item
