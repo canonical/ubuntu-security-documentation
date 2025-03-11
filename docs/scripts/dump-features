@@ -7,8 +7,9 @@
 #
 # Copyright 2008-2016 Canonical, Ltd.
 # Author: Kees Cook <kees@ubuntu.com>
+# Copyright 2025 Canonical, Ltd.
+# Author: Marek Suchánek <marek.suchanek@canonical.com>
 # License: GPLv3
-from __future__ import print_function
 
 import json
 import optparse
@@ -18,25 +19,9 @@ import tempfile
 
 parser = optparse.OptionParser()
 parser.add_option("--historical", help="Display all releases", action='store_true')
-parser.add_option("--editmoin", help="Actually do the update using editmoin", action='store_true')
-parser.add_option("--edit", help="Edit the generated output before handing it to editmoin", action='store_true')
 (opt, args) = parser.parse_args()
 
 target = sys.stdout
-
-def check_editmoin():
-    # Make sure editmoin would actually work
-    if not os.path.exists(os.path.expanduser('~/.moin_ids')) and not os.path.exists(os.path.expanduser('~/.moin_users')):
-        print("Error: Need to configure editmoin to use this option (usually ~/.moin_ids).\n", file=sys.stderr)
-        return False
-
-    return True
-
-if opt.editmoin:
-    if check_editmoin():
-        target = tempfile.NamedTemporaryFile(mode="w", prefix='dump-features-', suffix='.txt')
-    else:
-        sys.exit(1)
 
 UNIMPLEMENTED = 0
 AVAILABLE = 1
@@ -51,26 +36,63 @@ with open("releases.json") as f:
 with open("features.json") as f:
     feature_list = json.load(f)
 
+def table_row(cells: list) -> str:
+    first_cell = True
+    out = ""
+
+    for cell in cells:
+        if first_cell:
+            out += f"   * - {cell}\n"
+            first_cell = False
+        else:
+            out += f"     - {cell}\n"
+    
+    return out
+
+# Explain the table format
+target.write('''
+Matrix
+------
+
+.. list-table:: Table format
+   :header-rows: 1
+
+   * - Text format
+     - Meaning
+   * - **Bold**
+     - By default
+   * - Regular
+     - Available
+   * - --
+     - Unimplemented
+''')
 
 target.write('''
-## This page was auto-generated using https://git.launchpad.net/ubuntu-cve-tracker/tree/scripts/dump-features
-<<Include(SecurityTeam/Header)>>
+.. list-table:: Security features in releases
+   :header-rows: 1
 
-= Matrix =
-||<#00dd00> '\''By Default'\'' ||
-||<#98fd98> '\''Available'\'' ||
-||<#dddddd> '\''Unimplemented'\'' ||
-
-|| '\''feature'\''              ||''')
+''')
 
 # Report release name headers
-for rel in releases:
-    if not opt.historical and rel["is_eol"]:
-        continue
-    name = rel["human_name"]
-    name = name.replace('Ubuntu ', "'\''").replace(' (', "'\'' (")
-    target.write('%-20s\'\'\' ||' % (name))
+if opt.historical:
+    header_releases = releases
+else:
+    header_releases = [r for r in releases if not r["is_eol"]]
+
+release_names = [r["human_name"].replace("Ubuntu ", "") for r in header_releases]
+
+table_corner = "Feature"
+
+header = table_row([table_corner, *release_names])
+
+target.write(header)
 target.write("\n")
+
+def cell_with_markup(cell: dict) -> str:
+    if cell['state'] == "DEFAULT":
+        return f"**{cell['status']}**"
+    else:
+        return f"{cell['status']}"
 
 for feature in feature_list:
     if 'section' in feature:
@@ -80,8 +102,10 @@ for feature in feature_list:
     short = feature['short']
     matrix = feature["matrix"]
 
-    target.write('|| [[#%s|%20s]] ||' % (name, short))
+    # The first cell in this row names the feature and links to its section
+    cells = [f":ref:`{short} <{name}>`"]
 
+    # Every feature starts as unimplemented until the first recorded change
     feature_default = {"state": "UNIMPLEMENTED", "status": "--"}
     current_development = feature_default
 
@@ -94,12 +118,10 @@ for feature in feature_list:
         if not opt.historical and rel["is_eol"]:
             continue
         else:
-            target.write('<#%s> %-20s ||' % (color[current_development['state']], current_development['status']))
+            cell = cell_with_markup(current_development)
+            cells.append(cell)
+    
+    target.write(table_row(cells))
     target.write('\n')
-
-target.write('''
-||<tablestyle="float:right; font-size: 0.9em; width:30%; background:#F1F1ED; background-repeat: no-repeat; background-position:  98% 0.5ex; margin: 0 0 1em 1em; padding: 0.5em;"><<TableOfContents>>||
-
-''')
 
 target.flush()
