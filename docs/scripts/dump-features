@@ -11,11 +11,19 @@ import argparse
 import json
 import sys
 
+from pydantic import BaseModel, PositiveInt, ValidationError
+
 NAME = 'dump-features'
 DESCRIPTION = '''
 This program generates a table with ReStructuredText markup that lists
 Ubuntu security features and their status in various Ubuntu releases.
 '''
+
+def eprint(*args, **kwargs):
+    """
+    Print to stderr
+    """
+    print(*args, file=sys.stderr, **kwargs)
 
 def args_from_cli() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -44,9 +52,26 @@ AVAILABLE = 1
 DEFAULT = 2
 color = { "UNIMPLEMENTED": 'dddddd', "AVAILABLE": '98fd98', "DEFAULT": '00dd00' }
 
-# Load the releases list
-with open("releases.json") as f:
-    releases = json.load(f)
+class Release(BaseModel):
+    code_name: str
+    human_name: str
+    is_eol: bool
+
+def load_releases() -> list[Release]:
+    """
+    Load the releases list
+    """
+    with open("releases.json") as f:
+        raw_releases = json.load(f)
+
+    try:
+        releases = [Release(**r) for r in raw_releases]
+        return releases
+    except ValidationError as e:
+        eprint(e)
+        sys.exit(1)
+
+releases = load_releases()
 
 # Load the features list
 with open("features.json") as f:
@@ -93,9 +118,9 @@ args.output.write('''
 if args.historical:
     header_releases = releases
 else:
-    header_releases = [r for r in releases if not r["is_eol"]]
+    header_releases = [r for r in releases if not r.is_eol]
 
-release_names = [r["human_name"].replace("Ubuntu ", "") for r in header_releases]
+release_names = [r.human_name.replace("Ubuntu ", "") for r in header_releases]
 
 table_corner = "Feature"
 
@@ -126,12 +151,12 @@ for feature in feature_list:
     current_development = feature_default
 
     for rel in releases:
-        item = matrix.get(rel["code_name"])
+        item = matrix.get(rel.code_name)
 
         if item is not None:
             current_development = item
 
-        if not args.historical and rel["is_eol"]:
+        if not args.historical and rel.is_eol:
             continue
         else:
             cell = cell_with_markup(current_development)
