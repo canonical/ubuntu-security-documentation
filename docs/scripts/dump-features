@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# This is used to generate both (via --editmoin):
-#   https://wiki.ubuntu.com/Security/Features
-# and (with --historical):
-#   https://wiki.ubuntu.com/Security/Features/Historical
 #
 # Copyright 2008-2016 Canonical, Ltd.
 # Author: Kees Cook <kees@ubuntu.com>
@@ -11,17 +7,37 @@
 # Author: Marek Suchánek <marek.suchanek@canonical.com>
 # License: GPLv3
 
+import argparse
 import json
-import optparse
-import os
 import sys
-import tempfile
 
-parser = optparse.OptionParser()
-parser.add_option("--historical", help="Display all releases", action='store_true')
-(opt, args) = parser.parse_args()
+NAME = 'dump-features'
+DESCRIPTION = '''
+This program generates a table with ReStructuredText markup that lists
+Ubuntu security features and their status in various Ubuntu releases.
+'''
 
-target = sys.stdout
+def args_from_cli() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+                    prog=NAME,
+                    description=DESCRIPTION)
+    
+    parser.add_argument(
+        '-H',
+        '--historical',
+        help="Display all releases, including EOL",
+        action='store_true')
+    parser.add_argument(
+        '-o',
+        '--output',
+        help="Write the table to this file; otherwise, print to stdout",
+        nargs='?',
+        type=argparse.FileType('w'),
+        default=sys.stdout)
+
+    return parser.parse_args()
+
+args = args_from_cli()
 
 UNIMPLEMENTED = 0
 AVAILABLE = 1
@@ -50,7 +66,7 @@ def table_row(cells: list) -> str:
     return out
 
 # Explain the table format
-target.write('''
+args.output.write('''
 Matrix
 ------
 
@@ -67,14 +83,14 @@ Matrix
      - Unimplemented
 ''')
 
-target.write('''
+args.output.write('''
 .. list-table:: Security features in releases
    :header-rows: 1
 
 ''')
 
 # Report release name headers
-if opt.historical:
+if args.historical:
     header_releases = releases
 else:
     header_releases = [r for r in releases if not r["is_eol"]]
@@ -85,8 +101,8 @@ table_corner = "Feature"
 
 header = table_row([table_corner, *release_names])
 
-target.write(header)
-target.write("\n")
+args.output.write(header)
+args.output.write("\n")
 
 def cell_with_markup(cell: dict) -> str:
     if cell['state'] == "DEFAULT":
@@ -115,13 +131,13 @@ for feature in feature_list:
         if item is not None:
             current_development = item
 
-        if not opt.historical and rel["is_eol"]:
+        if not args.historical and rel["is_eol"]:
             continue
         else:
             cell = cell_with_markup(current_development)
             cells.append(cell)
     
-    target.write(table_row(cells))
-    target.write('\n')
+    args.output.write(table_row(cells))
+    args.output.write('\n')
 
-target.flush()
+args.output.flush()
