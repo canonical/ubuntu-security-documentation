@@ -8,6 +8,7 @@
 # License: GPLv3
 
 import argparse
+from enum import Enum
 import json
 import sys
 
@@ -45,12 +46,10 @@ def args_from_cli() -> argparse.Namespace:
 
     return parser.parse_args()
 
-args = args_from_cli()
-
-UNIMPLEMENTED = 0
-AVAILABLE = 1
-DEFAULT = 2
-color = { "UNIMPLEMENTED": 'dddddd', "AVAILABLE": '98fd98', "DEFAULT": '00dd00' }
+class State(Enum):
+    UNIMPLEMENTED = "UNIMPLEMENTED"
+    AVAILABLE = "AVAILABLE"
+    DEFAULT = "DEFAULT"
 
 class Release(BaseModel):
     """
@@ -59,6 +58,14 @@ class Release(BaseModel):
     code_name: str
     human_name: str
     is_eol: bool
+
+    def only_version(self) -> str:
+        """
+        Take only the version number from the release name.
+        For example:
+        Ubuntu 24.04 LTS -> 24.04 LTS
+        """
+        return self.human_name.replace("Ubuntu ", "")
 
 def load_releases() -> list[Release]:
     """
@@ -74,15 +81,13 @@ def load_releases() -> list[Release]:
         eprint(e)
         sys.exit(1)
 
-releases = load_releases()
-
 class Implementation(BaseModel):
     """
     This is the status of the implementation of a security feature
     in a given Ubuntu release as listed in features.json
     """
     status: str
-    state: str
+    state: State
 
     def default():
         """"
@@ -115,9 +120,10 @@ def load_features() -> list[Feature]:
         eprint(e)
         sys.exit(1)
 
-features = load_features()
-
-def table_row(cells: list) -> str:
+def table_row(cells: list[str]) -> str:
+    """
+    Format a list of cells as an RST list table row
+    """
     first_cell = True
     out = ""
 
@@ -130,8 +136,7 @@ def table_row(cells: list) -> str:
     
     return out
 
-# Explain the table format
-args.output.write('''
+INITIAL_HEADER = '''
 Matrix
 ------
 
@@ -146,43 +151,54 @@ Matrix
      - Available
    * - --
      - Unimplemented
-''')
 
-args.output.write('''
 .. list-table:: Security features in releases
    :header-rows: 1
 
-''')
+'''
 
-# Report release name headers
-if args.historical:
-    header_releases = releases
-else:
-    header_releases = [r for r in releases if not r.is_eol]
+def page_header():
+    """
+    Draw the complete page header before the features table:
+    * The main heading
+    * The small table explaining the format
+    * The header of the following features table
+    """
+    # Explain the table format
+    args.output.write(INITIAL_HEADER)
 
-release_names = [r.human_name.replace("Ubuntu ", "") for r in header_releases]
+    # Report release name headers
+    if args.historical:
+        header_releases = releases
+    else:
+        header_releases = [r for r in releases if not r.is_eol]
 
-table_corner = "Feature"
+    release_names = [r.only_version() for r in header_releases]
 
-header = table_row([table_corner, *release_names])
+    # The cell in the upper left corner.
+    # Has to be defined so that the header row is the same length
+    # as the feature rows.
+    table_corner = "Feature"
 
-args.output.write(header)
-args.output.write("\n")
+    header = table_row([table_corner, *release_names])
+
+    args.output.write(header)
+    args.output.write("\n")
 
 def cell_with_markup(cell: Implementation) -> str:
     """
     Format the cell content as an RST string
     """
     # Default features add special markup, currently bold:
-    if cell.state == "DEFAULT":
+    if cell.state == State.DEFAULT:
         return f"**{cell.status}**"
     else:
         return f"{cell.status}"
 
-for feature in features:
-    if feature.section:
-        continue
-
+def feature_row(feature: Feature):
+    """
+    Draw a row describing a security feature in the RST list table format
+    """
     # The first cell in this row names the feature and links to its section
     cells = [f":ref:`{feature.short} <{feature.name}>`"]
 
@@ -204,4 +220,22 @@ for feature in features:
     args.output.write(table_row(cells))
     args.output.write('\n')
 
-args.output.flush()
+
+if __name__ == "__main__":
+    args = args_from_cli()
+
+    releases = load_releases()
+
+    features = load_features()
+
+    page_header()
+
+    for feature in features:
+        # Section features currently have no effect but we keep them
+        # in features.json for future use.
+        if feature.section:
+            continue
+        else:
+            feature_row(feature)
+
+    args.output.flush()
