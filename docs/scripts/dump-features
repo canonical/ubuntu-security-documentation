@@ -109,9 +109,9 @@ class Implementation(BaseModel):
     comment: str
     state: State
 
-    def default():
+    def initial():
         """"
-        The default state of an implementation is unimplemented
+        The initial state of an implementation is unimplemented
         """
         return Implementation(comment="--", state=State.UNIMPLEMENTED)
 
@@ -222,7 +222,7 @@ def feature_row(feature: Feature):
     cells = [f":ref:`{feature.label} <{feature.name}>`"]
 
     # Every feature starts as unimplemented until the first recorded change
-    current_development = Implementation.default()
+    current_development = Implementation.initial()
 
     for rel in releases:
         item = feature.changes.get(rel.code_name)
