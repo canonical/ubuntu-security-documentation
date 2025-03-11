@@ -11,7 +11,7 @@ import argparse
 import json
 import sys
 
-from pydantic import BaseModel, PositiveInt, ValidationError
+from pydantic import BaseModel, Field, PositiveInt, ValidationError
 
 NAME = 'dump-features'
 DESCRIPTION = '''
@@ -53,6 +53,9 @@ DEFAULT = 2
 color = { "UNIMPLEMENTED": 'dddddd', "AVAILABLE": '98fd98', "DEFAULT": '00dd00' }
 
 class Release(BaseModel):
+    """
+    This is an Ubuntu release as described in releases.json
+    """
     code_name: str
     human_name: str
     is_eol: bool
@@ -73,9 +76,46 @@ def load_releases() -> list[Release]:
 
 releases = load_releases()
 
-# Load the features list
-with open("features.json") as f:
-    feature_list = json.load(f)
+class Implementation(BaseModel):
+    """
+    This is the status of the implementation of a security feature
+    in a given Ubuntu release as listed in features.json
+    """
+    status: str
+    state: str
+
+    def default():
+        """"
+        The default state of an implementation is unimplemented
+        """
+        return Implementation(status="--", state="UNIMPLEMENTED")
+
+class Feature(BaseModel):
+    """
+    This is a security feature as listed in features.json
+    """
+    name: str
+    short: str
+    # TODO: When we decide how to represent and structure the sections,
+    # revisit these lines and make the checking stricter.
+    section: bool = Field(default=False)
+    matrix: dict[str, Implementation] = Field(default={})
+
+def load_features() -> list[Feature]:
+    """
+    Load the features list
+    """
+    with open("features.json") as f:
+        raw_features = json.load(f)
+    
+    try:
+        features = [Feature(**f) for f in raw_features]
+        return features
+    except ValidationError as e:
+        eprint(e)
+        sys.exit(1)
+
+features = load_features()
 
 def table_row(cells: list) -> str:
     first_cell = True
@@ -129,29 +169,28 @@ header = table_row([table_corner, *release_names])
 args.output.write(header)
 args.output.write("\n")
 
-def cell_with_markup(cell: dict) -> str:
-    if cell['state'] == "DEFAULT":
-        return f"**{cell['status']}**"
+def cell_with_markup(cell: Implementation) -> str:
+    """
+    Format the cell content as an RST string
+    """
+    # Default features add special markup, currently bold:
+    if cell.state == "DEFAULT":
+        return f"**{cell.status}**"
     else:
-        return f"{cell['status']}"
+        return f"{cell.status}"
 
-for feature in feature_list:
-    if 'section' in feature:
+for feature in features:
+    if feature.section:
         continue
 
-    name = feature['name']
-    short = feature['short']
-    matrix = feature["matrix"]
-
     # The first cell in this row names the feature and links to its section
-    cells = [f":ref:`{short} <{name}>`"]
+    cells = [f":ref:`{feature.short} <{feature.name}>`"]
 
     # Every feature starts as unimplemented until the first recorded change
-    feature_default = {"state": "UNIMPLEMENTED", "status": "--"}
-    current_development = feature_default
+    current_development = Implementation.default()
 
     for rel in releases:
-        item = matrix.get(rel.code_name)
+        item = feature.matrix.get(rel.code_name)
 
         if item is not None:
             current_development = item
