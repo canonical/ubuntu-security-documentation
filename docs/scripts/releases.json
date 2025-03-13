@@ -1,0 +1,232 @@
+[
+    {
+        "code_name": "warty",
+        "human_name": "Ubuntu 4.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "hoary",
+        "human_name": "Ubuntu 5.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "breezy",
+        "human_name": "Ubuntu 5.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "dapper",
+        "human_name": "Ubuntu 6.06 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "edgy",
+        "human_name": "Ubuntu 6.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "feisty",
+        "human_name": "Ubuntu 7.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "gutsy",
+        "human_name": "Ubuntu 7.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "hardy",
+        "human_name": "Ubuntu 8.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "intrepid",
+        "human_name": "Ubuntu 8.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "jaunty",
+        "human_name": "Ubuntu 9.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "karmic",
+        "human_name": "Ubuntu 9.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "lucid",
+        "human_name": "Ubuntu 10.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "maverick",
+        "human_name": "Ubuntu 10.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "natty",
+        "human_name": "Ubuntu 11.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "oneiric",
+        "human_name": "Ubuntu 11.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "precise",
+        "human_name": "Ubuntu 12.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "precise/esm",
+        "human_name": "Ubuntu 12.04 ESM",
+        "is_eol": true
+    },
+    {
+        "code_name": "quantal",
+        "human_name": "Ubuntu 12.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "raring",
+        "human_name": "Ubuntu 13.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "saucy",
+        "human_name": "Ubuntu 13.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "trusty",
+        "human_name": "Ubuntu 14.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "trusty/esm",
+        "human_name": "Ubuntu 14.04 ESM",
+        "is_eol": true
+    },
+    {
+        "code_name": "utopic",
+        "human_name": "Ubuntu 14.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "vivid",
+        "human_name": "Ubuntu 15.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "vivid/stable-phone-overlay",
+        "human_name": "Ubuntu Touch 15.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "vivid/ubuntu-core",
+        "human_name": "Ubuntu Core 15.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "wily",
+        "human_name": "Ubuntu 15.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "xenial",
+        "human_name": "Ubuntu 16.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "yakkety",
+        "human_name": "Ubuntu 16.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "zesty",
+        "human_name": "Ubuntu 17.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "artful",
+        "human_name": "Ubuntu 17.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "bionic",
+        "human_name": "Ubuntu 18.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "cosmic",
+        "human_name": "Ubuntu 18.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "disco",
+        "human_name": "Ubuntu 19.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "eoan",
+        "human_name": "Ubuntu 19.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "focal",
+        "human_name": "Ubuntu 20.04 LTS",
+        "is_eol": false
+    },
+    {
+        "code_name": "groovy",
+        "human_name": "Ubuntu 20.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "hirsute",
+        "human_name": "Ubuntu 21.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "impish",
+        "human_name": "Ubuntu 21.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "jammy",
+        "human_name": "Ubuntu 22.04 LTS",
+        "is_eol": false
+    },
+    {
+        "code_name": "kinetic",
+        "human_name": "Ubuntu 22.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "lunar",
+        "human_name": "Ubuntu 23.04",
+        "is_eol": true
+    },
+    {
+        "code_name": "mantic",
+        "human_name": "Ubuntu 23.10",
+        "is_eol": true
+    },
+    {
+        "code_name": "noble",
+        "human_name": "Ubuntu 24.04 LTS",
+        "is_eol": false
+    },
+    {
+        "code_name": "oracular",
+        "human_name": "Ubuntu 24.10",
+        "is_eol": false
+    },
+    {
+        "code_name": "plucky",
+        "human_name": "Ubuntu 25.04",
+        "is_eol": false
+    }
+]

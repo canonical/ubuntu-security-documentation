@@ -1,0 +1,260 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright 2008-2016 Canonical, Ltd.
+# Author: Kees Cook <kees@ubuntu.com>
+# Copyright 2025 Canonical, Ltd.
+# Author: Marek Suchánek <marek.suchanek@canonical.com>
+# License: GPLv3
+
+import argparse
+from enum import Enum
+from io import TextIOWrapper
+import json
+import sys
+
+def eprint(*args, **kwargs):
+    """
+    Print to stderr
+    """
+    print(*args, file=sys.stderr, **kwargs)
+
+try:
+    from pydantic import BaseModel, Field, ValidationError
+except ModuleNotFoundError:
+    eprint("Please install the Pydantic Python library.")
+    eprint("On Ubuntu and Debian:")
+    eprint("$ sudo apt install python3-pydantic")
+    sys.exit(1)
+
+NAME = 'dump-features'
+DESCRIPTION = '''
+This program generates a table with ReStructuredText markup that lists
+Ubuntu security features and their status in various Ubuntu releases.
+'''
+
+def args_from_cli() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+                    prog=NAME,
+                    description=DESCRIPTION)
+
+    parser.add_argument(
+        '-H',
+        '--historical',
+        help="Display all releases, including EOL",
+        action='store_true')
+    parser.add_argument(
+        '-o',
+        '--output',
+        help="Write the table to this file; otherwise, print to stdout",
+        nargs='?',
+        type=argparse.FileType('w'),
+        default=sys.stdout)
+    parser.add_argument(
+        '-r',
+        '--releases',
+        help="Read release data from this file; by default releases.json",
+        nargs='?',
+        type=argparse.FileType('r'),
+        default="releases.json")
+    parser.add_argument(
+        '-f',
+        '--features',
+        help="Read feature data from this file; by default features.json",
+        nargs='?',
+        type=argparse.FileType('r'),
+        default="features.json")
+
+    return parser.parse_args()
+
+class State(Enum):
+    UNIMPLEMENTED = "UNIMPLEMENTED"
+    AVAILABLE = "AVAILABLE"
+    DEFAULT = "DEFAULT"
+
+class Release(BaseModel):
+    """
+    This is an Ubuntu release as described in releases.json
+    """
+    code_name: str
+    human_name: str
+    is_eol: bool
+
+    def only_version(self) -> str:
+        """
+        Take only the version number from the release name.
+        For example:
+        Ubuntu 24.04 LTS -> 24.04 LTS
+        """
+        return self.human_name.replace("Ubuntu ", "")
+
+def load_releases(file: TextIOWrapper) -> list[Release]:
+    """
+    Load the releases list
+    """
+    raw_releases = json.load(file)
+
+    try:
+        releases = [Release(**r) for r in raw_releases]
+        return releases
+    except ValidationError as e:
+        eprint(e)
+        sys.exit(1)
+
+class Implementation(BaseModel):
+    """
+    This is the status of the implementation of a security feature
+    in a given Ubuntu release as listed in features.json
+    """
+    comment: str
+    state: State
+
+    def initial():
+        """"
+        The initial state of an implementation is unimplemented
+        """
+        return Implementation(comment="--", state=State.UNIMPLEMENTED)
+
+class Feature(BaseModel):
+    """
+    This is a security feature as listed in features.json
+    """
+    name: str
+    label: str
+    # TODO: When we decide how to represent and structure the sections,
+    # revisit these lines and make the checking stricter.
+    section: bool = Field(default=False)
+    changes: dict[str, Implementation] = Field(default={})
+
+def load_features(file: TextIOWrapper) -> list[Feature]:
+    """
+    Load the features list
+    """
+    raw_features = json.load(file)
+
+    try:
+        features = [Feature(**f) for f in raw_features]
+        return features
+    except ValidationError as e:
+        eprint(e)
+        sys.exit(1)
+
+def table_row(cells: list[str]) -> str:
+    """
+    Format a list of cells as an RST list table row
+    """
+    first_cell = True
+    out = ""
+
+    for cell in cells:
+        if first_cell:
+            out += f"   * - {cell}\n"
+            first_cell = False
+        else:
+            out += f"     - {cell}\n"
+
+    return out
+
+INITIAL_HEADER = '''
+Matrix
+------
+
+.. list-table:: Table format
+   :header-rows: 1
+
+   * - Text format
+     - Meaning
+   * - **Bold**
+     - By default
+   * - Regular
+     - Available
+   * - --
+     - Unimplemented
+
+.. list-table:: Security features in releases
+   :header-rows: 1
+
+'''
+
+def page_header():
+    """
+    Draw the complete page header before the features table:
+    * The main heading
+    * The small table explaining the format
+    * The header of the following features table
+    """
+    # Explain the table format
+    args.output.write(INITIAL_HEADER)
+
+    # Report release name headers
+    if args.historical:
+        header_releases = releases
+    else:
+        header_releases = [r for r in releases if not r.is_eol]
+
+    release_names = [r.only_version() for r in header_releases]
+
+    # The cell in the upper left corner.
+    # Has to be defined so that the header row is the same length
+    # as the feature rows.
+    table_corner = "Feature"
+
+    header = table_row([table_corner, *release_names])
+
+    args.output.write(header)
+    args.output.write("\n")
+
+def cell_with_markup(cell: Implementation) -> str:
+    """
+    Format the cell content as an RST string
+    """
+    # Default features add special markup, currently bold:
+    if cell.state == State.DEFAULT:
+        return f"**{cell.comment}**"
+    else:
+        return f"{cell.comment}"
+
+def feature_row(feature: Feature):
+    """
+    Draw a row describing a security feature in the RST list table format
+    """
+    # The first cell in this row names the feature and links to its section
+    cells = [f":ref:`{feature.label} <{feature.name}>`"]
+
+    # Every feature starts as unimplemented until the first recorded change
+    current_development = Implementation.initial()
+
+    for rel in releases:
+        item = feature.changes.get(rel.code_name)
+
+        if item is not None:
+            current_development = item
+
+        if not args.historical and rel.is_eol:
+            continue
+        else:
+            cell = cell_with_markup(current_development)
+            cells.append(cell)
+
+    args.output.write(table_row(cells))
+    args.output.write('\n')
+
+
+if __name__ == "__main__":
+    args = args_from_cli()
+
+    releases = load_releases(args.releases)
+
+    features = load_features(args.features)
+
+    page_header()
+
+    for feature in features:
+        # Section features currently have no effect but we keep them
+        # in features.json for future use.
+        if feature.section:
+            continue
+        else:
+            feature_row(feature)
+
+    args.output.flush()
