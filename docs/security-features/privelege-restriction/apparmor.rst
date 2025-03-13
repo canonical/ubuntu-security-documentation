@@ -1,7 +1,7 @@
 .. Source: https://documentation.ubuntu.com/server/how-to/security/apparmor/
 
-AppArmor
-########
+AppArmor in-depth
+#################
 
 `AppArmor <https://apparmor.net/>`__ is an easy-to-use Linux Security
 Module implementation that restricts applications’ capabilities and
@@ -17,114 +17,114 @@ permissions the application requires. Some packages will install their
 own profiles, and additional profiles can be found in the
 ``apparmor-profiles`` package.
 
-Install AppArmor Profiles
--------------------------
+   Install AppArmor Profiles
+   -------------------------
 
-To install the ``apparmor-profiles`` package from a terminal prompt:
-
-.. code:: bash
-
-   sudo apt install apparmor-profiles
-
-AppArmor profiles have two modes of operation:
-
--  **Complaining/Learning**: profile violations are permitted and
-   logged. This is useful for testing and developing new profiles.
-
--  **Enforced/Confined**: enforces profile policy in addition to logging
-   the violation.
-
-Using AppArmor
---------------
-
-The optional ``apparmor-utils`` package contains command-line utilities
-you can use to change the AppArmor operation mode, find the status of a
-profile, create new profiles, etc.
-
-AppArmor profiles are located in the ``/etc/apparmor.d`` directory. It
-also stores **abstractions** that can simplify profile authoring, such
-as ``abstractions/base`` that allows many shared libraries, writing logs
-to the journal, many pseudo-devices, receiving signals from unconfined
-processes, and many more things.
-
-Common commands
-~~~~~~~~~~~~~~~
-
--  **``apparmor_status``** is used to view the current status of
-   AppArmor profiles:
+   To install the ``apparmor-profiles`` package from a terminal prompt:
 
    .. code:: bash
 
-      sudo apparmor_status
+      sudo apt install apparmor-profiles
 
--  **``aa-complain``** places a profile into ``complain`` mode:
+   AppArmor profiles have two modes of operation:
+
+   -  **Complaining/Learning**: profile violations are permitted and
+      logged. This is useful for testing and developing new profiles.
+
+   -  **Enforced/Confined**: enforces profile policy in addition to logging
+      the violation.
+
+   Using AppArmor
+   --------------
+
+   The optional ``apparmor-utils`` package contains command-line utilities
+   you can use to change the AppArmor operation mode, find the status of a
+   profile, create new profiles, etc.
+
+   AppArmor profiles are located in the ``/etc/apparmor.d`` directory. It
+   also stores **abstractions** that can simplify profile authoring, such
+   as ``abstractions/base`` that allows many shared libraries, writing logs
+   to the journal, many pseudo-devices, receiving signals from unconfined
+   processes, and many more things.
+
+   Common commands
+   ~~~~~~~~~~~~~~~
+
+   -  **``apparmor_status``** is used to view the current status of
+      AppArmor profiles:
+
+      .. code:: bash
+
+         sudo apparmor_status
+
+   -  **``aa-complain``** places a profile into ``complain`` mode:
+
+      .. code:: bash
+
+         sudo aa-complain /path/to/bin
+
+   -  **``aa-enforce``** places a profile into ``enforce`` mode:
+
+      .. code:: bash
+
+         sudo aa-enforce /path/to/bin
+
+   -  **``apparmor_parser``** is used to load a profile into the kernel. It
+      can also be used to reload a currently-loaded profile using the
+      ``-r`` option after modifying it to have the changes take effect. To
+      reload a profile:
+
+      .. code:: bash
+
+         sudo apparmor_parser -r /etc/apparmor.d/profile.name
+
+   -  **``systemctl``** can be used to reload all profiles:
+
+      .. code:: bash
+
+         sudo systemctl reload apparmor.service
+
+   Disabling or re-enabling a profile
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   The ``/etc/apparmor.d/disable`` directory can be used along with the
+   ``apparmor_parser -R`` option to disable a profile:
 
    .. code:: bash
 
-      sudo aa-complain /path/to/bin
+      sudo ln -s /etc/apparmor.d/profile.name /etc/apparmor.d/disable/
+      sudo apparmor_parser -R /etc/apparmor.d/profile.name
 
--  **``aa-enforce``** places a profile into ``enforce`` mode:
-
-   .. code:: bash
-
-      sudo aa-enforce /path/to/bin
-
--  **``apparmor_parser``** is used to load a profile into the kernel. It
-   can also be used to reload a currently-loaded profile using the
-   ``-r`` option after modifying it to have the changes take effect. To
-   reload a profile:
+   To re-enable a disabled profile, remove the symbolic link to the profile
+   in ``/etc/apparmor.d/disable/``, then load the profile using the ``-a``
+   option:
 
    .. code:: bash
 
-      sudo apparmor_parser -r /etc/apparmor.d/profile.name
+      sudo rm /etc/apparmor.d/disable/profile.name
+      cat /etc/apparmor.d/profile.name | sudo apparmor_parser -a
 
--  **``systemctl``** can be used to reload all profiles:
+   AppArmor can be disabled, and the kernel module unloaded, by entering
+   the following:
 
    .. code:: bash
 
-      sudo systemctl reload apparmor.service
+      sudo systemctl stop apparmor.service
+      sudo systemctl disable apparmor.service
 
-Disabling or re-enabling a profile
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   To re-enable AppArmor, enter:
 
-The ``/etc/apparmor.d/disable`` directory can be used along with the
-``apparmor_parser -R`` option to disable a profile:
+   .. code:: bash
 
-.. code:: bash
+      sudo systemctl enable apparmor.service
+      sudo systemctl start apparmor.service
 
-   sudo ln -s /etc/apparmor.d/profile.name /etc/apparmor.d/disable/
-   sudo apparmor_parser -R /etc/apparmor.d/profile.name
+   ..
 
-To re-enable a disabled profile, remove the symbolic link to the profile
-in ``/etc/apparmor.d/disable/``, then load the profile using the ``-a``
-option:
-
-.. code:: bash
-
-   sudo rm /etc/apparmor.d/disable/profile.name
-   cat /etc/apparmor.d/profile.name | sudo apparmor_parser -a
-
-AppArmor can be disabled, and the kernel module unloaded, by entering
-the following:
-
-.. code:: bash
-
-   sudo systemctl stop apparmor.service
-   sudo systemctl disable apparmor.service
-
-To re-enable AppArmor, enter:
-
-.. code:: bash
-
-   sudo systemctl enable apparmor.service
-   sudo systemctl start apparmor.service
-
-..
-
-   **Note**: Replace ``profile.name`` with the name of the profile you
-   want to manipulate. Also, replace ``/path/to/bin/`` with the actual
-   executable file path. For example, for the ``ping`` command use
-   ``/bin/ping``.
+      **Note**: Replace ``profile.name`` with the name of the profile you
+      want to manipulate. Also, replace ``/path/to/bin/`` with the actual
+      executable file path. For example, for the ``ping`` command use
+      ``/bin/ping``.
 
 Profiles
 --------
