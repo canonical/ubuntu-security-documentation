@@ -1,5 +1,5 @@
-File integrity monitoring
-=========================
+SYN Cookies
+-----------
 
 .. tab-set::
 
@@ -13,7 +13,7 @@ File integrity monitoring
 
     .. tab-item:: 20.04
 
-            TBA
+        TBA
 
     .. tab-item:: 18.04
         
@@ -27,12 +27,5 @@ File integrity monitoring
 
         TBA
 
-   
-   
-   
-   
 
-   
-
-   
-
+When a system is overwhelmed by new network connections, SYN cookie use is activated to help mitigate SYN-flood attacks.

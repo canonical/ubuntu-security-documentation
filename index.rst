@@ -1,7 +1,7 @@
 .. include:: reuse/substitutions.rst
 
-|ubuntu-latest-version| security documentation
-===============================================
+Ubuntu security documentation
+=============================
 
 .. toctree::
    :maxdepth: 2
@@ -11,13 +11,12 @@
    docs/livepatch/index
    docs/oval/index
    
-
 .. toctree::
    :maxdepth: 2
    :caption: Ubuntu security features
 
    docs/security-features-overview
-   docs/security-features/privelege-restriction/index
+   docs/security-features/privilege-restriction/index
    docs/security-features/cryptography/index
    docs/security-features/process-memory/index
    docs/security-features/storage/index

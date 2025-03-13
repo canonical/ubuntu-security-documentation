@@ -1,5 +1,5 @@
-File integrity monitoring
-=========================
+FIFO restrictions
+-----------------
 
 .. tab-set::
 
@@ -27,12 +27,7 @@ File integrity monitoring
 
         TBA
 
-   
-   
-   
-   
 
-   
+Processes may not check that the files being created are actually created as the desired type. This global control forbids some potentially unsafe configurations from working.
 
-   
-
+See the kernel admin-guide for documentation. 

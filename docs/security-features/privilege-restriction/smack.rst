@@ -1,5 +1,5 @@
-File integrity monitoring
-=========================
+SMACK
+-----
 
 .. tab-set::
 
@@ -27,12 +27,7 @@ File integrity monitoring
 
         TBA
 
-   
-   
-   
-   
 
-   
+SMACK is a flexible inode-based MAC.
 
-   
-
+Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_.
