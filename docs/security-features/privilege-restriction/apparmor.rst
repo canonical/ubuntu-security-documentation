@@ -27,57 +27,125 @@ AppArmor
 
    .. tab-item:: 14.04
 
-        -
+        N/A
 
-`AppArmor <https://apparmor.net/>`__ is a  Linux Security Module implementation that restricts applications’ capabilities and permissions with **profiles** that are set per-program. It provides
-mandatory access control (MAC) to supplement the more traditional UNIX model of discretionary access control (DAC).
+`AppArmor <https://apparmor.net/>`__ is a Linux Security Module implementation that restricts applications' capabilities and permissions and supplements the more traditional UNIX model of discretionary access control (DAC).
 
-It uses **profiles** of an application to determine what files and permissions the application requires. Some packages will install their own profiles, and additional profiles can be found in the
-``apparmor-profiles`` package.
+AppArmor uses **application profiles** to determine the permissions the application process has.
 
-AppArmor controls:
-
-- File access (read, write, link, lock)
-- Library loading
-- Application execution
-- Coarse-grained network access (protocol, type, domain)
-- Capabilities
-- Coarse owner checks (starting with Ubuntu 9.10)
-- Mount operations (starting with Ubuntu 12.04 LTS)
-- Unix(7) named sockets (starting with Ubuntu 13.10)
-- DBus API (starting with Ubuntu 13.10)
-- Signal(7) (starting with Ubuntu 14.04 LTS)
-- Ptrace(2) (starting with Ubuntu 14.04 LTS)
-- Unix(7) abstract and anonymous sockets (starting with Ubuntu 14.10)
-
-AppArmor is a core technology for `Ubuntu Touch <https://wiki.ubuntu.com/SecurityTeam/Specifications/ApplicationConfinement>`_ and `Snappy for Ubuntu Core <https://developer.ubuntu.com/en/snappy/guides/security-policy/>`_.
+AppArmor is a core technology for `Ubuntu Touch <https://wiki.ubuntu.com/SecurityTeam/Specifications/ApplicationConfinement>`_, and `Snappy for Ubuntu Core <https://developer.ubuntu.com/en/snappy/guides/security-policy/>`_.
 
 AppArmor regression tests 
---------------------------
 
 - `test-apparmor.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-apparmor.py>`_
 - `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_
 
-AppArmor Unprivileged User Namespace Restrictions
+Discretionary Access Control (DAC) vs. Mandatory Access Control (MAC)
+======================================================================
+
+Mandatory Access Control (MAC) is a security method where permissions are explicitly defined by a *policy*. A user or program cannot do more than is allowed by the policy confining it.
+
+Discretionary Access Control (DAC) is s security method where an entity (for example, a user, a program, or a group) has specific permissions to perform certain actions (read, write, execute, and so on).
+
+An example of DAC would be a user that has permissions to read and edit a specific file.
+An example of MAC would be a system-wide polocy that permits this file to be read but never edited.
+
+AppArmor is a MAC system and operates on the principle of controlling permissions of applications.
+
+AppArmor architecture 
+=====================
+
+AppArmor is an implementation of `Linux Security Module (LSM) <https://www.kernel.org/doc/html/latest/admin-guide/LSM/index.html>`_. It utilizes a *path-based control model* which means that AppArmor rules define permissions for programs based on file path patterns and these paths are used during runtime checks. 
+
+Linux Security Module framework 
+-------------------------------
+
+The Linux Security Module (LSM) is a framework in the Linux kernel that allows different security models to hook into the kernel and enforce access control policies. A hook in the kernel is a place in the code where additional logic can be inserted. LSM hook points are predefined in the Linux kernel. They are built into the kernel source code and serve as the official extension points where security modules like AppArmor can plug in their logic.
+
+AppArmor policy enforcement process
+-----------------------------------
+
+Once AppArmor policy is defined and AppArmor is initialized, it registers its access control functions by attaching them to predefined LSM hook points.
+
+When a process inside kernel reaches these hook points, the kernel
+
+* intercepts the operation
+
+* looks up a currently active AppArmor profile for the process
+
+* compares access permissions that the process requests with the permissions in AppArmor policy
+
+* denies or allows the request based on the policy in the profile
+
+AppArmor and ``systemd`` 
+------------------------
+
+AppArmor profiles are managed by ``systemd``. ``systemd`` loads and unloads AppArmor profiles. It also ensures initializies AppArmor on boot.
+
+AppArmors behavior is defined in a file, typically named ``apparmor.service``, which specifies how AppArmor is started, stopped, and reloaded.
+
+When the system boots, systemd is the first process to start, and it manages all the subsequent services. During this initialization:
+
+AppArmor security profiles
+==========================
+
+An AppArmor profile is a text file that contains the access rules for an application. It starts with the name of the application followed by the set of rules specifying what it is allowed to do. A profile defines a policy which is compiled and loaded into the kernel. The kernel enforces policy on applications.
+
+Enforcing vs. complain
+----------------------
+
+AppArmor profiles have two modes - enforcing and complain. Profiles loaded in enforcing mode enforce the policy and report policy violation attempts via ``syslog`` or ``auditd``. Profiles in complain mode do not enforce policy and only report policy violation attempts. 
+
+Audit logs
+----------
+
+Whether the profile is in enforcing or in complain mode, ppArmor logs all access denials. These logs are typically written to the system log (e.g., ``/var/log/syslog`` or ``/var/log/audit/audit.log``).
+
+The logs typically include:
+
+* Process ID (PID)
+
+* Name of the process
+  
+* Timestamp of the event
+  
+* Path to the resource the process attempted to access
+
+* Request that was denied (e.g., file read, socket access)
+
+* Profile name applied to the process
+
+Types of confinements
+---------------------
+
+File
+     AppArmor can limit access to specific files and directories, a process's ability to access files based on file ownership or th ability to mount filesystems. 
+
+Network
+     AppArmor can limit what a process can do with network resources, including restricting network access entirely or limiting access to specific protocols, ports, or domains.
+
+Application execution
+     AppArmor can limit a process's ability to load shared libraries, execute specific applications, send or receive signals. It can also restrict the use of ptrace. 
+
+Process control
+     AppArmor can limit the Linux capabilities a process can acquire, for examle, it can prevet a process from getting high-privilege capabilities.
+
+Inter-process communications
+      AppArmor can limit which DBus interfaces a process can interact with as well as limit which processes can access named, abstract and anonymous Unix sockets.
+
+To learn more about AppArmor profile language and its capabilities, see `A quick guide to AppArmor profile Language <https://gitlab.com/apparmor/apparmor/-/wikis/QuickProfileLanguage#a-quick-guide-to-apparmor-profile-language>`_
+
+
+AppArmor unprivileged user namespace restrictions
 =================================================
 
 AppArmor can deny unprivileged applications the use of user namespaces, preventing them from gaining additional capabilities and reducing kernel attack surface. Applications requiring unprivileged namespaces must be explicitly allowed by their AppArmor profile. 
 
 
-Further reading
----------------
+Useful resources
+================
 
--  See the `AppArmor Administration
-   Guide <http://www.novell.com/documentation/apparmor/apparmor201_sp10_admin/index.html?page=/documentation/apparmor/apparmor201_sp10_admin/data/book_apparmor_admin.html>`__
-   for advanced configuration options.
--  For details using AppArmor with other Ubuntu releases see the
-   `AppArmor Community
-   Wiki <https://help.ubuntu.com/community/AppArmor>`__ page.
--  The `OpenSUSE AppArmor <http://en.opensuse.org/SDB:AppArmor_geeks>`__
-   page is another introduction to AppArmor.
--  (https://wiki.debian.org/AppArmor) is another introduction and basic
-   how-to for AppArmor.
--  A great place to get involved with the Ubuntu Server community and to
-   ask for AppArmor assistance is the ``\#ubuntu-server`` IRC channel on
-   `Libera <https://libera.chat>`__. The ``\#ubuntu-security`` IRC
-   channel may also be of use.
+-  See the `AppArmor Administration Guide <http://www.novell.com/documentation/apparmor/apparmor201_sp10_admin/index.html?page=/documentation/apparmor/apparmor201_sp10_admin/data/book_apparmor_admin.html>`_ for advanced configuration options.
+-  For details using AppArmor with other Ubuntu releases see the `AppArmor Community Wiki <https://help.ubuntu.com/community/AppArmor>`__ page.
+- `Ubuntu Server <https://documentation.ubuntu.com/server/how-to/security/apparmor/>`_ documentation contains detailed how-to guides on how to use, create, and customize AppArmor profiles.
+-  A great place to get involved with the Ubuntu Server community and to ask for AppArmor assistance is the ``\#ubuntu-server`` IRC channel on    `Libera <https://libera.chat>`__. The ``\#ubuntu-security`` IRC channel may also be of use.
