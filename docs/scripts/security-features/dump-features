@@ -27,6 +27,8 @@ except ModuleNotFoundError:
     eprint("$ sudo apt install python3-pydantic")
     sys.exit(1)
 
+import jinja2
+
 NAME = 'dump-features'
 DESCRIPTION = '''
 This program generates a table with ReStructuredText markup that lists
@@ -239,9 +241,20 @@ def feature_row(feature: Feature):
     args.output.write(table_row(cells))
     args.output.write('\n')
 
+def template_tabs():
+    env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader("."),
+    )
+    template = env.get_template("apparmor-with-tabs.jinja2.rst")
+    print(template.render(the="variables", go="here"))
+
 
 if __name__ == "__main__":
     args = args_from_cli()
+
+    template_tabs()
+
+    sys.exit(0)
 
     releases = load_releases(args.releases)
 
