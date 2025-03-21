@@ -248,29 +248,50 @@ class FeatureVersionTab():
         self.implementation = implementation
         self.cell = implementation.cell_with_markup()
 
-def template_tabs():
+def template_tabs(feature: Feature, releases: list[Release]):
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader("."),
     )
     template = env.get_template("apparmor-with-tabs.jinja2.rst")
 
+    history = feature_history(feature, releases, False)
+
     v1 = FeatureVersionTab("22.04 LTS", Implementation(comment="no yet", state=State.UNIMPLEMENTED))
     v2 = FeatureVersionTab("24.04 LTS", Implementation(comment="available", state=State.AVAILABLE))
     v3 = FeatureVersionTab("24.10", Implementation(comment="default", state=State.DEFAULT))
 
-    print(template.render(tabs=[v1, v2, v3]))
+    print(template.render(tabs=history))
 
+def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[tuple[str, Implementation]]:
+    history = []
+
+    # Every feature starts as unimplemented until the first recorded change
+    current_development = Implementation.initial()
+
+    for rel in releases:
+        item = feature.changes.get(rel.code_name)
+
+        if item is not None:
+            current_development = item
+
+        if not historical and rel.is_eol:
+            continue
+        else:
+            history.append((rel.code_name, current_development))
+    
+    return history
 
 if __name__ == "__main__":
     args = args_from_cli()
 
-    template_tabs()
-
-    sys.exit(0)
-
     releases = load_releases(args.releases)
 
     features = load_features(args.features)
+
+    apparmor = [f for f in features if f.name == "apparmor"][0]
+
+    template_tabs(apparmor, releases)
+    sys.exit(0)
 
     page_header()
 
