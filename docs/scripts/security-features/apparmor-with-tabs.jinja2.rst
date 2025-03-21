@@ -5,13 +5,11 @@
 
 .. tabs::
 
-   .. group-tab:: The
+   {% for tab in tabs %}
+   .. group-tab:: {{ tab.version }}
 
-      {{ the }}
-
-   .. group-tab:: Go
-
-      {{ go }}
+      {{ tab.cell }}
+   {% endfor %}
 
 `AppArmor <https://help.ubuntu.com/community/AppArmor>`__ is a
 path-based MAC. It can mediate:

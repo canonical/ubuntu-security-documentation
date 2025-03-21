@@ -117,6 +117,16 @@ class Implementation(BaseModel):
         """
         return Implementation(comment="--", state=State.UNIMPLEMENTED)
 
+    def cell_with_markup(self) -> str:
+        """
+        Format the cell content as an RST string
+        """
+        # Default features add special markup, currently bold:
+        if self.state == State.DEFAULT:
+            return f"**{self.comment}**"
+        else:
+            return f"{self.comment}"
+
 class Feature(BaseModel):
     """
     This is a security feature as listed in features.json
@@ -206,16 +216,6 @@ def page_header():
     args.output.write(header)
     args.output.write("\n")
 
-def cell_with_markup(cell: Implementation) -> str:
-    """
-    Format the cell content as an RST string
-    """
-    # Default features add special markup, currently bold:
-    if cell.state == State.DEFAULT:
-        return f"**{cell.comment}**"
-    else:
-        return f"{cell.comment}"
-
 def feature_row(feature: Feature):
     """
     Draw a row describing a security feature in the RST list table format
@@ -235,18 +235,30 @@ def feature_row(feature: Feature):
         if not args.historical and rel.is_eol:
             continue
         else:
-            cell = cell_with_markup(current_development)
+            cell = current_development.cell_with_markup()
             cells.append(cell)
 
     args.output.write(table_row(cells))
     args.output.write('\n')
+
+class FeatureVersionTab():
+
+    def __init__(self, version: str, implementation: Implementation):
+        self.version = version
+        self.implementation = implementation
+        self.cell = implementation.cell_with_markup()
 
 def template_tabs():
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader("."),
     )
     template = env.get_template("apparmor-with-tabs.jinja2.rst")
-    print(template.render(the="variables", go="here"))
+
+    v1 = FeatureVersionTab("22.04 LTS", Implementation(comment="no yet", state=State.UNIMPLEMENTED))
+    v2 = FeatureVersionTab("24.04 LTS", Implementation(comment="available", state=State.AVAILABLE))
+    v3 = FeatureVersionTab("24.10", Implementation(comment="default", state=State.DEFAULT))
+
+    print(template.render(tabs=[v1, v2, v3]))
 
 
 if __name__ == "__main__":
