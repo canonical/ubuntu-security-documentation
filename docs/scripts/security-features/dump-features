@@ -66,6 +66,13 @@ def args_from_cli() -> argparse.Namespace:
         nargs='?',
         type=argparse.FileType('r'),
         default="features.json")
+    parser.add_argument(
+        '-t',
+        '--template',
+        help="Fill out this Jinja2 template with data about features in releases",
+        nargs='?',
+        type=argparse.FileType('r'),
+        default=None)
 
     return parser.parse_args()
 
@@ -252,13 +259,13 @@ class StatusInVersion():
         self.implementation = implementation
         self.cell = implementation.cell_with_markup()
 
-def template_tabs(histories: dict[str, list[StatusInVersion]]):
+def fill_out_template(histories: dict[str, list[StatusInVersion]]):
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader("."),
     )
     template = env.get_template("apparmor-with-tabs.jinja2.rst")
 
-    print(template.render(histories=histories))
+    args.output.write(template.render(histories=histories))
 
 def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[StatusInVersion]:
     """
@@ -318,19 +325,22 @@ if __name__ == "__main__":
 
     features = load_features(args.features)
 
-    histories = all_features_history(features, releases, args.historical)
+    # TODO: Make this a choice in the command-line parser
+    # If the user points to a template file, fill it out
+    # and print the result.
+    if args.template:
+        histories = all_features_history(features, releases, args.historical)
+        fill_out_template(histories)
+    # Otherwise by default, generate the table.
+    else:
+        page_header()
 
-    template_tabs(histories)
-    sys.exit(0)
-
-    page_header()
-
-    for feature in features:
-        # Section features currently have no effect but we keep them
-        # in features.json for future use.
-        if feature.section:
-            continue
-        else:
-            feature_row(feature)
+        for feature in features:
+            # Section features currently have no effect but we keep them
+            # in features.json for future use.
+            if feature.section:
+                continue
+            else:
+                feature_row(feature)
 
     args.output.flush()
