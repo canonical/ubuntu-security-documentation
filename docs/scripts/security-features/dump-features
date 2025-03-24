@@ -241,7 +241,11 @@ def feature_row(feature: Feature):
     args.output.write(table_row(cells))
     args.output.write('\n')
 
-class FeatureVersionTab():
+class StatusInVersion():
+    """
+    This describes the status of a feature in an Ubuntu release.
+    The data serves as the basis for a tab in an RST page.
+    """
 
     def __init__(self, version: str, implementation: Implementation):
         self.version = version
@@ -259,10 +263,7 @@ def template_tabs(feature: Feature, releases: list[Release]):
     # TODO: This is probably what would work best in the tabs template
     # hist = {
     #     "feature": [
-    #         {
-    #             "version": "v1",
-    #             "implementation": "available",
-    #         },
+    #         FeatureVersionTab,
     #     ]
     # }
     # Then feed the whole hist dict into every Jinja2 template
@@ -270,7 +271,7 @@ def template_tabs(feature: Feature, releases: list[Release]):
 
     print(template.render(tabs=history))
 
-def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[tuple[str, Implementation]]:
+def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[StatusInVersion]:
     history = []
 
     # Every feature starts as unimplemented until the first recorded change
@@ -282,10 +283,14 @@ def feature_history(feature: Feature, releases: list[Release], historical: bool)
         if item is not None:
             current_development = item
 
+        # Only include supported releases in the output, unless asked otherwise
         if not historical and rel.is_eol:
             continue
         else:
-            history.append((rel.code_name, current_development))
+            status = StatusInVersion(
+                version=rel.only_version(),
+                implementation=current_development)
+            history.append(status)
     
     return history
 

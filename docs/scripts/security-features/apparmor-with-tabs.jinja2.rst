@@ -6,9 +6,9 @@
 .. tabs::
 
    {% for tab in tabs %}
-   .. group-tab:: {{ tab[0] }}
+   .. group-tab:: {{ tab.version }}
 
-      {{ tab[1].cell_with_markup() }}
+      {{ tab.cell }}
    {% endfor %}
 
 `AppArmor <https://help.ubuntu.com/community/AppArmor>`__ is a
