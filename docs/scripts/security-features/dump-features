@@ -307,6 +307,9 @@ def all_features_history(
             StatusInVersion,
         ]
     }
+
+    TODO: Add more data into this structure, like the human-readable feature name,
+    so that users can render more complex templates, even the originla table.
     """
 
     histories = {}
