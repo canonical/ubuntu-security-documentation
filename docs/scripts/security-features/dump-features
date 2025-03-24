@@ -27,7 +27,13 @@ except ModuleNotFoundError:
     eprint("$ sudo apt install python3-pydantic")
     sys.exit(1)
 
-import jinja2
+try:
+    import jinja2
+except ModuleNotFoundError:
+    eprint("Please install the Jinja2 Python library.")
+    eprint("On Ubuntu and Debian:")
+    eprint("$ sudo apt install python3-jinja2")
+    sys.exit(1)
 
 NAME = 'dump-features'
 DESCRIPTION = '''
@@ -118,6 +124,7 @@ class Implementation(BaseModel):
     comment: str
     state: State
 
+    @staticmethod
     def initial():
         """"
         The initial state of an implementation is unimplemented
