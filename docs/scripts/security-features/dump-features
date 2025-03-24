@@ -252,26 +252,19 @@ class StatusInVersion():
         self.implementation = implementation
         self.cell = implementation.cell_with_markup()
 
-def template_tabs(feature: Feature, releases: list[Release]):
+def template_tabs(histories: dict[str, list[StatusInVersion]]):
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader("."),
     )
     template = env.get_template("apparmor-with-tabs.jinja2.rst")
 
-    history = feature_history(feature, releases, False)
-
-    # TODO: This is probably what would work best in the tabs template
-    # hist = {
-    #     "feature": [
-    #         FeatureVersionTab,
-    #     ]
-    # }
-    # Then feed the whole hist dict into every Jinja2 template
-    # so that the template can pick the right feature.
-
-    print(template.render(tabs=history))
+    print(template.render(histories=histories))
 
 def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[StatusInVersion]:
+    """
+    Given a security feature, fill out its implementation statuses in all releases.
+    By default, only process supported releases.
+    """
     history = []
 
     # Every feature starts as unimplemented until the first recorded change
@@ -294,6 +287,30 @@ def feature_history(feature: Feature, releases: list[Release], historical: bool)
     
     return history
 
+def all_features_history(
+    features: list[Feature],
+    releases: list[Release],
+    historical: bool) -> dict[str, list[StatusInVersion]]:
+    """
+    Gather and fill out all version statuses for each feature.
+    Output similar to the following template:
+
+    histories = {
+        "feature": [
+            StatusInVersion,
+        ]
+    }
+    """
+
+    histories = {}
+
+    for feature in features:
+        hist = feature_history(feature, releases, historical)
+        histories[feature.name] = hist
+    
+    return histories
+
+
 if __name__ == "__main__":
     args = args_from_cli()
 
@@ -301,9 +318,9 @@ if __name__ == "__main__":
 
     features = load_features(args.features)
 
-    apparmor = [f for f in features if f.name == "apparmor"][0]
+    histories = all_features_history(features, releases, args.historical)
 
-    template_tabs(apparmor, releases)
+    template_tabs(histories)
     sys.exit(0)
 
     page_header()
