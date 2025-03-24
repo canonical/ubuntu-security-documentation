@@ -260,12 +260,14 @@ class StatusInVersion():
         self.cell = implementation.cell_with_markup()
 
 def fill_out_template(histories: dict[str, list[StatusInVersion]]):
-    env = jinja2.Environment(
-        loader=jinja2.FileSystemLoader("."),
-    )
-    template = env.get_template("apparmor-with-tabs.jinja2.rst")
+    # Use the template files provided in command-line arguments
+    template = jinja2.Template(args.template.read())
 
-    args.output.write(template.render(histories=histories))
+    # Render the template with features and releases
+    rendered = template.render(histories=histories)
+
+    # Write the output to stdout or a file
+    args.output.write(rendered)
 
 def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[StatusInVersion]:
     """
