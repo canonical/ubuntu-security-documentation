@@ -254,8 +254,8 @@ class StatusInVersion():
     The data serves as the basis for a tab in an RST page.
     """
 
-    def __init__(self, version: str, implementation: Implementation):
-        self.version = version
+    def __init__(self, release: Release, implementation: Implementation):
+        self.release = release
         self.implementation = implementation
         self.cell = implementation.cell_with_markup()
 
@@ -288,7 +288,7 @@ def feature_history(feature: Feature, releases: list[Release], historical: bool)
             continue
         else:
             status = StatusInVersion(
-                version=rel.only_version(),
+                release=rel,
                 implementation=current_development)
             history.append(status)
     

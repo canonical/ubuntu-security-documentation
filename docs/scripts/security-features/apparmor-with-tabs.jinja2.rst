@@ -6,7 +6,7 @@
 .. tabs::
 
    {% for tab in histories["apparmor"] %}
-   .. group-tab:: {{ tab.version }}
+   .. group-tab:: {{ tab.release.only_version() }}
 
       {{ tab.cell }}
    {% endfor %}
