@@ -256,9 +256,17 @@ def template_tabs(feature: Feature, releases: list[Release]):
 
     history = feature_history(feature, releases, False)
 
-    v1 = FeatureVersionTab("22.04 LTS", Implementation(comment="no yet", state=State.UNIMPLEMENTED))
-    v2 = FeatureVersionTab("24.04 LTS", Implementation(comment="available", state=State.AVAILABLE))
-    v3 = FeatureVersionTab("24.10", Implementation(comment="default", state=State.DEFAULT))
+    # TODO: This is probably what would work best in the tabs template
+    # hist = {
+    #     "feature": [
+    #         {
+    #             "version": "v1",
+    #             "implementation": "available",
+    #         },
+    #     ]
+    # }
+    # Then feed the whole hist dict into every Jinja2 template
+    # so that the template can pick the right feature.
 
     print(template.render(tabs=history))
 
