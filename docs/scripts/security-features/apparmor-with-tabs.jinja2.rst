@@ -5,11 +5,11 @@
 
 .. tabs::
 
-   {% for tab in histories["apparmor"] %}
+{% for tab in histories["apparmor"] %}
    .. group-tab:: {{ tab.release.only_version() }}
 
       {{ tab.cell }}
-   {% endfor %}
+{% endfor %}
 
 `AppArmor <https://help.ubuntu.com/community/AppArmor>`__ is a
 path-based MAC. It can mediate:
