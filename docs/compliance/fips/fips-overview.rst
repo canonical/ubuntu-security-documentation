@@ -10,7 +10,7 @@ FIPS 140-3 Level 1
 
 `FIPS 140-3 Level 1 <https://ubuntu.com/blog/ubuntu-22-04-fips-140-3-modules-available-for-preview>`_ is a combined effort of NIST and ISO with the Security and Testing requirements for cryptographic modules being published as ISO/IEC 19790 and ISO/IEC 24759. 
 
-Ubuntu 22.10 LTS
+Ubuntu 22.04 LTS
 ----------------
 
 The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
@@ -27,9 +27,9 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
 FIPS 140-2 Level 1
 ==================
 
-Modules in these releases have been assessed and certified for `FIPS 140-2 Level 1› <https://csrc.nist.gov/pubs/fips/140-2/upd2/final>`.
+Modules in these releases have been assessed and certified for `FIPS 140-2 Level 1› <https://csrc.nist.gov/pubs/fips/140-2/upd2/final>`_.
 
-Ubuntu 20.10 LTS
+Ubuntu 20.04 LTS
 ----------------
 
 The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
@@ -46,7 +46,7 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
 
 
 
-Ubuntu 18.10 LTS
+Ubuntu 18.04 LTS
 ----------------
 
 The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
@@ -62,7 +62,7 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
    "StrongSwan", "2.0 and 2.1", "?", "Historical", "`#3648 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3648>`_"
 
 
-Ubuntu 16.10 LTS
+Ubuntu 16.04 LTS
 ----------------
 
 The modules in this release were certified and tested on on x86_64/AMD6, IBM Z, and IBM Power8 architectures.  
