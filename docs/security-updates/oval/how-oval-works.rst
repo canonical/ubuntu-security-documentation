@@ -6,4 +6,4 @@ As software vulnerabilities are discovered, they are assigned CVE identifiers by
 
 When the Ubuntu Security Team patches software to address one or more CVEs, an Ubuntu Security Notice (USN) is published announcing the update. The USN OVAL data is generated from information encapsulated within the USN, and can be used to assess the system for missing patches.
 
-.. image:: ../../images/how-OVAL-data-works-diagram.webp
+.. image:: ../../../images/how-OVAL-data-works-diagram.webp
