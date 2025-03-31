@@ -3,7 +3,7 @@ Overview of FIPS-certified modules
 
 All of the certified modules are available with Ubuntu Pro. The validated modules are API and ABI compatible with the default Ubuntu packages. The validation testing for Ubuntu was performed by atsec Information Security, a NIST accredited laboratory. 
 
-Certifications under :ref:`FIPS 140-2 Level 1` will be moved to the historical list after September 2026 (although these products can still be purchased and used), and new products are expected to be certified under :ref:`FIPS 140-3 Level 1`. 
+Certifications under :ref:`FIPS 140-2 Level 1` will be moved to the historical list after September 2026 (although these products can still be purchased and used), and new products will be certified under :ref:`FIPS 140-3 Level 1`. 
 
 FIPS 140-3 Level 1
 ==================
@@ -13,16 +13,16 @@ FIPS 140-3 Level 1
 Ubuntu 22.04 LTS
 ----------------
 
-The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
+The modules in this release were certified and tested on on x86_64/AMD6, ARM64 and IBM Z architectures.  
 
 .. csv-table:: 
-   :header: "Cryptographic module", "Module version", "Associated package(s)", "Status", "Certificate"
+   :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
-   "Linux Kernel (GA) Crypto API", "5.15.0-73-fips", "Linux v5.15", "Pending", "`#4894 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4894>`_"
-   "GnuTLS", "3.7.3-4ubuntu1.2+Fips1.1", "GnuTLS v3.7.3 ", "Pending", "`#4855 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4855>`_"
-   "OpenSSL", "3.0.5-0ubuntu0.1+Fips2.1", "OpenSSL v3.0.5", "Pending", "`#4794 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4794>`_"
-   "libgcrypt", "1.9.4-3ubuntu3+Fips1.2", "Libgcrypt v1.9.4", "Pending", "`#4793 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4793>`_"
-   "StrongSwan", "1.9.4-3ubuntu3+Fips1.2", "Strongswan v5.9.5", "Pending", "`#4911 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4911>`_"
+   "Strongswan", "5.9.5", "FIPS 140-3", "Active", "`#4911 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4911>`_", "2026-12-02"
+   "Kernel Crypto API", "5.15.0", "FIPS 140-3", "Active", "`#4894 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4894>`_", "2026-11-20"
+   "GnuTLS", "3.7.3", "FIPS 140-3", "Active", "`#4855 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4855>`_", "2026-10-27"
+   "OpenSSL", "3.0.2", "FIPS 140-3", "Active", "`#4794 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4794>`_", "2026-09-10"
+   "Libgcrypt", "1.9.4", "FIPS 140-3", "Active", "`#4793 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4793>`_", "2026-09-09"
 
 FIPS 140-2 Level 1
 ==================
@@ -35,16 +35,15 @@ Ubuntu 20.04 LTS
 The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
 
 .. csv-table:: 
-   :header: "Cryptographic module", "Module version", "Associated package(s)", "Status", "Certificate"
+   :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
-   "Linux Kernel (GA) Crypto API", "3.0, 3.1", "?", "Active", "`#4366 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4366>`_, `#4132 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4132>`_ (AWS), `#4126 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4126>`_ (Azure), `#4127 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4127>`_ (GCP)"
-   "OpenSSH client", "3.1", "?", "Active", "`#4292 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4292>`_"
-   "OpenSSL", "3.1", "?", "Active", "`#4292 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4292>`_"
-   "OpenSSH server","3.1", "?", "Active", "`#4292 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4292>`_"
-   "libgcrypt", "3.0", "?", "Active", "`#3902 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3902>`_"
-   "StrongSwan", "3.0", "?", "Active", "`#4046 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4046>`_"
-
-
+   "Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4366 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4366>`_", "2026-09-21"
+   "AWS Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4132 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4132>`_", "2026-05-18"
+   "GCP Kernel Crypto API", "5.4.0, "FIPS 140-2", "Active", "`#4127 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4127>`_", "2026-05-18"
+   "Azure Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4126 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4126>`_", "2026-05-18"
+   "OpenSSL", "1.1.1f", "FIPS 140-2", "Active", "`#4292 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4292>`_", "2026-09-21"
+   "Strongswan", "5.8.2", "FIPS 140-2", "Active", "`#4046 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4046>`_", "2026-09-21"
+   "Libgcrypt", "1.8.5", "FIPS 140-2", "Active", "`#3902 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3902>`_", "2026-04-19"
 
 Ubuntu 18.04 LTS
 ----------------
@@ -53,14 +52,18 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
 
 
 .. csv-table:: 
-   :header: "Cryptographic module", "Module version", "Associated package(s)", "Status", "Certificate"
+   :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
-   "Linux Kernel (GA) Crypto API", "2.0 and 2.1", "?", "Historical", "`#3647 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3647>`_, `#4018 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/4018>`_, `#3664 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3664>`_ (AWS), `#3683 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3683>`_ (Azure), `#3954 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3954>`_ (GCP)"
-   "OpenSSH client", "2.1", "?", "Historical", "`#3633 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3633>`_"
-   "OpenSSL", "2.0 and 2.1", "?", "Historical", "`#3622 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3622>`_, `#3980 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3980>`_"
-   "libgcrypt", "1.0 and 1.1", "?", "Active", "`#3748 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3748>`_"
-   "StrongSwan", "2.0 and 2.1", "?", "Historical", "`#3648 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3648>`_"
-
+   "Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4018 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4018>`_", "2026-08-29"
+   "Google Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4598 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4598>`_", "2025-04-23"
+   "AWS Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4597 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4597>`_", "2025-04-23"
+   "IBM-GT Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4594 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4594>`_", "2025-04-23"
+   "Azure Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4464 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4464>`_", "2025-04-23"
+   "OpenSSL", "1.1.1", "FIPS 140-2", "Active", "`#3980 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3980>`_", "2026-07-11"
+   "Libgcrypt", "1.8.1", "FIPS 140-2", "Active", "`#3748 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3748>`_", "2025-11-23"
+   "Strongswan", "5.6.2", "FIPS 140-2", "Historical", "`#3648 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3648>`_", "-"
+   "OpenSSH client", "1:7.9p1", "FIPS 140-2", "Historical", "`#3633 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3633>`_", "-"
+   "OpenSSH server", "1:7.9p1", "FIPS 140-2", "Historical", "`#3632 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3632>`_", "-"
 
 Ubuntu 16.04 LTS
 ----------------
@@ -70,12 +73,11 @@ The modules in this release were certified and tested on on x86_64/AMD6, IBM Z, 
 .. csv-table:: 
    :header: "Cryptographic module", "Module version(s)", "Associated package(s)", "Status", "Certificate"
 
-   "Linux Kernel (GA) Crypto API", "1.0 and 2.0", "?", "Historical", "`#2962 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/2962>`_, `#3724 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3724>`_"
-   "OpenSSH client", "1.0, 1.1, and 1.2", "?", "Historical", "`#2907 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/2907>`_"
-   "OpenSSL", "1.0", "?", "Historical", "`#2888 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/2888>`_"
-   "OpenSSL", "2.0", "?", "Historical", "`#3725 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/3725>`_"
-   "OpenSSH server", "1.0, 1.1 and 1.2", "", "Historical", "`#2906 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/2906>`_"
-   "StrongSwan", "1.0 and 1.1", "?", "Historical", "`#2978 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/2978>`_"
+   "Kernel Crypto API", "4.4.0", "FIPS 140-2", "Active", "`#4604 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4604>`_", "2025-10-06"
+   "OpenSSL", "1.0.2g", "FIPS 140-2", "Active", "`#4589 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4589>`_", "2025-10-08"
+   "Strongswan", "5.3.5", "FIPS 140-2", "Historical", "`#3648 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3648>`_", "SP 800-56Arev3 transition "
+   "OpenSSH client", "1:7.2p2", "FIPS 140-2", "Historical", "`#2907 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/2907>`_", "-"
+   "OpenSSH server", "1:7.2p2", "FIPS 140-2", "Historical", "`#2906 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/2906>`_", ""
 
 Ubuntu Pro services for FIPS modules 
 ======================================
