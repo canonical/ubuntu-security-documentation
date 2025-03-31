@@ -1,7 +1,7 @@
 FIPS mode with full fisk encryption
 ===================================
 
-|ubuntu-latest-version| supports numerous file systems, and the installer provides the option to use Full Disk Encryption (FDE) using either LUKS or ZFS. ZFS is not supported in FIPS mode. It is possible to use LUKS encryption, although an additional manual configuration step is required.
+Ubuntu supports numerous file systems, and the installer provides the option to use Full Disk Encryption (FDE) using either LUKS or ZFS. ZFS is not supported in FIPS mode. It is possible to use LUKS encryption, although an additional manual configuration step is required.
 
 By default LUKS uses the Argon2i password hashing algorithm to generate a disk encryption key from the user-supplied password. This modern algorithm was chosen as it is believed to be more secure against the current hardware capabilities available to attackers (see the Password Hashing Competition for more details) than the older PBKDF2 algorithm. At this time, the Argon2 algorithms have not yet been certified by NIST for use in FIPS 140-3, although it is possible to use PBKDF2, and Argon2i is therefore unavailable in FIPS mode.
 

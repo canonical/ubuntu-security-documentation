@@ -10,11 +10,11 @@ Matrix of features
    :header: area, feature, 20.04 LTS, 22.04 LTS, 24.04 LTS, 24.10, 25.04
    :widths: auto
 
-   :ref:`Privilige restriction`, :ref:`AppArmor`, 2.13.3, 3.0.4, 3.0.7, 3.0.7, 3.0.7 
-   :ref:`Privilige restriction`, :ref:`AppArmor unprivileged user namespace restrictions`, --, --, kernel & userspace, kernel & userspace, kernel & userspace
-   :ref:`Privilige restriction`, :ref:`SELinux`, universe, universe, universe, universe, universe 
-   :ref:`Privilige restriction`, :ref:`SMACK`, kernel, kernel, kernel, kernel, kernel 
-   :ref:`Privilige restriction`, :ref:`PR_SET_SECCOMP`, kernel, kernel, kernel, kernel, kernel
+   :ref:`Privilege restriction`, :ref:`AppArmor`, 2.13.3, 3.0.4, 3.0.7, 3.0.7, 3.0.7 
+   :ref:`Privilege restriction`, :ref:`AppArmor unprivileged user namespace restrictions`, --, --, kernel & userspace, kernel & userspace, kernel & userspace
+   :ref:`Privilege restriction`, :ref:`SELinux`, universe, universe, universe, universe, universe 
+   :ref:`Privilege restriction`, :ref:`SMACK`, kernel, kernel, kernel, kernel, kernel 
+   :ref:`Privilege restriction`, :ref:`PR_SET_SECCOMP`, kernel, kernel, kernel, kernel, kernel
    :ref:`Storage and filesystem`, :ref:`Filesystem Capabilities`, kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server) 
    :ref:`Storage and filesystem`, :ref:`Encrypted LVM`, main installer, main installer, main installer, main installer, main installer 
    :ref:`Storage and filesystem`, :ref:`File Encryption`, "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset 

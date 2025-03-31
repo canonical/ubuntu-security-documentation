@@ -23,7 +23,7 @@ import ast
 #
 # TODO: Update with the official name of your project or product
 
-project = "Ubuntu 24.10 security documentation"
+project = "Ubuntu security documentation"
 author = "Canonical Ltd."
 
 
@@ -244,7 +244,7 @@ exclude_patterns = [
 # Adds custom CSS files, located under 'html_static_path'
 
 html_css_files = [
-    "css/pdf.css", 
+    "css/pdf.css", "css/project-specific.css"
 ]
 
 
