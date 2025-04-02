@@ -39,7 +39,7 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
 
    "Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4366 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4366>`_", "2026-09-21"
    "AWS Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4132 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4132>`_", "2026-05-18"
-   "GCP Kernel Crypto API", "5.4.0, "FIPS 140-2", "Active", "`#4127 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4127>`_", "2026-05-18"
+   "GCP Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4127 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4127>`_", "2026-05-18"
    "Azure Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4126 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4126>`_", "2026-05-18"
    "OpenSSL", "1.1.1f", "FIPS 140-2", "Active", "`#4292 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4292>`_", "2026-09-21"
    "Strongswan", "5.8.2", "FIPS 140-2", "Active", "`#4046 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4046>`_", "2026-09-21"
