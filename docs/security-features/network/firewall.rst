@@ -34,17 +34,34 @@ Firewall
 
 `ufw <https://help.ubuntu.com/community/UFW>`_ is a default firewall configuration tool for Ubuntu. It works as a frontend for ``iptables`` and ``nftables`` and is available in Ubuntu but disabled by default. 
 
-iptables
---------
+iptables, ip6tables, arptables and ebtables
+-------------------------------------------
 
-Hisotircally, `iptables <https://netfilter.org/projects/iptables/index.html>`_ has been the primary tool used in Linux systems for many years. It allows us to configure and inspect the Linux kernel’s firewall rules. Operating at a low level, it interacts directly with the network stack to manage how packets are handled.
+Historically, `iptables <https://netfilter.org/projects/iptables/index.html>`_, ip6tables, arptables and ebtables have been the primary tools used in Linux systems for managing firewall configurations. It allows us to configure and inspect the Linux kernel’s netfilter configuration. Operating at a low level, it interacts directly with the network stack to manage how packets are handled.
+
+Starting with Ubuntu FIXME, the ``iptables`` package has provided versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` tools that work with nftables API and provide a compatible interface to the legacy implementation. The nftables have been the default since Ubuntu FIXME. These are managed through the alternatives system and the current configuration can be displayed with the following commands:
+
+.. code-block:: bash
+    update-alternatives --display iptables
+    update-alternatives --display ip6tables
+    update-alternatives --display arptables
+    update-alternatives --display ebtables
+
 
 nftables
 --------
 
 `nftables <https://www.nftables.org/projects/nftables/index.html>`_ is a successor to iptables, which was designed to simplify and enhance Linux firewall management. 
 
-``nftables`` reduces complexity of ``iptables`` and offers improved performance. 
+``nftables`` reduces complexity of ``iptables`` and offers improved performance. It can also be used to manage rules that would've previously been managed by arptables and ebtables, while additionally supporting common IPv4 and IPv6 rules.
+
+Starting with Ubuntu FIXME, the ``nftables`` package provides a systemd service unit file that is disabled by default. If enabled, the service unit file will automatically load ``nftables`` configuration from the ``/etc/nftables.conf`` file (a mock file that does not perform any filtering is provided in the ``nftables`` package). You can enable this and load the configuration using the following commands:
+
+.. code-block:: bash
+    sudo systemctl enable nftables.service
+    sudo systemctl start nftables.service
+
+For more information on configuring nftables, please see the `nft manual page <https://manpages.ubuntu.com/manpages/man8/nft.8.html>`_ and the `nftables documentation <https://wiki.nftables.org/wiki-nftables/index.php/Main_Page>`_.
 
 ufw
 ----
