@@ -41,6 +41,7 @@ Project and community
    :maxdepth: 2
    :hidden:
 
+   docs/software-integrity/index
    docs/security-updates/index
    docs/security-features/index
    docs/compliance/index
