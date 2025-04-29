@@ -3,37 +3,37 @@ Firewall
 
 .. tab-set::
 
-    .. tab-item:: 25.04 
+    .. tab-item:: 25.04
 
-        ufw 0.36.2-9 
+        ufw 0.36.2-9
 
     .. tab-item:: 24.10
-        
-        ufw 0.36.2-6 
+
+        ufw 0.36.2-6
 
     .. tab-item:: 24.04
 
-        ufw  0.36.2-6
+        ufw 0.36.2-6
 
     .. tab-item:: 22.04
 
-        ufw 0.36.1-4 
+        ufw 0.36.1-4
 
     .. tab-item:: 20.04
 
-        ufw 0.36-6 
+        ufw 0.36-6
 
     .. tab-item:: 18.04
-        
-        ufw 0.36-0ubuntu0.18.04.1 
-    
+
+        ufw 0.36-0ubuntu0.18.04.1
+
     .. tab-item:: 16.04
 
-        ufw 0.35-0ubuntu2   
+        ufw 0.35-0ubuntu2
 
     .. tab-item:: 14.04
 
-        ufw 0.34~rc-0ubuntu2 
+        ufw 0.34~rc-0ubuntu2
 
 
 `ufw <https://help.ubuntu.com/community/UFW>`_ is a default firewall configuration tool for Ubuntu. It works as a frontend for ``iptables`` and is available in Ubuntu but disabled by default.
@@ -55,7 +55,7 @@ Starting with Ubuntu FIXME, the ``iptables`` package has provided versions of th
 nftables
 --------
 
-`nftables <https://www.nftables.org/projects/nftables/index.html>`_ is a successor to iptables, which was designed to simplify and enhance Linux firewall management. 
+`nftables <https://www.nftables.org/projects/nftables/index.html>`_ is a successor to iptables, which was designed to simplify and enhance Linux firewall management.
 
 ``nftables`` reduces complexity of ``iptables`` and offers improved performance. It can also be used to manage rules that would've previously been managed by arptables and ebtables, while additionally supporting common IPv4 and IPv6 rules.
 
