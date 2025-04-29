@@ -22,3 +22,11 @@ Ubuntu image integrity verification
    :maxdepth: 2
 
    image-verification
+
+Ubuntu archive integrity verification
+=====================================
+
+.. toctree::
+   :maxdepth: 2
+
+   archive-verification
