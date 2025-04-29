@@ -97,7 +97,8 @@ AppArmor profiles have two modes - enforcing and complain. Profiles loaded in en
 Audit logs
 ----------
 
-Whether the profile is in enforcing or in complain mode, ppArmor logs all access denials. These logs are typically written to the system log (e.g., ``/var/log/syslog`` or ``/var/log/audit/audit.log``).
+Whether the profile is in enforcing or in complain mode, AppArmor logs all access denials. These logs are typically written to the system log (e.g., ``/var/log/syslog`` or ``/var/log/audit/audit.log``).
+
 
 The logs typically include:
 
