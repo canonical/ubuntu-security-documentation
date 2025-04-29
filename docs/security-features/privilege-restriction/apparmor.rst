@@ -82,9 +82,7 @@ AppArmor and ``systemd``
 
 On boot, AppArmor profiles are managed by ``systemd`` directly when it comes to early policy loading. ``systemd`` calls `apparmor_parser` to load AppArmor profiles from the compiled policy cache location `/etc/apparmor/earlypolicy/`.
 
-AppArmors behavior is defined in a file, typically named ``apparmor.service``, which specifies how AppArmor is started, stopped, and reloaded.
-
-When the system boots, systemd is the first process to start, and it manages all the subsequent services. During this initialization:
+When early policy is not configured, the rest of the policies are loaded from the default behavior by the AppArmor systemd unit file, typically named ``apparmor.service``, which specifies how AppArmor is started and reloaded. Note that the stop command is intentionally a no-op, because of how the reload command is implemented in `systemd` - typically by a stop followed by a start, and this could lead to tasks operating in an unconfined state after the start. To unload profiles, `aa-teardown` should be used.
 
 AppArmor security profiles
 ==========================
