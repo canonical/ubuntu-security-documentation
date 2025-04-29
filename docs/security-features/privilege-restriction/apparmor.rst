@@ -127,7 +127,7 @@ Application execution
      AppArmor can limit a process's ability to load shared libraries, execute specific applications, send or receive signals. It can also restrict the use of ptrace. 
 
 Process control
-     AppArmor can limit the Linux capabilities a process can acquire, for examle, it can prevet a process from getting high-privilege capabilities.
+     AppArmor can limit the Linux capabilities a process can acquire, for example, it can prevent a process from getting high-privilege capabilities.
 
 Inter-process communications
       AppArmor can limit which DBus interfaces a process can interact with as well as limit which processes can access named, abstract and anonymous Unix sockets.
