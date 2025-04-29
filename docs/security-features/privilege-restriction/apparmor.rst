@@ -48,7 +48,7 @@ Mandatory Access Control (MAC) is an access control mechanism where permissions 
 Discretionary Access Control (DAC) is an access control mechanism where an entity (for example, a user, a program, or a group) has specific permissions to perform certain actions (read, write, execute, and so on).
 
 An example of DAC would be a user that has permissions to read and edit a specific file.
-An example of MAC would be a system-wide polocy that permits this file to be read but never edited.
+An example of MAC would be a system-wide policy that permits this file to be read but never edited.
 
 AppArmor is a MAC system and operates on the principle of controlling permissions of applications.
 
