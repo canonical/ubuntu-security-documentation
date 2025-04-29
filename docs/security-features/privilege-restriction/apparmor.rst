@@ -80,7 +80,7 @@ When a process inside kernel reaches these hook points, the kernel
 AppArmor and ``systemd`` 
 ------------------------
 
-AppArmor profiles are managed by ``systemd``. ``systemd`` loads and unloads AppArmor profiles. It also ensures initializies AppArmor on boot.
+On boot, AppArmor profiles are managed by ``systemd`` directly when it comes to early policy loading. ``systemd`` calls `apparmor_parser` to load AppArmor profiles from the compiled policy cache location `/etc/apparmor/earlypolicy/`.
 
 AppArmors behavior is defined in a file, typically named ``apparmor.service``, which specifies how AppArmor is started, stopped, and reloaded.
 
