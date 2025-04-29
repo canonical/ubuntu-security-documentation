@@ -1,4 +1,7 @@
 
+How to troubleshoot and solve common issues
+############################################
+
 FIPS modules fail to install on machines with NVIDIA drivers
 ============================================================
 
