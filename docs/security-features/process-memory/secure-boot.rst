@@ -20,96 +20,86 @@ UEFI Secure Boot
         amd64, kernel signature enforcement 
 
 
-UEFI Secure Boot is a security mechanism that ensures only trusted code is executed during system boot.
+UEFI Secure Boot is a security mechanism that prevents untrusted code from executing during system boot.
 
-To use UEFI Secure Boot, each binary loaded at boot must be validated against trusted keys stored in firmware. These keys identify either trusted vendors or specific binaries verified via cryptographic hashing.
+To use UEFI Secure Boot, each binary loaded at boot must be validated against trusted keys stored in firmware. These keys identify either trusted vendors or are used to verify specific signed binaries.
 
-Most x86 hardware comes with Microsoft keys preloaded in firmware, allowing Secure Boot to recognize and trust Microsoft-signed binaries. The Linux community relies on this model for Secure Boot compatibility.
+Most x86 hardware comes with Microsoft certificates in firmware, allowing Secure Boot to recognize and trust Microsoft-signed binaries. The Linux community relies on this model for Secure Boot compatibility.
 
-While many ARM and other architectures also support UEFI Secure Boot, they may not come with preloaded keys in firmare. In such cases, boot images must be signed with a certificate that the hardware owner loads into firmware.
+
 
 Secure Boot in Ubuntu
 =====================
 
-On Ubuntu, Secure Boot was first introduced in 12.04 LTS with enforcing mode enabled for the bootloader but non-enforcing mode for the kernel. In this initial implementation, an unverified kernel could still boot but without UEFI-specific protections enabled.
-
-Starting with Ubuntu 18.04.2 LTS, Secure Boot was strengthened to enforce signature verification for both the bootloader and the kernel. This enhancement introduced the following security measures:
-
-* Kernels failing verification will no longer boot.
-
-* Kernel modules failing verification will not be loaded.
+On Ubuntu, Secure Boot was first introduced in 12.04 LTS with enforcing mode enabled for the bootloader but non-enforcing mode for the kernel. Starting with Ubuntu 18.04 LTS, Secure Boot allows to verify all critical components -- bootloader, kernel, and kernel modules.
 
 Supported architectures
 -----------------------
 
 amd64
-     A shim binary signed by Microsoft and grub binary signed by Canonical are provided in the Ubuntu main archive as shim-signed or grub-efi-amd64-signed.
+     A ``shim`` binary signed by Microsoft and GRUB binary signed by Canonical are provided in the Ubuntu ``main`` archive as ``shim-signed`` or ``grub-efi-amd64-signed``.
 
 arm64
-     As of 20.04 ('focal'), a shim binary signed by Microsoft and grub binary signed by Canonical are provided in the Ubuntu main archive as shim-signed or grub-efi-arm64-signed. There is a GRUB bug under investigation that needs to be resolved before this works end to end. 
+     As of 20.04, a ``shim`` binary signed by Microsoft and GRUB binary signed by Canonical are provided in the Ubuntu ``main`` archive as ``shim-signed`` or ``grub-efi-arm64-signed``. 
 
 Boot process
 ------------
 
-BootEntry
-~~~~~~~~~
+Boot variables
+~~~~~~~~~~~~~~
 
-Secure boot process relies on ``BootEntry`` variables. ``BootEntry`` is a list of configurations or instructions that the firmware uses to determine what to execute when the system boots. They are stored in the system’s NVRAM. ``BootEntry`` specifies the path to the GRUB EFI binary and any necessary parameters that might be required to load the GRUB bootloader. On installation, Ubuntu installs ``BootEntry`` and updates them any time the GRUB bootloader is updated. 
+Secure Boot process relies on boot variables stored in the system’s NVRAM to determine what software to execute execute when the system boots. The ``BootXXXX`` (for example, ``Boot0000, Boot0001``) variable contains configurations and instructions for the firmware, and the ``BootOrder`` variable defines the priority of the ``Boot####`` entries.
 
-Firmware validation of the shim binary
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Firmware validation of the ``shim`` binary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once the system boots, firmware loads the shim binary, signed by Microsoft, as specified in ``BootEntry``, validates it against certificates present in firmware and accepts it.
+Once the system boots, firmware loads the ``shim`` binary as specified in ``BootXXXX``. ``shim`` works as a pre-bootloader and has been signed by Microsoft. Firmware validates the ``shim`` signature against the certificates in the firmware. 
 
-Since the shim binary embeds a Canonical certificate as well as its own trust database, further elements of the boot environment can also be signed by Canonical's UEFI key.
+``shim`` contains an embedded trust database, which includes Canonical's signing certificate, which it can use to validate components like GRUB and the kernel if they have been signed using Canonical’s UEFI key.
 
-Once the shim binary is loaded and validated, shim loads the second-stage image, which is either GRUB for normal booting or MokManager for key management tasks. 
+Once firmware validates ``shim`` successfully, ``shim`` loads the second-stage image, which is either GRUB used for normal booting or ``MokManager`` used for key management tasks. 
 
-Key management with MOK
-~~~~~~~~~~~~~~~~~~~~~~~
+Key management
+~~~~~~~~~~~~~~
 
-If booting requires with key management tasks, the MokManager binary is loaded. 
+If booting requires with key management tasks, such as enrolling or deleting Machine Owner Keys (MOKs) , ``shim`` loads the ``MokManager`` binary. ``MokManager`` is signed by Canonical using the same UEFI key as GRUB, and is validated ``shim``.
 
-This binary is explicitly trusted by shim by being signed by an ephemeral key that only exists while the shim binary is being built. Only the MokManager binary built with a particular shim binary is allowed to run which limits the possibility of compromise from the use of compromised tools. 
+``MokManager`` provides a console for users to enroll new public keys (for example, for custom kernels or bootloaders), remove previously trusted keys, enroll binary hashes that can be used for hash-based verification, and enable or disable Secure Boot enforcement at the ``shim`` level. Most of these oprations require authenticitation of the user, so the user must configure a password  during the previous boot phase. This password is valid for a single run of ``shim`` and  ``MokManager``, and is cleared as soon as the process is completed or cancelled.
 
-MokManager allows users present at the system console to enroll keys, remove trusted keys, enroll binary hashes and toggle Secure Boot validation at the shim level, but most tasks require a previously set password to be entered to confirm that the user at console is indeed the person who requested changes. Such passwords only survive across a single run of shim / MokManager; and are cleared as soon as the process is completed or cancelled.
-
-Once key management is completed, the system is rebooted and does not simply continue with booting, since the key management changes may be required to successfully complete the boot.
+Once key management is completed, the system is rebooted since the updated keys may be required to valudate the next stages of the boot process. 
 
 Booting with GRUB
 ~~~~~~~~~~~~~~~~~~
 
-Firmware loads the GRUB binary and validates it against the UEFI Secure Boot trust database. The GRUB binary for Ubuntu is signed by the Canonical UEFI key, so once is successfully validated and the boot process continues. GRUB loads its configuration from the EFI System Partition (ESP) and locates the kernel. GRUB verifies the kernel’s signature against the UEFI trust database, before handing control to the kernel.
+As in the case of ``MokManager``, GRUB is signed by Canonical with the UEFI key. ``shim`` validates it and loads GRUB. 
 
-.. NOTE:: Initrd images are not validated.
+Once validated, GRUB loads its configuration from the ``/boot`` partition, and uses the configuration to locate the kernel and initrd. 
 
-Validating unofficial kernels
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In the case of unofficial kernels, or kernels built by users, additional steps need to be taken if users wish to load such kernels while retaining the full capabilities of UEFI Secure Boot. All kernels must be signed to be allowed to load by GRUB when UEFI Secure Boot is enabled, so the user will require to proceed with their own signing. Alternatively, users may wish to disable validation in shim while booted with Secure Boot enabled on an official kernel by using 'sudo mokutil --disable-validation', providing a password when prompted, and rebooting; or to disable Secure Boot in firmware altogether.
-
+In Secure Boot mode, the kernel is typically a self-contained EFI binary signed by Canonical. GRUB loads this signed kernel validates its signature. If valid, the kernel takes the control of the system. Note that initrd images are not validated.
 
 Kernel 
 ~~~~~~
 
-Up to this point, any failure to validate an image to load is met with a critical error which stops the boot process. The system will not continue booting, and may automatically reboot after a period of time given that other ``BootEntry`` variables may contain boot paths that are valid and trusted.
+If ``shim`` or any later bootloader component such as GRUB fails to validate an image at any point, the boot process stops to prevent an untrusted binary from running. 
 
-Once loaded, validated kernels will disable the firmware's Boot Services, thus dropping privileges and effectively switching to user mode; where access to trusted variables is limited to read-only. Given the broad permissions afforded to kernel modules, any module not built into the kernel will also need to be validated upon loading. Modules built and shipped by Canonical with the official kernels are signed by the Canonical UEFI key and as such, are trusted. Custom-built modules will require the user to take the necessary steps to sign the modules before they loading them is allowed by the kernel. This can be achieved by using the 'kmodsign' command [see {How to sign} section].
+Once the kernel is loaded and validated, it disables the firmware's Boot Services and enters the user mode, where access to UEFI variables is limited to read-only. Given the broad permissions afforded to kernel modules, any module not built into the kernel must also be validated before it can be loaded. Modules built and shipped by Canonical are signed by the Canonical UEFI key. Custom-built modules require the user to sign the modules before they can be loaded by the kernel. See `How to sign your own UEFI binaries for Secure Boot <https://wiki.ubuntu.com/UEFI/SecureBoot/Signing>`_
 
-Unsigned modules are simply refused by the kernel. Any attempt to insert them with insmod or modprobe will fail with an error message.
+Unsigned modules are not loaded by the kernel. Any attempt to insert them with ``insmod`` or ``modprobe`` will fail with an error message.
 
-Given that many users require third-party modules for their systems to work properly or for some devices to function; and that these third-party modules require building locally on the system to be fitted to the running kernel, Ubuntu provides tooling to automate and simplify the signing process. 
+Since many users rely on third-party modules. Since these third-party modules often must be built locally,  Ubuntu provides tools to automate and simplify the process of signing these modules, ensuring they can be loaded into the kernel. 
 
-Machine-Owner Key (MOK) management 
-==================================
+Machine-Owner Keys (MOK) management 
+===================================
 
-The MOK generated at installation time or on upgrade is machine-specific, and only allowed by the kernel or shim to sign kernel modules, by use of a specific KeyUsage OID (1.3.6.1.4.1.2312.16.1.2) denoting the limitations of the MOK.
+The MOKs generated at installation time or on upgrade are machine-specific, and are only allowed by the kernel or ``shim`` to sign kernel modules, by use of a specific KeyUsage OID (``1.3.6.1.4.1.2312.16.1.2``) denoting the limitations of the MOK.
 
-Recent shim versions include logic to follow the limitations of module-signing-only keys. These keys will be allowed to be enrolled in the firmware in shim's trust database, but will be ignored when shim or GRUB validate images to load in firmware. Shim's verify() function will only successfully validate images signed by keys that do not include the "Module-signing only" (1.3.6.1.4.1.2312.16.1.2) KeyUsage OID. The Ubuntu kernels use the global trust database (which includes both shim's and the firmware's) and will accept any of the included keys as signing keys when loading kernel modules.
+Recent ``shim`` versions have stricter limitations for module-signing-only keys. Keys marked with the ``Module-signing only`` KeyUsage OID (``1.3.6.1.4.1.2312.16.1.2``) will be  enrolled in the firmware in ``shim`` trust database, but will be ignored when ``shim`` or GRUB validate images to load in firmware. This approach guarantees that module-signing-only keys keys are used solely for kernel module signing, but not for loading other components during boot. The Ubuntu kernels use the global trust database which includes ``shim`` and the firmware trust databases, and accept any of the included keys as signing keys when loading kernel modules.
 
-Given the limitations imposed on the automatically generated MOK and the fact that users with superuser access to the system and access to the system console to enter the password required when enrolling keys already have high-level access to the system; the generated MOK key is kept on the filesystem as regular files owned by root with read-only permissions. This is deemed sufficient to limit access to the MOK for signing by malicious users or scripts, especially given that no MOK exists on the system unless it requires third-party drivers. This limits the possibility of compromise from the misuse of a generated MOK key to signing a malicious kernel module. This is equivalent to compromise of the userland applications which would already be possible with superuser access to the system, and securing this is out of the scope of UEFI Secure Boot.
+Given the limitations imposed on the automatically generated MOK and the fact that users with superuser access to the system and access to the system console to enter the password required when enrolling keys already have high-level access to the system; the generated MOK key is kept on the filesystem as regular files owned by root with read-only permissions.
 
-Previous systems may have had Secure Boot validation disabled in shim. As part of the upgrade process, these systems will be migrated to re-enabling Secure Boot validation in shim and enrolling a new MOK key when applicable. 
+This is deemed sufficient to limit access to the MOK for signing by malicious users or scripts, especially given that no MOK exists on the system unless it requires third-party drivers. This limits the possibility of compromise from the misuse of a generated MOK key to signing a malicious kernel module. Saving a MOK to the filesystem accessible by root effectively eliminates the security boundary between root and kernel mode. While convenient and is considered an acceptable compromise for systems that require third-party modules, administrators should be aware that this weakens Secure Boot’s protections and should be used cautiously.
+
+In the case of unofficial kernels, or kernels built by users, additional steps need to be taken if users wish to load such kernels while retaining the full capabilities of UEFI Secure Boot. All kernels must be signed to be allowed to load by GRUB when UEFI Secure Boot is enabled, so the user will require to proceed with their own signing. Alternatively, users may wish to disable validation in shim while booted with Secure Boot enabled on an official kernel by using 'sudo mokutil --disable-validation', providing a password when prompted, and rebooting; or to disable Secure Boot in firmware altogether.
 
 MOK generation and signing process
 ----------------------------------
@@ -153,4 +143,4 @@ UEFI Secure Boot Key Management
 
 Key management is an important process in maintaining a working UEFI Secure Boot policy. Ubuntu handles this automatically by guiding users through the steps they need to take when signing keys change, or as new keys are required. For the most part, for typical Ubuntu users, no extra work is necessary as the keys are managed as part of the embedded Canonical public certificate in the shim binary signed by Microsoft, and the GRUB bootloader and kernel images and modules are signed with the private portion of that key.
 
-The Canonical key is held as trusted by the Ubuntu boot process by way of being part of the binary image of shim, itself signed by Microsoft after a review process. For more information on the signing process for shim, see the documentation for the WinQual process.
+The Canonical key is held as trusted by the Ubuntu boot process by way of being part of the binary image of shim, itself `signed by Microsoft <https://techcommunity.microsoft.com/blog/hardwaredevcenter/updated-uefi-signing-requirements/1062916>`_ after a review process.
