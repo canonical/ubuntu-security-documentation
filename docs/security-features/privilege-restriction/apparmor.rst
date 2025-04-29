@@ -43,9 +43,9 @@ AppArmor regression tests
 Discretionary Access Control (DAC) vs. Mandatory Access Control (MAC)
 ======================================================================
 
-Mandatory Access Control (MAC) is a security method where permissions are explicitly defined by a *policy*. A user or program cannot do more than is allowed by the policy confining it.
+Mandatory Access Control (MAC) is an access control mechanism where permissions are explicitly defined by a *policy*. A user or program cannot do more than is allowed by the policy confining it.
 
-Discretionary Access Control (DAC) is s security method where an entity (for example, a user, a program, or a group) has specific permissions to perform certain actions (read, write, execute, and so on).
+Discretionary Access Control (DAC) is an access control mechanism where an entity (for example, a user, a program, or a group) has specific permissions to perform certain actions (read, write, execute, and so on).
 
 An example of DAC would be a user that has permissions to read and edit a specific file.
 An example of MAC would be a system-wide polocy that permits this file to be read but never edited.
