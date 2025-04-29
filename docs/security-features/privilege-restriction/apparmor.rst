@@ -118,7 +118,7 @@ Types of confinements
 ---------------------
 
 File
-     AppArmor can limit access to specific files and directories, a process's ability to access files based on file ownership or th ability to mount filesystems. 
+     AppArmor can limit access to specific files and directories, a process's ability to access files based on file ownership or the ability to mount filesystems. 
 
 Network
      AppArmor can limit what a process can do with network resources, including restricting network access entirely or limiting access to specific protocols, ports, or domains.
