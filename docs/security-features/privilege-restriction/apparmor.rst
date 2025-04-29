@@ -33,22 +33,17 @@ AppArmor
 
 AppArmor uses **application profiles** to determine the permissions the application process has.
 
-AppArmor is a core technology for `Ubuntu Touch <https://wiki.ubuntu.com/SecurityTeam/Specifications/ApplicationConfinement>`_, and `Snappy for Ubuntu Core <https://developer.ubuntu.com/en/snappy/guides/security-policy/>`_.
-
-AppArmor regression tests 
-
-- `test-apparmor.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-apparmor.py>`_
-- `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_
+AppArmor is a core technology for Linux Security Module (LSM) on Ubuntu, as well as for `Snappy for Ubuntu Core <https://developer.ubuntu.com/en/snappy/guides/security-policy/>`_.
 
 Discretionary Access Control (DAC) vs. Mandatory Access Control (MAC)
 ======================================================================
 
+Discretionary Access Control (DAC) is an access control mechanism where an entity (for example, a user, a program, or a group) has specific permissions to perform certain actions (read, write, execute, and so on). It is considered to be the traditional Unix permission model.
+
 Mandatory Access Control (MAC) is an access control mechanism where permissions are explicitly defined by a *policy*. A user or program cannot do more than is allowed by the policy confining it.
 
-Discretionary Access Control (DAC) is an access control mechanism where an entity (for example, a user, a program, or a group) has specific permissions to perform certain actions (read, write, execute, and so on).
-
-An example of DAC would be a user that has permissions to read and edit a specific file.
 An example of MAC would be a system-wide policy that permits this file to be read but never edited.
+An example of DAC would be a user that has permissions to read and edit a specific file.
 
 AppArmor is a MAC system and operates on the principle of controlling permissions of applications.
 
@@ -83,6 +78,8 @@ AppArmor and ``systemd``
 On boot, AppArmor profiles are managed by ``systemd`` directly when it comes to early policy loading. ``systemd`` calls `apparmor_parser` to load AppArmor profiles from the compiled policy cache location `/etc/apparmor/earlypolicy/`.
 
 When early policy is not configured, the rest of the policies are loaded from the default behavior by the AppArmor systemd unit file, typically named ``apparmor.service``, which specifies how AppArmor is started and reloaded. Note that the stop command is intentionally a no-op, because of how the reload command is implemented in `systemd` - typically by a stop followed by a start, and this could lead to tasks operating in an unconfined state after the start. To unload profiles, `aa-teardown` should be used.
+
+See `AppArmor in systemd <https://gitlab.com/apparmor/apparmor/-/wikis/AppArmorInSystemd>`_ for more details.
 
 AppArmor security profiles
 ==========================
@@ -147,4 +144,4 @@ Useful resources
 -  See the `AppArmor Administration Guide <http://www.novell.com/documentation/apparmor/apparmor201_sp10_admin/index.html?page=/documentation/apparmor/apparmor201_sp10_admin/data/book_apparmor_admin.html>`_ for advanced configuration options.
 -  For details using AppArmor with other Ubuntu releases see the `AppArmor Community Wiki <https://help.ubuntu.com/community/AppArmor>`__ page.
 - `Ubuntu Server <https://documentation.ubuntu.com/server/how-to/security/apparmor/>`_ documentation contains detailed how-to guides on how to use, create, and customize AppArmor profiles.
--  A great place to get involved with the Ubuntu Server community and to ask for AppArmor assistance is the ``\#ubuntu-server`` IRC channel on    `Libera <https://libera.chat>`__. The ``\#ubuntu-security`` IRC channel may also be of use.
+-  For getting involved with the community or ask for assistance with AppArmor, use ``\#ubuntu-server`` IRC channel on `Libera <https://libera.chat>`__, ``#apparmor`` channel on OFTC, or ``\#ubuntu-security`` IRC channel.
