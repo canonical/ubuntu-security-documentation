@@ -1,7 +1,7 @@
-FIPS
-####
+FIPS 140 for Ubuntu
+###################
 
-Ubuntu Pro provides access to FIPS 140 certified cryptographic packages, allowing you to deploy workloads that need to operate under compliance regimes like FedRAMP, HIPAA, and PCI-DSS. Canonical works with NIST-approved testing labs to certify the core cryptographic modules within Ubuntu for FIPS 140 requirements, enabling applications to use these libraries in compliance with the FIPS standard. 
+Canonical provides FIPS 140 certified cryptographic packages, which are available with an Ubuntu Pro subscription, enabling you to run Ubuntu and deploy workloads in environments where FIPS 140 is a requirement, such as FISMA, FedRAMP, CMMC & DISA-STIG.
 
 About FIPS
 ==========
@@ -10,7 +10,9 @@ About FIPS
    :maxdepth: 1
    :glob:
 
-   about-fips
+   fips-overview
+   how-to-receive-news
+   livepatch-and-fips
 
 
 How to get FIPS-certified packages
@@ -26,21 +28,11 @@ How to get FIPS-certified packages
    how-to-enable-fips-with-fde
    how-to-enable-wifi
 
-How to develop FIPS-compliant applications
-==========================================
+Troubleshooting
+===============
 
 .. toctree::
    :maxdepth: 1
    :glob:
 
-   how-to-develop-fips-apps
-   how-to-create-fips-compliant-rocks
-
-How to troubleshoot and solve common issues
-===========================================
-
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
-   how-to-fix-failure-with-nvidia-drivers
+   how-to-troubleshoot
