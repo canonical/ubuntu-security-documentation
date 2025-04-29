@@ -1,9 +1,9 @@
 .. include:: ../../reuse/substitutions.rst
 
-FIPS for Ubuntu
-###############
+FIPS 140 for Ubuntu
+###################
 
-Ubuntu Pro provides access to FIPS-certified cryptographic packages, allowing you to deploy workloads that need to operate under compliance regimes like FedRAMP, HIPAA, and PCI-DSS. Canonical works with NIST-approved testing labs to certify the core cryptographic modules within Ubuntu for FIPS requirements, enabling applications to use these libraries in compliance with the FIPS standard. 
+Canonical provides FIPS 140 certified cryptographic packages, which are available with an Ubuntu Pro subscription, enabling you to run Ubuntu and deploy workloads in environments where FIPS 140 is a requirement, such as FISMA, FedRAMP, CMMC & DISA-STIG.
 
 .. toctree::
    :maxdepth: 1
