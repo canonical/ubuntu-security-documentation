@@ -3,9 +3,6 @@ Overview of security features
 
 This page provides a high-level overview of the security features in Ubuntu, their default configurations and rationale for having them enabled or disabled.
 
-Matrix of features
-==================
-
 .. csv-table:: 
    :header: area, feature, 20.04 LTS, 22.04 LTS, 24.04 LTS, 24.10, 25.04
    :widths: auto
@@ -28,8 +25,8 @@ Matrix of features
    :ref:`Network and firewalls`, :ref:`Firewall`, ufw, ufw, ufw, ufw, ufw 
    :ref:`Cryptography`, :ref:`Password hashing`, sha512, yescrypt, yescrypt, yescrypt, yescrypt 
    :ref:`Cryptography`, :ref:`Cloud PRNG seed`, pollinate, pollinate, pollinate, pollinate, pollinate
-   :ref:`Cryptography`, :ref:`Trusted Platform Module (TPM)`, kernel & userspace (tpm-tools), kernel & userspace (tpm-tools), kernel & userspace (tpm-tools), kernel & userspace (tpm-tools), kernel & userspace (tpm-tools)
    :ref:`Cryptography`, :ref:`Disable legacy TLS`, policy, policy, policy, policy, policy 
+   :ref:`Cryptography`, :ref:`Full disk encryption (FDE)`, TBA, TBA, TBA, TBA, TBA
    :ref:`Process and memory integrity`, :ref:`Stack Protector`, gcc patch, gcc patch, gcc patch, gcc patch, gcc patch 
    :ref:`Process and memory integrity`, :ref:`Heap Protector`, glibc, glibc, glibc, glibc, glibc 
    :ref:`Process and memory integrity`, :ref:`Pointer Obfuscation`, glibc, glibc, glibc, glibc, glibc 
@@ -66,7 +63,6 @@ Matrix of features
    :ref:`Process and memory integrity`, :ref:`bolt`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Process and memory integrity`, :ref:`thunderbolt-tools`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Process and memory integrity`, :ref:`Kernel Lockdown`, "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality"
-
 
 Additional Documentation
 ========================

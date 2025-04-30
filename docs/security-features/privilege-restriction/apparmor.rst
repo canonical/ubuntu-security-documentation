@@ -141,7 +141,16 @@ AppArmor can deny unprivileged applications the use of user namespaces, preventi
 Useful resources
 ================
 
--  See the `AppArmor Administration Guide <http://www.novell.com/documentation/apparmor/apparmor201_sp10_admin/index.html?page=/documentation/apparmor/apparmor201_sp10_admin/data/book_apparmor_admin.html>`_ for advanced configuration options.
--  For details using AppArmor with other Ubuntu releases see the `AppArmor Community Wiki <https://help.ubuntu.com/community/AppArmor>`__ page.
-- `Ubuntu Server <https://documentation.ubuntu.com/server/how-to/security/apparmor/>`_ documentation contains detailed how-to guides on how to use, create, and customize AppArmor profiles.
--  For getting involved with the community or ask for assistance with AppArmor, use ``\#ubuntu-server`` IRC channel on `Libera <https://libera.chat>`__, ``#apparmor`` channel on OFTC, or ``\#ubuntu-security`` IRC channel.
+-  See the `AppArmor Administration
+   Guide <http://www.novell.com/documentation/apparmor/apparmor201_sp10_admin/index.html?page=/documentation/apparmor/apparmor201_sp10_admin/data/book_apparmor_admin.html>`__
+   for advanced configuration options.
+-  For details using AppArmor with other Ubuntu releases see the
+   `AppArmor Community
+   Wiki <https://help.ubuntu.com/community/AppArmor>`__ page.
+-  The `OpenSUSE AppArmor <http://en.opensuse.org/SDB:AppArmor_geeks>`__
+   page is another introduction to AppArmor.
+-  (https://wiki.debian.org/AppArmor) is another introduction and basic
+   how-to for AppArmor.
+-  A great place to get involved with the Ubuntu Server community and to
+   ask for AppArmor assistance is the ``\#ubuntu-server`` IRC channel on
+   `Libera <https://libera.chat>`__. The ``\#ubuntu-security`` IRC channel may also be of use.
