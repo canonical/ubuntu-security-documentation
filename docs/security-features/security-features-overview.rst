@@ -25,7 +25,7 @@ Matrix of features
    :ref:`Storage and filesystem`, :ref:`Regular file restrictions`, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl
    :ref:`Network and firewalls`, :ref:`No Open Ports`, policy, policy, policy, policy, policy 
    :ref:`Network and firewalls`, :ref:`SYN cookies`, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl 
-   :ref:`Network and firewalls`, :ref:`Configurable Firewall`, ufw, ufw, ufw, ufw, ufw 
+   :ref:`Network and firewalls`, :ref:`Firewall`, ufw, ufw, ufw, ufw, ufw 
    :ref:`Cryptography`, :ref:`Password hashing`, sha512, yescrypt, yescrypt, yescrypt, yescrypt 
    :ref:`Cryptography`, :ref:`Cloud PRNG seed`, pollinate, pollinate, pollinate, pollinate, pollinate
    :ref:`Cryptography`, :ref:`Trusted Platform Module (TPM)`, kernel & userspace (tpm-tools), kernel & userspace (tpm-tools), kernel & userspace (tpm-tools), kernel & userspace (tpm-tools), kernel & userspace (tpm-tools)
