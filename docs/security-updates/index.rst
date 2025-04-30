@@ -132,10 +132,7 @@ ESM
 Livepatch
 =========
 
-.. toctree::
-   :maxdepth: 2
-
-   livepatch/index
+* `Livepatch <https://ubuntu.com/security/livepatch/docs>`_
 
 OVAL
 ====

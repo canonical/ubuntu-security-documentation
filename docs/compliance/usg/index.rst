@@ -1,7 +1,5 @@
-.. include:: ../../reuse/substitutions.rst
-
-Ubuntu Security Guide
-#####################
+Ubuntu Security Guide (USG)
+###########################
 
 Security Technical Implementation Guides like the CIS benchmark or DISA-STIG have hundreds of configuration recommendations, so hardening and auditing a Linux system manually can be very tedious. Ubuntu Security Guide (USG) is a tool that greatly improves the usability of hardening and auditing, and allows for environment-specific customizations. 
 
