@@ -14,16 +14,20 @@ In this documentation
 .. grid:: 2
     :gutter: 1
 
+    .. grid-item-card:: :ref:`Software integrity`
+
+        Protections against tampering for Ubuntu software.
+
     .. grid-item-card:: :ref:`Security updates`
 
-        Prevent security risks by receiving secrity updates to your system in a timely manner. 
-
-    .. grid-item-card:: :ref:`Ubuntu security features`
-
-        Learn about security features that come with Ubuntu
+        Prevent security risks by receiving secrity updates to your system in a timely manner.
 
 .. grid:: 2
     :gutter: 1
+
+    .. grid-item-card:: :ref:`Ubuntu security features`
+
+        Learn about security features that come with Ubuntu.
 
     .. grid-item-card:: :ref:`Compliance automation`
 
@@ -41,6 +45,7 @@ Project and community
    :maxdepth: 2
    :hidden:
 
+   docs/software-integrity/index
    docs/security-updates/index
    docs/security-features/index
    docs/compliance/index
