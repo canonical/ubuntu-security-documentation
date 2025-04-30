@@ -132,6 +132,8 @@ ESM
 Livepatch
 =========
 
+The Canonical Livepatch service provides security fixes for most major kernel security issues without requiring a reboot. 
+
 * `Livepatch <https://ubuntu.com/security/livepatch/docs>`_
 
 OVAL

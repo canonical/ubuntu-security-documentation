@@ -63,6 +63,7 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Process and memory integrity`, :ref:`bolt`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Process and memory integrity`, :ref:`thunderbolt-tools`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Process and memory integrity`, :ref:`Kernel Lockdown`, "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality"
+   :ref:`Security updates`, :ref:`Livepatch`, "20.04 LTS Kernel", "22.04 LTS Kernel", "24.04 LTS Kernel", "--", "--" 
 
 Additional Documentation
 ========================
