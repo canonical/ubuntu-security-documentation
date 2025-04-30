@@ -26,6 +26,7 @@ Ubuntu releases.
 
 .. list-table::
    :header-rows: 1
+   
    * - Release type
      - Main / Restricted
      - Universe / Multiverse
