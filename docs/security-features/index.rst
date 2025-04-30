@@ -35,6 +35,15 @@ Process and memory
    process-memory/index
 
 
+Kernel protections
+==================
+
+.. toctree::
+   :maxdepth: 2
+
+   kernel-protections
+
+
 Storage
 =======
 

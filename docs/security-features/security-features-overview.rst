@@ -49,12 +49,12 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Process and memory integrity`, :ref:`/dev/kmem disabled`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory integrity`, :ref:`Block module loading`, sysctl, sysctl, sysctl, sysctl, sysctl
    :ref:`Process and memory integrity`, :ref:`Read-only data sections`, kernel, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory integrity`, :ref:`Stack protector`, kernel, kernel, kernel, kernel, kernel 
+   :ref:`Process and memory integrity`, :ref:`Kernel Stack protector`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory integrity`, :ref:`Module RO/NX`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory integrity`, :ref:`Kernel Address Display Restriction`, kernel, kernel, kernel, kernel, kernel
    :ref:`Process and memory integrity`, :ref:`Kernel Address Space Layout Randomisation`, "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)"
    :ref:`Process and memory integrity`, :ref:`Denylist Rare Protocols`, kernel, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory integrity`, :ref:`Syscall Filtering`, kernel, kernel, kernel, kernel, kernel 
+   :ref:`Process and memory integrity`, :ref:`Seccomp Filtering`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory integrity`, :ref:`dmesg restrictions`, sysctl, kernel, kernel, kernel, kernel
    :ref:`Process and memory integrity`, :ref:`Block kexec`, sysctl, sysctl, sysctl, sysctl, sysctl
    :ref:`Process and memory integrity`, :ref:`UEFI Secure Boot`, "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement"
