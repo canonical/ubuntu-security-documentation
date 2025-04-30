@@ -57,7 +57,7 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Process and memory integrity`, :ref:`Syscall Filtering`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory integrity`, :ref:`dmesg restrictions`, sysctl, kernel, kernel, kernel, kernel
    :ref:`Process and memory integrity`, :ref:`Block kexec`, sysctl, sysctl, sysctl, sysctl, sysctl
-   :ref:`Process and memory integrity`, :ref:`UEFI Secure Boot (amd64)`, "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement"
+   :ref:`Process and memory integrity`, :ref:`UEFI Secure Boot`, "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement"
    :ref:`Process and memory integrity`, :ref:`usbguard`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Process and memory integrity`, :ref:`usbauth`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Process and memory integrity`, :ref:`bolt`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
