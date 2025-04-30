@@ -24,7 +24,6 @@ How to get FIPS-certified packages
 
    how-to-install-ubuntu-with-fips
    how-to-switch-ubuntu-to-fips
-   how-to-enable-fips-in-containers
    how-to-enable-fips-with-fde
    how-to-enable-wifi
 

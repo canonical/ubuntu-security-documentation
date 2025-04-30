@@ -1,5 +1,3 @@
-.. include:: reuse/substitutions.rst
-
 Ubuntu security documentation
 #############################
 
