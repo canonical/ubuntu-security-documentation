@@ -24,6 +24,7 @@ Privilege restriction
    :maxdepth: 2
 
    privilege-restriction/index
+   privilege-restrictoin/apparmor
 
 Cryptography
 ============

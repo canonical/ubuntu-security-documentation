@@ -41,5 +41,5 @@ Using OSV data
 As a standardized, machine-friendly format, the OSV data feed can be used by any
 vulnerability management tool that supports it. In particular, the OSV project
 contains a reference implementation for a scanner, `OSV-Scanner
-<https://google.github.io/osv-scanner/>` and links to `community-maintained
+<https://google.github.io/osv-scanner/>`_ and links to `community-maintained
 tools <https://google.github.io/osv.dev/third-party/>`_.
