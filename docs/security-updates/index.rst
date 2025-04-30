@@ -144,3 +144,19 @@ OVAL
    :maxdepth: 2
 
    oval/index
+
+OSV
+====
+
+.. toctree::
+   :maxdepth: 2
+
+   osv/index
+
+VEX
+====
+
+.. toctree::
+   :maxdepth: 2
+
+   vex/index
