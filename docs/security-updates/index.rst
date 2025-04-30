@@ -5,10 +5,10 @@ Security updates
   FIXME: may be useful to introduce documentation links to SRU and the updates
   pocket.
 
-Ubuntu is a fixed release Linux distribution. As such, Ubuntu releases receive
+Ubuntu is a fixed-release Linux distribution. As such, Ubuntu releases receive
 security updates during the support window in the form of backported patches.
 This means that security updates will not generally introduce new functionality
-and stability is achieved by maintaining backwards compatibility. Please note
+and stability is achieved by maintaining backward compatibility. Please note
 that some packages in Ubuntu will receive feature updates through the Stable
 Release Update process, but this is orthogonal to the delivery of security
 updates.
@@ -17,10 +17,10 @@ updates.
   FIXME: this might also be documented elsewhere. It would be good to also
   reference what LTS and interim releases are.
 
-The level of security support is different depending on the component in which a
+The level of security support depends on the component in which a
 package resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The
 Ubuntu Security Team is responsible for preparing security updates for supported
-Ubuntu releases and for working with the community to sponsor community-prepared
+Ubuntu releases and working with the community to sponsor community-prepared
 security updates. The following table lists the security maintenance window for
 Ubuntu releases.
 
@@ -112,12 +112,12 @@ Data feeds
 ==========
 
 Information on the available security updates can be obtained in several
-industry standard machine-readable formats: OVAL, OSV and VEX. These data feeds
+industry-standard machine-readable formats: OVAL, OSV and VEX. These data feeds
 facilitate the integration of automated patching tools and vulnerability
 management scanners by incorporating information on the vulnerabilities that
 each security update addresses, including by referencing the Common
 Vulnerabilities and Exposures (CVE) enumeration through CVE IDs. The data feeds
-are freely available for all supported releases and their use documentated in
+are freely available for all supported releases and their use documented in
 the respective sections, below.
 
 ESM
