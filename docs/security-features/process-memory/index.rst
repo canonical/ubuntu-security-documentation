@@ -1,18 +1,34 @@
-Process and memory integrity
-############################
+Process and memory protections
+##############################
+
+Ubuntu provides a set of security features that protect userspace processes at runtime.
+
+Default compiler flags
+======================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :glob:
 
-   *
+   compiler-flags
+
+
+File handling protections
+=========================
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   file-handling
+
 
 Address Space Layout Randomisation (ASLR)
 =========================================
 
 ASLR is implemented by the kernel and the ELF loader by randomising the location of memory allocations (stack, heap, shared libraries, etc). This makes memory addresses harder to predict when an attacker is attempting a memory-corruption exploit. ASLR is controlled system-wide by the value of /proc/sys/kernel/randomize_va_space. Prior to Ubuntu 8.10, this defaulted to "1" (on). In later releases that included brk ASLR, it defaults to "2" (on, with brk ASLR).
 
-See test-kernel-security.py for regression tests for all the different types of ASLR. 
+See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests for all the different types of ASLR. 
 
 Stack ASLR
 ~~~~~~~~~~
@@ -57,7 +73,7 @@ See test-kernel-security.py for regression tests.
 
 Some applications (Xorg) need direct access to the physical memory from user-space. The special file /dev/mem exists to provide this access. In the past, it was possible to view and change kernel memory from this file if an attacker had root access. The CONFIG_STRICT_DEVMEM kernel option was introduced to block non-device memory access (originally named CONFIG_NONPROMISC_DEVMEM).
 
-See test-kernel-security.py for regression tests. 
+See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests. 
 
 
 /proc/$pid/maps protection
@@ -65,7 +81,7 @@ See test-kernel-security.py for regression tests.
 
 With ASLR, a process's memory space layout suddenly becomes valuable to attackers. The "maps" file is made read-only except to the process itself or the owner of the process. Went into mainline kernel with sysctl toggle in 2.6.22. The toggle was made non-optional in 2.6.27, forcing the privacy to be enabled regardless of sysctl settings (this is a good thing).
 
-See test-kernel-security.py for regression tests. 
+See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests. 
 
 
 ptrace scope
@@ -77,7 +93,7 @@ In Ubuntu 10.10 and later, users cannot ptrace processes that are not a descenda
 
 In the case of automatic crash handlers, a crashing process can specficially allow an existing crash handler process to attach on a process-by-process basis using prctl(PR_SET_PTRACER, debugger_pid, 0, 0, 0).
 
-See test-kernel-security.py for regression tests. 
+See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests. 
 
 
 Non-Executable Memory
@@ -103,7 +119,7 @@ Pointer Obfuscation
 
 Some pointers stored in glibc are obfuscated via PTR_MANGLE/PTR_UNMANGLE macros internally in glibc, preventing libc function pointers from being overwritten during runtime.
 
-See test-glibc-security.py for regression tests. 
+See `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`_ for regression tests. 
 
 
 Heap Protector
@@ -113,5 +129,5 @@ The GNU C Library heap protector (both automatic via ptmalloc and manual) provid
 
 This protection has evolved over time, adding more and more protections as additional corner-cases were researched. As it currently stands, glibc 2.10 and later appears to successfully resist even these hard-to-hit conditions.
 
-See test-glibc-security.py for regression tests. 
+See `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`_ for regression tests. 
 

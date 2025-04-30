@@ -26,7 +26,7 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Cryptography`, :ref:`Password hashing`, sha512, yescrypt, yescrypt, yescrypt, yescrypt 
    :ref:`Cryptography`, :ref:`Cloud PRNG seed`, pollinate, pollinate, pollinate, pollinate, pollinate
    :ref:`Cryptography`, :ref:`Disable legacy TLS`, policy, policy, policy, policy, policy 
-   :ref:`Cryptography`, :ref:`Full disk encryption (FDE)`, TBA, TBA, TBA, TBA, TBA
+   :ref:`Cryptography`, :ref:`Full disk encryption (FDE)`, LUKS + TPM, LUKS + TPM, LUKS + TPM, LUKS + TPM, LUKS + TPM
    :ref:`Process and memory integrity`, :ref:`Stack Protector`, gcc patch, gcc patch, gcc patch, gcc patch, gcc patch 
    :ref:`Process and memory integrity`, :ref:`Heap Protector`, glibc, glibc, glibc, glibc, glibc 
    :ref:`Process and memory integrity`, :ref:`Pointer Obfuscation`, glibc, glibc, glibc, glibc, glibc 

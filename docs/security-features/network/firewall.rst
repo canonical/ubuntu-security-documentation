@@ -6,48 +6,63 @@ Firewall
     .. tab-item:: 25.04
 
         iptables 1.8.11-2ubuntu1
+
         nftables 1.1.1-1build1
+
         ufw 0.36.2-9
 
     .. tab-item:: 24.10
 
         iptables 1.8.10-3ubuntu2
+
         nftables 1.1.0-2
+
         ufw 0.36.2-6
 
     .. tab-item:: 24.04
 
         iptables 1.8.10-3ubuntu2
+
         nftables 1.0.9-1build1
+
         ufw 0.36.2-6
 
     .. tab-item:: 22.04
 
         iptables 1.8.7-1ubuntu5.2
+
         nftables 1.0.2-1ubuntu2
+
         ufw 0.36.1-4
 
     .. tab-item:: 20.04
 
         iptables 1.8.4-3ubuntu2.1
+
         nftables 0.9.3-2
+
         ufw 0.36-6
 
     .. tab-item:: 18.04
 
         iptables 1.6.1-2ubuntu2.1
+
         nftables 0.8.2-1
+
         ufw 0.36-0ubuntu0.18.04.1
 
     .. tab-item:: 16.04
 
         iptables 1.6.0-2ubuntu3
+
         nftables 0.5+snapshot20151106-1
+
         ufw 0.35-0ubuntu2
 
     .. tab-item:: 14.04
 
         iptables 1.4.21-1ubuntu1
+
         ufw 0.34~rc-0ubuntu2
 
 

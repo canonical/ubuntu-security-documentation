@@ -1,32 +1,6 @@
 Cloud PRNG Seed
 ===============
 
-.. tab-set::
-    
-    .. tab-item:: 24.04
-        
-        TBA
-
-    .. tab-item:: 22.04
-
-        TBA
-
-    .. tab-item:: 20.04
-
-        TBA
-
-    .. tab-item:: 18.04
-        
-        TBA
-    
-    .. tab-item:: 16.04
-
-        TBA  
-    
-    .. tab-item:: 14.04
-
-        TBA
-
 
 `Pollinate <https://bazaar.launchpad.net/~kirkland/pollen/trunk/view/head:/README>`_ is a client application that retrieves entropy from one or more Pollen servers and seeds the local Pseudo Random Number Generator (PRNG). 
 

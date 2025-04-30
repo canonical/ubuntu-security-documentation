@@ -1,18 +1,12 @@
 Privilege restriction
 #####################
 
-MAC is handled via kernel LSM hooks.
-
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
-   *
+Ubuntu provides a set of security features that allow restricting the privileges available to processes. Mandatory Access Control (MAC) is, by default, provided by :ref:`AppArmor`; other MAC solutions, implemented through Linux Security Module (LSM) hooks, are available, but not supported.
 
 Filesystem Capabilities
 =======================
 
-The need for setuid applications can be reduced via the application of `filesystem capabilities <http://www.olafdietsche.de/linux/capability/>`_ using the xattrs available to most modern filesystems. This reduces the possible misuse of vulnerable setuid applications. The kernel provides the support, and the user-space tools are in main ("libcap2-bin").
+The need for setuid applications can be reduced via the application of `filesystem capabilities <http://www.olafdietsche.de/linux/capability/>`_ using the `xattrs` available to most modern filesystems. This reduces the possible misuse of vulnerable setuid applications. The kernel provides the support, and the user-space tools are in the Ubuntu Main compoment (`libcap2-bin`).
 
 Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_.
 
@@ -20,7 +14,7 @@ Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regress
 PR_SET_SECCOMP
 ==============
 
-Setting SECCOMP for a process is meant to confine it to a small subsystem of system calls, used for specialized processing-only programs.
+Setting `SECCOMP` for a process is meant to confine it to a small subsystem of system calls, used for specialized processing-only programs.
 
 See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests. 
 
@@ -28,9 +22,9 @@ See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tr
 Seccomp Filtering
 =================
 
-Programs can filter out the availability of kernel syscalls by using the seccomp_filter interface. This is done in containers or sandboxes that want to further limit the exposure to kernel interfaces when potentially running untrusted software.
+Programs can filter out the availability of kernel syscalls by using the `seccomp_filter` interface, which allows for fine-grained control. This is done in containers or sandboxes that want to further limit the exposure to kernel interfaces when potentially running untrusted software.
 
-See test-kernel-security.py for regression tests. 
+See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests. 
 
 
 SELinux

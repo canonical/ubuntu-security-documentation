@@ -5,19 +5,19 @@ Password Hashing
     
     .. tab-item:: 14.04
 
-        TBA
+        ``sha512``
 
     .. tab-item:: 16.04
     
-        TBA
+        ``sha512``
    
     .. tab-item:: 18.04
     
-        TBA
+        ``sha512``
 
     .. tab-item:: 20.04
     
-        TBA
+        ``sha512``
 
     .. tab-item:: 22.04
     
