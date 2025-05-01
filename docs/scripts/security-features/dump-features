@@ -27,6 +27,14 @@ except ModuleNotFoundError:
     eprint("$ sudo apt install python3-pydantic")
     sys.exit(1)
 
+try:
+    import jinja2
+except ModuleNotFoundError:
+    eprint("Please install the Jinja2 Python library.")
+    eprint("On Ubuntu and Debian:")
+    eprint("$ sudo apt install python3-jinja2")
+    sys.exit(1)
+
 NAME = 'dump-features'
 DESCRIPTION = '''
 This program generates a table with ReStructuredText markup that lists
@@ -64,6 +72,13 @@ def args_from_cli() -> argparse.Namespace:
         nargs='?',
         type=argparse.FileType('r'),
         default="features.json")
+    parser.add_argument(
+        '-t',
+        '--template',
+        help="Fill out this Jinja2 template with data about features in releases",
+        nargs='?',
+        type=argparse.FileType('r'),
+        default=None)
 
     return parser.parse_args()
 
@@ -109,11 +124,22 @@ class Implementation(BaseModel):
     comment: str
     state: State
 
+    @staticmethod
     def initial():
         """"
         The initial state of an implementation is unimplemented
         """
         return Implementation(comment="--", state=State.UNIMPLEMENTED)
+
+    def cell_with_markup(self) -> str:
+        """
+        Format the cell content as an RST string
+        """
+        # Default features add special markup, currently bold:
+        if self.state == State.DEFAULT:
+            return f"**{self.comment}**"
+        else:
+            return f"{self.comment}"
 
 class Feature(BaseModel):
     """
@@ -204,16 +230,6 @@ def page_header():
     args.output.write(header)
     args.output.write("\n")
 
-def cell_with_markup(cell: Implementation) -> str:
-    """
-    Format the cell content as an RST string
-    """
-    # Default features add special markup, currently bold:
-    if cell.state == State.DEFAULT:
-        return f"**{cell.comment}**"
-    else:
-        return f"{cell.comment}"
-
 def feature_row(feature: Feature):
     """
     Draw a row describing a security feature in the RST list table format
@@ -233,11 +249,85 @@ def feature_row(feature: Feature):
         if not args.historical and rel.is_eol:
             continue
         else:
-            cell = cell_with_markup(current_development)
+            cell = current_development.cell_with_markup()
             cells.append(cell)
 
     args.output.write(table_row(cells))
     args.output.write('\n')
+
+class StatusInVersion():
+    """
+    This describes the status of a feature in an Ubuntu release.
+    The data serves as the basis for a tab in an RST page.
+    """
+
+    def __init__(self, release: Release, implementation: Implementation):
+        self.release = release
+        self.implementation = implementation
+        self.cell = implementation.cell_with_markup()
+
+def fill_out_template(histories: dict[str, list[StatusInVersion]]):
+    # Use the template files provided in command-line arguments
+    template = jinja2.Template(args.template.read())
+
+    # Render the template with features and releases
+    rendered = template.render(histories=histories)
+
+    # Write the output to stdout or a file
+    args.output.write(rendered)
+
+def feature_history(feature: Feature, releases: list[Release], historical: bool) -> list[StatusInVersion]:
+    """
+    Given a security feature, fill out its implementation statuses in all releases.
+    By default, only process supported releases.
+    """
+    history = []
+
+    # Every feature starts as unimplemented until the first recorded change
+    current_development = Implementation.initial()
+
+    for rel in releases:
+        item = feature.changes.get(rel.code_name)
+
+        if item is not None:
+            current_development = item
+
+        # Only include supported releases in the output, unless asked otherwise
+        if not historical and rel.is_eol:
+            continue
+        else:
+            status = StatusInVersion(
+                release=rel,
+                implementation=current_development)
+            history.append(status)
+    
+    return history
+
+def all_features_history(
+    features: list[Feature],
+    releases: list[Release],
+    historical: bool) -> dict[str, list[StatusInVersion]]:
+    """
+    Gather and fill out all version statuses for each feature.
+    Output similar to the following template:
+
+    histories = {
+        "feature": [
+            StatusInVersion,
+        ]
+    }
+
+    TODO: Add more data into this structure, like the human-readable feature name,
+    so that users can render more complex templates, even the originla table.
+    """
+
+    histories = {}
+
+    for feature in features:
+        hist = feature_history(feature, releases, historical)
+        histories[feature.name] = hist
+    
+    return histories
 
 
 if __name__ == "__main__":
@@ -247,14 +337,22 @@ if __name__ == "__main__":
 
     features = load_features(args.features)
 
-    page_header()
+    # TODO: Make this a choice in the command-line parser
+    # If the user points to a template file, fill it out
+    # and print the result.
+    if args.template:
+        histories = all_features_history(features, releases, args.historical)
+        fill_out_template(histories)
+    # Otherwise by default, generate the table.
+    else:
+        page_header()
 
-    for feature in features:
-        # Section features currently have no effect but we keep them
-        # in features.json for future use.
-        if feature.section:
-            continue
-        else:
-            feature_row(feature)
+        for feature in features:
+            # Section features currently have no effect but we keep them
+            # in features.json for future use.
+            if feature.section:
+                continue
+            else:
+                feature_row(feature)
 
     args.output.flush()
