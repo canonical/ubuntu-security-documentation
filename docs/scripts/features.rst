@@ -470,7 +470,7 @@ randomized, but not randomized with respect to the text region until
 
 .. _vdso-aslr:
 
-VDSO ASLR
+vDSO ASLR
 ^^^^^^^^^
 
 Each execution of a program results in a random vdso location. While

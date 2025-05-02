@@ -35,7 +35,7 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Process and memory protections`, :ref:`Libs/mmap ASLR`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory protections`, :ref:`Exec ASLR`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory protections`, :ref:`brk ASLR`, kernel, kernel, kernel, kernel, kernel
-   :ref:`Process and memory protections`, :ref:`VDSO ASLR`, kernel, kernel, kernel, kernel, kernel 
+   :ref:`Process and memory protections`, :ref:`vDSO ASLR`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Process and memory protections`, :ref:`Built as PIE`, "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others"
    :ref:`Process and memory protections`, :ref:`Built with Fortify Source`, gcc patch, gcc patch, gcc patch, gcc patch, gcc patch
    :ref:`Process and memory protections`, :ref:`Built with RELRO`, gcc patch, gcc patch, gcc patch, gcc patch, gcc patch
