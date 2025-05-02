@@ -9,6 +9,14 @@ Overview of security features in Ubuntu
 
    security-features-overview
 
+Platform protections
+====================
+
+.. toctree::
+   :maxdepth: 2
+
+   platform-protections/index
+
 Privilege restriction
 =====================
 
@@ -33,6 +41,15 @@ Process and memory
    :maxdepth: 2
 
    process-memory/index
+
+
+Kernel protections
+==================
+
+.. toctree::
+   :maxdepth: 2
+
+   kernel-protections
 
 
 Storage
