@@ -1,9 +1,9 @@
 Ubuntu security documentation
 #############################
 
-Ubuntu is built with security in mind, guided by the principles of transparency, secure by design and secure by default. Your Ubuntu software benefits from the latest security technologies and long-term security maintenance that allow you to build a strong security posture.
+Ubuntu prioritizes security through its core principles, emerging as a transparent, secure by design and secure by default platform. Your Ubuntu software benefits from the latest security technologies and long-term security maintenance that allow you to build a strong security posture.
 
-This page descibes services offered by Canonical for security and maintenance updates, security features of the Ubuntu system itself, as well as tooling for automated audit and hardening of Ubuntu systems. It is important to understand how these function in order to ensure your Ubuntu deployments stay secure according to your own needs.
+Canonical offers comprehensive services, including regular security updates and system hardening tools based on industry standards, to support Ubuntu's built-in security features. It is important to understand how these function in order to ensure your Ubuntu deployments stay secure according to your own needs.
 
 
 In this documentation
