@@ -14,7 +14,6 @@ About FIPS
    how-to-receive-news
    livepatch-and-fips
 
-
 How to get FIPS-certified packages
 ==================================
 
@@ -26,6 +25,15 @@ How to get FIPS-certified packages
    how-to-switch-ubuntu-to-fips
    how-to-enable-fips-with-fde
    how-to-enable-wifi
+
+Developing FIPS-compliant applications
+======================================
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   development/best-practices
 
 Troubleshooting
 ===============
