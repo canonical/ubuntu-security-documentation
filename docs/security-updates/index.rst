@@ -41,7 +41,7 @@ Ubuntu releases.
      - 10 years
    * - LTS (ESM + Legacy support - with Ubuntu Pro)
      - 12 years
-     - FIXME
+     - 12 years
 
 
 Delivery
