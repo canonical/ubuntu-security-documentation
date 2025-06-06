@@ -88,7 +88,7 @@ following example demonstrates for a hypothetical PPA:
      ...
 
 A configured repository that does not reference a trust anchor through the
-``Signed-By`` option will used the global trusted keyring. The global trusted
+``Signed-By`` option will use the global trusted keyring. The global trusted
 keyring is bootstrapped by the ``ubuntu-keyring`` package, which is installed by
 default and creates GPG keyrings containing the Ubuntu Archive signing public
 keys under the ``/etc/apt/trusted.gpg.d/`` directory.
