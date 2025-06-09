@@ -32,13 +32,13 @@ Ubuntu releases.
      - Universe / Multiverse
    * - Interim (standard support)
      - 9 months
-     - Community-supported
+     - Community-supported (9 months)
    * - LTS (standard support)
      - 5 years
-     - Community-supported
+     - Community-supported (5 years)
    * - LTS (ESM infra-only support - with Ubuntu Pro)
      - 10 years
-     - Community-supported
+     - Community-supported (5 years)
    * - LTS (ESM infra+apps support - with Ubuntu Pro)
      - 10 years
      - 10 years
