@@ -53,6 +53,9 @@ Ubuntu releases. You can read more about the Ubuntu release cycle `here
      - 12 years
      - ✓
 
+Ubuntu Pro is a subscription that provides access to several security-focused
+features and services. You can read more about it in the `Ubuntu Pro
+documentation </pro/services-overview/>`_.
 
 Delivery
 ========
