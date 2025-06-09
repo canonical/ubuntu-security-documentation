@@ -103,7 +103,7 @@ Vulnerability knowledge base
 ============================
 
 Detailed technical information on high-impact, publicly-disclosed
-vulnerabilites, including available mitigation steps, is published in the
+vulnerabilities, including available mitigation steps, is published in the
 `Vulnerability knowledge base <https://ubuntu.com/security/vulnerabilities>`_
 section of the Ubuntu website.
 

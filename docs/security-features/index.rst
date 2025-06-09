@@ -60,7 +60,7 @@ Storage
 
    storage/index
 
-Network and firewwalls
+Network and firewalls
 ======================
 
 .. toctree::

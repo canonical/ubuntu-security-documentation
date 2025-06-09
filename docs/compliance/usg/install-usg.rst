@@ -73,7 +73,7 @@ You will see an ouput similar to the following example with a link and a code:
 
 5. Click **Submit**.
 
-The attachment process will continue in the terminal window, you shoul see a similar output:
+The attachment process will continue in the terminal window, you should see a similar output:
 
 .. code-block:: bash
 

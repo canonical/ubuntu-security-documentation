@@ -55,7 +55,7 @@ of assurance.
         Step 4 recommends establishing trust in the Ubuntu Image Signing public
         keys, so that these can be more easily verified in the future. Please
         note that this is a chicken-and-egg problem and this method can only be
-        employed once Step 4 had already been completed on a previous ocassion,
+        employed once Step 4 had already been completed on a previous occasion,
         implying the need to use an alternative verification method to bootstrap
         trust for the first time.
 

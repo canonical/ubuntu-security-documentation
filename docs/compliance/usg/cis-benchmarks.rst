@@ -5,7 +5,7 @@ CIS benchmarks and profiles
 
 The levels are different set of recommendations depending on the security requirements of the environment, see `CIS FAQ <https://www.cisecurity.org/cis-benchmarks/cis-benchmarks-faq>`_ to learn what each level represents.
 
-We provide Level 1 and Level 2 configuration proviles for Ubuntu.
+We provide Level 1 and Level 2 configuration profiles for Ubuntu.
 
 .. csv-table:: 
     :header: "Profile name", "Corresponding CIS profile"

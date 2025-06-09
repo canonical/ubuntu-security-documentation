@@ -16,7 +16,7 @@ Learn how to install and enable USG on your system, as well as how to transition
 CIS compliance
 ==============
 
-Learn how to use USG to audit your system for CIS compliance, find appripriate CIS profiles, customize, and apply them to your system.
+Learn how to use USG to audit your system for CIS compliance, find appropriate CIS profiles, customize, and apply them to your system.
 
 .. toctree::
    :maxdepth: 2

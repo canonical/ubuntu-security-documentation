@@ -97,7 +97,7 @@ This is the recommended service. These modules receive all the latest security u
 This service contains the modules that have been submitted to NIST for review but haven’t been certified yet. The latest FedRAMP guidelines, for instance, require you to install FIPS-certified modules but does allow you to use pre-approved packages that are awaiting NIST certification.
 
 ``fips``
-This servvice provides the exact binary versions that NIST has certified. These packages do not include the security updates and are likely to contain vulnerabilities.
+This service provides the exact binary versions that NIST has certified. These packages do not include the security updates and are likely to contain vulnerabilities.
 
 For more information about Ubuntu Pro services, see `Compatibility matrix for Ubuntu Pro services <https://canonical-ubuntu-pro-client.readthedocs-hosted.com/en/latest/references/compatibility_matrix/>`_
 

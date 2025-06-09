@@ -16,7 +16,7 @@ The following types of vulnerability data are available in the OSV format:
 * CVE records, which mirror the per-vulnerability information available in the
   `Ubuntu Security Tracker <https://ubuntu.com/security/cves>`_ and contains
   information for known, publicly-disclosed vulnerabilities, even if security
-  updates are not yet avalable.
+  updates are not yet available.
 * Ubuntu Security Notices (USNs), which contain `announcements
   <https://ubuntu.com/security/notices>`_ of available security updates and the
   vulnerabilities they address.

@@ -2,22 +2,22 @@ UEFI Secure Boot
 ################
 
 .. tab-set::
-   
+
    .. tab-item:: 25.04
-    
-        amd64, kernel signature enforcement 
+
+        amd64, kernel signature enforcement
 
    .. tab-item:: 24.04
-    
-        amd64, kernel signature enforcement 
+
+        amd64, kernel signature enforcement
 
    .. tab-item:: 22.10
-    
-        amd64, kernel signature enforcement 
+
+        amd64, kernel signature enforcement
 
    .. tab-item:: 20.04
-    
-        amd64, kernel signature enforcement 
+
+        amd64, kernel signature enforcement
 
 
 UEFI Secure Boot is a security mechanism that prevents untrusted code from executing during system boot.
@@ -40,7 +40,7 @@ amd64
      A ``shim`` binary signed by Microsoft and GRUB binary signed by Canonical are provided in the Ubuntu ``main`` archive as ``shim-signed`` or ``grub-efi-amd64-signed``.
 
 arm64
-     As of 20.04, a ``shim`` binary signed by Microsoft and GRUB binary signed by Canonical are provided in the Ubuntu ``main`` archive as ``shim-signed`` or ``grub-efi-arm64-signed``. 
+     As of 20.04, a ``shim`` binary signed by Microsoft and GRUB binary signed by Canonical are provided in the Ubuntu ``main`` archive as ``shim-signed`` or ``grub-efi-arm64-signed``.
 
 Boot process
 ------------
@@ -53,42 +53,42 @@ Secure Boot process relies on boot variables stored in the system’s NVRAM to d
 Firmware validation of the ``shim`` binary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once the system boots, firmware loads the ``shim`` binary as specified in ``BootXXXX``. ``shim`` works as a pre-bootloader and has been signed by Microsoft. Firmware validates the ``shim`` signature against the certificates in the firmware. 
+Once the system boots, firmware loads the ``shim`` binary as specified in ``BootXXXX``. ``shim`` works as a pre-bootloader and has been signed by Microsoft. Firmware validates the ``shim`` signature against the certificates in the firmware.
 
 ``shim`` contains an embedded trust database, which includes Canonical's signing certificate, which it can use to validate components like GRUB and the kernel if they have been signed using Canonical’s UEFI key.
 
-Once firmware validates ``shim`` successfully, ``shim`` loads the second-stage image, which is either GRUB used for normal booting or ``MokManager`` used for key management tasks. 
+Once firmware validates ``shim`` successfully, ``shim`` loads the second-stage image, which is either GRUB used for normal booting or ``MokManager`` used for key management tasks.
 
 Key management
 ~~~~~~~~~~~~~~
 
 If booting requires with key management tasks, such as enrolling or deleting Machine Owner Keys (MOKs) , ``shim`` loads the ``MokManager`` binary. ``MokManager`` is signed by Canonical using the same UEFI key as GRUB, and is validated ``shim``.
 
-``MokManager`` provides a console for users to enroll new public keys (for example, for custom kernels or bootloaders), remove previously trusted keys, enroll binary hashes that can be used for hash-based verification, and enable or disable Secure Boot enforcement at the ``shim`` level. Most of these oprations require authenticitation of the user, so the user must configure a password  during the previous boot phase. This password is valid for a single run of ``shim`` and  ``MokManager``, and is cleared as soon as the process is completed or cancelled.
+``MokManager`` provides a console for users to enroll new public keys (for example, for custom kernels or bootloaders), remove previously trusted keys, enroll binary hashes that can be used for hash-based verification, and enable or disable Secure Boot enforcement at the ``shim`` level. Most of these operations require authentication of the user, so the user must configure a password  during the previous boot phase. This password is valid for a single run of ``shim`` and  ``MokManager``, and is cleared as soon as the process is completed or cancelled.
 
-Once key management is completed, the system is rebooted since the updated keys may be required to valudate the next stages of the boot process. 
+Once key management is completed, the system is rebooted since the updated keys may be required to validate the next stages of the boot process.
 
 Booting with GRUB
 ~~~~~~~~~~~~~~~~~~
 
-As in the case of ``MokManager``, GRUB is signed by Canonical with the UEFI key. ``shim`` validates it and loads GRUB. 
+As in the case of ``MokManager``, GRUB is signed by Canonical with the UEFI key. ``shim`` validates it and loads GRUB.
 
-Once validated, GRUB loads its configuration from the ``/boot`` partition, and uses the configuration to locate the kernel and initrd. 
+Once validated, GRUB loads its configuration from the ``/boot`` partition, and uses the configuration to locate the kernel and initrd.
 
 In Secure Boot mode, the kernel is typically a self-contained EFI binary signed by Canonical. GRUB loads this signed kernel validates its signature. If valid, the kernel takes the control of the system. Note that initrd images are not validated.
 
-Kernel 
+Kernel
 ~~~~~~
 
-If ``shim`` or any later bootloader component such as GRUB fails to validate an image at any point, the boot process stops to prevent an untrusted binary from running. 
+If ``shim`` or any later bootloader component such as GRUB fails to validate an image at any point, the boot process stops to prevent an untrusted binary from running.
 
 Once the kernel is loaded and validated, it disables the firmware's Boot Services and enters the user mode, where access to UEFI variables is limited to read-only. Given the broad permissions afforded to kernel modules, any module not built into the kernel must also be validated before it can be loaded. Modules built and shipped by Canonical are signed by the Canonical UEFI key. Custom-built modules require the user to sign the modules before they can be loaded by the kernel. See `How to sign your own UEFI binaries for Secure Boot <https://wiki.ubuntu.com/UEFI/SecureBoot/Signing>`_
 
 Unsigned modules are not loaded by the kernel. Any attempt to insert them with ``insmod`` or ``modprobe`` will fail with an error message.
 
-Since many users rely on third-party modules. Since these third-party modules often must be built locally,  Ubuntu provides tools to automate and simplify the process of signing these modules, ensuring they can be loaded into the kernel. 
+Since many users rely on third-party modules. Since these third-party modules often must be built locally,  Ubuntu provides tools to automate and simplify the process of signing these modules, ensuring they can be loaded into the kernel.
 
-Machine-Owner Keys (MOK) management 
+Machine-Owner Keys (MOK) management
 ===================================
 
 The MOKs generated at installation time or on upgrade are machine-specific, and are only allowed by the kernel or ``shim`` to sign kernel modules, by use of a specific KeyUsage OID (``1.3.6.1.4.1.2312.16.1.2``) denoting the limitations of the MOK.
@@ -108,7 +108,7 @@ The key generation and signing process is slightly different based on whether we
 
 In all cases, if the system is not booting in UEFI mode, no special kernel module signing steps or key generation will happen.
 
-If Secure Boot is disabled, MOK generation and enrollment still happens, as the user may later enable Secure Boot. They system should work properly if that is the case. 
+If Secure Boot is disabled, MOK generation and enrollment still happens, as the user may later enable Secure Boot. They system should work properly if that is the case.
 
 A new installation
 ~~~~~~~~~~~~~~~~~~
@@ -121,7 +121,7 @@ Once the installation is complete and the system is restarted, at first boot the
 
 When the system reboots, third-party drivers signed by the MOK just enrolled will be loaded as necessary.
 
-Upgrade of a system 
+Upgrade of a system
 ~~~~~~~~~~~~~~~~~~~
 
 On upgrade, the shim and shim-signed packages are upgraded. The shim-signed package's post-install tasks proceeds to generate a new MOK, and prompts the user for a password that is clearly mentioned as being required once the upgrade process is completed and the system rebooted.
@@ -136,7 +136,7 @@ When the system reboots, third-party drivers signed by the MOK just enrolled wil
 
 In all cases, once the system is running with UEFI Secure Boot enabled and a recent version of shim; the installation of any new DKMS module (third-party driver) will proceed to sign the built module with the MOK. This will happen without user interaction if a valid MOK key exists on the system and appears to already be enrolled.
 
-If no MOK exists or the existing MOK is not enrolled, a new key will automatically created just before signing and the user will be prompted to enroll the key by providing a password which will be required upon reboot. 
+If no MOK exists or the existing MOK is not enrolled, a new key will automatically created just before signing and the user will be prompted to enroll the key by providing a password which will be required upon reboot.
 
 UEFI Secure Boot Key Management
 ===============================

@@ -18,7 +18,7 @@ In this documentation
 
     .. grid-item-card:: :ref:`Security updates`
 
-        Prevent security risks by receiving secrity updates to your system in a timely manner.
+        Prevent security risks by receiving security updates to your system in a timely manner.
 
 .. grid:: 2
     :gutter: 1

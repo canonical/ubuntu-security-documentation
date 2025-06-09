@@ -13,7 +13,7 @@ into the workflow.
 This section documents the integrity protections employed for various types of
 software artifacts. It is important to understand the configuration and the
 established chain of trust, in order to reduce the likelihood of malicious or
-inadvertant tampering.
+inadvertent tampering.
 
 Ubuntu image integrity verification
 ===================================
