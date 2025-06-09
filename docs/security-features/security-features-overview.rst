@@ -4,11 +4,11 @@ Overview of security features
 This page provides a high-level overview of the security features in Ubuntu, their default configurations and rationale for having them enabled or disabled.
 
 .. csv-table:: 
-   :header: area, feature, 20.04 LTS, 22.04 LTS, 24.04 LTS, 24.10, 25.04
+   :header: area, feature, 22.04 LTS, 24.04 LTS, 24.10, 25.04, 25.10
    :widths: auto
 
-   :ref:`Privilege restriction`, :ref:`AppArmor`, 2.13.3, 3.0.4, 3.0.7, 3.0.7, 3.0.7 
-   :ref:`Privilege restriction`, :ref:`AppArmor unprivileged user namespace restrictions`, --, --, kernel & userspace, kernel & userspace, kernel & userspace
+   :ref:`Privilege restriction`, :ref:`AppArmor`, 3.0.4, 4.0.1, 4.1.0, 4.1.0, 4.1.0
+   :ref:`Privilege restriction`, :ref:`AppArmor unprivileged user namespace restrictions`, --, kernel & userspace, kernel & userspace, kernel & userspace, kernel & userspace
    :ref:`Privilege restriction`, :ref:`SELinux`, universe, universe, universe, universe, universe 
    :ref:`Privilege restriction`, :ref:`SMACK`, kernel, kernel, kernel, kernel, kernel 
    :ref:`Privilege restriction`, :ref:`PR_SET_SECCOMP`, kernel, kernel, kernel, kernel, kernel
@@ -16,12 +16,11 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Privilege restriction`, :ref:`Filesystem Capabilities`, kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server) 
    :ref:`Storage and filesystem`, :ref:`Full disk encryption (FDE)`, LUKS + TPM, LUKS + TPM, LUKS + TPM, LUKS + TPM, LUKS + TPM
    :ref:`Storage and filesystem`, :ref:`Encrypted LVM`, main installer, main installer, main installer, main installer, main installer 
-   :ref:`Storage and filesystem`, :ref:`File Encryption`, "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset 
-   encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe"
+   :ref:`Storage and filesystem`, :ref:`File Encryption`, "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe"
    :ref:`Network and firewalls`, :ref:`No Open Ports`, policy, policy, policy, policy, policy 
    :ref:`Network and firewalls`, :ref:`SYN cookies`, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl 
    :ref:`Network and firewalls`, :ref:`Firewall`, ufw, ufw, ufw, ufw, ufw 
-   :ref:`Cryptography`, :ref:`Password hashing`, sha512, yescrypt, yescrypt, yescrypt, yescrypt 
+   :ref:`Cryptography`, :ref:`Password hashing`, yescrypt, yescrypt, yescrypt, yescrypt, yescrypt 
    :ref:`Cryptography`, :ref:`Cloud PRNG seed`, pollinate, pollinate, pollinate, pollinate, pollinate
    :ref:`Cryptography`, :ref:`Disable legacy TLS`, policy, policy, policy, policy, policy 
    :ref:`Process and memory protections`, :ref:`Symlink restrictions`, kernel, kernel, kernel, kernel, kernel 
@@ -56,14 +55,16 @@ This page provides a high-level overview of the security features in Ubuntu, the
    :ref:`Kernel protections`, :ref:`Kernel Address Display Restriction`, kernel, kernel, kernel, kernel, kernel
    :ref:`Kernel protections`, :ref:`Kernel Address Space Layout Randomisation`, "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)"
    :ref:`Kernel protections`, :ref:`Denylist Rare Protocols`, kernel, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`dmesg restrictions`, sysctl, kernel, kernel, kernel, kernel
+   :ref:`Kernel protections`, :ref:`dmesg restrictions`, kernel, kernel, kernel, kernel, kernel
    :ref:`Kernel protections`, :ref:`Block kexec`, sysctl, sysctl, sysctl, sysctl, sysctl
    :ref:`Platform protections`, :ref:`UEFI Secure Boot`, "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement"
    :ref:`Platform protections`, :ref:`usbguard`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Platform protections`, :ref:`usbauth`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Platform protections`, :ref:`bolt`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
    :ref:`Platform protections`, :ref:`thunderbolt-tools`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
-   :ref:`Security updates`, :ref:`Livepatch`, "20.04 LTS Kernel", "22.04 LTS Kernel", "24.04 LTS Kernel", "--", "--" 
+   :ref:`Security updates`, :ref:`Livepatch`, "22.04 LTS Kernel", "24.04 LTS Kernel", "--", "--", "--"
+   :ref:`Security updates`, :ref:`Automatic security updates`, enabled, enabled, enabled, enabled, enabled
+   :ref:`Platform protections`, :ref:`Trusted Platform Module`, "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)"
 
 Additional Documentation
 ========================
