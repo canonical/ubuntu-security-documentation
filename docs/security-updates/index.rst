@@ -22,27 +22,40 @@ package resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The
 Ubuntu Security Team is responsible for preparing security updates for supported
 Ubuntu releases and working with the community to sponsor community-prepared
 security updates. The following table lists the security maintenance window for
-Ubuntu releases.
+Ubuntu releases. You can read more about the Ubuntu release cycle `here
+<https://ubuntu.com/about/release-cycle>`_.
 
 .. list-table::
    :header-rows: 1
    
-   * - Release type
+   * - Support type
      - Main / Restricted
      - Universe / Multiverse
-   * - Interim (standard support)
+     - Ubuntu Pro required
+   * - Interim
      - 9 months
-     - Community-supported
-   * - LTS (standard support)
+     - Community support only (9 months)
+     - ✕
+   * - LTS
      - 5 years
-     - Community-supported
-   * - LTS (ESM support - with Ubuntu Pro)
+     - Community support only (5 years)
+     - ✕
+   * - LTS + ESM infra only
+     - 10 years
+     - Community support only (5 years)
+     - ✓
+   * - LTS + ESM infra and apps
      - 10 years
      - 10 years
-   * - LTS (ESM + Legacy support - with Ubuntu Pro)
+     - ✓
+   * - LTS + ESM infra and apps + ESM Legacy
      - 12 years
      - 12 years
+     - ✓
 
+Ubuntu Pro is a subscription that provides access to several security-focused
+features and services. You can read more about it in the `Ubuntu Pro
+documentation </pro/services-overview/>`_.
 
 Delivery
 ========
