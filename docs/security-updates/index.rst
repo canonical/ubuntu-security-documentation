@@ -36,7 +36,10 @@ Ubuntu releases.
    * - LTS (standard support)
      - 5 years
      - Community-supported
-   * - LTS (ESM support - with Ubuntu Pro)
+   * - LTS (ESM infra-only support - with Ubuntu Pro)
+     - 10 years
+     - Community-supported
+   * - LTS (ESM infra+apps support - with Ubuntu Pro)
      - 10 years
      - 10 years
    * - LTS (ESM + Legacy support - with Ubuntu Pro)
