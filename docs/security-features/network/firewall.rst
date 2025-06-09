@@ -68,7 +68,7 @@ Firewall
 
 The Linux kernel includes the Netfilter subsystem, which is used to manipulate or decide the fate of network traffic headed into or through your Linux system. All modern Linux firewall solutions use this system for packet filtering. There are currently two components in the Netfilter subsystem which can be used for packet filter: ``iptables`` and ``nftables``. The latter is considered the successor and has been introduced into the mainline Linux kernel since version 3.13 released in 2014.
 
-The Linux kernel rules are typically managed through userspace utilies:
+The Linux kernel rules are typically managed through userspace utilities:
 
 * ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` for the ``iptables`` Linux Netfilter component;
 * ``nft`` for the ``nftables`` Linux Netfilter component.

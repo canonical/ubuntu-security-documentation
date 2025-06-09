@@ -5,15 +5,15 @@ File Encryption
 
     .. tab-item:: 24.04.2
 
-        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officialy supported**.
+        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officially supported**.
 
     .. tab-item:: 22.04.5 
 
-        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officialy supported**.
+        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officially supported**.
 
     .. tab-item:: 20.04.6 
 
-        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officialy supported**.
+        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officially supported**.
 
     .. tab-item:: 18.04.6
         
@@ -21,7 +21,7 @@ File Encryption
 
         Encrypted Private directories using `eCryptfs <https://ecryptfs.org/>`_ are no longer supported.
 
-        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officialy supported**.
+        `fscrypt <https://github.com/google/fscrypt>`_ is available for encrypting directories on ``ext4`` filesystems but **not officially supported**.
 
     .. tab-item:: 16.04.7
 

@@ -1,7 +1,7 @@
 Ubuntu VEX data
 ###############
 
-Canonical's Security Team publishes vulnerability data conforming to the structured, human and machine-readable Vulnerability Explitability eXchange (VEX) format for all supported Ubuntu releases. In particular, the Ubuntu VEX
+Canonical's Security Team publishes vulnerability data conforming to the structured, human and machine-readable Vulnerability Exploitability eXchange (VEX) format for all supported Ubuntu releases. In particular, the Ubuntu VEX
 data feed follows the `OpenVEX <https://openvex.dev/>`_ specification. As with the other vulnerability data feeds, Ubuntu's VEX data can be used in vulnerability and patch management processes.
 
 The VEX data describes the exploitability status of known, publicly disclosed vulnerabilities, focusing on clarifying whether these are exploitable in
