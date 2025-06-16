@@ -1,11 +1,14 @@
 Kernel protections
 ##################
 
+.. _block-kexec:
+
 Block kexec
 ===========
 
 Starting with Ubuntu 14.04 LTS, it is now possible to disable kexec via sysctl. CONFIG_KEXEC is enabled in Ubuntu so end users are able to use kexec as desired and the new sysctl allows administrators to disable kexec_load. This is desired in environments where CONFIG_STRICT_DEVMEM and modules_disabled are set, for example. When Secure Boot is in use, kexec is restricted by default to only load appropriately signed and trusted kernels.
 
+.. _block-module-loading:
 
 Block module loading
 =====================
@@ -15,19 +18,24 @@ In Ubuntu 8.04 LTS and earlier, it was possible to remove CAP_SYS_MODULES from t
 See test-kernel-security.py for regression tests.
 
 
+
+.. _denylist-rare-protocols:
+
 Denylist Rare Protocols
 =======================
 
-Normally the kernel allows all network protocols to be autoloaded on demand via the MODULE_ALIAS_NETPROTO(PF_...) macros. Since many of these protocols are old, rare, or generally of little use to the average Ubuntu user and may contain undiscovered exploitable vulnerabilities, they have been denylisted since Ubuntu 11.04. These include: ax25, netrom, x25, rose, decnet, econet, rds, and af_802154. If any of the protocols are needed, they can specifically loaded via modprobe, or the /etc/modprobe.d/blacklist-rare-network.conf file can be updated to remove the denylist entry.
+Normally the kernel allows all network protocols to be autoloaded on demand via the ``MODULE_ALIAS_NETPROTO(PF_...)`` macros. Since many of these protocols are old, rare, or generally of little use to the average Ubuntu user and may contain undiscovered exploitable vulnerabilities, they have been denylisted since Ubuntu 11.04. These include: ax25, netrom, x25, rose, decnet, econet, rds, and af_802154. If any of the protocols are needed, they can specifically loaded via modprobe, or the /etc/modprobe.d/blacklist-rare-network.conf file can be updated to remove the denylist entry.
 
 See test-kernel-security.py for regression tests.
 
+.. _dmesg-restrictions:
 
 dmesg restrictions
 ==================
 
 When attackers try to develop "run anywhere" exploits for vulnerabilities, they frequently will use dmesg output. By treating dmesg output as sensitive information, this output is not available to the attacker. Starting with Ubuntu 12.04 LTS, /proc/sys/kernel/dmesg_restrict can be set to "1" to treat dmesg output as sensitive. Starting with 20.10, this is enabled by default.
 
+.. _kernel-address-display-restriction:
 
 Kernel Address Display Restriction
 ==================================
@@ -36,6 +44,7 @@ When attackers try to develop "run anywhere" exploits for kernel vulnerabilities
 
 See test-kernel-security.py for regression tests.
 
+.. _kernel-address-space-layout-randomisation:
 
 Kernel Address Space Layout Randomisation
 =========================================
@@ -48,6 +57,7 @@ Before 16.10, you can specify the "kaslr" option on the kernel command line to u
 
 Note: Before 16.10, enabling kASLR will disable the ability to enter hibernation mode.
 
+.. _dev-kmem-disabled:
 
 /dev/kmem disabled
 ===================
@@ -56,12 +66,14 @@ There is no modern user of /dev/kmem any more beyond attackers using it to load 
 
 See test-kernel-security.py for regression tests.
 
+.. _kernel-lockdown:
 
 Kernel Lockdown
 ===============
 
 Starting with Ubuntu 20.04, the Linux kernel's lockdown mode is enabled in integrity mode. This prevents the root account from loading arbitrary modules or BPF programs that can manipulate kernel datastructures. Lockdown enforcement is tied to UEFI secure boot.
 
+.. _kernel-stack-protector:
 
 Kernel Stack protector
 ======================
@@ -70,6 +82,7 @@ Similar to the stack protector used for ELF programs in userspace, the kernel ca
 
 See test-kernel-security.py for configuration regression tests.
 
+.. _module-ro-nx:
 
 Module RO/NX
 ============
@@ -78,6 +91,7 @@ This feature extends CONFIG_DEBUG_RODATA to include similar restrictions for loa
 
 See test-kernel-security.py for configuration regression tests.
 
+.. _read-only-data-sections:
 
 Read-only data sections
 =======================
