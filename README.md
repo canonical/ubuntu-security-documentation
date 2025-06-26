@@ -11,7 +11,7 @@ To get in touch:
 
 * email us security@ubuntu.com  
 * join #ubuntu-security on the Libera Chat IRC
-* join #ubuntu-security on Freenode
+* join #security:ubuntu.com on Matrix
 
 ## Contribution guidelines
 
