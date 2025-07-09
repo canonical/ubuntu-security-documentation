@@ -2,13 +2,9 @@ Cryptography
 ============
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+   :maxdepth: 2
 
-   *
-
-
-
-
-
-
+   cloud-prng-seed
+   legacy-tls
+   password-hashing
+   cryptographics-algorithm/index
