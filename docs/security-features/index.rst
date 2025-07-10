@@ -9,6 +9,14 @@ Overview of security features in Ubuntu
 
    security-features-overview
 
+CPU
+===
+
+.. toctree::
+   :maxdepth: 2
+
+   cpu/index
+
 Platform protections
 ====================
 
