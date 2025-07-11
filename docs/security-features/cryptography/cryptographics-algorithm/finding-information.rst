@@ -13,19 +13,19 @@ Here are some notes on how to find this stuff for encryption libraries (and the 
      - **Name of hash function**
      - **Max key length/hash value (in bits)**
      - **Notes**
-   * - openssl
+   * - OpenSSL
      - bulk encryption
      - ``openssl ciphers | sed 's/:/\n/g' | sort -u`` (or ``openssl enc -help``) (or ``openssl enc -ciphers``) (or ``openssl list -cipher-algorithms``)
      - 
      - interpret output/research
      - compare sorted output in diff for changes
-   * - openssl
+   * - OpenSSL
      - digital signature
      - research (or ``openssl list -signature-algorithms``)
      - 
      - research
      - 
-   * - openssl
+   * - OpenSSL
      - authentication/integrity
      - 
      - ``openssl dgst -help`` (or ``openssl list -mac-algorithms`` and ``openssl list -digest-algorithms``)
@@ -120,22 +120,4 @@ Here are some notes on how to find this stuff for encryption libraries (and the 
      - 
      - ``grep CRYPTO_ /boot/config...``
      - filter/interpret output/research
-     - 
-   * - <src>
-     - bulk encryption
-     - <cmd>
-     - 
-     - interpret output/research
-     - 
-   * - <src>
-     - digital signatures
-     - <cmd>
-     - 
-     - interpret output/research
-     - 
-   * - <src>
-     - authentication/integrity
-     - 
-     - <cmd>
-     - interpret output/research
      - 
