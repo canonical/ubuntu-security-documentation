@@ -3,8 +3,8 @@ No Open Ports
 
 A port bound to a service that is actively listening for incoming packets on 
 a network is referred to as an "open port". Exposing open ports on untrusted 
-networks can pose a security risk if the service has a vulnerability or is 
-misconfigured.
+networks can pose a security risk if the listening service has a vulnerability 
+or is misconfigured.
 
 Historically, Ubuntu adhered to a "No Open Ports" policy, which 
 states that default installations of Ubuntu must have no listening network 
@@ -24,7 +24,7 @@ default Ubuntu installation must:
 
 * be free from problems such as lack of code quality, poor upstream security response processes, and others that would make it difficult to identify and fix security issues in the software.
 
-The network services exposed on default installations are kept to aminimum, and
+The network services exposed on default installations are kept to a minimum, and
 are generally limited only to services that provide substantial improvement to 
 out-of-the-box user experience. Some notable exceptions to the 
 "No Open Ports" policy are given below.
