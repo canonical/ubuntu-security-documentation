@@ -9,8 +9,8 @@ and AppImages.
 While :file:`.deb` files offer a convenient method to package and distribute software,
 this ease of distribution inherently comes with risks. As an example, consider a
 scenario where a user has provided a direct download link for a :file:`.deb` 
-file on a public forum. Downloading and installing such a file is **discouraged**
-for several reasons.
+file on a public forum. Downloading and installing this file from such a source
+is **discouraged** for several reasons.
 
 Lack of verification
 ====================
@@ -58,7 +58,7 @@ No automatic security updates
 
 Whenever installing software from Ubuntu's official repositories, that software will
 automatically receive security patches and updates through the standard ``apt``
-update process (contigent on the Ubuntu release being under active support (learn 
+update process (contigent on the Ubuntu release being under active support, learn 
 more `here <https://ubuntu.com/about/release-cycle>`_). If a standalone :file:`.deb`
 is installed instead, this automatic security and update process is completely
 bypassed. Updates need to be manually applied, potentially leaving a system 
