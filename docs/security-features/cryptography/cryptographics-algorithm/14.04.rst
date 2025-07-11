@@ -3,7 +3,7 @@ Trusty
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 20 20 20 20
+   :widths: 20 30 20 20 10
 
    * - **Source package**
      - **Algorithm application**
