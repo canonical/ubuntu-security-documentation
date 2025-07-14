@@ -51,7 +51,7 @@ Included below is an example of the content that may be included in the
 The above rules can be broken down into the following components:
 
 * ``allow``: This is the action. It instructs the system to authorize any USB device that matches the criteria that follow.
-* ``046d:c52b``: This is the matcher. It specifically targets the device's ``VendorID:ProductID`` pair. This rule does not distinguish between two identical keyboards; it allows any device of that exact model to connect.
+* ``046d:c52b``: This is the matcher. It specifically targets the device's ``VendorID:ProductID`` pair. This rule does not distinguish between two identical device models; it allows any device of that exact model to connect.
 * ``class 08``: This is an alternative type of matcher. The ``class`` keyword tells ``usbauth`` to look at the device's function rather than its manufacturer ID. The 08 is the value, which is the official `USB Class Code for Mass Storage devices <https://www.usb.org/defined-class-codes>`_. This single rule would permit any flash drive, external hard drive, or card reader to connect, regardless of its vendor or product ID.
 
 You can learn more about ``usbauth`` through its `official manpages <https://manpages.ubuntu.com/manpages/focal/man1/usbauth.1.html>`_.
@@ -62,10 +62,10 @@ usbguard
 
 Starting with Ubuntu 16.10, the ``usbguard`` package has been available in universe 
 to provide a robust framework for implementing USB device policies. It protects against
-unauthorized USB devices by enforcing rules you define. When a USB device is plugged in,
-``usbguard`` checks its attributes against the policy and decides whether to allow, block,
-or reject it. In a similar vein to ``usbauth``, this is particularly effective at
-preventing `BadUSB attacks <https://en.wikipedia.org/wiki/BadUSB>`_.
+unauthorized USB devices by enforcing rules that a user defines. When a USB device is 
+plugged in, ``usbguard`` checks its attributes against the policy and decides whether
+to allow, block, or reject it. In a similar vein to ``usbauth``, this is particularly 
+effective at preventing `BadUSB attacks <https://en.wikipedia.org/wiki/BadUSB>`_.
 
 The primary tool is the ``usbguard`` command-line utility, which allows a user to generate
 an initial policy, view currently connected devices, and manage rules. The ruleset is stored
