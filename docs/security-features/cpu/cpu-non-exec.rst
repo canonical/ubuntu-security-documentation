@@ -35,9 +35,9 @@ As far as making use of the CPU feature once it's not disabled in the BIOS, it w
 automatically be used if you’re running a 64-bit kernel. If you're using 32-bit, you can start
 using it if you install the ``-server`` or ``-generic-pae`` flavor of the 32-bit kernel. As a 
 bonus, you get to address all your physical RAM if you do this too (since the "PAE" mode is the
-kernel mode that allows NX to work). In Ubuntu 9.10 and later, if you run 32-bit kernels
-without PAE, you will still have the partial NX emulation. It is required that you use PAE if
-you want true NX support.
+kernel mode that allows NX to work). In Ubuntu 9.10 Karmic Koala and later, if you run 32-bit
+kernels without PAE, you will still have the partial NX emulation. It is required that you use
+PAE if you want true NX support.
 
 If you believe you are incorrectly getting the boot-time warning, please open a bug report
 against the ``cpu-checker`` package, or disable the check by removing the motd module:
