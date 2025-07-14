@@ -1,7 +1,7 @@
 Devices
 #######
 
-This section documents security features that provide protections for external devices.
+This section documents security features that protect external devices.
 
 bolt
 ====
@@ -50,11 +50,11 @@ Included below is an example of the content that may be included in the
 
 The above rules can be broken down into the following components:
 
-* ``allow``: This is the action. It instructs the system to authorize any USB device that matches the criteria that follows.
+* ``allow``: This is the action. It instructs the system to authorize any USB device that matches the criteria that follow.
 * ``046d:c52b``: This is the matcher. It specifically targets the device's ``VendorID:ProductID`` pair. This rule does not distinguish between two identical keyboards; it allows any device of that exact model to connect.
 * ``class 08``: This is an alternative type of matcher. The ``class`` keyword tells ``usbauth`` to look at the device's function rather than its manufacturer ID. The 08 is the value, which is the official `USB Class Code for Mass Storage devices <https://www.usb.org/defined-class-codes>`_. This single rule would permit any flash drive, external hard drive, or card reader to connect, regardless of its vendor or product ID.
 
-You can learn more about ``usbauth`` through its `offical manpages <https://manpages.ubuntu.com/manpages/focal/man1/usbauth.1.html>`_.
+You can learn more about ``usbauth`` through its `official manpages <https://manpages.ubuntu.com/manpages/focal/man1/usbauth.1.html>`_.
 
 
 usbguard
@@ -69,7 +69,7 @@ preventing `BadUSB attacks <https://en.wikipedia.org/wiki/BadUSB>`_.
 
 The primary tool is the ``usbguard`` command-line utility, which allows a user to generate
 an initial policy, view currently connected devices, and manage rules. The ruleset is stored
-in :file:`/etc/usbguard/rules.conf`. A typical workflow involves running usbguard 
+in :file:`/etc/usbguard/rules.conf`. A typical workflow involves running ``usbguard`` 
 ``generate-policy > /etc/usbguard/rules.conf`` to create a baseline policy that allows all
 currently connected devices. From that point on, any new device will be blocked by default.
 
