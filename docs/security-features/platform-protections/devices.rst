@@ -1,7 +1,7 @@
 Devices
 #######
 
-This section documents security features that protect external devices.
+This section documents security features that protect against external devices.
 
 bolt
 ====
