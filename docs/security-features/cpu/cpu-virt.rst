@@ -19,8 +19,8 @@ If this exists, then check if the kernel mentions the BIOS after loading the kvm
 
     dmesg | grep "kvm: disabled by bios"
 
-On Ubuntu 9.10 and later, you can check if your hardware is expected to have VT available by 
-running the following command from the ``qemu-kvm`` package:
+On Ubuntu 9.10 Karmic Koala and later, you can check if your hardware is expected to have
+VT available by running the following command from the ``qemu-kvm`` package:
 
 .. code-block:: shell
 
