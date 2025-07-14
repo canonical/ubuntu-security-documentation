@@ -6,14 +6,14 @@ This section documents security features that protect external devices.
 bolt
 ====
 
-Starting with Ubuntu 18.04, the bolt package has been available in main to provide a
+Starting with Ubuntu 18.04 Bionic Beaver, the bolt package has been available in main to provide a
 desktop-oriented tool for using the Linux kernel's Thunderbolt authorization support. 
 
 
 thunderbolt-tools
 =================
 
-Starting with Ubuntu 18.04, the thunderbolt-tools package has been available in
+Starting with Ubuntu 18.04 Bionic Beaver, the thunderbolt-tools package has been available in
 universe to provide a server-oriented tool for using the Linux kernel's Thunderbolt
 authorization support. 
 
@@ -21,7 +21,7 @@ authorization support.
 usbauth
 =======
 
-Starting with Ubuntu 18.04, the ``usbauth`` package has been available in universe
+Starting with Ubuntu 18.04 Bionic Beaver, the ``usbauth`` package has been available in universe
 to provide a straightforward tool for using the Linux kernel's 
 `USB authorization <https://docs.kernel.org/usb/authorization.html>`_ feature.
 This mechanism acts as a gatekeeper, allowing a user to define exactly which USB
@@ -60,7 +60,7 @@ You can learn more about ``usbauth`` through its `official manpages <https://man
 usbguard
 ========
 
-Starting with Ubuntu 16.10, the ``usbguard`` package has been available in universe 
+Starting with Ubuntu 16.10 Yakkety Yak, the ``usbguard`` package has been available in universe 
 to provide a robust framework for implementing USB device policies. It protects against
 unauthorized USB devices by enforcing rules that a user defines. When a USB device is 
 plugged in, ``usbguard`` checks its attributes against the policy and decides whether
