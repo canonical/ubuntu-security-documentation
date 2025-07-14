@@ -24,7 +24,7 @@ running the following command from the ``qemu-kvm`` package:
 
 .. code-block:: shell
 
-    /usr/bin/kvm-ok
+    /usr/sbin/kvm-ok
 
 For details on using KVM with hardware virtualization, see the `KVM Documentation <https://help.ubuntu.com/community/KVM>`_.
 
