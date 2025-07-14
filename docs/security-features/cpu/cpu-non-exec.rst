@@ -7,7 +7,7 @@ to help block the exploitation of security vulnerabilities. This feature is call
 your BIOS manufacturer.
 
 In reading the system's :file:`/proc/cpuinfo` file, the first flags line will include
-``nx`` if the BIOS is not disabling the CPU feature, and the CPU is actually NX-capable.
+``nx`` if the BIOS is not disabling the CPU feature, and the CPU is NX-capable.
 Nearly all 64-bit CPUs are NX-capable. If the flags line contains ``pae``, usually the CPU
 will support NX:
 
@@ -29,7 +29,7 @@ by running the command:
 
 .. code-block:: shell
 
-   /usr/bin/check-bios-nx --verbose
+   sudo /usr/sbin/check-bios-nx --verbose
 
 As far as making use of the CPU feature once it's not disabled in the BIOS, it will 
 automatically be used if you’re running a 64-bit kernel. If you're using 32-bit, you can start
