@@ -1,7 +1,7 @@
 Direct downloading of .debs
 ###########################
 
-A :file:`.deb` file, as known as a Debian package, is an archive that contains all
+A :file:`.deb` file, also known as a Debian package, is an archive that contains all
 of the necessary files and information needed to install and run a piece of 
 software. Ubuntu provides support for :file:`.deb` files, alongside snaps, Flatpaks,
 and AppImages.
@@ -17,7 +17,7 @@ Lack of verification
 
 Unlike software sourced from Ubuntu's official repositories (e.g., the Ubuntu
 Archive), which includes packages vetted by the Ubuntu Security team, a :file:`.deb`
-file originating from an untrusted source like a public forum has likely undergone
+file originating from an untrusted source, like a public forum, has likely undergone
 no security screening. This lack of verification means that bad actors may have
 made modifications to the software contained within the :file:`.deb` file. 
 
@@ -29,12 +29,12 @@ Potential for malware
 =====================
 
 Installing a :file:`.deb` file to make software available system-wide almost always
-require ``root`` privileges. If a bad actor has modified a :file:`.deb` file for
+requires ``root`` privileges. If a bad actor has modified a :file:`.deb` file for
 malicious reasons, providing ``root`` privileges can elevate the risk that malware,
-ransomware, spyware, or keyloggers are installed to your system. 
+ransomware, spyware, or keyloggers are installed on your system. 
 
 Whenever running a command with ``root`` privileges, always ensure you know what
-the command is going to do and that the inputs you are passing come from trusted
+the command is going to do, and that the inputs you are passing come from trusted
 sources.
 
 
@@ -58,7 +58,7 @@ No automatic security updates
 
 Whenever installing software from Ubuntu's official repositories, that software will
 automatically receive security patches and updates through the standard ``apt``
-update process (contigent on the Ubuntu release being under active support, learn 
+update process (contingent on the Ubuntu release being under active support, learn 
 more `here <https://ubuntu.com/about/release-cycle>`_). If a standalone :file:`.deb`
 is installed instead, this automatic security and update process is completely
 bypassed. Updates need to be manually applied, potentially leaving a system 
