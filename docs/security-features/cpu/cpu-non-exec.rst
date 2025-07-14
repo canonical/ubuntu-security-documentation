@@ -24,8 +24,8 @@ option is missing.
 In Samsung Netbooks (namely N140) use F2 to enter the BIOS, go to "Advanced", and set "EDB
 (Execute Disable Bit)" to "enabled".
 
-On Ubuntu 10.04 and later, you can check if your hardware is expected to have NX available
-by running the command:
+On Ubuntu 10.04 Lucid Lynx and later, you can check if your hardware is expected to have NX
+available by running the command:
 
 .. code-block:: shell
 
