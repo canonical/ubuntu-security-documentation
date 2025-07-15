@@ -56,6 +56,20 @@ Basic ufw Usage
 ufw is used primarily by creating rules which are then applied to the network traffic on your machine. 
 There are several different ways to implement rules. This section will cover the simplest usages. 
 
+Crafting ufw Rules
+~~~~~~~~~~~~~~~~~~
+
+There are several components to a ufw command line rule:
+
+ - Actions: allow/deny/reject/limit
+ - Direction: in/outgoing
+ - Protocol: tcp/udp 
+ - Port: single port or range
+ - IP Address Origin: single address or subnet
+ - IP Address Destination: single address or subnet
+ - Interface: eth0/etc
+
+
 Open or Close a Port 
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -165,6 +179,7 @@ The purpose of IP masquerading is to allow machines with private, non-routable I
 
 To do this, the kernel must modify the source IP address of each packet so that replies will be routed back to it, rather than to the private IP address that made the request, which is impossible over the Internet. Linux uses Connection Tracking (conntrack(8)) to keep track of which connections belong to which machines and reroute each return packet accordingly. Traffic leaving your private network is thus “masqueraded” as having originated from your Ubuntu gateway machine. This process is referred to in Microsoft documentation as “Internet Connection Sharing”.
 
+TODO: add masquerading vs SNAT.
 
 IP Masquerading with ufw
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -185,6 +200,9 @@ If you are using ufw, you can turn on logging by entering the following in a ter
 
     sudo ufw logging on
 
+
+Recommended Practices
+---------------------
 
 Further Reading
 ---------------
