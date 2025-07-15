@@ -6,6 +6,7 @@ Network and firewalls
    :glob:
 
    *
+   firewall/*
 
 
 

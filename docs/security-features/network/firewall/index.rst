@@ -1,6 +1,12 @@
 Firewall
 ========
 
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   *
+
 .. tab-set::
 
     .. tab-item:: 25.04
@@ -73,42 +79,13 @@ The Linux kernel rules are typically managed through userspace utilities:
 * ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` for the ``iptables`` Linux Netfilter component;
 * ``nft`` for the ``nftables`` Linux Netfilter component.
 
-`ufw <https://help.ubuntu.com/community/UFW>`_ is a simplified firewall configuration tool for Ubuntu. It works as a frontend for ``iptables`` and is available in Ubuntu, but disabled by default.
-
-iptables, ip6tables, arptables and ebtables
--------------------------------------------
-
-Historically, ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` have been the primary tools used in Linux systems for managing firewall configurations. They allow us to configure and inspect the Linux kernel’s Netfilter configuration. Operating at a low level, they interact directly with the network stack to manage how packets are handled.
-
-Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` tools that work with ``nftables`` API and provide a compatible interface to the legacy implementation. The ``nftables`` backend has been the default since Ubuntu 20.10 Groovy Gorilla. These are managed through the alternatives system and the current configuration can be displayed with the following commands:
-
-.. code-block:: bash
-    update-alternatives --display iptables
-    update-alternatives --display ip6tables
-    update-alternatives --display arptables
-    update-alternatives --display ebtables
+`ufw <https://help.ubuntu.com/community/UFW>`_ is a simplified firewall configuration tool for Ubuntu. It works as a frontend for ``iptables`` and ``nftables`` and is available in Ubuntu, but disabled by default.
 
 
-nftables
---------
-
-`nftables <https://www.nftables.org/projects/nftables/index.html>`_ is a successor to the ``iptables`` component in the Linux Netfilter subsystem and was designed to simplify and enhance Linux firewall management.
-
-``nftables`` reduces complexity of ``iptables`` and offers improved performance. The ``nftables`` package provides the ``nft`` utility to natively manage the ``nftables`` component of the Linux Netfilter subsystem. It can also be used to manage rules that would've previously been managed by ``arptables`` and ``ebtables``, while additionally supporting common IPv4 and IPv6 rules.
-
-Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a systemd service unit file that is disabled by default. If enabled, the service unit file will automatically load ``nftables`` configuration from the ``/etc/nftables.conf`` file (a mock file that does not perform any filtering is provided in the ``nftables`` package). You can enable this and load the configuration using the following commands:
-
-.. code-block:: bash
-    sudo systemctl enable nftables.service
-    sudo systemctl start nftables.service
-
-For more information on configuring nftables, please see the `nft manual page <https://manpages.ubuntu.com/manpages/man8/nft.8.html>`_ and the `nftables documentation <https://wiki.nftables.org/wiki-nftables/index.php/Main_Page>`_.
-
-ufw
+ufw - Uncomplicated Firewall
 ----
 
 `ufw <https://help.ubuntu.com/community/UFW>`_ is a firewall framework that acts as a frontend for both ``iptables`` and ``nftables``. Details on configuring ``ufw`` can be found in the `Ubuntu Server documentation <https://documentation.ubuntu.com/server/how-to/security/firewalls/>`_.
-
 
 Stateful vs. stateless filtering
 --------------------------------
@@ -127,6 +104,39 @@ Using iptables and nftables directly instead of ``ufw``
 * Creating custom chains to filter traffic differently based on network conditions.
 
 * Filter based on more granular factors such as packet size, time of day, or multi-layer protocol inspection.
+
+iptables, ip6tables, arptables and ebtables
+-------------------------------------------
+
+Historically, ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` have been the primary tools used in Linux systems for managing firewall configurations. They allow us to configure and inspect the Linux kernel’s Netfilter configuration. Operating at a low level, they interact directly with the network stack to manage how packets are handled.
+
+Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` tools that work with ``nftables`` API and provide a compatible interface to the legacy implementation. The ``nftables`` backend has been the default since Ubuntu 20.10 Groovy Gorilla. These are managed through the alternatives system and the current configuration can be displayed with the following commands:
+
+.. code-block:: bash
+
+    update-alternatives --display iptables
+    update-alternatives --display ip6tables
+    update-alternatives --display arptables
+    update-alternatives --display ebtables
+
+
+nftables
+--------
+
+`nftables <https://www.nftables.org/projects/nftables/index.html>`_ is a successor to the ``iptables`` component in the Linux Netfilter subsystem and was designed to simplify and enhance Linux firewall management.
+
+``nftables`` reduces complexity of ``iptables`` and offers improved performance. The ``nftables`` package provides the ``nft`` utility to natively manage the ``nftables`` component of the Linux Netfilter subsystem. It can also be used to manage rules that would've previously been managed by ``arptables`` and ``ebtables``, while additionally supporting common IPv4 and IPv6 rules.
+
+Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a systemd service unit file that is disabled by default. If enabled, the service unit file will automatically load ``nftables`` configuration from the ``/etc/nftables.conf`` file (a mock file that does not perform any filtering is provided in the ``nftables`` package). You can enable this and load the configuration using the following commands:
+
+.. code-block:: bash
+
+    sudo systemctl enable nftables.service
+    sudo systemctl start nftables.service
+
+For more information on configuring nftables, please see the `nft manual page <https://manpages.ubuntu.com/manpages/man8/nft.8.html>`_ and the `nftables documentation <https://wiki.nftables.org/wiki-nftables/index.php/Main_Page>`_.
+
+
 
 Further reading
 ---------------
