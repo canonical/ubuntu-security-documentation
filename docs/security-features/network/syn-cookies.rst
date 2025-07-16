@@ -30,8 +30,6 @@ In order to permanently disable this option, a drop-in file like  ``/etc/sysctl.
 
     net.ipv4.tcp_syncookies = 0
 
-Use of ``/etc/sysctl.conf`` is discouraged as it may cause issues during updates, requiring manual intervention under certain circumstances.
-
 As SYN cookies involve encoding of information in the SYN/ACK packet, their usage increases the computational load on the server, especially with large incoming number of connections. While it is recommended to leave this option enabled, in some circumstances it may be necessary to disable SYN cookies, in which case other protection mechanisms against SYN flood attacks should be enabled.
 
 Other aspects have to be considered as well with SYN cookies. For example, SYN packets still reach the system, which may have implications with bandwidth saturation. Additionally, the SYN/ACK packet is not retransmitted if the server does not receive the ACK packet (3rd packet in the three-way handshake), which could potentially lead to hung connections.
