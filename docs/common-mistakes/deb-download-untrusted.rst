@@ -1,19 +1,15 @@
-Direct downloading of .debs
-###########################
+Direct downloading of .debs from untrusted sources
+##################################################
 
-A :file:`.deb` file, also known as a Debian package, is an archive that contains all
-of the necessary files and information needed to install and run a piece of 
-software. Ubuntu provides support for :file:`.deb` files, alongside snaps, Flatpaks,
-and AppImages.
+While :file:`.deb` files offer a convenient method to package and distribute 
+software, this ease of distribution inherently comes with risks. As an example, 
+consider a scenario where a user has provided a direct download link for a 
+:file:`.deb` file on a public forum. Downloading and installing this file from
+such a source is **discouraged** for several reasons.
 
-While :file:`.deb` files offer a convenient method to package and distribute software,
-this ease of distribution inherently comes with risks. As an example, consider a
-scenario where a user has provided a direct download link for a :file:`.deb` 
-file on a public forum. Downloading and installing this file from such a source
-is **discouraged** for several reasons.
 
-Lack of verification
-====================
+Lack of security verification
+=============================
 
 Unlike software sourced from Ubuntu's official repositories (e.g., the Ubuntu
 Archive), which includes packages vetted by the Ubuntu Security team, a :file:`.deb`
@@ -51,19 +47,3 @@ due to these conflicts, which in the worst case can render a system unusable.
 To avoid dependency issues and to ensure system stability, it is always best to 
 retrieve and install :file:`.deb` files from trusted sources, like Ubuntu's
 official repositories.
-
-
-No automatic security updates
-=============================
-
-Whenever installing software from Ubuntu's official repositories, that software will
-automatically receive security patches and updates through the standard ``apt``
-update process (contingent on the Ubuntu release being under active support, learn 
-more `here <https://ubuntu.com/about/release-cycle>`_). If a standalone :file:`.deb`
-is installed instead, this automatic security and update process is completely
-bypassed. Updates need to be manually applied, potentially leaving a system 
-vulnerable to exploitation.
-
-To ensure you have the most secure version of software, it is highly recommended 
-to source :file:`.deb` files from trusted sources that offer update paths through
-the standard ``apt`` update process.

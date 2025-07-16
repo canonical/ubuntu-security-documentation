@@ -3,8 +3,8 @@ Common security mistakes
 
 Direct downloading of .debs
 ===========================
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :glob:
 
-   direct-deb-download-overview
+   *
