@@ -68,10 +68,3 @@ Network and firewalls
 
    network/index
 
-Application Confinement
-=======================
-
-.. toctree::
-   :maxdepth: 2
-
-   application-confinement/index

@@ -12,7 +12,7 @@ stability and security of a modern Ubuntu system, providing the foundation for t
 Core Concepts of Cgroups
 ------------------------
 
-Cgroups operate on a few key principles: 
+Cgroups operate on a couple key principles: 
 
 Hierarchy
 ^^^^^^^^^
