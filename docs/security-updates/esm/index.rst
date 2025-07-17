@@ -1,3 +1,5 @@
+.. _esm:
+
 Expanded Security Maintenance (ESM)
 ###################################
 
