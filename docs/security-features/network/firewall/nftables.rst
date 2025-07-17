@@ -103,13 +103,21 @@ will create two tables that process both IPv4 and IPv6 packets:
 
     $ sudo nft "add table inet foo; add table inet bar"
 
-Alternatively, a filename can be passed as an argument using the ``-f`` flag.
-The file can contain both commands, as well as object definitions using a
-declarative syntax, which are implied to be created. As with the command-line
-usage, all of the operations are performed atomically. The default
-``/etc/nftables.conf`` file contains a command to delete all of the configured
-rules (``flush ruleset``) and a declarative definition of a table named
-``filter`` that processes both IPv4 and IPv6 packets in three empty chains:
+Changes to the ``nftables`` performed via the utility are ephemeral and will be
+lost upon a reboot (or, more specifically, upon the destruction of the `network
+namespace
+<https://manpages.ubuntu.com/manpages/en/man7/network_namespaces.7.html>`_ to
+which they are associated). Persistence can be achieved through the
+aforementioned systemd service unit or similar mechanisms.
+
+As an alternative invocation, a filename can be passed to the ``nft`` utility as
+an argument using the ``-f`` flag.  The file can contain both commands, as well
+as object definitions using a declarative syntax, which are implied to be
+created. As with the command-line usage, all of the operations are performed
+atomically. The default ``/etc/nftables.conf`` file contains a command to delete
+all of the configured rules (``flush ruleset``) and a declarative definition of
+a table named ``filter`` that processes both IPv4 and IPv6 packets in three
+empty chains:
 
 .. code-block::
 
