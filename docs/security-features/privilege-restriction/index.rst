@@ -48,3 +48,11 @@ SMACK
 SMACK is a flexible inode-based MAC.
 
 Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_.
+
+Snap Confinement
+========
+
+.. toctree::
+   :maxdepth: 1
+
+   snap-confinement
