@@ -279,6 +279,151 @@ reconstruct the rules, but without any references to any symbolic variables.
 Debugging
 ^^^^^^^^^
 
+``nftables`` provides several means to debug firewall rules:
+
+* Using the ``log`` statement, which can be associated with any rule and will
+  result in some packet information being logged, either to the kernel log
+  (which can read via ``dmesg``) or to a userspace application. This is
+  described in more detail in the `nftables documentation
+  <https://wiki.nftables.org/wiki-nftables/index.php/Logging_traffic>`_ and in
+  the `manual page
+  <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#statements>`_, under
+  ``LOG STATEMENT``.
+* Setting the ``nftrace`` flag on a packet, which allows tracing all of the
+  rules, within all chains and all tables, which a packet matches, also
+  identifying any actions taken. This is described in more detail in the
+  `nftables documentation
+  <https://wiki.nftables.org/wiki-nftables/index.php/Ruleset_debug/tracing>`_.
+
+Log statement
+.............
+
+The following example demonstrates the use of the ``log`` statement to send any
+packets coming in on the loopback interface to the kernel log, before accepting
+them:
+
+.. code-block::
+    :caption: /etc/nftables.conf
+
+    #!/usr/sbin/nft -f
+
+    define IF_LOOPBACK = lo
+
+    # This empty definition is needed to allow the flush command to work if the
+    # table is not already defined.
+    table inet host-firewall; flush table inet host-firewall
+
+    table inet host-firewall {
+        chain input {
+            # Process packets destined for this host.
+            type filter hook input priority filter;
+            # Use a default-deny policy for packets.
+            policy drop;
+
+            # Allow traffic on the loopback interface(s).
+            iif $IF_LOOPBACK \
+                # Log the packets...
+                log prefix "loopback packet: " \
+                # ...and accept them.
+                accept
+
+
+            # Drop-in files can add rules here.
+            include "/etc/nftables/input-rules.d/*.conf"
+        }
+    }
+
+Checking ``dmesg`` would show messages such as the following (assuming packets
+are actually flowing through the loopback interface):
+
+.. code-block::
+
+    [694077.575927] loopback packet: IN=lo OUT= MAC=00:00:00:00:00:00:00:00:00:00:00:00:08:00 SRC=127.0.0.1 DST=127.0.0.53 LEN=73 TOS=0x00 PREC=0x00 TTL=64 ID=24453 DF PROTO=UDP SPT=37969 DPT=53 LEN=53
+
+Rule tracing
+............
+
+The ``nftrace`` flag enables tracing of a packet's flow through ``nftables``
+rules across chains and tables, from the moment the flag is set to the moment
+the packet processing is completed or the flag is unset. This functionality
+allows complex debugging of ``nftables`` firewall rules. The packet information,
+along with references to the rules traversed is sent to a userspace application
+through the netlink interface. The ``nft monitor trace`` command can be used to
+receive this information.
+
+The ``meta nftrace set 1`` statement can be combined with a match expression to
+set the flag, while ``meta nftrace set 0`` will clear it. If all the rules
+traversed are to be identified, the flag should be set as early as possible. The
+following examples creates two chains attached to the ``prerouting`` and
+``output`` hooks, running as early as feasible:
+
+.. code-block::
+    :caption: /etc/nftables.conf
+
+    #!/usr/sbin/nft -f
+
+    define IF_LOOPBACK = lo
+
+    # This empty definition is needed to allow the flush command to work if the
+    # table is not already defined.
+    table inet host-firewall; flush table inet host-firewall
+
+    table inet host-firewall {
+        chain trace-inbound {
+            # Process after reassembly and conntrack lookup.
+            type filter hook prerouting priority raw; policy accept;
+
+            meta l4proto udp meta nftrace set 1
+        }
+
+        chain trace-outbound {
+            # Process after conntrack lookup.
+            type filter hook output priority raw; policy accept;
+
+            meta l4proto udp meta nftrace set 1
+        }
+
+        chain input {
+            # Process packets destined for this host.
+            type filter hook input priority filter;
+            # Use a default-deny policy for packets.
+            policy drop;
+
+            # Allow traffic on the loopback interface(s).
+            iif $IF_LOOPBACK accept
+
+            # Drop-in files can add rules here.
+            include "/etc/nftables/input-rules.d/*.conf"
+        }
+    }
+
+The two rules will only match UDP datagrams, but irrespective of whether they're
+transported by Ipv4 or IPv6 (``meta l4proto udp``). Running the ``nft monitor
+trace`` command will produce messages such as:
+
+.. code-block::
+
+    trace id 78653943 inet host-firewall trace-inbound packet: iif "lo" @ll,0,112 0x800 ip saddr 127.0.0.53 ip daddr 127.0.0.1 ip dscp cs0 ip ecn not-ect ip ttl 1 ip id 64669 ip protocol udp ip length 168 udp sport 53 udp dport 36520 udp length 148 @th,64,96 0x2e4881800001000100000004
+    trace id 78653943 inet host-firewall trace-inbound rule meta l4proto udp meta nftrace set 1 (verdict continue)
+    trace id 78653943 inet host-firewall trace-inbound policy accept
+    trace id 78653943 inet host-firewall input packet: iif "lo" @ll,0,112 0x800 ip saddr 127.0.0.53 ip daddr 127.0.0.1 ip dscp cs0 ip ecn not-ect ip ttl 1 ip id 64669 ip protocol udp ip length 168 udp sport 53 udp dport 36520 udp length 148 @th,64,96 0x2e4881800001000100000004
+    trace id 78653943 inet host-firewall input rule ct state established,related accept (verdict accept)
+
+The ``trace id`` will be the same for the same packet across different tables
+and chains, allowing correlation between different output lines. Whenever a
+packet starts being handled by a chain, a ``packet`` line is output with
+information about the contents of the packet.
+
+It should be noted that the tracing notifications received by the ``nft monitor
+trace`` utility only contain identifier references to the tables, chains and
+rules. ``nft monitor trace`` reads all of the rules when it is first started.
+The table and chain names and actual rule content are reconstructed from that
+initial read for every logged packet. This means that if the rules are changed
+after the ``nft monitor trace`` utility is started, the output will either be
+incomplete or completely inaccurate (because rule identifiers, in particular,
+can changed or be reused), so a printed rule may not be the actual rule that a
+packet matched.
+
 Netfilter integration
 ---------------------
 
