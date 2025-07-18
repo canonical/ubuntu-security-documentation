@@ -129,6 +129,7 @@ a table named ``filter`` that processes both IPv4 and IPv6 packets in three
 empty chains:
 
 .. code-block::
+    :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
 
@@ -179,6 +180,7 @@ a base for a host firewall configuration file, which will be expanded upon
 throughout this documentation:
 
 .. code-block::
+    :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
 
@@ -204,6 +206,7 @@ drop-in files to be add rules to the defined ``input`` chain (if wildcards are
 used, the files need not exist):
 
 .. code-block::
+    :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
 
@@ -233,6 +236,7 @@ the configuration. Associating the name ``IF_LOOPBACK`` to the interface name
 references it:
 
 .. code-block::
+    :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
 
@@ -243,7 +247,6 @@ references it:
     table inet host-firewall; flush table inet host-firewall
 
     table inet host-firewall {
-
         chain input {
             # Process packets destined for this host.
             type filter hook input priority filter;
