@@ -130,15 +130,17 @@ What does that actually mean for Ubuntu OSV data is that:
 The ``severity`` field
 ----------------------
 
-This field currently supports CVSS entries and Ubuntu priorities. More
-severity types might be added later, but for Ubuntu, for now, those are
-the ones that matter to us and our users.
+This field contains a list of severities of different types. It currently
+supports CVSS entries and Ubuntu priorities. More severity types might be
+added later, but for Ubuntu, for now, those are the ones that matter to us
+and our users.
 
 .. NOTE::
-   Severity information is only available in Ubuntu CVE Records. Unfortunately
-   for USNs and LSNs there's no way to map out of a list of severities which
-   map to the different Ubuntu CVEs that were patched. Therefore we recommend
-   always looking USNs and/or LSNs with the corresponding Ubuntu CVE records.
+   Severity information is only available in Ubuntu CVE Records. That is
+   because any USN or LSN relates to one or more CVEs and OSV, currently,
+   does not have a standardized way to map out of the list of severities
+   which CVE it relates to. Therefore we recommend always looking USNs
+   and/or LSNs with the corresponding Ubuntu CVE records.
 
 Ubuntu priority
 ^^^^^^^^^^^^^^^
@@ -206,9 +208,10 @@ field is missing, then the entry has not been withdrawn.
 The ``affected`` field
 ----------------------
 
-The affected field is where you will find the bulk of the information you
-are looking for in terms of a source package and Ubuntu release, as well
-as its vulnerable versions and it if was patched/fixed.
+The affected field is a list of objects where you will find the bulk of
+the information you are looking for in terms of source packages and
+Ubuntu releases, as well as its vulnerable versions and it if was
+patched/fixed.
 
 The ``package`` field
 ^^^^^^^^^^^^^^^^^^^^^
