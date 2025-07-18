@@ -394,7 +394,7 @@ we have in the git version of the tracker:
   * Ubuntu release is end-of-life
   * the actual fix is hard to backport and can lead to regressions
 
-* pending: The fix is currently ready and just awating publishing
+* pending: The fix is currently ready and just awaiting publishing
 
 * deferred: As of the date of investigation, the source package is known to
   be vulnerable but there is no fix available on upstream.
@@ -433,7 +433,7 @@ package:
 Reporting issues in the data
 ============================
 
-If at any point you encounter incosistencies with Ubuntu's OSV data, please
+If at any point you encounter inconsistencies with Ubuntu's OSV data, please
 report those by sending and email to security@ubuntu.com. We will gladly
 analyze and fix any issues.
 
@@ -442,4 +442,4 @@ Downtimes in data generation
 
 As any other service, we might need to take our data generation offline for
 updates, or for server maintenance and so forth. Those announcements will be
-delievered in the top of this `page <https://security-metadata.canonical.com/osv/>`_.
+delivered in the top of this `page <https://security-metadata.canonical.com/osv/>`_.
