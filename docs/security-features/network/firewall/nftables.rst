@@ -12,6 +12,15 @@ component and ``nft`` when referring to userspace utility. Please note that the
 Ubuntu package that provides the userspace utility is called ``nftables`` and
 this documentation will refer to it as the ``nftables`` Ubuntu package.
 
+Tabes of contents
+-----------------
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   .
+
 Advantages
 ----------
 
