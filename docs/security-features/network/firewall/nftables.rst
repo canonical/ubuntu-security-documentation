@@ -128,7 +128,7 @@ all of the configured rules (``flush ruleset``) and a declarative definition of
 a table named ``filter`` that processes both IPv4 and IPv6 packets in three
 empty chains:
 
-.. code-block::
+.. code-block:: nft
     :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
@@ -179,7 +179,7 @@ on the same line as the object type and name. The following example establishes
 a base for a host firewall configuration file, which will be expanded upon
 throughout this documentation:
 
-.. code-block::
+.. code-block:: nft
     :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
@@ -205,7 +205,7 @@ in the context in which the directive is used. For example, the following allows
 drop-in files to be add rules to the defined ``input`` chain (if wildcards are
 used, the files need not exist):
 
-.. code-block::
+.. code-block:: nft
     :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
@@ -235,7 +235,7 @@ the configuration. Associating the name ``IF_LOOPBACK`` to the interface name
 ``lo`` (the standard Linux loopback interface) allows defining a rule that
 references it:
 
-.. code-block::
+.. code-block:: nft
     :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
@@ -302,7 +302,7 @@ The following example demonstrates the use of the ``log`` statement to send any
 packets coming in on the loopback interface to the kernel log, before accepting
 them:
 
-.. code-block::
+.. code-block:: nft
     :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
@@ -357,7 +357,7 @@ traversed are to be identified, the flag should be set as early as possible. The
 following examples creates two chains attached to the ``prerouting`` and
 ``output`` hooks, running as early as feasible:
 
-.. code-block::
+.. code-block:: nft
     :caption: /etc/nftables.conf
 
     #!/usr/sbin/nft -f
