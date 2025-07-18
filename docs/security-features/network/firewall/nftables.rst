@@ -188,6 +188,12 @@ throughout this documentation:
     # table is not already defined.
     table inet host-firewall; flush table inet host-firewall
 
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    #destroy table inet host-firewall
+
     table inet host-firewall {
         chain input {
             # Process packets destined for this host.
@@ -213,6 +219,12 @@ used, the files need not exist):
     # This empty definition is needed to allow the flush command to work if the
     # table is not already defined.
     table inet host-firewall; flush table inet host-firewall
+
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    #destroy table inet host-firewall
 
     table inet host-firewall {
         chain input {
@@ -245,6 +257,12 @@ references it:
     # This empty definition is needed to allow the flush command to work if the
     # table is not already defined.
     table inet host-firewall; flush table inet host-firewall
+
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    #destroy table inet host-firewall
 
     table inet host-firewall {
         chain input {
@@ -313,6 +331,12 @@ them:
     # table is not already defined.
     table inet host-firewall; flush table inet host-firewall
 
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    #destroy table inet host-firewall
+
     table inet host-firewall {
         chain input {
             # Process packets destined for this host.
@@ -355,7 +379,8 @@ The ``meta nftrace set 1`` statement can be combined with a match expression to
 set the flag, while ``meta nftrace set 0`` will clear it. If all the rules
 traversed are to be identified, the flag should be set as early as possible. The
 following examples creates two chains attached to the ``prerouting`` and
-``output`` hooks, running as early as feasible:
+``output`` hooks, running as early as feasible (even before other chains
+registered at the ``raw`` priority):
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
@@ -368,17 +393,24 @@ following examples creates two chains attached to the ``prerouting`` and
     # table is not already defined.
     table inet host-firewall; flush table inet host-firewall
 
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    #destroy table inet host-firewall
+
     table inet host-firewall {
         chain trace-inbound {
-            # Process after reassembly and conntrack lookup.
-            type filter hook prerouting priority raw; policy accept;
+            # Process after reassembly and conntrack lookup, but before other
+            # potential raw chains.
+            type filter hook prerouting priority raw - 10; policy accept;
 
             meta l4proto udp meta nftrace set 1
         }
 
         chain trace-outbound {
-            # Process after conntrack lookup.
-            type filter hook output priority raw; policy accept;
+            # Process after conntrack lookup, but before other potential raw chains.
+            type filter hook output priority raw - 10; policy accept;
 
             meta l4proto udp meta nftrace set 1
         }
