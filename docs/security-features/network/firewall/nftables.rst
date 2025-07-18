@@ -575,6 +575,110 @@ by independent firewall rules.
 Structure
 ---------
 
+``nftables`` structures objects for managing the firewall in a hiearchy. The
+primary terminology used is:
+
+* **Rulesets**: this refers to all of the objects defined in ``nftables``; the
+  command ``nft list ruleset`` will output everything defined in ``nftables``
+  (within a particular network namespace), while ``nft flush ruleset`` will
+  destroy all of the objects. This includes elements defined in :ref:`sets
+  <Sets>` and :ref:`maps <Maps>`, or the contents of stateful objects (e.g.
+  counter values). As such, a command such as the following is effectively a
+  no-op: `nft list ruleset | nft -f -`.
+* **Tables**: unlike ``xtables``, any number of tables can be defined in
+  ``nftables``. These are collections of chains, :ref:`sets <Sets>`, :ref:`maps
+  <Maps>` and stateful objects (e.g. counters). The table name does not hold any
+  intrinsic meaning and can be named by system administrators or applications as
+  desired. Tables are associated with an address family, dictating limitations
+  on chains and determining what Netfilter hooks the chains will be associated
+  with. The address families are documented in the `manual page
+  <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#address%20families>`_.
+  These are:
+    * **ip**: for IPv4 packets, as what the legacy ``iptables`` utility would
+      manage.
+    * **ip6**: for IPv6 packets, as what the legacy ``ip6tables`` utility would
+      manage.
+    * **inet**: for both IPv4 and IPv6 packets, simplifying management of
+      consistent rules across both network protocols.
+    * **arp**: for IPv4 ARP packets, as what the legacy ``arptables`` utility
+      would manage.
+    * **bridge**: for Ethernet packets traversing bridges, as what the legacy
+      ``ebtables`` utility would manage.
+    * **netdev**: for very early (on ingress) or very late (on egress) packet
+      processing. This is useful for efficient filtering or load balancing, but
+      imposes limitations, such as only supporting the ``ingress`` and
+      ``egress`` hooks and requiring strict association of chains with a
+      *single* network interface. Note that starting with Linux 5.10, the
+      **inet** family also supports the ``ingress`` hook without the single
+      network interface limitation, largely reducing the usefulness of this
+      address family; using a single table in the **inet** family would also
+      facilitate the sharing of :ref:`sets <Sets>` and :ref:`maps <Maps>` with
+      chains registered at other hooks.
+* **Chains**: containers for firewall rules; similarly to ``xtables``, there is
+  a distinction between base chains and regular chains. Unlike in ``xtables``,
+  the base chains are not predefined and as many as necessary can be created,
+  including multiple chains at the same hooks (with or without the same
+  priority).
+    * **base chains** have a ``type``, a ``policy`` and are registered at a
+      Netfilter ``hook`` point at a specific ``priority``. They can also have
+      additional attributes, as described in the `manual page
+      <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#chains>`_. Their
+      rules are evaluated whenever packet processing traverses the specified
+      Netfilter hook.
+    * **regular chains** are simply called upon by rules in other chains and can
+      be thought of as procedures. They are useful to simplify maintenance of
+      rules or to optimize rule processing (e.g. by using :ref:`verdict maps
+      <Verdict maps>`). Rules within a regular chain are not evaluated during
+      the processing of a packet, unless called upon, directly or indirectly,
+      from a base chain.
+
+For base chains, the most important attributes are:
+* **type**: dictates the conditions on which a packet gets processed by the
+  chain and the available hooks. Some statements are only available in certain
+  chain types. The possible values are:
+    * **filter**: generic type, applicable to all address families and all
+      hooks. Used for typical firewall actions, as well as arbitrary packet
+      modifications.
+    * **nat**: this is equivalent to the chains defined in the legacy
+      ``iptables`` / ``ip6tables`` ``nat`` table. Only the first packet of a
+      connection is processed by chains of this type. NAT actions (``snat``,
+      ``dnat``, ``masquerade``, ``redirect``) can only be taken in these chains.
+    * **route**: this has no equivalent in ``xtables``, but allows the
+      integration of the ``nftables`` rules with policy routing. Packets which
+      are about to go through a routing decision traverse chains of this type;
+      even though the only hook available is called ``output``, the rules are
+      evaluated for both locally-generated packets and received packets (before
+      both routing decisions, as documented in the `Netfilter flow diagram
+      <https://wiki.nftables.org/wiki-nftables/index.php/Netfilter_hooks#Netfilter_hooks_into_Linux_networking_packet_flows>`_).
+      FIXME: double-check this statement.
+* **hook**: the processing point at which rules are evaluated, as described in
+  the :ref:`Packet flow` section. It should be noted that not all hooks are
+  available for all address families and all chain types. The restrictions are
+  listed in the `manual page
+  <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#chains>`_.
+* **priority**: dictates the order in which chains and other standard Netfilter
+  operations are performed at a particular hook point, as described in the
+  :ref:`Packet flow` section. Can be given as either a symbolic name (e.g.
+  ``filter``, ``raw``, ``mangle``), a signed integer (e.g. ``0``, ``-300``) or a
+  value relative to a symbolic name (e.g. ``raw - 10``). You should note that
+  symbolic names may map to different integer values, depending on the address
+  family (``filter`` is ``0`` for ``inet``, ``ip``, ``ip6``, ``arp`` and
+  ``netdev``, but ``-200`` for ``bridge``).
+* **policy**: dictates the verdict that is associated with a packet, if, during
+  processing, none of the matched rules have a verdict. It must be one of
+  ``accept`` (the default) or ``drop``.
+
+It should be noted that, as described in the :ref:`Packet flow` section, a
+packet stops being handled by the networking subsystem when it is either dropped
+or it traverses the entire processing flow and is either sent out to an
+interface or handled by an application or the kernel. As such, a verdict of
+``drop`` is final for a packet, but one of ``accept`` is not: it is sufficient
+for one chain in one table to ``drop`` a packet for it to be discarded, but the
+packet must be ``accept``-ed by all chains in all tables for it to continue its
+journey (i.e. an ``accept`` verdict only terminates the processing in a
+particular base chain, but does influence the processing in any other base
+chains the packet will subsequently traverse).
+
 Rule composition
 ~~~~~~~~~~~~~~~~
 
@@ -583,6 +687,9 @@ Sets
 
 Maps
 ~~~~
+
+Verdict maps
+~~~~~~~~~~~~
 
 Stateful objects
 ~~~~~~~~~~~~~~~~
