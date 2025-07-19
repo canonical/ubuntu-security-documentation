@@ -53,6 +53,1210 @@ The OSV format, although easy to understand, might still be difficult to
 understand what the data is telling you. Therefore the next sections will
 go over the important details related to Ubuntu's data.
 
+To facilitate understanding we will consider the following OSV data file
+UBUNTU-CVE-2025-6491.json:
+
+.. code:: JSON
+
+   {
+     "schema_version": "1.7.0",
+     "id": "UBUNTU-CVE-2025-6491",
+     "details": "In PHP versions:8.1.* before 8.1.33, 8.2.* before 8.2.29, 8.3.* before 8.3.23, 8.4.* before 8.4.10 when parsing XML data in SOAP extensions, overly large (>2Gb) XML namespace prefix may lead to null pointer dereference. This may lead to crashes and affect the availability of the target server.",
+     "aliases": [],
+     "upstream": [
+       "CVE-2025-6491"
+     ],
+     "related": [
+       "USN-7648-1"
+     ],
+     "severity": [
+       {
+         "type": "CVSS_V3",
+         "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+       },
+       {
+         "type": "Ubuntu",
+         "score": "medium"
+       }
+     ],
+     "published": "2025-07-13T22:15:00Z",
+     "modified": "2025-07-18T17:02:45Z",
+     "affected": [
+       {
+         "package": {
+           "ecosystem": "Ubuntu:Pro:14.04:LTS",
+           "name": "php5",
+           "purl": "pkg:deb/ubuntu/php5@5.5.9+dfsg-1ubuntu4.29+esm16?arch=source&distro=esm-infra-legacy/trusty"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "5.5.3+dfsg-1ubuntu2",
+           "5.5.3+dfsg-1ubuntu3",
+           "5.5.6+dfsg-1ubuntu1",
+           "5.5.6+dfsg-1ubuntu2",
+           "5.5.8+dfsg-2ubuntu1",
+           "5.5.9+dfsg-1ubuntu1",
+           "5.5.9+dfsg-1ubuntu2",
+           "5.5.9+dfsg-1ubuntu3",
+           "5.5.9+dfsg-1ubuntu4",
+           "5.5.9+dfsg-1ubuntu4.1",
+           "5.5.9+dfsg-1ubuntu4.2",
+           "5.5.9+dfsg-1ubuntu4.3",
+           "5.5.9+dfsg-1ubuntu4.4",
+           "5.5.9+dfsg-1ubuntu4.5",
+           "5.5.9+dfsg-1ubuntu4.6",
+           "5.5.9+dfsg-1ubuntu4.7",
+           "5.5.9+dfsg-1ubuntu4.9",
+           "5.5.9+dfsg-1ubuntu4.11",
+           "5.5.9+dfsg-1ubuntu4.12",
+           "5.5.9+dfsg-1ubuntu4.13",
+           "5.5.9+dfsg-1ubuntu4.14",
+           "5.5.9+dfsg-1ubuntu4.16",
+           "5.5.9+dfsg-1ubuntu4.17",
+           "5.5.9+dfsg-1ubuntu4.19",
+           "5.5.9+dfsg-1ubuntu4.20",
+           "5.5.9+dfsg-1ubuntu4.21",
+           "5.5.9+dfsg-1ubuntu4.22",
+           "5.5.9+dfsg-1ubuntu4.23",
+           "5.5.9+dfsg-1ubuntu4.24",
+           "5.5.9+dfsg-1ubuntu4.25",
+           "5.5.9+dfsg-1ubuntu4.26",
+           "5.5.9+dfsg-1ubuntu4.27",
+           "5.5.9+dfsg-1ubuntu4.29",
+           "5.5.9+dfsg-1ubuntu4.29+esm5",
+           "5.5.9+dfsg-1ubuntu4.29+esm6",
+           "5.5.9+dfsg-1ubuntu4.29+esm8",
+           "5.5.9+dfsg-1ubuntu4.29+esm10",
+           "5.5.9+dfsg-1ubuntu4.29+esm11",
+           "5.5.9+dfsg-1ubuntu4.29+esm12",
+           "5.5.9+dfsg-1ubuntu4.29+esm13",
+           "5.5.9+dfsg-1ubuntu4.29+esm14",
+           "5.5.9+dfsg-1ubuntu4.29+esm15",
+           "5.5.9+dfsg-1ubuntu4.29+esm16"
+         ],
+         "ecosystem_specific": {}
+       },
+       {
+         "package": {
+           "ecosystem": "Ubuntu:Pro:16.04:LTS",
+           "name": "php7.0",
+           "purl": "pkg:deb/ubuntu/php7.0@7.0.33-0ubuntu0.16.04.16+esm15?arch=source&distro=esm-infra/xenial"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "7.0.1-5",
+           "7.0.1-6",
+           "7.0.2-1",
+           "7.0.2-3",
+           "7.0.2-4",
+           "7.0.2-5",
+           "7.0.3-2",
+           "7.0.3-3",
+           "7.0.3-9ubuntu1",
+           "7.0.4-5ubuntu1",
+           "7.0.4-5ubuntu2",
+           "7.0.4-7ubuntu1",
+           "7.0.4-7ubuntu2",
+           "7.0.4-7ubuntu2.1",
+           "7.0.8-0ubuntu0.16.04.1",
+           "7.0.8-0ubuntu0.16.04.2",
+           "7.0.8-0ubuntu0.16.04.3",
+           "7.0.13-0ubuntu0.16.04.1",
+           "7.0.15-0ubuntu0.16.04.1",
+           "7.0.15-0ubuntu0.16.04.2",
+           "7.0.15-0ubuntu0.16.04.4",
+           "7.0.18-0ubuntu0.16.04.1",
+           "7.0.22-0ubuntu0.16.04.1",
+           "7.0.25-0ubuntu0.16.04.1",
+           "7.0.28-0ubuntu0.16.04.1",
+           "7.0.30-0ubuntu0.16.04.1",
+           "7.0.32-0ubuntu0.16.04.1",
+           "7.0.33-0ubuntu0.16.04.1",
+           "7.0.33-0ubuntu0.16.04.2",
+           "7.0.33-0ubuntu0.16.04.3",
+           "7.0.33-0ubuntu0.16.04.4",
+           "7.0.33-0ubuntu0.16.04.5",
+           "7.0.33-0ubuntu0.16.04.6",
+           "7.0.33-0ubuntu0.16.04.7",
+           "7.0.33-0ubuntu0.16.04.9",
+           "7.0.33-0ubuntu0.16.04.11",
+           "7.0.33-0ubuntu0.16.04.12",
+           "7.0.33-0ubuntu0.16.04.14",
+           "7.0.33-0ubuntu0.16.04.15",
+           "7.0.33-0ubuntu0.16.04.16",
+           "7.0.33-0ubuntu0.16.04.16+esm1",
+           "7.0.33-0ubuntu0.16.04.16+esm2",
+           "7.0.33-0ubuntu0.16.04.16+esm3",
+           "7.0.33-0ubuntu0.16.04.16+esm4",
+           "7.0.33-0ubuntu0.16.04.16+esm5",
+           "7.0.33-0ubuntu0.16.04.16+esm6",
+           "7.0.33-0ubuntu0.16.04.16+esm7",
+           "7.0.33-0ubuntu0.16.04.16+esm8",
+           "7.0.33-0ubuntu0.16.04.16+esm9",
+           "7.0.33-0ubuntu0.16.04.16+esm10",
+           "7.0.33-0ubuntu0.16.04.16+esm11",
+           "7.0.33-0ubuntu0.16.04.16+esm12",
+           "7.0.33-0ubuntu0.16.04.16+esm13",
+           "7.0.33-0ubuntu0.16.04.16+esm14",
+           "7.0.33-0ubuntu0.16.04.16+esm15"
+         ],
+         "ecosystem_specific": {}
+       },
+       {
+         "package": {
+           "ecosystem": "Ubuntu:Pro:18.04:LTS",
+           "name": "php7.2",
+           "purl": "pkg:deb/ubuntu/php7.2@7.2.24-0ubuntu0.18.04.17+esm8?arch=source&distro=esm-infra/bionic"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "7.2.1-1ubuntu2",
+           "7.2.2-1ubuntu1",
+           "7.2.2-1ubuntu2",
+           "7.2.3-1ubuntu1",
+           "7.2.5-0ubuntu0.18.04.1",
+           "7.2.7-0ubuntu0.18.04.1",
+           "7.2.7-0ubuntu0.18.04.2",
+           "7.2.10-0ubuntu0.18.04.1",
+           "7.2.15-0ubuntu0.18.04.1",
+           "7.2.15-0ubuntu0.18.04.2",
+           "7.2.17-0ubuntu0.18.04.1",
+           "7.2.19-0ubuntu0.18.04.1",
+           "7.2.19-0ubuntu0.18.04.2",
+           "7.2.24-0ubuntu0.18.04.1",
+           "7.2.24-0ubuntu0.18.04.2",
+           "7.2.24-0ubuntu0.18.04.3",
+           "7.2.24-0ubuntu0.18.04.4",
+           "7.2.24-0ubuntu0.18.04.6",
+           "7.2.24-0ubuntu0.18.04.7",
+           "7.2.24-0ubuntu0.18.04.8",
+           "7.2.24-0ubuntu0.18.04.9",
+           "7.2.24-0ubuntu0.18.04.10",
+           "7.2.24-0ubuntu0.18.04.11",
+           "7.2.24-0ubuntu0.18.04.12",
+           "7.2.24-0ubuntu0.18.04.13",
+           "7.2.24-0ubuntu0.18.04.15",
+           "7.2.24-0ubuntu0.18.04.16",
+           "7.2.24-0ubuntu0.18.04.17",
+           "7.2.24-0ubuntu0.18.04.17+esm1",
+           "7.2.24-0ubuntu0.18.04.17+esm2",
+           "7.2.24-0ubuntu0.18.04.17+esm3",
+           "7.2.24-0ubuntu0.18.04.17+esm4",
+           "7.2.24-0ubuntu0.18.04.17+esm5",
+           "7.2.24-0ubuntu0.18.04.17+esm6",
+           "7.2.24-0ubuntu0.18.04.17+esm7",
+           "7.2.24-0ubuntu0.18.04.17+esm8"
+         ],
+         "ecosystem_specific": {}
+       },
+       {
+         "package": {
+           "ecosystem": "Ubuntu:Pro:20.04:LTS",
+           "name": "php7.4",
+           "purl": "pkg:deb/ubuntu/php7.4@7.4.3-4ubuntu2.29?arch=source&distro=esm-infra/focal"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "7.4.3-4build1",
+           "7.4.3-4build2",
+           "7.4.3-4ubuntu1",
+           "7.4.3-4ubuntu1.1",
+           "7.4.3-4ubuntu2.2",
+           "7.4.3-4ubuntu2.4",
+           "7.4.3-4ubuntu2.5",
+           "7.4.3-4ubuntu2.6",
+           "7.4.3-4ubuntu2.7",
+           "7.4.3-4ubuntu2.8",
+           "7.4.3-4ubuntu2.9",
+           "7.4.3-4ubuntu2.10",
+           "7.4.3-4ubuntu2.11",
+           "7.4.3-4ubuntu2.12",
+           "7.4.3-4ubuntu2.13",
+           "7.4.3-4ubuntu2.15",
+           "7.4.3-4ubuntu2.16",
+           "7.4.3-4ubuntu2.17",
+           "7.4.3-4ubuntu2.18",
+           "7.4.3-4ubuntu2.19",
+           "7.4.3-4ubuntu2.20",
+           "7.4.3-4ubuntu2.22",
+           "7.4.3-4ubuntu2.23",
+           "7.4.3-4ubuntu2.24",
+           "7.4.3-4ubuntu2.26",
+           "7.4.3-4ubuntu2.28",
+           "7.4.3-4ubuntu2.29"
+         ],
+         "ecosystem_specific": {}
+       },
+       {
+         "package": {
+           "ecosystem": "Ubuntu:22.04:LTS",
+           "name": "php8.1",
+           "purl": "pkg:deb/ubuntu/php8.1@8.1.2-1ubuntu2.22?arch=source&distro=jammy"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               },
+               {
+                 "fixed": "8.1.2-1ubuntu2.22"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "8.1.0~rc4-1ubuntu2",
+           "8.1.0-1",
+           "8.1.2-1ubuntu1",
+           "8.1.2-1ubuntu2",
+           "8.1.2-1ubuntu2.1",
+           "8.1.2-1ubuntu2.2",
+           "8.1.2-1ubuntu2.3",
+           "8.1.2-1ubuntu2.4",
+           "8.1.2-1ubuntu2.5",
+           "8.1.2-1ubuntu2.6",
+           "8.1.2-1ubuntu2.8",
+           "8.1.2-1ubuntu2.9",
+           "8.1.2-1ubuntu2.10",
+           "8.1.2-1ubuntu2.11",
+           "8.1.2-1ubuntu2.13",
+           "8.1.2-1ubuntu2.14",
+           "8.1.2-1ubuntu2.15",
+           "8.1.2-1ubuntu2.17",
+           "8.1.2-1ubuntu2.18",
+           "8.1.2-1ubuntu2.19",
+           "8.1.2-1ubuntu2.20",
+           "8.1.2-1ubuntu2.21"
+         ],
+         "ecosystem_specific": {
+           "binaries": [
+             {
+               "binary_name": "libapache2-mod-php7.4",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "libapache2-mod-php8.0",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "libapache2-mod-php8.1",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "libapache2-mod-php8.1-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "libphp8.1-embed",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "libphp8.1-embed-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-bcmath",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-bcmath-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-bz2",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-bz2-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-cgi",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-cgi-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-cli",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-cli-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-common",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-common-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-curl",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-curl-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-dba",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-dba-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-dev",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-enchant",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-enchant-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-fpm",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-fpm-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-gd",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-gd-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-gmp",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-gmp-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-imap",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-imap-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-interbase",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-interbase-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-intl",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-intl-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-ldap",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-ldap-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-mbstring",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-mbstring-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-mysql",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-mysql-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-odbc",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-odbc-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-opcache",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-opcache-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-pgsql",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-pgsql-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-phpdbg",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-phpdbg-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-pspell",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-pspell-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-readline",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-readline-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-snmp",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-snmp-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-soap",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-soap-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-sqlite3",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-sqlite3-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-sybase",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-sybase-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-tidy",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-tidy-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-xml",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-xml-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-xsl",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-zip",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             },
+             {
+               "binary_name": "php8.1-zip-dbgsym",
+               "binary_version": "8.1.2-1ubuntu2.22"
+             }
+           ],
+           "availability": "No subscription required"
+         }
+       },
+       {
+         "package": {
+           "ecosystem": "Ubuntu:24.04:LTS",
+           "name": "php8.3",
+           "purl": "pkg:deb/ubuntu/php8.3@8.3.6-0ubuntu0.24.04.5?arch=source&distro=noble"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               },
+               {
+                 "fixed": "8.3.6-0ubuntu0.24.04.5"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "8.3.0-1",
+           "8.3.0-1ubuntu1",
+           "8.3.4-1",
+           "8.3.4-1build1",
+           "8.3.6-0maysync1",
+           "8.3.6-0ubuntu0.24.04.1",
+           "8.3.6-0ubuntu0.24.04.2",
+           "8.3.6-0ubuntu0.24.04.3",
+           "8.3.6-0ubuntu0.24.04.4"
+         ],
+         "ecosystem_specific": {
+           "binaries": [
+             {
+               "binary_name": "libapache2-mod-php8.3",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "libapache2-mod-php8.3-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "libphp8.3-embed",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "libphp8.3-embed-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-bcmath",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-bcmath-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-bz2",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-bz2-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-cgi",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-cgi-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-cli",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-cli-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-common",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-common-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-curl",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-curl-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-dba",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-dba-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-dev",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-enchant",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-enchant-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-fpm",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-fpm-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-gd",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-gd-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-gmp",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-gmp-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-imap",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-imap-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-interbase",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-interbase-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-intl",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-intl-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-ldap",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-ldap-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-mbstring",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-mbstring-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-mysql",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-mysql-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-odbc",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-odbc-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-opcache",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-opcache-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-pgsql",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-pgsql-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-phpdbg",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-phpdbg-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-pspell",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-pspell-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-readline",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-readline-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-snmp",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-snmp-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-soap",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-soap-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-sqlite3",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-sqlite3-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-sybase",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-sybase-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-tidy",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-tidy-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-xml",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-xml-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-xsl",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-zip",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             },
+             {
+               "binary_name": "php8.3-zip-dbgsym",
+               "binary_version": "8.3.6-0ubuntu0.24.04.5"
+             }
+           ],
+           "availability": "No subscription required"
+         }
+       },
+       {
+         "package": {
+           "ecosystem": "Ubuntu:25.04",
+           "name": "php8.4",
+           "purl": "pkg:deb/ubuntu/php8.4@8.4.5-1ubuntu1.1?arch=source&distro=plucky"
+         },
+         "ranges": [
+           {
+             "type": "ECOSYSTEM",
+             "events": [
+               {
+                 "introduced": "0"
+               },
+               {
+                 "fixed": "8.4.5-1ubuntu1.1"
+               }
+             ]
+           }
+         ],
+         "versions": [
+           "8.4.1-5",
+           "8.4.2-1ubuntu1",
+           "8.4.4-1",
+           "8.4.5-1",
+           "8.4.5-1ubuntu1"
+         ],
+         "ecosystem_specific": {
+           "binaries": [
+             {
+               "binary_name": "libapache2-mod-php8.4",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "libapache2-mod-php8.4-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "libphp8.4-embed",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "libphp8.4-embed-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-bcmath",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-bcmath-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-bz2",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-bz2-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-cgi",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-cgi-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-cli",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-cli-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-common",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-common-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-curl",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-curl-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-dba",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-dba-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-dev",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-enchant",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-enchant-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-fpm",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-fpm-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-gd",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-gd-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-gmp",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-gmp-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-interbase",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-interbase-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-intl",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-intl-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-ldap",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-ldap-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-mbstring",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-mbstring-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-mysql",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-mysql-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-odbc",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-odbc-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-opcache",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-opcache-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-pgsql",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-pgsql-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-phpdbg",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-phpdbg-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-readline",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-readline-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-snmp",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-snmp-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-soap",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-soap-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-sqlite3",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-sqlite3-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-sybase",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-sybase-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-tidy",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-tidy-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-xml",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-xml-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-xsl",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-zip",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             },
+             {
+               "binary_name": "php8.4-zip-dbgsym",
+               "binary_version": "8.4.5-1ubuntu1.1"
+             }
+           ],
+           "availability": "No subscription required"
+         }
+       }
+     ],
+     "references": [
+       {
+         "type": "REPORT",
+         "url": "https://ubuntu.com/security/CVE-2025-6491"
+       },
+       {
+         "type": "REPORT",
+         "url": "https://www.cve.org/CVERecord?id=CVE-2025-6491"
+       },
+       {
+         "type": "REPORT",
+         "url": "https://github.com/php/php-src/security/advisories/GHSA-453j-q27h-5p8x"
+       },
+       {
+         "type": "ADVISORY",
+         "url": "https://ubuntu.com/security/notices/USN-7648-1"
+       }
+     ]
+   }
+
 The ``id`` field
 ----------------
 
@@ -79,14 +1283,15 @@ are referred to by the vulnerability entry."
 What does that actually mean for Ubuntu OSV data is that:
 
 * Ubuntu CVE Records: the upstream field will contain the exact ``CVE-...``
-  that matches the ``UBUNTU-CVE-...``. For example ``UBUNTU-CVE-2025-1234``
+  that matches the ``UBUNTU-CVE-...``. For example ``UBUNTU-CVE-2025-6194``
   will have:
 
   .. code-block:: JSON
 
      "upstream": [
-       "CVE-2025-1234"
+       "CVE-2025-6491"
      ],
+
 
 * Ubuntu Security Notices: the upstream field contain the list of Ubuntu
   CVE Records that were fixed in this USN. For example ``USN-7548-1`` will
@@ -159,14 +1364,14 @@ our priorities:
 * low
 * negligible
 
-For example:
+For example, for UBUNTU-CVE-2025-6491:
 
 .. code-block:: JSON
 
    "severity": [
      {
        "type": "Ubuntu",
-       "score": "high"
+       "score": "medium"
      }
    ],
 
@@ -183,15 +1388,16 @@ of it, being the V4 the latest. OSV supports the following CVSS ``type``:
 For the ``score`` we have the actual CVSS vector string related to such
 vulnerability. For example:
 
+For example, for UBUNTU-CVE-2025-6491 we have:
+
 .. code-block:: JSON
 
    "severity": [
      {
-       "type": "CVSS_V4",
-       "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P"
-     },
-   ]
-
+       "type": "CVSS_V3",
+       "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+     }
+   ],
 
 The ``withdrawn`` field
 -----------------------
@@ -297,18 +1503,266 @@ package.
 Even though tracking source packages and having reports for them makes the
 Ubuntu Security Team's life easier, for users, they care about binary
 packages and to solve that we have a field under ``ecosystem_specific``
-where we list all the binaries and their versions. For example, for the
-source package ``tomcat9``:
+where we list all the binaries and their versions. For example, for php8.4:
 
 .. code-block:: JSON
 
    "ecosystem_specific": {
      "binaries": [
        {
-         "binary_name": "libtomcat9-java",
-         "binary_version": "9.0.70-2ubuntu0.1"
+         "binary_name": "libapache2-mod-php8.4",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "libapache2-mod-php8.4-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "libphp8.4-embed",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "libphp8.4-embed-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-bcmath",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-bcmath-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-bz2",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-bz2-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-cgi",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-cgi-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-cli",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-cli-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-common",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-common-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-curl",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-curl-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-dba",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-dba-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-dev",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-enchant",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-enchant-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-fpm",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-fpm-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-gd",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-gd-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-gmp",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-gmp-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-interbase",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-interbase-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-intl",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-intl-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-ldap",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-ldap-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-mbstring",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-mbstring-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-mysql",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-mysql-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-odbc",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-odbc-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-opcache",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-opcache-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-pgsql",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-pgsql-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-phpdbg",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-phpdbg-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-readline",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-readline-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-snmp",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-snmp-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-soap",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-soap-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-sqlite3",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-sqlite3-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-sybase",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-sybase-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-tidy",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-tidy-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-xml",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-xml-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-xsl",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-zip",
+         "binary_version": "8.4.5-1ubuntu1.1"
+       },
+       {
+         "binary_name": "php8.4-zip-dbgsym",
+         "binary_version": "8.4.5-1ubuntu1.1"
        }
-     ]
+     ],
+     "availability": "No subscription required"
    }
 
 The ``ranges`` field
@@ -339,7 +1793,7 @@ For example, a ranges entry:
            "introduced": "0"
          },
          {
-           "fixed": "9.0.70-2ubuntu0.1"
+         "fixed": "8.4.5-1ubuntu1.1"
          }
        ]
      }
@@ -354,8 +1808,11 @@ by the vulnerability in scope for a given Ubuntu Release. For example,
 .. code-block:: JSON
 
    "versions": [
-     "9.0.70-1ubuntu1",
-     "9.0.70-2"
+     "8.4.1-5",
+     "8.4.2-1ubuntu1",
+     "8.4.4-1",
+     "8.4.5-1",
+     "8.4.5-1ubuntu1"
    ],
 
 Mapping Ubuntu CVE Tracker statuses in OSV
