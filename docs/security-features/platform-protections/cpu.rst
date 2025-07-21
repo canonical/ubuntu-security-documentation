@@ -14,7 +14,7 @@ Non-Executable Memory
 
 Most modern CPUs protect against executing non-executable memory regions (heap, stack, etc)
 to help block the exploitation of security vulnerabilities. This feature is called either 
-"eXecute-Disable" (XD) or "Non-eXecute" (NX) or EDB (Execute Disable Bit), depending on
+"eXecute-Disable" (XD) or "Non-eXecute" (NX) or Execute Disable Bit (EDB), depending on
 your BIOS manufacturer.
 
 In reading the system's :file:`/proc/cpuinfo` file, the first flags line will include
@@ -26,14 +26,11 @@ will support NX:
   
    grep ^flags /proc/cpuinfo | head -n1 | egrep --color=auto ' (pae|nx) '
 
-In a Dell laptop BIOS, look under "Security" / "CPU XD Support": it should be set to "enabled".
-In an American Megatrends BIOS, look under "CPU Features" / "Execute Disable Bit": it should
-be set to "enabled". Some BIOS manufacturers have released firmware updates for their BIOS to
-allow enabling NX (e.g. Lenovo IdeaPads) so make sure to install the latest BIOS if the NX 
-option is missing.
-
-In Samsung Netbooks (namely N140) use F2 to enter the BIOS, go to "Advanced", and set "EDB
-(Execute Disable Bit)" to "enabled".
+Enabling NX will depend on the device. In a Dell laptop BIOS, look under "Security" /
+"CPU XD Support": it should be set to "enabled". In an American Megatrends BIOS, look under 
+"CPU Features" / "Execute Disable Bit": it should be set to "enabled". Some BIOS 
+manufacturers have released firmware updates for their BIOS to allow enabling NX
+(e.g. Lenovo IdeaPads) so make sure to install the latest BIOS if the NX option is missing.
 
 On Ubuntu 10.04 Lucid Lynx and later, you can check if your hardware is expected to have NX
 available by running the command:
@@ -49,13 +46,6 @@ bonus, you get to address all your physical RAM if you do this too (since the "P
 kernel mode that allows NX to work). In Ubuntu 9.10 Karmic Koala and later, if you run 32-bit
 kernels without PAE, you will still have the partial NX emulation. It is required that you use
 PAE if you want true NX support.
-
-If you believe you are incorrectly getting the boot-time warning, please open a bug report
-against the ``cpu-checker`` package, or disable the check by removing the motd module:
-
-.. code-block:: shell
-
-   sudo rm /etc/update-motd.d/20-cpu-checker
 
 
 .. _sev:
@@ -123,9 +113,13 @@ Trust Domain Extensions (TDX)`` under the ``Advanced`` or ``Security`` sections.
 often dependent on other settings, so ensure that ``Intel Virtualization Technology (VT-x)`` and
 ``Total Memory Encryption (TME)`` are also enabled.
 
-Because TDX support is still evolving in the Linux ecosystem, using it on Ubuntu requires
-up-to-date qemu-kvm and libvirt packages. As with `SEV <sev_>`_, a virtual machine must be
-specifically configured at launch to operate as a protected Trust Domain.
+Because TDX is a new technology, enabling it is a complex task generally intended for developers
+and testers on specialized hardware. Full support requires specific versions of the Linux kernel, 
+``qemu``, and ``libvirt`` that are not yet available in the standard Ubuntu 24.04 LTS repositories.
+This functionality is being actively developed and is targeted for inclusion in future Ubuntu
+releases. For the latest information on TDX availability and configuration, refer to official 
+announcements from Canonical and the Ubuntu Server team. As with `SEV <sev_>`_, once supported,
+a virtual machine must be specifically configured at launch to operate as a protected Trust Domain.
 
 More information about TDX can be viewed `here <https://www.intel.com/content/www/us/en/developer/tools/trust-domain-extensions/overview.html>`_.
 
