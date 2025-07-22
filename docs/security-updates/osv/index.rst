@@ -1765,6 +1765,19 @@ where we list all the binaries and their versions. For example, for php8.4:
      "availability": "No subscription required"
    }
 
+
+For LSNs, since there's no particular source package patching involved, and
+instead the kernel is patched during runtime via a kernel module, we list
+instead a regex for the kernel module. For example
+`LSN-0113-1 <https://github.com/canonical/ubuntu-security-notices/blob/main/osv/lsn/LSN-0113-1.json>`_:
+
+.. code-block:: JSON
+
+   "ecosystem_specific": {
+     "availability": "Livepatch subscription required",
+     "module_name_regex": "lkp_Ubuntu_4_4_0[_|\\d]+_(?:generic|lowlatency)_(\\d+)"
+   }
+
 The ``ranges`` field
 ^^^^^^^^^^^^^^^^^^^^
 
