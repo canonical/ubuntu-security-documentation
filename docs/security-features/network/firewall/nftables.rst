@@ -819,8 +819,8 @@ structure for two new functions, demonstrating some control flow functionality:
   <https://manpages.ubuntu.com/manpages/en/man8/ip-route.8.html>`_. For example,
   the rules below set the mark to the value ``1`` (via the symbolic variable
   ``MARK_REALM_LOCAL``) if the packet was received on one of the loopback
-  interfaces. Two new chains are introduced: ``mark-inbound`` (a base chain) and
-  ``mark-inbound-determine`` (a regular chain).
+  interfaces. Two new chains are introduced: ``early-inbound`` (a base chain)
+  and ``mark-inbound-determine`` (a regular chain).
 
   * When packet processing follows the packet through an input VRF interface
     (``meta iifkind "vrf"``), we're terminating the packet processing in this
@@ -832,7 +832,7 @@ structure for two new functions, demonstrating some control flow functionality:
     extension of VXLAN are in use, the packet is dropped completely.
   * The ``mark-inbound-determine`` regular chain is invoked via a ``jump
     mark-inbound-determine``; this allows subsequent rules in the
-    ``mark-inbound`` chain to be evaluated.
+    ``early-inbound`` chain to be evaluated.
   * In the ``mark-inbound-determine`` chain, if a packet is received on one of
     the interfaces defined in the ``IF_LOOPBACK`` symbolic variable (``meta iif
     $IF_LOOPBACK``), two statements are executed:
@@ -841,7 +841,7 @@ structure for two new functions, demonstrating some control flow functionality:
       (``meta mark set $MARK_REALM_LOCAL``), a non-terminal statement;
     * the processing in the ``mark-inbound-determine`` chain is terminated via a
       ``return`` statement, with the packet continuing its processing in the
-      caller chain (``mark-inbound``).
+      caller chain (``early-inbound``).
 * In the ``firewall-input`` base chain, processing of multicast packets is
   delegated to the ``firewall-input-multicast`` regular chain.
 
@@ -874,7 +874,7 @@ structure for two new functions, demonstrating some control flow functionality:
     #destroy table inet host-firewall
 
     table inet host-firewall {
-        chain mark-inbound {
+        chain early-inbound {
             type filter hook prerouting priority raw; policy accept;
 
             # When VRF interfaces are in use, packets go through the prerouting hook
@@ -982,7 +982,7 @@ such as the following:
 
 .. code-block:: console
 
-    nft describe udp dport.
+    nft describe udp dport
 
 The expressions generally follow the convention of a class followed by an
 attribute (e.g. ``udp dport``, ``ip protocol`` or ``meta mark``). These are
@@ -1066,16 +1066,638 @@ to the least-significant 16 bits of the IPv4 source address, combined with bit
 16 set, but only if the IPv4 source address is within the 10.0.0.0/16 prefix.
 
 .. code-block:: nft
+
     ip saddr 10.0.0.0/16 meta mark set (ip saddr & 0xFFFF) | 0x10000
+
+Bitmasks support specific operations that simplify management, especially
+through the use of symbolic names associated to individual bits:
+
+* Without an operator, a relational expression matches if any of the specified
+  bits are set. The expression ``tcp flags syn,ack`` matches if packets have at
+  least one of the ``SYN`` or ``ACK`` bits set. This is equivalent to ``tcp
+  flags & (syn|ack) != 0``.
+* The ``/`` operator can be used to specify a mask, in addition to a set of
+  values that need to be configured. The expression ``tcp flags syn / syn,ack``
+  matches if, out of the ``SYN`` and ``ACK`` bits, only the ``SYN`` bit is set
+  (no other bits matter). This is equivalent to ``tcp flags & (syn|ack) ==
+  syn``.
+* The equality (``eq`` / ``==``) and non-equality (``ne`` / ``!=``) operators
+  compare an exact bitmask value. The expression ``tcp flags == syn,ack``
+  matches if and only if both the ``SYN`` and ``ACK`` bits are set and all other
+  bits are cleared. This is equivalent to ``tcp flags == (syn|ack)``.
+
+Putting these concepts together allows the creation of a framework for using the
+Netfilter mark as a bitfield that facilitates generic firewall rules. As the
+packet mark can be determined from external sources (e.g. VXLAN with the GBP
+extension) and is copied when packets are decapsulated (e.g. IPsec), special
+processing is required: one bit (a flag) is used to determine if the packet mark
+can be trusted as having been validated locally.
+
+The following ``nftables`` configuration containss two changes from the previous
+example:
+
+* An extension to the ``early-inbound`` chain, with the two regular chains that
+  it invokes (``mark-inbound-determine`` and
+  ``mark-inbound-external-validate``). The convention used for the format of the
+  Netfilter mark is explained in a comment at the top of the file, with symbolic
+  variables defined to simplify the bitfield operations.
+* Two new rules in the ``firewall-input`` chain that use the ``ct state``
+  bitmask expression:
+
+  * allow packets marked as either ``established`` or ``related`` by the
+    conntrack module through (``ct state established,related accept``);
+  * drop packets marked as ``invalid`` by the conntrack module (``ct state
+    invalid drop``).
+
+.. code-block:: nft
+    :caption: /etc/nftables.conf
+
+    #!/usr/sbin/nft -f
+
+    define IF_LOOPBACK = lo
+
+    # The packet mark is interpreted as follows (big endian):
+    #    3                   2                   1                   0
+    #  1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    # |V| Unused                                          | Realm (6) |
+    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    #
+    # V - validated flag (1 - packet mark was validated locally; 0 - it wasn't)
+    # Realm - class of hosts the packet originated from (64 possible values)
+
+    define MARK_MASK_REALM  = 0x0000003f
+
+    define MARK_REALM_UNKNOWN   = 0  # Other provenance of packet
+    define MARK_REALM_LOCAL     = 1  # Packet from local host
+    define MARK_REALM_VIRT      = 2  # Packet from local VMs / containers
+    define MARK_REALM_LAN       = 3  # Packet from internal network
+
+    define MARK_FLAG_VALIDATED  = 0x80000000
+
+    # This empty definition is needed to allow the flush command to work if the
+    # table is not already defined.
+    table inet host-firewall; flush table inet host-firewall
+
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    destroy table inet host-firewall
+
+    table inet host-firewall {
+        chain early-inbound {
+            type filter hook prerouting priority raw; policy accept;
+
+            # When VRF interfaces are in use, packets go through the prerouting hook
+            # twice, once with the VRF interface set as input and another time with
+            # actual interface set as input.
+            meta iifkind "vrf" return
+
+            # If the mark was previously set with the validated flag set (e.g.
+            # decapsulated packet), reset it. This also resets the mark for remote
+            # packets that automatically set the mark and attempt to forge the
+            # validated flag (e.g. VXLAN with the GBP extension).
+            (meta mark & $MARK_FLAG_VALIDATED) != 0 meta mark set 0
+            meta mark != 0 jump mark-inbound-external-validate
+            meta mark == 0 jump mark-inbound-determine
+            meta mark set (meta mark | $MARK_FLAG_VALIDATED)
+        }
+
+        chain mark-inbound-external-validate {
+            # Do not allow externally-determined marks to have the realm set to
+            # LOCAL or VIRT.
+            meta mark & $MARK_MASK_REALM == {
+                $MARK_REALM_LOCAL,
+                $MARK_REALM_LAN,
+            } drop
+        }
+
+        chain mark-inbound-determine {
+            # Set the realm to LOCAL for packets received on the loopback interface.
+            meta iif $IF_LOOPBACK meta mark set $MARK_REALM_LOCAL return
+
+            # Set the realm to VIRT for packets received on bridge interfaces.
+            meta iifkind "bridge" meta mark set $MARK_REALM_VIRT return
+
+            # Set the realm to LAN for link-local and private addresses.
+            ip saddr {
+                169.254.0.0/16,
+                10.0.0.0/8,
+                172.16.0.0/12,
+                192.168.0.0/16,
+            } meta mark set $MARK_REALM_LAN return
+            ip6 saddr {
+                fe80::/64,
+                fc00::/7,
+            } meta mark set $MARK_REALM_LAN return
+        }
+
+        chain firewall-input {
+            # Process packets destined for this host.
+            type filter hook input priority filter;
+            # Use a default-deny policy for packets.
+            policy drop;
+
+            # Use conntrack state to allow packets belonging to already established
+            # flows, while dropping packets which conntrack considers invalid.
+            ct state established,related accept
+            ct state invalid drop
+
+            # Allow traffic on the loopback interface(s).
+            meta iif $IF_LOOPBACK accept
+
+            # Process multicast packets. Upon returning, do not evaluate any more
+            # rules and apply the policy verdict (drop).
+            meta pkttype multicast goto firewall-input-multicast
+
+            # Drop-in files can add rules here.
+            include "/etc/nftables/input-rules.d/*.conf"
+        }
+
+        chain firewall-input-multicast {
+            # Allow any IPv4 IGMP.
+            ip protocol igmp accept
+
+            # Allow inbound Multicast DNS packets.
+            udp dport 5353 accept
+
+            # If no prior action was taken, this will return to the calling chain
+            # (firewall-input).
+        }
+    }
 
 Concatenations
 ^^^^^^^^^^^^^^
 
+Concatenations allow combining expressions into compound expressions that have a
+complex type, by using the ``.`` operator. These are particularly powerful when
+used in combination with :ref:`sets <Sets>` and :ref:`maps <Maps>` to define
+keys based on multiple attributes of a packet. For example, the following
+expression combines three different fields - the Netfilter mark, the transport
+protocol (``meta l4proto`` matches irrespective of the encapsulating network
+protocol, IPv4 or IPv6), and the transport protocol destination port (``th
+dport`` matches irrespective of the transport protocol, such as TCP, UDP or
+SCTP):
+
+
+.. code-block:: nft
+
+    meta mark . meta l4proto . th dport
+
+The use of binary operators for extracting information based on the Netfilter
+mark convention established earlier, along with :ref:`anonymous sets <Sets>` for
+specifying alternative values and intervals result in powerful matching
+expressions:
+
+.. code-block:: nft
+
+    (meta mark & $MARK_MASK_REALM) . meta l4proto . th dport {
+        # Web service allowed from anywhere
+        0-63                . tcp   . 80,
+        # SSH allowed from local machine and local VMs
+        $MARK_REALM_LOCAL   . tcp   . 22,
+        $MARK_REALM_VIRT    . tcp   . 22,
+        # SIP signalling allowed from LAN over any transport
+        $MARK_REALM_LAN     . sctp  . 5060-5061,
+        $MARK_REALM_LAN     . tcp   . 5060-5061,
+        $MARK_REALM_LAN     . udp   . 5060-5061,
+    } accept
+
+
 Sets
 ~~~~
 
+Sets are a generic datastructure in ``nftables`` that act as a container for
+values with support for efficient lookup, addition and removal operations. They
+are similar to the `ipset
+<https://manpages.ubuntu.com/manpages/en/man8/ipset.8.html>`_ functionality
+available in ``xtables``, but support arbitrary types via the use of
+:ref:`Concatenations`. The implementation uses hashtables and red-black trees.
+Sets come in two types:
+
+* **anonymous sets**: defined inline within rules, these allow the expression of
+  the logical ``OR`` operator. The expression ``tcp dport { 80, 443 }`` matches
+  if the TCP destination port is either 80 or 443.
+* **named sets**: defined within tables and with an associated name, these allow
+  both external applications, as well as ``nftables`` rules to manage the elements.
+
+Named sets, like other objects such as tables or chains, can be defined multiple
+times with an additive effect. This allows the sets' elements to be added in
+multiple places, such as by using ``include`` directives with wildcards for
+drop-in files. Unlike anonymouse sets, various configuration options can be
+added as part of the definition to control the behavior of the sets. These are
+all documented in the `Sets section of the manual page
+<https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#sets>`_, but some of
+the more useful ones are:
+
+* **type** or **typeof**: these are necessary for a named set and define the
+  format of the elements. **type** requires the use of `data type names
+  <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#data%20types>`_,
+  possibly with concatenations, while **typeof** receives an expression that is
+  used to derive the elements' type. The **typeof** configuration is
+  particularly useful for expressions that have only an variable-length integer
+  data type associated and cannot be be expressed with **type** (e.g. ``typeof
+  meta cgroup`` cannot be expressed with ``type``).
+* **flags interval**: allows the use of intervals in elements. An anonymouse set
+  that uses intervals effectively activates this flag, as well.
+* **flags dynamic**: allows the addition of elements from rules, using the
+  **set** expression.
+* **flags timeout**: allows elements to be automatically removed after an
+  interval has elapsed since the element was (last) added to the set.
+* **timeout**: expression that defines the interval after which an element will
+  be removed from the set. For example: ``timeout 5m`` for a 5-minute interval.
+* **size**: defines the maximum number of elements that the set can hold.
+
+The following extends the example firewall configuration with:
+
+* A named set (``input-services``) for services allowed to the local host. These
+  are defined based on the Netfilter mark (only the realm bits), the transport
+  protocol and the transport destination port. An ``include`` directive
+  facilitates the definition of additional services in drop-in files.
+* A rule to reference the new named set in the ``firewall-input`` base chain.
+* A new rule in the ``firewall-input-multicast`` regular chain that allows IPv6
+  Multicast Listener Discovery (MLD) and Neighbour Discovery (ND) ICMPv6 packets
+  through, by using an anonymous set. These are generally required for the
+  correct functioning of IPv6 in local networks.
+
+.. code-block:: nft
+    :caption: /etc/nftables.conf
+
+    #!/usr/sbin/nft -f
+
+    define IF_LOOPBACK = lo
+
+    # The packet mark is interpreted as follows (big endian):
+    #    3                   2                   1                   0
+    #  1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    # |V| Unused                                          | Realm (6) |
+    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    #
+    # V - validated flag (1 - packet mark was validated locally; 0 - it wasn't)
+    # Realm - class of hosts the packet originated from (64 possible values)
+
+    define MARK_MASK_REALM  = 0x0000003f
+
+    define MARK_REALM_UNKNOWN   = 0  # Other provenance of packet
+    define MARK_REALM_LOCAL     = 1  # Packet from local host
+    define MARK_REALM_VIRT      = 2  # Packet from local VMs / containers
+    define MARK_REALM_LAN       = 3  # Packet from internal network
+
+    define MARK_FLAG_VALIDATED  = 0x80000000
+
+    # This empty definition is needed to allow the flush command to work if the
+    # table is not already defined.
+    table inet host-firewall; flush table inet host-firewall
+
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    destroy table inet host-firewall
+
+    table inet host-firewall {
+        set input-services {
+            type mark . inet_proto . inet_service
+            flags interval
+            elements = {
+                # Web service allowed from anywhere
+                0-63                . tcp   . 80,
+                # SSH allowed from local machine and local VMs
+                $MARK_REALM_LOCAL   . tcp   . 22,
+                $MARK_REALM_VIRT    . tcp   . 22,
+                # SIP signalling allowed from LAN over any transport
+                $MARK_REALM_LAN     . sctp  . 5060-5061,
+                $MARK_REALM_LAN     . tcp   . 5060-5061,
+                $MARK_REALM_LAN     . udp   . 5060-5061,
+            }
+        }
+        include "/etc/nftables/input-services.d/*.conf"
+
+        chain early-inbound {
+            type filter hook prerouting priority raw; policy accept;
+
+            # When VRF interfaces are in use, packets go through the prerouting hook
+            # twice, once with the VRF interface set as input and another time with
+            # actual interface set as input.
+            meta iifkind "vrf" return
+
+            # If the mark was previously set with the validated flag set (e.g.
+            # decapsulated packet), reset it. This also resets the mark for remote
+            # packets that automatically set the mark and attempt to forge the
+            # validated flag (e.g. VXLAN with the GBP extension).
+            (meta mark & $MARK_FLAG_VALIDATED) != 0 meta mark set 0
+            meta mark != 0 jump mark-inbound-external-validate
+            meta mark == 0 jump mark-inbound-determine
+            meta mark set (meta mark | $MARK_FLAG_VALIDATED)
+        }
+
+        chain mark-inbound-external-validate {
+            # Do not allow externally-determined marks to have the realm set to
+            # LOCAL or VIRT.
+            meta mark & $MARK_MASK_REALM == {
+                $MARK_REALM_LOCAL,
+                $MARK_REALM_LAN,
+            } drop
+        }
+
+        chain mark-inbound-determine {
+            # Set the realm to LOCAL for packets received on the loopback interface.
+            meta iif $IF_LOOPBACK meta mark set $MARK_REALM_LOCAL return
+
+            # Set the realm to VIRT for packets received on bridge interfaces.
+            meta iifkind "bridge" meta mark set $MARK_REALM_VIRT return
+
+            # Set the realm to LAN for link-local and private addresses.
+            ip saddr {
+                169.254.0.0/16,
+                10.0.0.0/8,
+                172.16.0.0/12,
+                192.168.0.0/16,
+            } meta mark set $MARK_REALM_LAN return
+            ip6 saddr {
+                fe80::/64,
+                fc00::/7,
+            } meta mark set $MARK_REALM_LAN return
+        }
+
+        chain firewall-input {
+            # Process packets destined for this host.
+            type filter hook input priority filter;
+            # Use a default-deny policy for packets.
+            policy drop;
+
+            # Use conntrack state to allow packets belonging to already established
+            # flows, while dropping packets which conntrack considers invalid.
+            ct state established,related accept
+            ct state invalid drop
+
+            # Allow traffic on the loopback interface(s).
+            meta iif $IF_LOOPBACK accept
+
+            # Process multicast packets. Upon returning, do not evaluate any more
+            # rules and apply the policy verdict (drop).
+            meta pkttype multicast goto firewall-input-multicast
+
+            # Allow services based on the origin realm, the transport protocol and
+            # the destination port.
+            (meta mark & $MARK_MASK_REALM) . meta l4proto . th dport @input-services accept
+
+            # Drop-in files can add rules here.
+            include "/etc/nftables/input-rules.d/*.conf"
+        }
+
+        chain firewall-input-multicast {
+            # Allow any IPv4 IGMP.
+            ip protocol igmp accept
+
+            # Allow IPv6 MLD (for multicast group management) and neighbour
+            # discovery (note that unicast packets would not be handled here).
+            icmpv6 type {
+                mld-listener-query,
+                mld-listener-report,
+                mld-listener-reduction,
+                mld2-listener-report,
+                nd-router-advert,
+                nd-neighbor-solicit,
+                nd-neighbor-advert,
+            } accept
+
+            # Allow inbound Multicast DNS packets.
+            udp dport 5353 accept
+
+            # If no prior action was taken, this will return to the calling chain
+            # (firewall-input).
+        }
+    }
+
+A drawback of the drop-in file configuration is that each file will have to
+redefine the set with the exact same settings:
+
+.. code-block:: nft
+    :caption: /etc/nftables/input-services.d/ldap.conf
+
+    #!/usr/sbin/nft -f
+
+    table inet host-firewall {
+        set input-services {
+            type mark . inet_proto . inet_service
+            flags interval
+            elements = {
+                # LDAP server access allowed from local machine and LAN
+                $MARK_REALM_LOCAL   . tcp   . 389,
+                $MARK_REALM_LAN     . tcp   . 389,
+            }
+        }
+    }
+
 Maps
 ~~~~
+
+Maps are ``nftables`` data structures that associate keys to values, a form of
+associative arrays or dictionaries. Maps are similar to :ref:`sets <Sets>`: in
+fact, sets are implemented as maps, with elements being keys without associated
+values. As such, maps usage is very similar to that of sets, including:
+
+* anonymous maps and named maps;
+* similar configuration settings for named maps;
+* ability to manage elements from other applications or rules.
+
+Maps support a lookup operation, the ``map`` statement, that returns the value
+associated with a lookup key. The returned value can then be used as an
+expression with the same type as the value type of the map. If a corresponding
+key is not found, the statement terminates rule evaluation early and no further
+statements are evaluated.
+
+The following extension of the example makes use of a map from IPv4 and IPv6
+prefixes to Netfilter marks representing the origin realm and sets the Netfilter
+mark using an extensible rule: new elements can be added to map other addresses
+to different Netfilter mark values. In addition to the two new maps
+(``ip4-known-addresses`` and ``ip6-known-addresses``), the changes are made to
+the ``mark-inbound-determine`` regular chain. The rule ``meta mark set ip saddr
+map @ip4-known-addresses return`` can be broken down as:
+
+1. Form the key for the map lookup: ``ip saddr``. This implies that the network
+   protocol must be IPv4. For any other packets, the rule is terminated early
+   and evaluation continues with the next rule in the chain.
+#. Lookup the key in the ``@ip4-known-addresses`` map: ``ip saddr map
+   @ip4-known-addresses``. The value type of the map is a Netfilter mark. If no
+   key is found, the rule is terminated early and evaluation continues with the
+   next rule in the chain.
+#. Set the packet's Netfilter mark to the value returned by the map lookup:
+   ``meta mark set ip saddr map @ip4-known-addresses``.
+#. Return from the current chain: ``return``. This is only executed if the
+   previous ``ip saddr`` expression or the ``map`` statement did not terminate
+   evaluation of the rule, either because the packet was not IPv4 or the key
+   could not be found.
+
+.. code-block:: nft
+    :caption: /etc/nftables.conf
+
+    #!/usr/sbin/nft -f
+
+    define IF_LOOPBACK = lo
+
+    # The packet mark is interpreted as follows (big endian):
+    #    3                   2                   1                   0
+    #  1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    # |V| Unused                                          | Realm (6) |
+    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    #
+    # V - validated flag (1 - packet mark was validated locally; 0 - it wasn't)
+    # Realm - class of hosts the packet originated from (64 possible values)
+
+    define MARK_MASK_REALM  = 0x0000003f
+
+    define MARK_REALM_UNKNOWN   = 0  # Other provenance of packet
+    define MARK_REALM_LOCAL     = 1  # Packet from local host
+    define MARK_REALM_VIRT      = 2  # Packet from local VMs / containers
+    define MARK_REALM_LAN       = 3  # Packet from internal network
+
+    define MARK_FLAG_VALIDATED  = 0x80000000
+
+    # This empty definition is needed to allow the flush command to work if the
+    # table is not already defined.
+    table inet host-firewall; flush table inet host-firewall
+
+    # Note that the flush command does not destroy the table or the objects
+    # contained within, only clearing the rules within all of the chains. Use the
+    # following instead, if the object definitions need to be changed or chains
+    # completely destroyed.
+    destroy table inet host-firewall
+
+    table inet host-firewall {
+        set input-services {
+            type mark . inet_proto . inet_service
+            flags interval
+            elements = {
+                # Web service allowed from anywhere
+                0-63                . tcp   . 80,
+                # SSH allowed from local machine and local VMs
+                $MARK_REALM_LOCAL   . tcp   . 22,
+                $MARK_REALM_VIRT    . tcp   . 22,
+                # SIP signalling allowed from LAN over any transport
+                $MARK_REALM_LAN     . sctp  . 5060-5061,
+                $MARK_REALM_LAN     . tcp   . 5060-5061,
+                $MARK_REALM_LAN     . udp   . 5060-5061,
+            }
+        }
+        include "/etc/nftables/input-services.d/*.conf"
+
+        map ip4-known-addresses {
+            type ipv4_addr : mark
+            flags interval
+            elements = {
+                # link-local addresses
+                169.254.0.0/16  : $MARK_REALM_LAN,
+                # RFC1918 private addresses
+                10.0.0.0/8      : $MARK_REALM_LAN,
+                172.16.0.0/12   : $MARK_REALM_LAN,
+                192.168.0.0/16  : $MARK_REALM_LAN,
+            }
+        }
+
+        map ip6-known-addresses {
+            type ipv6_addr : mark
+            flags interval
+            elements = {
+                # link-local addresses
+                fe80::/64   : $MARK_REALM_LAN,
+                # RFC4193 local addresses
+                fc00::/7    : $MARK_REALM_LAN,
+            }
+        }
+
+        chain early-inbound {
+            type filter hook prerouting priority raw; policy accept;
+
+            # When VRF interfaces are in use, packets go through the prerouting hook
+            # twice, once with the VRF interface set as input and another time with
+            # actual interface set as input.
+            meta iifkind "vrf" return
+
+            # If the mark was previously set with the validated flag set (e.g.
+            # decapsulated packet), reset it. This also resets the mark for remote
+            # packets that automatically set the mark and attempt to forge the
+            # validated flag (e.g. VXLAN with the GBP extension).
+            (meta mark & $MARK_FLAG_VALIDATED) != 0 meta mark set 0
+            meta mark != 0 jump mark-inbound-external-validate
+            meta mark == 0 jump mark-inbound-determine
+            meta mark set (meta mark | $MARK_FLAG_VALIDATED)
+        }
+
+        chain mark-inbound-external-validate {
+            # Do not allow externally-determined marks to have the realm set to
+            # LOCAL or VIRT.
+            meta mark & $MARK_MASK_REALM == {
+                $MARK_REALM_LOCAL,
+                $MARK_REALM_LAN,
+            } drop
+        }
+
+        chain mark-inbound-determine {
+            # Set the realm to LOCAL for packets received on the loopback interface.
+            meta iif $IF_LOOPBACK meta mark set $MARK_REALM_LOCAL return
+
+            # Set the realm to VIRT for packets received on bridge interfaces.
+            meta iifkind "bridge" meta mark set $MARK_REALM_VIRT return
+
+            # Set the realm for known addresses.
+            meta mark set ip saddr map @ip4-known-addresses return
+            meta mark set ip6 saddr map @ip6-known-addresses return
+        }
+
+        chain firewall-input {
+            # Process packets destined for this host.
+            type filter hook input priority filter;
+            # Use a default-deny policy for packets.
+            policy drop;
+
+            # Use conntrack state to allow packets belonging to already established
+            # flows, while dropping packets which conntrack considers invalid.
+            ct state established,related accept
+            ct state invalid drop
+
+            # Allow traffic on the loopback interface(s).
+            meta iif $IF_LOOPBACK accept
+
+            # Process multicast packets. Upon returning, do not evaluate any more
+            # rules and apply the policy verdict (drop).
+            meta pkttype multicast goto firewall-input-multicast
+
+            # Allow services based on the origin realm, the transport protocol and
+            # the destination port.
+            (meta mark & $MARK_MASK_REALM) . meta l4proto . th dport @input-services accept
+
+            # Drop-in files can add rules here.
+            include "/etc/nftables/input-rules.d/*.conf"
+        }
+
+        chain firewall-input-multicast {
+            # Allow any IPv4 IGMP.
+            ip protocol igmp accept
+
+            # Allow IPv6 MLD (for multicast group management) and neighbour
+            # discovery (note that unicast packets would not be handled here).
+            icmpv6 type {
+                mld-listener-query,
+                mld-listener-report,
+                mld-listener-reduction,
+                mld2-listener-report,
+                nd-router-advert,
+                nd-neighbor-solicit,
+                nd-neighbor-advert,
+            } accept
+
+            # Allow inbound Multicast DNS packets.
+            udp dport 5353 accept
+
+            # If no prior action was taken, this will return to the calling chain
+            # (firewall-input).
+        }
+    }
 
 Verdict maps
 ~~~~~~~~~~~~
