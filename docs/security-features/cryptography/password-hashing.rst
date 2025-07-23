@@ -1,14 +1,18 @@
 Password Hashing
 -----------------
 
-Cryptographic hashing enables passwords to be stored without revealing its content. The hash created can be thought of as a digital fingerprint that is compared for login attempts rather than your password directly.
-A cryptographic salt is added to your password before being hashed to prevent an adversary from precomputing hashes for common passwords. This greatly increases the difficulty of finding a collision with your password.
+Cryptographic hashing enables passwords to be stored without revealing their contents. The hash created can be thought of as a digital fingerprint that is checked for login attempts rather than your password itself.
 
-Password hashes used for logging into Ubuntu is stored in ``/etc/shadow``. They are of the form ``$id$param$salt$hash`` where ``id`` is the hashing algorithm used for that password, ``param`` is an optional field for any additional settings used by the hashing algorithm, ``salt`` is the text added when hashing your password and finally ``hash`` is the output of your password hash.
+A cryptographic salt is added to passwords before they are hashed to prevent an adversary from precomputing hashes for common passwords. This greatly increases the difficulty of finding a collision with your password.
 
-Ubuntu 14.04 LTS through Ubuntu 20.04 LTS used ``SHA-512`` which produced a fixed length 512 bit output. It is a commonly used hashing algorithm due to its strength and resistance to cryptographic attacks.
+Ubuntu stores your password hashes in ``/etc/shadow``. The related information is stored in entries of the format::
 
-Ubuntu 22.04 LTS and later use ``yescrypt`` which is based on ``scrypt``, a computationally expensive hashing algorithm. This makes it less feasible for adversaries to perform brute-force attacks when attempting to find a hash collision.
+${id}${param}${salt}${hash}
+
+* ``id``    - Hashing algorithm used
+* ``param`` - Additional settings used by the hashing algorithm
+* ``salt``  - Salt to be added before hashing
+* ``hash``  - Your password hash
 
 .. list-table::
 
@@ -31,10 +35,9 @@ Ubuntu 22.04 LTS and later use ``yescrypt`` which is based on ``scrypt``, a comp
    * - Questing (25.10)
      - yescrypt
 
+Ubuntu 14.04 LTS through Ubuntu 20.04 LTS uses the ``SHA-512`` hashing algorithm which produces a fixed length 512 bit output. It is a commonly used hashing algorithm due to its strength and resistance to cryptographic attacks.
 
-Historically, very old-style password hashes were based on DES and visible in ``/etc/passwd``. Modern Linux has long since moved to ``/etc/shadow`` and used salted MD5-based hashes (crypt id 1) for password verification. Since MD5 is considered weak, Ubuntu 8.10 and later proactively moved to using salted SHA-512-based password hashes (crypt id 6), which are significantly harder to brute-force. 
-
-Ubuntu 22.04 LTS and later switched to ``yescrypt`` to provide increased protection against offline password cracking. 
+Ubuntu 22.04 LTS and later use ``yescrypt`` which is based on ``scrypt``, a computationally expensive hashing algorithm. This makes it less feasible for adversaries to perform brute-force attacks when attempting to find a hash collision.
 
 For more details, see the `crypt <https://man7.org/linux/man-pages/man3/crypt.3.html>`_ manpage.
 
