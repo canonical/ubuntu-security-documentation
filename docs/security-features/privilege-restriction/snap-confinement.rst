@@ -57,8 +57,9 @@ AppArmor
 --------
 
 AppArmor profiles are generated for each command in a snap and are used to restrict or allow certain capabilities for each command.
-Declaring interfaces in the snap allows the default AppArmor to be extended.
-For example, when a snap plugs the camera interface, `this profile <https://github.com/canonical/snapd/blob/master/interfaces/builtin/camera.go#L32>`_ is added to the default policy.
+Declaring interfaces in the snap allows the default AppArmor profile to be extended.
+`This default profile <https://github.com/canonical/snapd/blob/master/interfaces/apparmor/template.go#L63_>`_ defines a common set of rules that are applied to all bases by default.
+For example, when a snap plugs the camera interface, `this profile <https://github.com/canonical/snapd/blob/master/interfaces/builtin/camera.go#L32>`_ is added to extend the default policy.
 
 See :doc:`apparmor` for more details.
 
@@ -68,11 +69,15 @@ Seccomp
 Similarly to how AppArmor is used for snaps, Seccomp filters are also generated for each command in a snap.
 These allow for processes inside the snap to have syscall filtering. Again, these can be extended through the use of snap interfaces.
 
+See :any:`seccomp-filtering` for more details.
 
 Device cgroups
 --------------
 
 Cgroups are used in snaps to resource limit processes running inside the snap.
 Udev rules are generated for each command in a snap.
-When a depended interface is used by the snap, a device cgroup may be used in conjunction with the apparmor profile.
-However, by default, no devices are tagged and the device cgroup is not used.
+``snapd`` determines whether a device cgroup is used depending on the interfaces used by a snap.
+When an interface is used by a snap and that interface uses the udev backend, rules are generated in ``/etc/udev/rules.d/70-snap...`` and tags are added to the devices (hardware) associated with the use of this interface.
+If a snap has tagged devices, a cgroup is created in ``/sys/fs/cgroup/devices/`` to allow access to these devices and other common devices (e.g `/dev/null`).
+
+See :doc:`cgroups` for more details.
