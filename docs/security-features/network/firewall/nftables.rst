@@ -8,9 +8,9 @@ such, it is a successor to the ``xtables`` kernel component and its associated
 ``iptables`` / ``ip6tables`` / ``arptables`` / ``ebtables`` userspace utilities.
 
 This documentation uses the term ``nftables`` when referring to the Linux kernel
-component and ``nft`` when referring to userspace utility. Please note that the
-Ubuntu package that provides the userspace utility is called ``nftables`` and
-this documentation will refer to it as the ``nftables`` Ubuntu package.
+component and ``nft`` when referring to the userspace utility. Please note that
+the Ubuntu package that provides the userspace utility is called ``nftables``
+and this documentation will refer to it as the ``nftables`` Ubuntu package.
 
 Table of contents
 -----------------
@@ -46,15 +46,24 @@ There are several advantages to using ``nftables`` over the older alternatives:
 Compatibility
 -------------
 
-In general, all the rules that can be defined using ``iptables``,
+In general, most of the rules that can be defined using ``iptables``,
 ``ip6tables``, ``arptables`` and ``ebtables`` can also be defined using
 ``nftables``, but not the other way around. It is strongly recommended that you
 only use one of two appraoches to managing firewall rules.
 
+There are still certain ``xtables`` rules which cannot be defined using
+``nftables``, as documented in the `feature compatibility nftables wiki page
+<https://wiki.nftables.org/wiki-nftables/index.php/Supported_features_compared_to_xtables>`_.
+The gaps have been reduced over recent ``nft`` and Linux kernel releases,
+which means that older Ubuntu versions might have more limited support.
+Additionally, it should be noted that some of the functionality available via
+the ``nftables`` Netlink interface may not be supported by the userspace ``nft``
+utility yet (e.g. support for rules invoking eBPF programs).
+
 Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided
 versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables``
-tools that work with ``nftables`` API and provide a compatible interface to the
-legacy implementation. The ``nftables`` backend has been the default since
+tools that work with the ``nftables`` API and provide a compatible interface to
+the legacy implementation. The ``nftables`` backend has been the default since
 Ubuntu 20.10 Groovy Gorilla. These are managed through the alternatives system
 and the current configuration can be displayed with the following commands:
 
@@ -78,7 +87,8 @@ which is provided by the ``nftables`` Ubuntu package. Communication with
 Netfilter is done over `AF_NETLINK
 <https://manpages.ubuntu.com/manpages/en/man7/netlink.7.html>`_ sockets,
 allowing applications to alternatively use this low-level interface. This
-documentation will only cover the use of the ``nft`` utility.
+documentation will only cover the use of the ``nft`` utility, with a focus on
+the configuration file format.
 
 Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a
 systemd service unit file that is disabled by default. If enabled, the service
@@ -95,8 +105,8 @@ configuration using the following commands:
 Command-line usage
 ~~~~~~~~~~~~~~~~~~
 
-The ``nft`` can accept one or more commands as arguments to manage any of the
-objects (tables, rules, sets, etc.) supported. For example, the following
+The ``nft`` utility can accept one or more commands as arguments to manage any
+of the objects (tables, rules, sets, etc.) supported. For example, the following
 command will list all of the firewall rules:
 
 .. code-block:: console
@@ -112,15 +122,15 @@ will create two tables that process both IPv4 and IPv6 packets:
 
     $ sudo nft "add table inet foo; add table inet bar"
 
-Changes to the ``nftables`` performed via the utility are ephemeral and will be
-lost upon a reboot (or, more specifically, upon the destruction of the `network
-namespace
+Changes to the ``nftables`` rulesets performed via the utility are ephemeral and
+will be lost upon a reboot (or, more specifically, upon the destruction of the
+`network namespace
 <https://manpages.ubuntu.com/manpages/en/man7/network_namespaces.7.html>`_ to
 which they are associated). Persistence can be achieved through the
 aforementioned systemd service unit or similar mechanisms.
 
 As an alternative invocation, a filename can be passed to the ``nft`` utility as
-an argument using the ``-f`` flag.  The file can contain both commands, as well
+an argument using the ``-f`` flag. The file can contain both commands, as well
 as object definitions using a declarative syntax, which are implied to be
 created. As with the command-line usage, all of the operations are performed
 atomically. The default ``/etc/nftables.conf`` file contains a command to delete
@@ -170,7 +180,7 @@ The configuration file is line-oriented. Multiple commands can be combined on
 the same line by separating them with semicolons (``;``). Comments can be
 included by using the hash sign (``#``) and span until the end of the line.
 Commands can be split across multiple lines by escaping the end-of-line with a
-backslash (``\\``). Whitespace (and hence, indentation) does not matter.
+backslash (``\``). Whitespace (and hence, indentation) does not matter.
 
 Even though the declarative syntax uses braces (``{`` and ``}``) to define
 blocks containing an object's definition, the line-oriented processing is still
@@ -190,8 +200,8 @@ throughout this documentation:
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
     #destroy table inet host-firewall
 
     table inet host-firewall {
@@ -208,8 +218,10 @@ The include directive
 
 Files can be included by using the ``include`` directive. These are interpreted
 in the context in which the directive is used. For example, the following allows
-drop-in files to be add rules to the defined ``firewall-input`` chain (if
-wildcards are used, the files need not exist):
+drop-in files to add rules to the defined ``firewall-input`` chain from
+``/etc/nftables/input-rules.d/`` and any other tables to be defined in files
+under ``/etc/nftables/tables.d/`` (if wildcards are used, the files need not
+exist):
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
@@ -222,8 +234,8 @@ wildcards are used, the files need not exist):
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
     #destroy table inet host-firewall
 
     table inet host-firewall {
@@ -237,6 +249,8 @@ wildcards are used, the files need not exist):
             include "/etc/nftables/input-rules.d/*.conf"
         }
     }
+
+    include "/etc/nftables/tables.d/*.conf"
 
 Symbolic variables
 ^^^^^^^^^^^^^^^^^^
@@ -260,8 +274,8 @@ references it:
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
     #destroy table inet host-firewall
 
     table inet host-firewall {
@@ -279,6 +293,8 @@ references it:
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 If, at a later date, a new loopback interface is created, the set notation can
 be taken advantage of to only modify the symbolic variable:
 
@@ -292,7 +308,7 @@ defined and all inner blocks, in order to reduce clashes. The symbolic variable
 is only interpreted in userspace. Any other configuration file passed to ``nft``
 would not be able to reference it. Similarly, retrieving the ruleset installed
 in ``nftables`` (such as by using the ``nft list ruleset`` command) would
-reconstruct the rules, but without any references to any symbolic variables.
+reconstruct the rules, but without any references to symbolic variables.
 
 Debugging
 ^^^^^^^^^
@@ -300,15 +316,15 @@ Debugging
 ``nftables`` provides several means to debug firewall rules:
 
 * Using the ``log`` statement, which can be associated with any rule and will
-  result in some packet information being logged, either to the kernel log
-  (which can read via ``dmesg``) or to a userspace application. This is
-  described in more detail in the `nftables documentation
+  result in packet information being logged, either to the kernel log (which can
+  read via ``dmesg``) or to a userspace application. This is described in more
+  detail in the `nftables documentation
   <https://wiki.nftables.org/wiki-nftables/index.php/Logging_traffic>`_ and in
   the `manual page
   <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#statements>`_, under
   ``LOG STATEMENT``.
 * Setting the ``nftrace`` flag on a packet, which allows tracing all of the
-  rules, within all chains and all tables, which a packet matches, also
+  rules which a packet matches, within all chains and all tables, also
   identifying any actions taken. This is described in more detail in the
   `nftables documentation
   <https://wiki.nftables.org/wiki-nftables/index.php/Ruleset_debug/tracing>`_.
@@ -333,8 +349,8 @@ them:
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
     #destroy table inet host-firewall
 
     table inet host-firewall {
@@ -357,6 +373,8 @@ them:
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 Checking ``dmesg`` would show messages such as the following (assuming packets
 are actually flowing through the loopback interface):
 
@@ -369,7 +387,7 @@ Rule tracing
 
 The ``nftrace`` flag enables tracing of a packet's flow through ``nftables``
 rules across chains and tables, from the moment the flag is set to the moment
-the packet processing is completed or the flag is unset. This functionality
+the packet processing is completed or the flag is cleared. This functionality
 allows complex debugging of ``nftables`` firewall rules. The packet information,
 along with references to the rules traversed is sent to a userspace application
 through the netlink interface. The ``nft monitor trace`` command can be used to
@@ -395,8 +413,8 @@ registered at the ``raw`` priority):
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
     #destroy table inet host-firewall
 
     table inet host-firewall {
@@ -429,6 +447,8 @@ registered at the ``raw`` priority):
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 The two rules will only match UDP datagrams, but irrespective of whether they're
 transported by Ipv4 or IPv6 (``meta l4proto udp``). Running the ``nft monitor
 trace`` command will produce messages such as:
@@ -455,6 +475,39 @@ after the ``nft monitor trace`` utility is started, the output will either be
 incomplete or inaccurate (because rule identifiers (handles), in particular, can
 be reused), so a printed rule may not be the actual rule that a packet matched.
 
+Bytecode inspection
+...................
+
+The bytecode interpreted by the Linux kernel can be observed by using the
+``--debug=netlink`` argument to ``nft``. This works both for commands that
+modify rules (e.g. adding a new rule), as well as for those that retrieve rules.
+The bytecode is printed alongside the rule handle (rule identifier). The
+``--handle`` option can also be useful to print the handles associated with each
+rule.
+
+For example, listing the ``trace-inbound`` chain created above:
+
+.. code-block:: console
+
+    sudo nft --handle --debug=netlink list chain inet host-firewall trace-inbound
+
+Produces the following output:
+
+.. code-block:: nft-output
+
+    inet host-firewall trace-inbound 13
+      [ meta load l4proto => reg 1 ]
+      [ cmp eq reg 1 0x00000011 ]
+      [ immediate reg 1 0x00000001 ]
+      [ meta set nftrace with reg 1 ]
+
+    table inet host-firewall {
+        chain trace-inbound { # handle 1
+            type filter hook prerouting priority raw - 10; policy accept;
+            meta l4proto udp meta nftrace set 1 # handle 13
+        }
+    }
+
 Netfilter integration
 ---------------------
 
@@ -464,7 +517,7 @@ functionality for userspace packet queueing and processing as the ``xtables``
 subsystem.
 
 A high-level understanding of the Netfilter framework is important for managing
-firewall rules.  This section provides the necessary information and references
+firewall rules. This section provides the necessary information and references
 additional documentation.
 
 Packet flow
@@ -501,9 +554,9 @@ derived from names of the Netfilter hooks:
 * ``output`` (for ARP, bridge and IP)
 * ``egress`` (only available for ``nftables``)
 
-Packets will not traverse all hook points: this depends on the some of the
-decisions made during the processing. This is represented graphically in the
-diagram on the `Netfilter hooks nftables wiki page
+Packets will not traverse all hook points, depending on some of the decisions
+made during the processing. This is represented graphically in the diagram on
+the `Netfilter hooks nftables wiki page
 <https://wiki.nftables.org/wiki-nftables/index.php/Netfilter_hooks>`_. In
 particular, the use of bridges will result in a different packet flow, but one
 which partially overlaps with the flow taken by non-bridged packets.
@@ -531,13 +584,13 @@ decimal format):
 
     sudo nft list hooks
 
-If you register rules to be executed at priority value lower than ``-400`` (e.g.
-``-500``), these will be executed before IP datagram fragments are reassembled.
-As such the rules may see IP datagram fragments for which the transport header
-may not be available, because they are not the first fragment. On the other
-hand, rules registered at priority value higher than ``-400`` (e.g. ``-300``)
-would not be able to make decisions based on fragmentation information (the
-packet would look as if the entire IP datagram was received).
+If you register rules to be executed at a priority value lower than ``-400``
+(e.g.  ``-500``), these will be executed before IP datagram fragments are
+reassembled. As such the rules may see IP datagram fragments for which the
+transport header may not be available, because they are not the first fragment.
+On the other hand, rules registered at priority value higher than ``-400`` (e.g.
+``-300``) would not be able to make decisions based on fragmentation information
+(the packet would look as if the entire IP datagram was received).
 
 The priority values themselves do not hold any intrinsic meaning, other than the
 fact that some standard operations are executed at well-known priority values.
@@ -563,22 +616,27 @@ not exhaustive, maybe leave as examples?):
 * the packet is sent out a virtual interface that loops the packet back to the
   same Linux kernel (e.g. `veth
   <https://manpages.ubuntu.com/manpages/en/man4/veth.4.html>`_ interfaces),
-  although the list of hooks are not going to overlap completely;
+  although the list of hooks are not going to overlap completely; FIXME: does
+  this even make sense? Of course a packet sent out a veth is going to come back
+  in on the pair... Also, is nfmark maintained? Wouldn't expect it, need to
+  confirm.
 * Virtual Routing and Forwarding (VRF) is in use - a packet will traverse the L3
   prerouting hook twice, once with the input interface set to the L3 interface
   and once with the input interface set to the VRF interface.
 * the packet is processed and reinjected by the kernel into the networking stack
-  (e.g. after IPsec encryption/decryption and ESP encapsulation/decapsulation -
-  although the packet is admittedly modified, some of the state is maintained
-  across this operation).
+  (e.g. after IPsec encryption/decryption and ESP encapsulation/decapsulation in
+  tunnel mode - although the packet is admittedly different, some of the state
+  is maintained across this operation, such as the Netfilter mark). FIXME:
+  technically, this is a different packet - does it even make sense? Same
+  applies to other L3 encapsulations, e.g. vxlan.
 
 The Netfilter hooks and, hence, the ``nftables`` rules are managed independently
 per `network namespace
 <https://manpages.ubuntu.com/manpages/en/man7/network_namespaces.7.html>`_. As
 such, different firewall rules are configured in each network namespace,
-facilitating functionality such containers. This also means that if the two ends
-of a veth pair are associated with different namespaces, they will be processed
-by independent firewall rules.
+facilitating functionality such as containers. This also means that if the two
+ends of a veth pair are associated with different namespaces, they will be
+processed by independent firewall rules.
 
 Structure
 ---------
@@ -593,7 +651,9 @@ primary terminology used is:
   etc. This includes elements defined in sets and maps, or the contents of
   stateful objects (e.g.  counter values). As such, a command such as the
   following is effectively a no-op: ``(echo "nft flush rulset"; nft list
-  ruleset) | nft -f -``.
+  ruleset) | nft -f -`` (FIXME: well, if something changes between ``nft list
+  ruleset`` and ``nft -f -``, it won't be a no-op; counters are very likely to
+  change - should clarify?).
 * **Tables**: unlike ``xtables``, any number of tables can be defined in
   ``nftables``. These are collections of chains, :ref:`sets <Sets>`, :ref:`maps
   <Maps>` and stateful objects (e.g. counters). The table name does not hold any
@@ -671,7 +731,7 @@ For base chains, the most important attributes are:
 * **hook**: the processing point at which rules are evaluated, as described in
   the :ref:`Packet flow` section. It should be noted that not all hooks are
   available for all address families and all chain types. The restrictions are
-  listed in the `manual page
+  listed in the `Chains section of the manual page
   <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#chains>`_.
 * **priority**: dictates the order in which chains and other standard Netfilter
   operations are performed at a particular hook point, as described in the
@@ -701,18 +761,20 @@ Rule composition
 
 Rules are composed of expressions and statements, both of which are optional.
 Expressions are used to match packets, while statements dictate what actions
-should be be taken. A rule without statements is valid and be used for debugging
-purposes, as it will be reported by the :ref:`rule tracing <Rule tracing>` for
-any matched packets. For example, the following rule will match
+should be be taken. A rule without statements is valid and can be used for
+debugging purposes, as it will be reported by the :ref:`rule tracing <Rule
+tracing>` for any matched packets. For example, the following rule will match
 locally-generated IPv4 UDP packets without taking any actions (note the use of
-the `ip protocol udp` expression, as opposed to `meta l4proto udp`):
+the `ip protocol udp` expression, as opposed to `meta l4proto udp`: this will
+match only IPv4 packets):
 
 .. code-block:: nft
-    :caption: /etc/nftables.conf
+    :caption: /etc/nftables/tables.d/test-firewall.conf
 
     #!/usr/sbin/nft -f
 
-    table inet host-firewall {
+    destroy table inet test-firewall
+    table inet test-firewall {
         chain test-outbound {
             type filter hook output priority filter; policy accept;
 
@@ -726,8 +788,8 @@ expressions with a logical **OR** requires the use of multiple rules, :ref:`sets
 <Sets>`, :ref:`maps <Maps>` or intervals. In the following example, the first
 rule will match both IPv4 and IPv6 packets if both the transport protocol is UDP
 (``meta l4proto udp``) and the destination port is ``53`` (``udp dport 53``).
-The second rule will match packets if network protocol is IPv4 (implied), the
-transport protocol is UDP (implied) and either:
+The second rule will match packets if the network protocol is IPv4 (implied),
+the transport protocol is UDP (implied) and either:
 
 * the IPv4 destination address is ``10.1.1.1`` and the destination port is
   ``53``
@@ -738,11 +800,12 @@ The ``ip daddr . udp dport`` syntax is explained in the :ref:`Concatenations`
 section.
 
 .. code-block:: nft
-    :caption: /etc/nftables.conf
+    :caption: /etc/nftables/tables.d/test-firewall.conf
 
     #!/usr/sbin/nft -f
 
-    table inet host-firewall {
+    destroy table inet test-firewall
+    table inet test-firewall {
         chain test-outbound {
             type filter hook output priority filter; policy accept;
 
@@ -802,11 +865,11 @@ following is the list of verdict statements:
   statement (such as ``accept``, ``drop``, ``queue`` or ``reject``) is issued in
   one of the invoked chains. From a procedural programming perspective, this is
   similar to invoking a subprocedure (pseudocode: ``call subprocedure()``).
-* **goto**: continue processing in anew regular chain; upon completion, the
+* **goto**: continue processing in a new regular chain; upon completion, the
   processing does *not* return to the current chain, but the chain higher up in
-  the call next (if the current chain is a base chain, the policy action is
+  the call stack (if the current chain is a base chain, the policy action is
   taken, instead). From a procedural programming perspective, this is similar to
-  invoking a returning the result of a subprocedure (pseudocode: ``return
+  invoking and returning the result of a subprocedure (pseudocode: ``return
   subprocedure()``).
 
 The following example extends the previous firewall definition with the skeleton
@@ -869,8 +932,8 @@ structure for two new functions, demonstrating some control flow functionality:
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
     #destroy table inet host-firewall
 
     table inet host-firewall {
@@ -923,6 +986,8 @@ structure for two new functions, demonstrating some control flow functionality:
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 Other statements
 ^^^^^^^^^^^^^^^^
 
@@ -941,8 +1006,8 @@ commonly-used ones are:
   and type ``1`` code ``1`` for `IPv6
   <https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml#icmpv6-parameters-codes-2>`_).
 * **log statement**: described in the :ref:`Log statement` section.
-* **meta statements**: allow changed meta information tracked by Netfilter for a
-  particular packet, such as ``meta mark set 42`` for setting the Netfilter
+* **meta statements**: allows changing meta information tracked by Netfilter for
+  a particular packet, such as ``meta mark set 42`` for setting the Netfilter
   packet mark to the constant value ``42`` or ``meta nftrace set 1`` for
   enabling :ref:`rule tracing <Rule tracing>`.
 * **nat statements**: allow source and destination network address translation
@@ -950,7 +1015,7 @@ commonly-used ones are:
   protocol ports and the stateful processing of ICMP packets).
 * **counter statements**: support for counting packets and bytes matched by
   rules.
-* **payload statements**: allow changing arbitrary contents of the packets: for
+* **payload statements**: allows changing arbitrary contents of the packets: for
   example, ``ip dscp set 46`` sets the IPv4 DSCP field to 46 (EF - Expedited
   Forwarding).
 * **set statement**: allows dynamically adding elements to :ref:`sets <Sets>`
@@ -975,7 +1040,9 @@ expression and how it can be combined with other expressions or used as
 arguments to a statement. For example, the ``meta mark`` expression has an
 32-bit integer data type. These are listed in the `manual page's Data Types
 <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#data%20types>`_
-section.
+section. Please note that the data types are a feature of the ``nft`` userspace
+utility, with the bytecode interpreted by the Linux kernel operating exclusively
+on raw bytes.
 
 An expression's data type can be displayed using the ``nft describe`` command,
 such as the following:
@@ -995,7 +1062,7 @@ sections.
 Expressions can be combined with comparison operators to form `relational
 expressions
 <https://wiki.nftables.org/wiki-nftables/index.php/Building_rules_through_expressions>`_,
-which are used to matching packets. These are:
+which are used for matching packets. These are:
 
 * ``eq`` or ``==``: this is the implied comparison (``udp dport 53`` is
   equivalent to ``udp dport == 53``). It can compare an arbitrary expression
@@ -1003,7 +1070,7 @@ which are used to matching packets. These are:
   443 }`` matches if the destination port is either 80 or 443).
 * ``ne`` or ``!=``: this matches if an arbitrary expression is not equal to a
   constant value (e.g. ``udp dport != 53``) or does not exist in a set (``udp
-  dport != { 80, 443}`` matches if the destination is neither 80, nor 443).
+  dport != { 80, 443 }`` matches if the destination is neither 80, nor 443).
 * ``lt`` / ``<``, ``gt`` / ``>``, ``le`` / ``<=`` and ``ge`` / ``>=``: these
   match if the comparison of an arbitrary expression is lower than, greater
   than, lower than or equal and greater than or equal, respectively, to a
@@ -1141,9 +1208,9 @@ example:
 
     # Note that the flush command does not destroy the table or the objects
     # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
-    destroy table inet host-firewall
+    # following instead, if the object definitions need to be changed, chains
+    # completely destroyed or sets/maps cleared.
+    #destroy table inet host-firewall
 
     table inet host-firewall {
         chain early-inbound {
@@ -1227,6 +1294,8 @@ example:
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 Concatenations
 ^^^^^^^^^^^^^^
 
@@ -1239,7 +1308,6 @@ protocol (``meta l4proto`` matches irrespective of the encapsulating network
 protocol, IPv4 or IPv6), and the transport protocol destination port (``th
 dport`` matches irrespective of the transport protocol, such as TCP, UDP or
 SCTP):
-
 
 .. code-block:: nft
 
@@ -1264,11 +1332,10 @@ expressions:
         $MARK_REALM_LAN     . udp   . 5060-5061,
     } accept
 
-
 Sets
 ~~~~
 
-Sets are a generic datastructure in ``nftables`` that act as a container for
+Sets are a generic data structure in ``nftables`` that act as a container for
 values with support for efficient lookup, addition and removal operations. They
 are similar to the `ipset
 <https://manpages.ubuntu.com/manpages/en/man8/ipset.8.html>`_ functionality
@@ -1276,11 +1343,11 @@ available in ``xtables``, but support arbitrary types via the use of
 :ref:`Concatenations`. The implementation uses hashtables and red-black trees.
 Sets come in two types:
 
-* **anonymous sets**: defined inline within rules, these allow the expression of
+* **Named sets**: defined within tables and with an associated name, these allow
+  both external applications, as well as ``nftables`` rules to manage the elements.
+* **Anonymous sets**: defined inline within rules, these allow the expression of
   the logical ``OR`` operator. The expression ``tcp dport { 80, 443 }`` matches
   if the TCP destination port is either 80 or 443.
-* **named sets**: defined within tables and with an associated name, these allow
-  both external applications, as well as ``nftables`` rules to manage the elements.
 
 Named sets, like other objects such as tables or chains, can be defined multiple
 times with an additive effect. This allows the sets' elements to be added in
@@ -1302,11 +1369,12 @@ the more useful ones are:
 * **flags interval**: allows the use of intervals in elements. An anonymouse set
   that uses intervals effectively activates this flag, as well.
 * **flags dynamic**: allows the addition of elements from rules, using the
-  **set** expression.
+  **set** statement.
 * **flags timeout**: allows elements to be automatically removed after an
   interval has elapsed since the element was (last) added to the set.
-* **timeout**: expression that defines the interval after which an element will
-  be removed from the set. For example: ``timeout 5m`` for a 5-minute interval.
+* **timeout**: expression that defines the default interval after which an
+  element will be removed from the set. For example: ``timeout 5m`` for a
+  5-minute interval.
 * **size**: defines the maximum number of elements that the set can hold.
 
 The following extends the example firewall configuration with:
@@ -1347,14 +1415,9 @@ The following extends the example firewall configuration with:
 
     define MARK_FLAG_VALIDATED  = 0x80000000
 
-    # This empty definition is needed to allow the flush command to work if the
-    # table is not already defined.
-    table inet host-firewall; flush table inet host-firewall
-
     # Note that the flush command does not destroy the table or the objects
-    # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # contained within, only clearing the rules within all of the chains. The
+    # destroy command is used in order to clear the sets' elements.
     destroy table inet host-firewall
 
     table inet host-firewall {
@@ -1472,6 +1535,8 @@ The following extends the example firewall configuration with:
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 A drawback of the drop-in file configuration is that each file will have to
 redefine the set with the exact same settings:
 
@@ -1480,17 +1545,141 @@ redefine the set with the exact same settings:
 
     #!/usr/sbin/nft -f
 
-    table inet host-firewall {
-        set input-services {
-            type mark . inet_proto . inet_service
-            flags interval
-            elements = {
-                # LDAP server access allowed from local machine and LAN
-                $MARK_REALM_LOCAL   . tcp   . 389,
-                $MARK_REALM_LAN     . tcp   . 389,
-            }
+    set input-services {
+        type mark . inet_proto . inet_service
+        flags interval
+        elements = {
+            # LDAP server access allowed from local machine and LAN
+            $MARK_REALM_LOCAL   . tcp   . 389,
+            $MARK_REALM_LAN     . tcp   . 389,
         }
     }
+
+Element management in rules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A named set's elements can be dynamically added from rules by the use of the
+``add`` or ``update`` statements. Their use requires the presence of the
+``dynamic`` flag on the defined set. The major different between the two
+statements is that the ``add`` statement will conditionally terminate the rule
+early if the element already exists in the set, while the ``update`` statement
+will update any meta information associated with the element (such as resetting
+the timeout or modifying any :ref:`stateful objects <Stateful objects>`
+associated).
+
+To demonstrate this functionality, the following example implements a very
+trivial rate limit for new connections, which only accepts new connections if
+the source address, transport protocol and destination port concatenation can be
+added to a set (i.e. if the element did not previously exist). Elements expire
+after 2 minutes, so this effectively applies a limit of one connection every 2
+minutes. Note the size limit of the set, necessary in order to ensure that the
+amount of memory used is bounded. This is only meant for illustration of the
+``add`` statement, with limits being the preferred means of implementing rate
+limiting - these are explained in the :ref:`Stateful objects` section.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/limits.conf
+
+    destroy table ip limits
+    table ip limits {
+        set connections {
+            type ipv4_addr . inet_proto . inet_service
+            flags dynamic, timeout
+            timeout 2m
+            size 65536
+        }
+        chain limits-inbound {
+            # This must execute after conntrack lookup (priority -200).
+            type filter hook prerouting priority filter; policy drop;
+
+            # Only apply limits to packets that establish new flows.
+            ct state != new accept
+
+            # Accept packets that can be added to the set.
+            add @connections { ip saddr . meta l4proto . th dport } accept
+
+            # Anything that reaches here is dropped by policy.
+        }
+    }
+
+Similarly, the ``update`` statement can be used to add elements to a set, but
+will not fail if the element already exists. In the following example, the
+timeout is reset, which allows the set to track any IPv4 /24 prefix that
+initiated a new flow in the last 10 minutes.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/flow-track.conf
+
+    destroy table ip flow-track
+    table ip flow-track {
+        set connections {
+            type ipv4_addr
+            flags dynamic, timeout
+            timeout 10m
+            size 65536
+        }
+        chain track-inbound {
+            # This must execute after conntrack lookup (priority -200).
+            type filter hook prerouting priority filter; policy accept;
+
+            # Only bother with packets that establish new flows.
+            ct state != new accept
+
+            # Add /24 prefix to the connections set.
+            ct state new update @connections { ip saddr & 255.255.255.0 }
+        }
+    }
+
+Element management in userspace
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Named set elements can be inspected and managed from userspace, too. This is
+implemented over the standard ``AF_NETLINK`` communication for ``nftables``, with
+the ``nft`` utility offering convenient commands, as described in the manual
+page's `Sets <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#sets>`_
+and `Elements
+<https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#elements>`_ sections.
+The following are example commands that apply to the previously-defined
+``connections`` set from the ``ip`` address family ``flow-track`` table.
+
+Listing all elements in the set:
+
+.. code-block:: console
+
+    sudo nft list set ip flow-track connections
+
+Removing all elements from the same set:
+
+.. code-block:: console
+
+    sudo nft flush set ip flow-track connections
+
+Resetting any stateful objects associated with the elements in the set (such as
+counters or limits, explained in the :ref:`Stateful objects` section):
+
+.. code-block:: console
+
+    sudo nft reset set ip flow-track connections
+
+Retrieving elements from a set:
+
+.. code-block:: console
+
+   sudo nft get element ip flow-track connections '{ 127.0.0.0 }'
+
+Adding an element to a set (alternatively, the similar ``create`` command
+succeeds only if the element does not exist):
+
+.. code-block:: console
+
+   sudo nft add element ip flow-track connections '{ 10.0.0.0 }'
+
+Deleting an element from a set (alternatively, the similar ``destroy`` command
+succeeds even if the element does not exist):
+
+.. code-block:: console
+
+   sudo nft delete element ip flow-track connections '{ 10.0.0.0 }'
 
 Maps
 ~~~~
@@ -1502,7 +1691,9 @@ values. As such, maps usage is very similar to that of sets, including:
 
 * anonymous maps and named maps;
 * similar configuration settings for named maps;
-* ability to manage elements from other applications or rules.
+* ability to manage elements from other applications or rules (the same
+  statements and commands are used - see the :ref:`Sets` section for more
+  details).
 
 Maps support a lookup operation, the ``map`` statement, that returns the value
 associated with a lookup key. The returned value can then be used as an
@@ -1558,14 +1749,9 @@ map @ip4-known-addresses return`` can be broken down as:
 
     define MARK_FLAG_VALIDATED  = 0x80000000
 
-    # This empty definition is needed to allow the flush command to work if the
-    # table is not already defined.
-    table inet host-firewall; flush table inet host-firewall
-
     # Note that the flush command does not destroy the table or the objects
-    # contained within, only clearing the rules within all of the chains. Use the
-    # following instead, if the object definitions need to be changed or chains
-    # completely destroyed.
+    # contained within, only clearing the rules within all of the chains. The
+    # destroy command is used in order to clear the sets' elements.
     destroy table inet host-firewall
 
     table inet host-firewall {
@@ -1699,11 +1885,550 @@ map @ip4-known-addresses return`` can be broken down as:
         }
     }
 
+    include "/etc/nftables/tables.d/*.conf"
+
 Verdict maps
 ~~~~~~~~~~~~
+
+Verdict maps are similar to :ref:`maps <Maps>`, with the primary difference
+being that the values associated to keys are :ref:`verdict statements <Verdict
+statements>`. This allows them to be used with the ``vmap`` statements, which
+looks up a key in the map and, if the key is found, executes the associated
+verdict statement; if the key is not found, the next rule in the chain is
+evaluated (an implied ``continue`` statement). The ``vmap`` statement is
+terminal (i.e. it must be the last statement in a rule).
+
+This functionality allows efficient branching decisions to be made. For example,
+the above rules in the ``early-inbound`` chain that either validate an external
+Netfilter mark or determine one locally if it is not already set, can be
+rewritten with a ``vmap`` statement. It should be noted that the two rules might
+still be more efficient than the use of a red-black tree for this simple branch.
+
+.. code-block:: nft
+    :caption: Rule extract from 'table inet host-firewall' 'chain early-inbound'.
+
+    # Instead of the following two rules...
+    #meta mark != 0 jump mark-inbound-external-validate
+    #meta mark == 0 jump mark-inbound-determine
+
+    # ... use a vmap statement:
+    meta mark vmap {
+        0:              jump mark-inbound-determine,
+        1-0xFFFFFFFF:   jump mark-inbound-external-validate,
+    }
 
 Stateful objects
 ~~~~~~~~~~~~~~~~
 
+Stateful objects allow the tracking of information across unrelated packets, in
+order to implement functionality such as:
+
+* byte and packet counters: count number of packets or total size of packets
+  that pass through a rule;
+* byte quotas: count total size of packets that pass through a rule and execute
+  statements when the size is either below or above a threshold (e.g. allow only
+  a particular amount of data to be transferred across different flows);
+* limits: a packet count or packet size token bucket rate limiter that allows
+  statements to be executed whenever the rate of packets or data transferred is
+  below or above a certain threshold;
+* connection limits: integrated with Netfilter's conntrack, allows stataments to
+  be executed when the number of matching flows is above or below a certain
+  threshold.
+
+Stateful objects come in two types, dictating whether the state is shared across
+different contexts:
+
+* **Named objects** are associated with a particular table and can be referenced
+  by more than one rule. As such, the same data can be interrogated or modified
+  from multiple places (e.g. the same counter incremented by more than one
+  rule). These can also be queried or managed from userspace.
+* **Anonymous objects** do not have an associated name and are bound to single
+  context: a particular rule or a :ref:`set's <Sets>` key. In particular,
+  connection limit objects, as explained in the `nftables documentation
+  <https://wiki.nftables.org/wiki-nftables/index.php/Connlimits>`_, can only be
+  anonymous objects.
+
+The creation of named stateful objects follows the same convention as for all
+other objects. For example, the following file creates a counter which is
+referenced once the end of the ``limits-inbound`` chain is reached:
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/limits.conf
+
+    destroy table inet limits
+    table inet limits {
+        counter dropped-flows {
+        }
+        chain limits-inbound {
+            # This must execute after conntrack lookup (priority -200).
+            type filter hook prerouting priority filter; policy accept;
+
+            # Only apply limits to packets that establish new flows.
+            ct state != new accept
+
+            # Anything that reaches here is dropped.
+            counter name dropped-flows drop
+        }
+    }
+
+Retrieving the counter data:
+
+.. code-block:: console
+
+    sudo nft list counter ip limits dropped-flows
+
+Resetting the counter data:
+
+.. code-block:: console
+
+    sudo nft reset counter ip limits dropped-flows
+
+Anonymous objects can be associated to rules. The following extension to the
+previous example adds some functionality:
+
+* For HTTP traffic (selected using ``tcp dport { 80, 443 }``), use an anonymous
+  connection limit (``ct count over 1000``) which conditionally terminates the
+  rule evaluation if the threshold isn't reached, stopping the subsequent
+  statements in the rule from being executed (``counter name dropped-flows`` and
+  ``drop``). Any conntrack flows which match the selection criteria are kept
+  track of by the connection limit; as soon as a flow stops being tracked by
+  conntrack, it is removed from this connection limit.
+* For non-HTTP traffic, similarly use an anonymous connection limit to drop new
+  flow-initiating packets once the threshold (500 flows) is reached.
+* For HTTP traffic, use an anonymous limit (``limit rate over 20/minute burst
+  500 packets``) which conditionally terminates rule evaluation if the threshold
+  isn't reached, stopping the subsequent statements in the rule from being
+  executed (``counter name dropped-flows`` and ``drop``). A token bucket rate
+  limiter is updated for each packet that matches the rule.
+* For non-HTTP traffic, similarly use an anonymous limit to drop new
+  flow-initiating packets once the token bucket's threshold is reached.
+
+Note that new flow-initiating packets are dropped if *either* of the criteria is
+met: active number of conntrack flows or rate of creation of new conntrack flows.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/limits.conf
+
+    destroy table inet limits
+    table inet limits {
+        counter dropped-flows {
+        }
+
+        chain limits-inbound {
+            # This must execute after conntrack lookup (priority -200).
+            type filter hook prerouting priority filter; policy accept;
+
+            # Only apply limits to packets that establish new flows.
+            ct state != new accept
+            # Do not apply limits to local and VMs communication.
+            meta mark & $MARK_MASK_REALM {
+                $MARK_REALM_LOCAL,
+                $MARK_REALM_VIRT
+            } accept
+
+            jump drop-on-flow-count
+            jump drop-on-new-flow-rate
+        }
+
+        chain drop-on-flow-count {
+            # Allow at most 1000 simultaneous flows for HTTP.
+            tcp dport { 80, 443 } ct count over 1000 \
+                counter name dropped-flows \
+                drop
+            # If this rule is reached, the above threshold did not get reached, so
+            # return in order to avoid counting this traffic towards subsequent
+            # limits.
+            tcp dport { 80, 443 } return
+
+            # Allow at most 500 simultaneous flows for everything else.
+            ct count over 500 \
+                counter name dropped-flows \
+                drop
+        }
+
+        chain drop-on-new-flow-rate {
+            # Allow at most 20 new flows per minute (with a burst of 500) for HTTP.
+            tcp dport { 80, 443 } limit rate over 20/minute burst 500 packets \
+                counter name dropped-flows \
+                drop
+            # If this rule is reached, the above threshold did not get reached, so
+            # return in order to avoid counting this traffic towards subsequent
+            # limits.
+            tcp dport { 80, 443 } return
+
+            # Allow at most 10 new flows per minute (with a burst of 100) for
+            # everything else.
+            limit rate over 10/minute burst 100 packets \
+                counter name dropped-flows \
+                drop
+        }
+    }
+
+Anonymous stateful objects associated to set elements are created via an
+extension to the ``add`` and ``update`` statements that follows the same syntax
+as the rule expressions. This allows individual stateful objects to be
+associated with an arbitrary set of criteria. In effect, this extended syntax
+transforms the ``add`` and ``update`` statements to a lookup operation for a
+stateful object associated to a key and can terminate a rule early (e.g. if a
+token bucket limiter's threshold is reached). The following example adds support
+for tracking flow count and new flow rate per subnet:
+
+* For tracking flow counts, two sets are created: ``flow-count-ip4`` and
+  ``flow-count-ip6``. Elements with IPv4 /24 subnets and IPv6 /48 subnets are
+  added to these sets with associated connection limits. Rule evaluation is
+  terminated early if the threshold isn't reached; if it is, the new
+  flow-initiating packet is dropped. Elements are automatically removed from the
+  sets when there are no more conntrack entries associated.
+* For tracking flow rates, two sets are created: ``flow-rate-ip4`` and
+  ``flow-rate-ip6``. Elements with IPv4 /24 subnets and IPv6 /48 subnets are
+  added to these sets with associated limit stateful objects. The update
+  operation effectively refreshes the timeout after which elements from the sets
+  expire (1 minute). Rule evaluation is terminated early if the threshold isn't
+  reached; if it is, the prefix is added to a blocklist and the new
+  flow-initiating packet is dropped. Elements are automatically removed from the
+  sets when they are not refreshed (i.e. if no new flow-initiating packet for
+  the given subnet is received within the set's 1 minute timeout).
+* The blocklist sets, ``blocklist-ip4`` and ``blocklist-ip6`` contain IPv4 /24
+  subnets and IPv6 /48 subnets which have exceeded the connection rate
+  thresholds. Elements expire from these sets after 10 minutes, during which no
+  new flows are allowed. It would certainly be possible to not use these extra
+  sets, in which case a new flow could be established as soon as the token
+  bucket rate limiter would allow it.
+* The previously demonstrated global restrictions, applicable to any IPv4 or
+  IPv6 source address, are maintained.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/limits.conf
+
+    destroy table inet limits
+    table inet limits {
+        counter dropped-flows {
+        }
+
+        set blocklist-ip4 {
+            type ipv4_addr
+            flags dynamic
+            timeout 10m
+            size 65536
+        }
+        set flow-rate-ip4 {
+            type ipv4_addr
+            flags dynamic, timeout
+            timeout 1m
+            size 65536
+        }
+        set flow-count-ip4 {
+            type ipv4_addr
+            flags dynamic
+            size 65536
+        }
+
+        set blocklist-ip6 {
+            type ipv6_addr
+            flags dynamic
+            timeout 10m
+            size 65536
+        }
+        set flow-rate-ip6 {
+            type ipv6_addr
+            flags dynamic, timeout
+            timeout 1m
+            size 65536
+        }
+        set flow-count-ip6 {
+            type ipv6_addr
+            flags dynamic
+            size 65536
+        }
+
+        chain limits-inbound {
+            # This must execute after conntrack lookup (priority -200).
+            type filter hook prerouting priority filter; policy accept;
+
+            # Only apply limits to packets that establish new flows.
+            ct state != new accept
+            # Do not apply limits to local and VMs communication.
+            meta mark & $MARK_MASK_REALM {
+                $MARK_REALM_LOCAL,
+                $MARK_REALM_VIRT
+            } accept
+
+            jump drop-on-flow-count
+            jump drop-on-new-flow-rate
+        }
+
+        chain drop-on-flow-count {
+            # Allow at most 50 simultaneous flows per IPv4 /24 subnet or IPv6 /48
+            # subnet.
+            add @flow-count-ip4 { ip saddr & 255.255.255.0 ct count over 50 } \
+                counter name dropped-flows \
+                drop
+            add @flow-count-ip6 { ip6 saddr & ffff:ffff:ffff:: ct count over 50 } \
+                counter name dropped-flows \
+                drop
+
+            # Allow at most 1000 simultaneous flows for HTTP.
+            tcp dport { 80, 443 } ct count over 1000 \
+                counter name dropped-flows \
+                drop
+            # If this rule is reached, the above threshold did not get reached, so
+            # return in order to avoid counting this traffic towards subsequent
+            # limits.
+            tcp dport { 80, 443 } return
+
+            # Allow at most 500 simultaneous flows for everything else.
+            ct count over 500 \
+                counter name dropped-flows \
+                drop
+        }
+
+        chain drop-on-new-flow-rate {
+            # Drop packets from IPv4 /24 subnets that have been added to the
+            # blocklist.
+            ip saddr & 255.255.255.0 @blocklist-ip4 \
+                counter name dropped-flows \
+                drop
+            # Update token bucket rater limiter per IPv4 /24 subnets; if over the
+            # threshold, add the subnet to the blocklist and drop the packet.
+            update @flow-rate-ip4 { \
+                    ip saddr & 255.255.255.0 \
+                    limit rate over 5/second burst 50 packets \
+                } \
+                add @blocklist-ip4 { ip saddr & 255.255.255.0 } \
+                counter name dropped-flows \
+                drop
+
+            # Drop packets from IPv6 /48 subnets that have been added to the
+            # blocklist.
+            ip6 saddr & ffff:ffff:ffff:: @blocklist-ip6 \
+                counter name dropped-flows \
+                drop
+            # Update token bucket rater limiter per IPv6 /48 subnets; if over the
+            # threshold, add the subnet to the blocklist and drop the packet.
+            update @flow-rate-ip6 { \
+                    ip6 saddr & ffff:ffff:ffff:: \
+                    limit rate over 5/second burst 50 packets \
+                } \
+                add @blocklist-ip6 { ip6 saddr & ffff:ffff:ffff:: } \
+                counter name dropped-flows \
+                drop
+
+            # Allow at most 20 new flows per minute (with a burst of 500) for HTTP.
+            tcp dport { 80, 443 } limit rate over 20/minute burst 500 packets \
+                counter name dropped-flows \
+                drop
+            # If this rule is reached, the above threshold did not get reached, so
+            # return in order to avoid counting this traffic towards subsequent
+            # limits.
+            tcp dport { 80, 443 } return
+
+            # Allow at most 10 new flows per minute (with a burst of 100) for
+            # everything else.
+            limit rate over 10/minute burst 100 packets \
+                counter name dropped-flows \
+                drop
+        }
+    }
+
 Flowtables
 ~~~~~~~~~~
+
+Flowtables are a feature that accelerate packet forwarding for hosts that act as
+a layer 3 router or layer 2 bridge. The functionality acts as a cache for
+determining if a packet belongs to a known flow and can be almost directly sent
+out on a network interface after it is received by a (potentially different)
+network interface. As such, the feature cannot be used for flows for which one
+end is a local process via a socket. The flow is identified by an input
+interface, together with layer 2, layer 3 and layer 4 information, such as PPPoE
+session, source and destination network addresses, or source and destination
+transport protocol ports.
+
+For matching flows, the forwarding stack is completely bypassed, including most
+Netfilter hooks and bridging or routing decisions, up until the point where a
+layer 2 address needs to be determined (via IPv4 ARP or IPv6 NDP). Queuing
+disciplines are still applied, allowing for traffic shaping. The forwarding
+logic bypass may be problematic for dynamic setups where the cached information
+can become scale (e.g. layer 3 forwarding integrated with layer 2 bridging, if
+the next hop could move to a different bridge port).
+
+Flowtables are integrated with conntrack, with the flowtable fast path only
+being activated once a flow has seen packets in both directions. The flows are
+then refreshed at short, fixed intervals, as long as packets are received and
+the conntrack timeouts do not occur. The refresh intervals can be configured for
+TCP and UDP via the ``net.netfilter.nf_flowtable_tcp_timeout`` and
+``net.netfilter.nf_flowtable_udp_timeout`` sysctls, but are otherwise fixed in
+other cases (30 seconds as of Linux 6.15). The conntrack state is synchornized
+according to the received packets. FIXME: I *think* custom conntrack timeouts
+are not applied, but unsure - net/netfilter/nf_flow_table_core.c -
+flow_offload_fixup_ct(), nf_flow_table_tcp_timeout() offload timeouts seem fixed
+and entries are refreshed based on struct net timeouts.
+
+Certain network interface cards (NICs) also support hardware offload of the flow
+information, further optimizing packet forwarding. When this is not available or
+not enabled (via the ``offload`` flag on the flowtable), software offload in the
+Linux kernel is used instead.
+
+Flowtables are implemented by using an ``ingress`` hook. The priority associated
+with a flowtable is in effect the ``ingress`` hook priority at which the lookup
+is performed: this means that any chains registered at a lower numerical
+priority value would still process a packet matching a flowtable, while chains
+at a higher numerical priority value would not, nor would chains registered at
+any other Netfilter hook point, apart from ``egress``. More information on
+flowtables can be found in the `Netfilter documentation
+<https://wiki.nftables.org/wiki-nftables/index.php/Flowtables>`_ and `Linux
+kernel documentation <https://docs.kernel.org/networking/nf_flowtable.html>`_.
+
+The following example enables accelerated forwarding for packets between a set
+of interfaces. The actual network interface which receive a packet needs to be
+registered, even if bridging is enabled.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/flow-offload.conf
+
+    define LAN_DEVICES = { eth0, eth1, eth2 }
+
+    destroy table inet flow-offload
+    table inet flow-offload {
+        flowtable lan-forwarding {
+            hook ingress priority 0;
+            devices = $LAN_DEVICES;
+        }
+        chain offload-forward {
+            type filter hook forward priority filter; policy accept;
+
+            # Only offload UDP packets.
+            meta l4proto udp flow add @lan-forwarding
+        }
+    }
+
+Other features
+--------------
+
+FIB lookup and reverse-path filtering
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``fib`` expression can be used in rules to perform route lookups and make
+decisions based on the result. Its syntax is flexible and supports several
+invocation types, as described in the `manual page
+<https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#primary%20expressions>`_.
+
+One possible use is to determine if a network address is local to the host. Such
+a test can be performed early, before a routing decision for the packet is made,
+and need not take the Netfilter mark into account, as the ``local`` routing
+table is usually the first one queried. The following example counts packets for
+which the network layer destination address (``fib daddr``) is either a local or
+broadcast one.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/test-firewall.conf
+
+    #!/usr/sbin/nft -f
+
+    destroy table inet test-firewall
+    table inet test-firewall {
+        chain test-prerouting {
+            type filter hook prerouting priority filter; policy accept;
+
+            fib daddr type { local, broadcast } counter
+        }
+    }
+
+A different use case for the route lookups is to perform reverse-path filtering:
+dropping packets if they arrive on an interface that is not associated with a
+route that covers the network source address of the packet. If policy routing is
+employed, different pieces of information may be used to perform routing table
+selection, in which case the reverse-path filter check may not be accurate; the
+Netfilter mark can be taken into account by ``fib`` expressions, which should
+cover the majority of the policy routing configurations. The following example
+demonstrates this use case. It should be noted that:
+
+* The Netfilter mark must be set prior to the ``fib`` expression being employed,
+  as if it were set for a packet before a routing decision in the reverse
+  direction (i.e. a packet with a destination address set to the source address
+  of the reverse-path verified packet).
+* IPv6 configurations usually employ the same link-local prefix (``fe80::/64``)
+  on all interfaces, requiring special handling.
+
+.. code-block:: nft
+    :caption: /etc/nftables/tables.d/test-firewall.conf
+
+    #!/usr/sbin/nft -f
+
+    destroy table inet test-firewall
+    table inet test-firewall {
+        chain test-prerouting {
+            type filter hook prerouting priority filter; policy accept;
+
+            # Must determine Netfilter mark as if for reverse direction here.
+
+            # Chain will drop packets which do not pass the reverse-path filter check
+            jump rp-filter
+        }
+
+        chain rp-filter {
+            # Ignore IPv6 packets with a link-local source address.
+            ip6 saddr fe80::/64 return
+            # FIB expression with oif output will return 0 if interface cannot
+            be determined.
+            fib saddr . mark . iif oif 0 drop
+        }
+    }
+
+Payload expressions
+~~~~~~~~~~~~~~~~~~~
+
+Payload expressions allow selecting specific fields within a packet. The ``nft``
+utility supports a large number of such expressions for simple rule management,
+as documented in the `Payload Expressions section of the manual page
+<https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#payload%20expressions>`_.
+
+Where these do not suffice or deep packet inspection (DPI) is necessary, raw
+payload expressions can be used: these allow selecting arbitrary parts (up to
+128 bits long) of a packet from a fixed offset off one of the layer 2, layer 3
+or layer 4 headers. In fact, the symbolic payload expressions (such as ``icmpv6
+taddr``, which selects the target address of NDP or MLD IPv6 packets) are
+translated by the userspace utility to raw payload expressions, not requiring
+any special support in the ``nftables`` Linux kernel component. The general
+format used is ``@base,offset,length``, with offset and length defined in bits. The
+following are the bases off which the offsets can be calculated:
+
+.. list-table::
+    :header-rows: 1
+    :widths: auto
+
+    * - Base
+      - Description
+      - Example
+    * - ``@ll``
+      - link layer (e.g. Ethernet header)
+      - ``@ll,0,48`` is 48 bits from the start of the link layer header - for
+        Ethernet, the destination MAC address
+    * - ``@nh``
+      - network header (e.g. IPv4, IPv6)
+      - ``@nh,48,8`` is 8 bits from 48 bits off the start of the network header
+        - for IPv6, the next header field
+    * - ``@th``
+      - transport header (e.g. TCP, UDP)
+      - ``@th,110,2`` is 2 bits from 110 bits off the start of the transport
+        header - for TCP, the SYN and FIN flags
+    * - ``@ih``
+      - inner header (payload after transport header)
+      - ``@ih,8,16`` is 16 bits from 8 bits off the start of the payload
+        encapsulated in the transport protocol - for TLS, this is the version
+
+It should be noted that, for the userspace ``nft`` utility, there are
+distinctions between using the raw payload expressions and the symbolic ones,
+such as:
+
+* An expression such as ``ip6 nexthdr`` will have an implied ``meta nfproto
+  ip6`` if the expression is added to a ``inet`` or ``bridge`` table, as packets
+  which are not IPv6 would traverse these, too. ``@nh,48,8`` will take the 7th
+  byte from the start of the network header, whatever protocol that may be (e.g.
+  IPv4, ARP, etc.).
+* The ``nft`` utility performs type checking. ``icmpv6 taddr`` has an
+  ``ipv6_addr`` type (in userspace), allowing comparisons with IPv6 addresses
+  (including prefixes, such as ``fe80::/64``). ``@th,64,128`` is treated as an
+  128-bit integer, even if preceded by an expression such as ``icmpv6 type
+  nd-neighbor-advert``, which would imply that the 128 bits would be supposed to
+  be interpreted as the IPv6 NDP target address. As such, the use of raw payload
+  expressions for set/map lookups or comparisons may be limited.
