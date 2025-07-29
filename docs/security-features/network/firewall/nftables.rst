@@ -49,7 +49,12 @@ Compatibility
 In general, most of the rules that can be defined using ``iptables``,
 ``ip6tables``, ``arptables`` and ``ebtables`` can also be defined using
 ``nftables``, but not the other way around. It is strongly recommended that you
-only use one of two appraoches to managing firewall rules.
+only use one of two approaches to managing firewall rules. Otherwise, the
+interaction between the different rules or services that set them up may be
+unexpected and lead to either insecure configurations or block traffic that is
+meant to be allowed. Furthermore, certain applications, such as container
+orchestration systems or VPN utilities may configure firewall rules, resulting
+in unexpected rule interactions.
 
 There are still certain ``xtables`` rules which cannot be defined using
 ``nftables``, as documented in the `feature compatibility nftables wiki page
@@ -63,9 +68,11 @@ utility yet (e.g. support for rules invoking eBPF programs).
 Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided
 versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables``
 tools that work with the ``nftables`` API and provide a compatible interface to
-the legacy implementation. The ``nftables`` backend has been the default since
-Ubuntu 20.10 Groovy Gorilla. These are managed through the alternatives system
-and the current configuration can be displayed with the following commands:
+the legacy implementation. The ``nftables`` backend, used by the
+``iptables-nft`` / ``ip6tables-nft`` / ``arptables-nft`` / ``ebtables-nft``
+utilities, has been the default since Ubuntu 20.10 Groovy Gorilla. These are
+managed through the alternatives system and the current configuration can be
+displayed with the following commands:
 
 .. code-block:: console
 
@@ -74,6 +81,10 @@ and the current configuration can be displayed with the following commands:
     update-alternatives --display arptables
     update-alternatives --display ebtables
 
+The ``iptables-nft`` / ``ip6tables-nft`` / ``arptables-nft`` / ``ebtables-nft``
+utilities assume that no other application manages ``nftables`` rules natively
+and hence should not be combined with other approaches to Netfilter firewall
+rule management.
 
 ``ufw`` works by invoking the legacy ``iptables`` and ``ip6tables`` utilities.
 As such, it should not be used concurrently with native ``nftables`` firewall
@@ -180,7 +191,10 @@ The configuration file is line-oriented. Multiple commands can be combined on
 the same line by separating them with semicolons (``;``). Comments can be
 included by using the hash sign (``#``) and span until the end of the line.
 Commands can be split across multiple lines by escaping the end-of-line with a
-backslash (``\``). Whitespace (and hence, indentation) does not matter.
+backslash (``\``); a line containing only comments will not be considered a
+continuation line (it will be skipped over), but an empty line would be
+considered a continuation line, effectively ending the rule. Whitespace (and
+hence, indentation) does not matter.
 
 Even though the declarative syntax uses braces (``{`` and ``}``) to define
 blocks containing an object's definition, the line-oriented processing is still
@@ -212,6 +226,32 @@ throughout this documentation:
             policy drop;
         }
     }
+
+When using configuration files to load firewall rules, it is imperative to clear
+the prior configuration. The declarative syntax will not replace chain rules,
+but rather append them at the end of the previously defined chain. Deciding
+which command to use to clear the prior configuration depends on several
+considerations:
+
+* ``flush ruleset`` will clear the entire ``nftables`` configuration, including
+  all :ref:`tables, chains and rules <Structure>`, :ref:`sets <Sets>` or
+  :ref:`maps <Maps>`, :ref:`stateful objects <Stateful objects>` and their
+  contents, and :ref:`flowtables <Flowtables>`. While appropriate for a single
+  central definition of the firewall rules, it may lead to unexpected results if
+  elements in sets or maps are managed externally or if tables are managed by
+  any other application.
+* ``destroy table`` will delete a table and all objects associated with them,
+  including :ref:`chains and rules <Structure>`, :ref:`sets <Sets>` or
+  :ref:`maps <Maps>`, :ref:`stateful objects <Stateful objects>`, and
+  :ref:`flowtables <Flowtables>`. This is particularly useful when settings
+  associated to the objects can be changed across versions of the configuration
+  file (such as the priority associated to a base chain) or when elements in
+  sets or maps should be deleted and recreated.
+* ``flush table`` will clear the rules within tables, but will not delete the
+  chains, :ref:`sets <Sets>` and :ref:`maps <Maps>` or their elements,
+  :ref:`stateful objects` or :ref:`flowtables <Flowtables>`. This is appropriate
+  when elements in sets or maps are managed externally or state kept by
+  :ref:`stateful objects <Stateful objects>` should not be reset.
 
 The include directive
 ^^^^^^^^^^^^^^^^^^^^^
@@ -450,7 +490,8 @@ registered at the ``raw`` priority):
     include "/etc/nftables/tables.d/*.conf"
 
 The two rules will only match UDP datagrams, but irrespective of whether they're
-transported by Ipv4 or IPv6 (``meta l4proto udp``). Running the ``nft monitor
+transported by Ipv4 or IPv6 (``meta l4proto udp``) and then activate rule
+tracing for those packets (``meta nftrace set 1``). Running the ``nft monitor
 trace`` command will produce messages such as:
 
 .. code-block::
@@ -1076,13 +1117,13 @@ which are used for matching packets. These are:
   than, lower than or equal and greater than or equal, respectively, to a
   constant value (e.g. ``udp dport < 1024`` matches privileged UDP ports).
 
-Expressions can also be combinary with binary operators, such as a:
+Expressions can also be combinated with binary operators, such as:
 
-* ``and`` / ``&``: binary AND
-* ``or`` / ``|``: binary OR
-* ``xor`` / ``^``: binary exclusive-OR
-* ``lshift`` / ``<<``: binary left shift
-* ``rshift`` / ``>>``: binary right shift
+* ``and`` / ``&``: bitwise AND
+* ``or`` / ``|``: bitwise OR
+* ``xor`` / ``^``: bitwise exclusive-OR
+* ``lshift`` / ``<<``: bitwise left shift
+* ``rshift`` / ``>>``: bitwise right shift
 
 The right-hand side of the binary operators must be a constant expression. For
 example, the following expression would match IPv4 packets for which the second
@@ -1352,9 +1393,9 @@ Sets come in two types:
 Named sets, like other objects such as tables or chains, can be defined multiple
 times with an additive effect. This allows the sets' elements to be added in
 multiple places, such as by using ``include`` directives with wildcards for
-drop-in files. Unlike anonymouse sets, various configuration options can be
-added as part of the definition to control the behavior of the sets. These are
-all documented in the `Sets section of the manual page
+drop-in files. Unlike anonymous sets, various configuration options can be added
+as part of the definition to control the behavior of the sets. These are all
+documented in the `Sets section of the manual page
 <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#sets>`_, but some of
 the more useful ones are:
 
@@ -1366,7 +1407,7 @@ the more useful ones are:
   particularly useful for expressions that have only an variable-length integer
   data type associated and cannot be be expressed with **type** (e.g. ``typeof
   meta cgroup`` cannot be expressed with ``type``).
-* **flags interval**: allows the use of intervals in elements. An anonymouse set
+* **flags interval**: allows the use of intervals in elements. An anonymous set
   that uses intervals effectively activates this flag, as well.
 * **flags dynamic**: allows the addition of elements from rules, using the
   **set** statement.
@@ -1931,7 +1972,7 @@ order to implement functionality such as:
 * limits: a packet count or packet size token bucket rate limiter that allows
   statements to be executed whenever the rate of packets or data transferred is
   below or above a certain threshold;
-* connection limits: integrated with Netfilter's conntrack, allows stataments to
+* connection limits: integrated with Netfilter's conntrack, allows statements to
   be executed when the number of matching flows is above or below a certain
   threshold.
 
@@ -2248,7 +2289,7 @@ Netfilter hooks and bridging or routing decisions, up until the point where a
 layer 2 address needs to be determined (via IPv4 ARP or IPv6 NDP). Queuing
 disciplines are still applied, allowing for traffic shaping. The forwarding
 logic bypass may be problematic for dynamic setups where the cached information
-can become scale (e.g. layer 3 forwarding integrated with layer 2 bridging, if
+can become stale (e.g. layer 3 forwarding integrated with layer 2 bridging, if
 the next hop could move to a different bridge port).
 
 Flowtables are integrated with conntrack, with the flowtable fast path only
@@ -2307,9 +2348,14 @@ Other features
 FIB lookup and reverse-path filtering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``fib`` expression can be used in rules to perform route lookups and make
-decisions based on the result. Its syntax is flexible and supports several
-invocation types, as described in the `manual page
+Forwarding Information Base (FIB) is a generic term for a lookup table used in
+network layer 2 or layer 3 packet forwarding (switching or routing). In this
+context, it refers to the Linux Routing Policy Database (`RPDB
+<https://manpages.ubuntu.com/manpages/en/man8/ip-rule.8.html>`_), which manages
+the layer 3 routing decision lookup structures. The ``fib`` expression can be
+used in rules to perform route lookups and make decisions based on the result.
+Its syntax is flexible and supports several invocation types, as described in
+the `manual page
 <https://manpages.ubuntu.com/manpages/en/man8/nft.8.html#primary%20expressions>`_.
 
 One possible use is to determine if a network address is local to the host. Such
