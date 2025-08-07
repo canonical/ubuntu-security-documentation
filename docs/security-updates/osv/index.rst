@@ -49,9 +49,8 @@ tools <https://google.github.io/osv.dev/third-party/>`_.
 Understanding Ubuntu's OSV Data
 ===============================
 
-The OSV format, although easy to understand, might still be difficult to
-understand what the data is telling you. Therefore the next sections will
-go over the important details related to Ubuntu's data.
+The OSV format, although easy to parse, might still be difficult to interpret.
+The next sections cover the relevant details of the data we publish.
 
 To facilitate understanding we will consider the following OSV data file
 UBUNTU-CVE-2025-6491.json:
@@ -1260,7 +1259,7 @@ UBUNTU-CVE-2025-6491.json:
 The ``id`` field
 ----------------
 
-We metioned in :ref:`osv-data` the available vulnerability data. Each type
+We mentioned in :ref:`osv-data` the available vulnerability data. Each type
 can easily be identified with the ``id`` field:
 
 * Ubuntu CVE Records: the ``id`` is of the form ``UBUNTU-CVE-...``
@@ -1341,11 +1340,11 @@ added later, but for Ubuntu, for now, those are the ones that matter to us
 and our users.
 
 .. NOTE::
-   Severity information is only available in Ubuntu CVE Records. That is
-   because any USN or LSN relates to one or more CVEs and OSV, currently,
+   Severity information is only available for Ubuntu CVE Records. That is
+   because any USN or LSN can relate to one or more CVEs and OSV, currently,
    does not have a standardized way to map out of the list of severities
-   which CVE it relates to. Therefore we recommend always looking USNs
-   and/or LSNs with the corresponding Ubuntu CVE records.
+   to their respective CVEs. Therefore we recommend always evaluating USNs
+   and/or LSNs in conjunction with the corresponding Ubuntu CVE records.
 
 Ubuntu priority
 ^^^^^^^^^^^^^^^
@@ -1402,10 +1401,10 @@ For example, for UBUNTU-CVE-2025-6491 we have:
 The ``withdrawn`` field
 -----------------------
 
-Some Ubuntu CVE records might be created for new vulnerabilities and after
-a while the vulnerability might be rejected by the CVE program since it is
-not an actual security issue. In those cases, instead of removing the data
-we use the ``withdrawn`` to indicate that such CVE record is removed.
+Some Ubuntu CVE records might be created for new vulnerabilities that after
+a while might be rejected by the CVE program, such as not being an actual
+security issue. In those cases, instead of removing the data we use the
+``withdrawn`` to indicate that such CVE record has been removed.
 
 This field gives the time the entry should be considered to have been
 withdrawn, as an RFC3339-formatted timestamp in UTC (ending in "Z"). If the
