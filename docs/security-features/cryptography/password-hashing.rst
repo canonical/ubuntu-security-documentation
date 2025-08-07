@@ -5,7 +5,7 @@ Cryptographic hashing enables passwords to be stored without revealing their con
 
 A cryptographic salt is added to passwords before they are hashed to prevent an adversary from precomputing hashes for common passwords. It results in the same password used for different logins having different hashes.
 
-Ubuntu stores the password hashes for local users in ``/etc/shadow``. See the `man 5 shadow` and `man 5 crypt` pages for more information.
+Ubuntu stores the password hashes for local users in ``/etc/shadow``. See the `shadow(5) <https://manpages.ubuntu.com/manpages/en/man5/shadow.5.html>`_ and `crypt(5) <https://manpages.ubuntu.com/manpages/en/man5/crypt.5.html>`_ manual pages for more information.
 
 
 .. list-table::
