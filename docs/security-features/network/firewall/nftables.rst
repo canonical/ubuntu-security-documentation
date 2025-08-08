@@ -655,16 +655,15 @@ more Netfilter hooks would be invoked, when one of these conditions occur:
   virtual one).
 
 It should be noted that a particular packet can traverse the Netfilter hooks
-several times, if one of the following conditions occur (FIXME: this is probably
-not exhaustive, maybe leave as examples?):
+several times, in conditions such as the followings:
 
 * the packet is sent out a virtual interface that loops the packet back to the
   same Linux kernel (e.g. `veth
   <https://manpages.ubuntu.com/manpages/en/man4/veth.4.html>`_ interfaces),
   although the list of hooks are not going to overlap completely; FIXME: does
   this even make sense? Of course a packet sent out a veth is going to come back
-  in on the pair... Also, is nfmark maintained? Wouldn't expect it, need to
-  confirm.
+  in on the pair... nfmark is not maintained - for all intents and purposes,
+  this is a new packet.
 * Virtual Routing and Forwarding (VRF) is in use - a packet will traverse the L3
   prerouting hook twice, once with the input interface set to the L3 interface
   and once with the input interface set to the VRF interface.
@@ -762,17 +761,18 @@ For base chains, the most important attributes are:
     processed by chains of this type. NAT actions (``snat``, ``dnat``,
     ``masquerade``, ``redirect``) can only be taken in these chains.
   * **route**: this has no equivalent in ``xtables``, but allows the integration
-    of the ``nftables`` rules with policy routing. Packets which are about to go
-    through a routing decision traverse chains of this type; even though the
-    only hook available is called ``output``, the rules are evaluated for both
-    locally-generated packets and received packets (before both routing
-    decisions, as documented in the `Netfilter flow diagram
-    <https://wiki.nftables.org/wiki-nftables/index.php/Netfilter_hooks#Netfilter_hooks_into_Linux_networking_packet_flows>`_).
-    As an example, such chains can be used with the expressive power of
-    ``nftables`` to assign a Netfilter packet mark that is subsequently used to
-    select a routing table (see the manual page for `ip rule
-    <https://manpages.ubuntu.com/manpages/en/man8/ip-rule.8.html>`_). FIXME:
-    double-check this statement.
+    of the ``nftables`` rules with policy routing. This can only be used with
+    locally-generated packets (either from processes or the kernel), with the
+    only hook available being ``output``. As per the `Netfilter flow diagram
+    <https://wiki.nftables.org/wiki-nftables/index.php/Netfilter_hooks#Netfilter_hooks_into_Linux_networking_packet_flows>`_,
+    the routing decision for locally-generated packets is performed before any
+    hooks. However, if the rules in a chain of type ``route`` modify parts of a
+    packet or its metadata (e.g. the Netfilter mark) that are used in `policy
+    routing decisions
+    <https://manpages.ubuntu.com/manpages/en/man8/ip-rule.8.html>`_, another
+    route lookup will be performed. Packets received from a network interface do
+    not require this special chain type, as there are several hooks available
+    that can prepare a packet before it goes through routing decisions.
 * **hook**: the processing point at which rules are evaluated, as described in
   the :ref:`Packet flow` section. It should be noted that not all hooks are
   available for all address families and all chain types. The restrictions are
@@ -2316,7 +2316,7 @@ then refreshed at short, fixed intervals, as long as packets are received and
 the conntrack timeouts do not occur. The refresh intervals can be configured for
 TCP and UDP via the ``net.netfilter.nf_flowtable_tcp_timeout`` and
 ``net.netfilter.nf_flowtable_udp_timeout`` sysctls, but are otherwise fixed in
-other cases (30 seconds as of Linux 6.15). The conntrack state is synchornized
+other cases (30 seconds as of Linux 6.15). The conntrack state is synchronized
 according to the received packets. FIXME: I *think* custom conntrack timeouts
 are not applied, but unsure - net/netfilter/nf_flow_table_core.c -
 flow_offload_fixup_ct(), nf_flow_table_tcp_timeout() offload timeouts seem fixed
