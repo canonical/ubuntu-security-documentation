@@ -12,6 +12,10 @@ component and ``nft`` when referring to the userspace utility. Please note that
 the Ubuntu package that provides the userspace utility is called ``nftables``
 and this documentation will refer to it as the ``nftables`` Ubuntu package.
 
+This page gradually builds an example ``nftables`` configuration file that is
+adequate for a Linux host which offers network services (such as SSH and HTTP)
+over IPv4 and IPv6 connectivity to a Local Area Network (LAN).
+
 Table of contents
 -----------------
 
@@ -764,7 +768,7 @@ For base chains, the most important attributes are:
     locally-generated packets and received packets (before both routing
     decisions, as documented in the `Netfilter flow diagram
     <https://wiki.nftables.org/wiki-nftables/index.php/Netfilter_hooks#Netfilter_hooks_into_Linux_networking_packet_flows>`_).
-    As an example, such chains can be used with the expresive power of
+    As an example, such chains can be used with the expressive power of
     ``nftables`` to assign a Netfilter packet mark that is subsequently used to
     select a routing table (see the manual page for `ip rule
     <https://manpages.ubuntu.com/manpages/en/man8/ip-rule.8.html>`_). FIXME:
@@ -867,8 +871,8 @@ section.
 A rule can contain zero or more statements. There are two types of statements:
 `terminal` and `non-terminal`. Terminal statements unconditionally terminate the
 rule's evaluation and may also terminate the chain's evaluation or entirely stop
-the pocket's processing. Non-terminal statements results in actions which either
-do no terminate the rule's evaluation or only do so conditionally. The only
+the pocket's processing. Non-terminal statements result in actions which either
+do not terminate the rule's evaluation or only do so conditionally. The only
 limitation is that a rule may have at most one terminal statement, which must
 also be placed last. Most of the :ref:`verdict statements <Verdict statements>`
 are terminal statements, but there are also some non-verdict terminal statements
@@ -947,7 +951,21 @@ structure for two new functions, demonstrating some control flow functionality:
       ``return`` statement, with the packet continuing its processing in the
       caller chain (``early-inbound``).
 * In the ``firewall-input`` base chain, processing of multicast packets is
-  delegated to the ``firewall-input-multicast`` regular chain.
+  delegated to the ``firewall-input-multicast`` regular chain. This allows
+  multicast logic to be encapsulated in a separate chain, aiding
+  maintainability. The base configuration accepts IPv4 IGMP packets, as they are
+  needed for a standard multicast-ready network topology with multicast queriers
+  (and possibly bridge multicast snooping, required for efficient layer-2
+  multicast forwarding). The IPv6-equivalent MLD rule is introduced in the
+  :ref:`Sets` section. Separately, Multicast DNS (mDNS) packets, which are also
+  used by the DNS Service Discovery (DNS-SD) protocol, are allowed through a
+  separate rule (``udp dport 5353 accept``). mDNS is typically used in LANs for
+  ad-hoc service discovery, such as for network printers and network shares.
+  In Ubuntu, applications such as `Avahi
+  <https://manpages.ubuntu.com/manpages/en/man8/avahi-daemon.8.html>`_ (generic
+  service discovery) and `cups-browsed
+  <https://manpages.ubuntu.com/manpages/en/man8/cups-browsed.8.html>`_ (network
+  printer discovery) make use of these protocols.
 
   * The ``goto`` statement ensures that the subsequent rules in
     ``firewall-input`` are not evaluated, even if the called chain executes a
