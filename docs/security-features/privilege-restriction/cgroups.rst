@@ -19,7 +19,7 @@ Hierarchy
 
 Cgroups are organized in a tree-like hierarchy, similar to a filesystem. This structure allows
 for fine-grained control, where resource limits set on a parent cgroup can be inherited by its
-children.
+children and, recursively, all descendant cgroups.
 
 Controllers (Subsystems)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -32,7 +32,7 @@ system resource. Key controllers include:
 - ``pids``: Limits the number of processes that can be created within a cgroup, providing a crucial defence against "fork bomb" attacks.
 - ``network_cls``/``network_prio``: Used to tag network packets from processes within a cgroup, allowing for traffic shaping and prioritization.
 
-More information about controllers can be found `here <https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html>`_.
+More information about controllers can be found in `the kernel documentation <https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html>`_.
 
 
 The Role of Cgroups in System Stability and Security
@@ -51,11 +51,10 @@ before it can crash the entire system, preserving the availability of other esse
 
 Foundations of Containerization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Cgroups are the bedrock of container technologies like Docker, LXD, and Snap. They provide the
-resource isolation that makes containers viable. By placing each container into its own cgroup,
-the system can guarantee that one container cannot access more than its allocated share of CPU
-or memory, effectively preventing it from interfering with other containers or the host system
-itself.
+Cgroups are the bedrock of container technologies like Docker and LXD. They provide the resource
+isolation that makes containers viable. By placing each container into its own cgroup, the system
+can guarantee that one container cannot access more than its allocated share of CPU or memory,
+reducing the impact it can have on other containers or the host system.
 
 Service Management with ``systemd``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -72,33 +71,192 @@ provides several benefits:
 
   .. code-block:: sh
  
-    sudo systemctl set-property <target-service> <property>
+    sudo systemctl set-property postgresql.service MemoryMax=512M
+  
+Beyond memory, administrators can control a wide variety of resources. Below is a list of some
+common properties that can be configured for a service:
+  
+- **CPU**
 
-  For example, an admin can limit the memory available to a database server
-  to prevent it from impacting the rest of the system under heavy load.
+  - ``CPUQuota``: Sets a hard cap o nthe percentage of CPU time a service can use.
+  - ``CPUWeight``: Sets a relative "weight for CPU time, influencing its priority during contention.
+  - ``AllowedCPUs``: Restricts the service to run only on specific CPU cores.
 
+- **Memory**
+  
+  - ``MemoryMax``: Sets a hard limit on the amount of memory a service can use.
+  - ``MemoryLow``: Sets a protected memory threshold; memory below this limit is not reclaimed.
+  - ``MemoryHigh``: Sets a memory usage threshold where the system will begin to throttle the service's processes.
+
+- **I/O**
+
+  - ``IOReadBandwidthMax``/``IOWriteBandwidthMax``: Limits the maximum read/write bandwidth to block devices.
+  - ``IOReadIOPSMax``/``IOWriteIOPSMax``: Limits the maximum read/write I/O operations per second.
+
+- **Tasks & Resources**
+
+  - ``TasksMax``: Limits the maximum number of concurrent tasks (processes or threads) a service can have.
+  - ``LimitNOFILE``: Sets the maximum number of file descriptors a service can have open. 
+  
+.. NOTE:: While ``sudo`` isn't necessary when modifying user services, it is required for ``set-property`` to work for other services. 
+   For a complete list of directives and their detailed explanations, refer to the Ubuntu `systemd.resource-control(5) <https://manpages.ubuntu.com/manpages/bionic/man5/systemd.resource-control.5.html>`_ manual page.
+
+Running Ad-Hoc Processes in Cgroups
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Beyond managing long-running services, users can use systemd wrappers to run any command
+or script within a temporary, resource-controlled cgroup. This is ideal for 
+resource-intensive and short-lived tasks like software compilation or data processing.
+
+The primary tool for this is ``systemd-run``. It creates a transient service or scope unit,
+runs a command inside it, and removes the unit when the command finishes.
+
+For example, imagine a scenario where a user needs to run a large software build but want
+to prevent it from consuming all CPU and memory, ensuring the desktop remains responsive.
+Users can use ``systemd-run`` to place the build process into the ``user.slice`` with specific 
+limits:
+
+.. code-block:: sh
+
+  systemd-run --unit=my-heavy-build --slice=user.slice --property="CPUWeight=100" --property="MemoryMax=4G" make -j$(nproc)
+
+This command does the following:
+
+- ``--unit=my-heavy-build``: Assigns a descriptive name to the transient unit.
+- ``--slice=user.slice``: Places the unit into the slice reserved for user sessions, separating it from system services.
+- ``--property="..."``: Applies resource controls on the fly. Here, we give it a lower CPU priority (``CPUWeight=100``) and cap its memory usage at 4 GB (``MemoryMax=4G``).
+- ``make...``: The actual command to be executed within this controlled environment.
+
+While ``systemd-run`` is a good choice for temporary tasks, users can also create persistent,
+custom slices. This is done by creating a ``.slice`` unit file in :file:`/etc/systemd/system/`. For 
+instance, a user could create a ``background-jobs.slice`` to group and manage all non-interactive
+batch processing. For details on creating these files, consult the Ubuntu 
+`systemd.slice(5) <https://manpages.ubuntu.com/manpages/bionic/man5/systemd.slice.5.html>`_ manual page.
 
 
 Inspecting Cgroups on Ubuntu
 ----------------------------
 
-Any interested user can directly explore their cgroup hierarchy, which is mounted as a virtual
-filesystem at :file:`/sys/fs/cgroup`. To see the cgroup a specific service belongs to, a
-``systemctl`` call can be executed:
+There are several ways to see which cgroup a process belongs to, from high-level tools to
+direct kernel interfaces.
+
+Using ``systemctl``
+^^^^^^^^^^^^^^^^^^^
+One method to see which cgroup a process belongs to is to use the ``systemctl status`` 
+command, which works for a service name or a process ID (PID).
 
 .. code-block:: sh
 
    # Check the status of the Apache HTTP Server service
-   systemctl status apache2.service
+   systemctl status <service-name/pid>
 
-The output will include a line showing its cgroup path:
+The output will include a line showing its cgroup path. As an example, this may be the output
+when checking ``apache2.service``:
+
+.. code-block:: none
+
+  ● apache2.service - The Apache HTTP Server
+       Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+       Active: active (running) since Fri 2025-08-08 07:10:33 EDT; 3min 2s ago
+     Main PID: 2305 (apache2)
+        Tasks: 3 (limit: 4571)
+       Memory: 15.1M
+          CPU: 42ms
+       CGroup: /system.slice/apache2.service
+               ├─2305 /usr/sbin/apache2 -k start
+               ├─9352 /usr/sbin/apache2 -k start
+               └─9353 /usr/sbin/apache2 -k start
+
+Users can get the same information by providing one of the PIDs directly, for example, using
+the above output: 
+
+.. code-block:: sh
+  
+  systemctl status 2305
+
+Using the Proc Filesystem
+^^^^^^^^^^^^^^^^^^^^^^^^^
+For a direct, low-level view, users can inspect the virtual file :file:`/proc/<pid>/cgroup`.
+This file shows the process's path in every active cgroup hierarchy.
 
 .. code-block:: sh
 
-   /system.slice/apache2.service
-   ├─2305 /usr/sbin/apache2 -k start
-   ├─9352 /usr/sbin/apache2 -k start
-   └─9353 /usr/sbin/apache2 -k start
+  # Inspect the cgroup membership for PID 2305
+  cat /proc/2305/cgroup
 
-The above demonstrates that the Apache HTTP Server daemon is running within its own slice of
-system resources, managed by ``systemd`` and enforced by the kernel's cgroup controllers.
+This command might produce a more complex output:
+
+.. code-block:: none
+
+  11:pids:/system.slice/apache2.service
+  10:hugetlb:/
+  9:perf_event:/
+  8:net_cls,net_prio:/
+  7:cpuset:/
+  6:memory:/system.slice/apache2.service
+  5:cpu,cpuacct:/system.slice/apache2.service
+  4:devices:/system.slice/apache2.service
+  3:blkio:/system.slice/apache2.service
+  2:freezer:/
+  1:name=systemd:/system.slice/apache2.service
+  0::/system.slice/apache2.service
+
+Unified vs. Legacy Cgroups
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+One may wonder why ``systemctl`` shows one clean cgroup path while 
+:file:`/proc/<pid>/cgroup` shows many. The reason is the coexistence of two cgroups
+versions.
+
+Modern systems use a single, unified hierarchy where all controllers (``cpu``, ``memory``,
+``pids``, etc.) reside. ``systemd`` uses this unified hierarchy for service management. The
+``systemctl`` output and the line in procfs starting with ``0::`` both show the process's
+path in this single, modern tree.
+
+Meanwhile, some systems may also run multiple legacy hierarchies to maintain backward
+compatibility; where different controllers get their own separate trees. The other
+numbered lines in the :file:`/proc/<pid>/cgroup` output show the process's path in each
+of these separate legacy trees.
+
+In short, ``systemctl status`` gives users the relevant, modern view for service management,
+while :file:`/proc/<pid>/cgroup` gives users an exhaustive report of the process's position in
+every active hierarchy, both new and old.
+
+Browse the Cgroup Filesystem
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Users can explore the cgroup hierarchy as a regular filesystem. The cgroup path from ``systemctl``
+maps directory to a directory under :file:`/sys/fs/cgroup`.
+
+.. code-block:: sh
+
+  # List the contents of the Apache service's cgroup directory
+  ls /sys/fs/cgroup/system.slice/apache2.service/
+
+This reveals the kernel control files for the cgroup:
+
+.. code-block:: none
+
+  cgroup.controllers      cgroup.procs            cpu.max.burst                    cpuset.mems            cpu.weight.nice  memory.events        memory.oom.group     memory.swap.high        pids.events
+  cgroup.events           cgroup.stat             cpu.pressure                     cpuset.mems.effective  io.max           memory.events.local  memory.peak          memory.swap.max         pids.events.local
+  cgroup.freeze           cgroup.subtree_control  cpuset.cpus                      cpu.stat               io.pressure      memory.high          memory.pressure      memory.swap.peak        pids.max
+  cgroup.kill             cgroup.threads          cpuset.cpus.effective            cpu.stat.local         io.prio.class    memory.low           memory.reclaim       memory.zswap.current    pids.peak
+  cgroup.max.depth        cgroup.type             cpuset.cpus.exclusive            cpu.uclamp.max         io.stat          memory.max           memory.stat          memory.zswap.max
+  cgroup.max.descendants  cpu.idle                cpuset.cpus.exclusive.effective  cpu.uclamp.min         io.weight        memory.min           memory.swap.current  memory.zswap.writeback
+  cgroup.pressure         cpu.max                 cpuset.cpus.partition            cpu.weight             memory.current   memory.numa_stat     memory.swap.events   pids.current
+
+These files are the direct interface to the kernel for managing resources. For instance, the
+``cgroup.procs`` file lists all PIDs in this group.
+
+.. code-block:: sh
+
+  cat /sys/fs/cgroup/system.slice/apache2.service/cgroup.procs
+
+.. code-block:: none
+
+  2305
+  9352
+  9353
+
+The other files correspond to the resource limits discussed above. When a user runs 
+``systemctl set-property apache2.service MemoryMax=512M``, ``systemd`` is simply writing 
+"536870912" (512 MB in bytes) into the ``memory.max`` file in this directory. This filesystem
+interface is the underlying mechanism that makes all cgroup-based management possible.
