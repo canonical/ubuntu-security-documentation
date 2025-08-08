@@ -120,9 +120,6 @@ class Feature(BaseModel):
     This is a security feature as listed in features.json
     """
     name: str
-    label: str
-    # TODO: When we decide how to represent and structure the sections,
-    # revisit these lines and make the checking stricter.
     section: bool = Field(default=False)
     changes: dict[str, Implementation] = Field(default={})
 
@@ -131,10 +128,11 @@ def load_features(file: TextIOWrapper) -> list[Feature]:
     Load the features list
     """
     raw_features = json.load(file)
+    feature_to_section = section_mapping(raw_features)
 
     try:
         features = [Feature(**f) for f in raw_features]
-        return features
+        return features, feature_to_section
     except ValidationError as e:
         eprint(e)
         sys.exit(1)
@@ -156,20 +154,10 @@ def table_row(cells: list[str]) -> str:
     return out
 
 INITIAL_HEADER = '''
-Matrix
-------
+Overview of security features
+##############################
 
-.. list-table:: Table format
-   :header-rows: 1
-
-   * - Text format
-     - Meaning
-   * - **Bold**
-     - By default
-   * - Regular
-     - Available
-   * - --
-     - Unimplemented
+This page provides a high-level overview of the security features in Ubuntu, their default configurations and rationale for having them enabled or disabled.
 
 .. list-table:: Security features in releases
    :header-rows: 1
@@ -192,34 +180,54 @@ def page_header():
     else:
         header_releases = [r for r in releases if not r.is_eol]
 
-    release_names = [r.only_version() for r in header_releases]
+    release_names = [r.only_version() for r in reversed(header_releases)]
 
-    # The cell in the upper left corner.
-    # Has to be defined so that the header row is the same length
-    # as the feature rows.
-    table_corner = "Feature"
-
-    header = table_row([table_corner, *release_names])
+    # Header row: section name, feature name, release columns
+    header = table_row(["Section", "Feature", *release_names])
 
     args.output.write(header)
     args.output.write("\n")
 
-def cell_with_markup(cell: Implementation) -> str:
-    """
-    Format the cell content as an RST string
-    """
-    # Default features add special markup, currently bold:
-    if cell.state == State.DEFAULT:
-        return f"**{cell.comment}**"
-    else:
-        return f"{cell.comment}"
+def page_footer():
+    footer = """
+Additional Documentation
+========================
 
-def feature_row(feature: Feature):
+- `Coordination with Debian <https://wiki.debian.org/Hardening>`_
+- `Gentoo's Hardening project <https://www.gentoo.org/proj/en/hardened/hardened-toolchain.xml>`_
+- `Ubuntu Security Features for all releases <https://wiki.ubuntu.com/Security/Features>`_
+"""
+    args.output.write(footer)
+
+# Commenting out as for now we don't use makrup to convey information. TO-DO: figure out how to convey different states.
+#def cell_with_markup(cell: Implementation) -> str:
+#    """
+#    Format the cell content as an RST string
+#    """
+#    # Default features add special markup, currently bold:
+#    if cell.state == State.DEFAULT:
+#        return f"**{cell.comment}**"
+#    else:
+#        return f"{cell.comment}"
+
+def feature_row(feature: Feature, feature_to_section):
     """
-    Draw a row describing a security feature in the RST list table format
+    Draw a row describing a security feature in the RST list table format.
+    Adds section name as the first cell.
     """
-    # The first cell in this row names the feature and links to its section
-    cells = [f":ref:`{feature.label} <{feature.name}>`"]
+    # Look up the section name from the mapping (if it exists)
+    section_info = feature_to_section.get(feature.name, {})
+    if section_info:
+        section_cell = f":ref:`{section_info['name']}`"
+    else:
+        section_cell = ""
+
+    # Create feature name cell with name
+    feature_cell = f":ref:`{feature.name}`"
+
+    # First two cells in the row: section name, then feature name
+    cells = [section_cell, feature_cell]
+
 
     # Every feature starts as unimplemented until the first recorded change
     current_development = Implementation.initial()
@@ -233,28 +241,39 @@ def feature_row(feature: Feature):
         if not args.historical and rel.is_eol:
             continue
         else:
-            cell = cell_with_markup(current_development)
-            cells.append(cell)
+            cells.append(current_development.comment)
 
     args.output.write(table_row(cells))
     args.output.write('\n')
 
+def section_mapping(raw_features):
+
+    feature_to_section = {}
+    current_section_name = None
+    
+    for f in raw_features:
+        if "section" in f:
+            current_section_name = f["name"]
+        elif "name" in f:
+            feature_to_section[f["name"]] = {
+                "name": current_section_name,
+            }
+
+    return feature_to_section
 
 if __name__ == "__main__":
     args = args_from_cli()
 
     releases = load_releases(args.releases)
 
-    features = load_features(args.features)
+    features, feature_to_section = load_features(args.features)
 
     page_header()
 
     for feature in features:
-        # Section features currently have no effect but we keep them
-        # in features.json for future use.
-        if feature.section:
-            continue
-        else:
-            feature_row(feature)
+        if not feature.section:
+            feature_row(feature, feature_to_section)
+    
+    page_footer()
 
     args.output.flush()

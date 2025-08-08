@@ -202,17 +202,17 @@
     {
         "code_name": "kinetic",
         "human_name": "Ubuntu 22.10",
-        "is_eol": true
+        "is_eol": false
     },
     {
         "code_name": "lunar",
         "human_name": "Ubuntu 23.04",
-        "is_eol": true
+        "is_eol": false
     },
     {
         "code_name": "mantic",
         "human_name": "Ubuntu 23.10",
-        "is_eol": true
+        "is_eol": false
     },
     {
         "code_name": "noble",
