@@ -84,10 +84,10 @@ Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided v
 
 .. code-block:: console
 
-    $ update-alternatives --display iptables
-    $ update-alternatives --display ip6tables
-    $ update-alternatives --display arptables
-    $ update-alternatives --display ebtables
+    update-alternatives --display iptables
+    update-alternatives --display ip6tables
+    update-alternatives --display arptables
+    update-alternatives --display ebtables
 
 
 nftables
@@ -101,8 +101,8 @@ Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a sys
 
 .. code-block:: console
 
-    $ sudo systemctl enable nftables.service
-    $ sudo systemctl start nftables.service
+    sudo systemctl enable nftables.service
+    sudo systemctl start nftables.service
 
 For more information on configuring nftables, please see the `nft manual page <https://manpages.ubuntu.com/manpages/man8/nft.8.html>`_ and the `nftables documentation <https://wiki.nftables.org/wiki-nftables/index.php/Main_Page>`_.
 
