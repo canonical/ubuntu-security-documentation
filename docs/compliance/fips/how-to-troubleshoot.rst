@@ -5,7 +5,7 @@ How to troubleshoot and solve common issues
 FIPS modules fail to install on machines with NVIDIA drivers
 ============================================================
 
-There can be cases where machines using NVIDIA drivers fail to install the FIPS modules, which is due to an i386 libraries being installed without any option to replace them with FIPS versions. Whilst this issue is being addressed, the workaround is to uninstall the i386 libraries.
+There can be cases where machines using NVIDIA drivers fail to install the FIPS modules, which is due to i386 libraries being installed without any option to replace them with FIPS versions. Whilst this issue is being addressed, the workaround is to uninstall the i386 libraries.
 
 If the following error message is shown:
 
