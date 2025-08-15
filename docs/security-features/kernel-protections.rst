@@ -1,5 +1,5 @@
-Kernel protections
-##################
+Kernel protection features
+##########################
 
 Block kexec
 ===========

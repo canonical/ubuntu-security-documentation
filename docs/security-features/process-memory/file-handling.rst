@@ -1,5 +1,5 @@
-File Handing
-############
+File Handling
+#############
 
 
 FIFO restrictions
@@ -7,7 +7,7 @@ FIFO restrictions
 
 Processes may not check that the files being created are actually created as the desired type. This global control forbids some potentially unsafe configurations from working.
 
-See the `kernel admin-guide <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-fifos>`_ for documentation. 
+See `Protected Fifos <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-fifos>`_ for documentation. 
 
 
 Regular file restrictions

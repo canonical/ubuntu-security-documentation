@@ -15,15 +15,15 @@ software artifacts. It is important to understand the configuration and the
 established chain of trust, in order to reduce the likelihood of malicious or
 inadvertent tampering.
 
-Ubuntu image integrity verification
-===================================
+Image integrity verification
+============================
 
 .. toctree::
    :maxdepth: 2
 
    image-verification
 
-Ubuntu archive integrity verification
+Archive integrity verification
 =====================================
 
 .. toctree::

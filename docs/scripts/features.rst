@@ -1,12 +1,12 @@
 \__NOTOC\_\_
 
 Features
-========
+########
 
 .. _configuration:
 
 Configuration
--------------
+=============
 
 
 .. _ports:
@@ -421,7 +421,7 @@ for regression tests for all the different types of ASLR.
 .. _stack-aslr:
 
 Stack ASLR
-^^^^^^^^^^
+
 
 Each execution of a program results in a different stack memory space
 layout. This makes it harder to locate in memory where to attack or
@@ -1004,8 +1004,8 @@ output as sensitive. Starting with 20.10, this is enabled by default.
 
 .. _kexec:
 
-Block kexec
-~~~~~~~~~~~
+Disable kexec
+~~~~~~~~~~~~~
 
 Starting with Ubuntu 14.04 LTS, it is now `possible to disable
 kexec <https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=7984754b99b6c89054edc405e9d9d35810a91d36>`__
@@ -1090,7 +1090,7 @@ Lockdown enforcement is tied to UEFI secure boot.
 .. _additional_documentation:
 
 Additional Documentation
-========================
+------------------------
 
 -  Coordination with Debian: https://wiki.debian.org/Hardening
 -  Gentoo's Hardening project:

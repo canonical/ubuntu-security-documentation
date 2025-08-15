@@ -3,8 +3,8 @@ Privilege restriction
 
 Ubuntu provides a set of security features that allow restricting the privileges available to processes. Mandatory Access Control (MAC) is, by default, provided by :ref:`AppArmor`; other MAC solutions, implemented through Linux Security Module (LSM) hooks, are available, but not supported.
 
-AppArmor
-========
+Mandatory Access Controls
+=========================
 
 .. toctree::
    :maxdepth: 1
