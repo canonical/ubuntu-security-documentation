@@ -22,7 +22,7 @@ How to get FIPS-certified packages
    :maxdepth: 1
    :glob:
 
-   how-to-install-ubuntu-with-fips
+   how-to-enable-fips
    how-to-switch-ubuntu-to-fips
    how-to-enable-fips-with-fde
    how-to-enable-wifi
