@@ -140,6 +140,11 @@
         "is_eol": true
     },
     {
+        "code_name": "xenial/esm",
+        "human_name": "Ubuntu 16.04 ESM",
+        "is_eol": false
+    },
+    {
         "code_name": "yakkety",
         "human_name": "Ubuntu 16.10",
         "is_eol": true
@@ -160,6 +165,11 @@
         "is_eol": true
     },
     {
+        "code_name": "bionic/esm",
+        "human_name": "Ubuntu 18.04 ESM",
+        "is_eol": false
+    },
+    {
         "code_name": "cosmic",
         "human_name": "Ubuntu 18.10",
         "is_eol": true
@@ -177,6 +187,11 @@
     {
         "code_name": "focal",
         "human_name": "Ubuntu 20.04 LTS",
+        "is_eol": true
+    },
+    {
+        "code_name": "focal/esm",
+        "human_name": "Ubuntu 20.04 ESM",
         "is_eol": false
     },
     {
@@ -222,11 +237,16 @@
     {
         "code_name": "oracular",
         "human_name": "Ubuntu 24.10",
-        "is_eol": false
+        "is_eol": true
     },
     {
         "code_name": "plucky",
         "human_name": "Ubuntu 25.04",
+        "is_eol": false
+    },
+    {
+        "code_name": "questing",
+        "human_name": "Ubuntu 25.10",
         "is_eol": false
     }
 ]

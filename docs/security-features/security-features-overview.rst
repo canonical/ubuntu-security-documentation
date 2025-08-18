@@ -1,70 +1,665 @@
 Overview of security features
 ##############################
 
-This page provides a high-level overview of the security features in Ubuntu, their default configurations and rationale for having them enabled or disabled.
+This page provides a high-level overview of the security features in Ubuntu,
+their default configurations and rationale for having them enabled or disabled.
 
-.. csv-table:: 
-   :header: area, feature, 22.04 LTS, 24.04 LTS, 25.04, 25.10
-   :widths: auto
+.. tabs::
 
-   :ref:`Privilege restriction`, :ref:`AppArmor`, 3.0.4, 4.0.1, 4.1.0, 4.1.0
-   :ref:`Privilege restriction`, :ref:`AppArmor unprivileged user namespace restrictions`, --, kernel & userspace, kernel & userspace, kernel & userspace
-   :ref:`Privilege restriction`, :ref:`SELinux`, universe, universe, universe, universe 
-   :ref:`Privilege restriction`, :ref:`SMACK`, kernel, kernel, kernel, kernel 
-   :ref:`Privilege restriction`, :ref:`PR_SET_SECCOMP`, kernel, kernel, kernel, kernel
-   :ref:`Privilege restriction`, :ref:`Seccomp Filtering`, kernel, kernel, kernel, kernel 
-   :ref:`Privilege restriction`, :ref:`Filesystem Capabilities`, kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server), kernel & userspace (default on server) 
-   :ref:`Storage and filesystem`, :ref:`Full disk encryption (FDE)`, LUKS + TPM, LUKS + TPM, LUKS + TPM, LUKS + TPM
-   :ref:`Storage and filesystem`, :ref:`Encrypted LVM`, main installer, main installer, main installer, main installer 
-   :ref:`Storage and filesystem`, :ref:`File Encryption`, "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe", "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe"
-   :ref:`Network and firewalls`, :ref:`No Open Ports`, policy, policy, policy, policy 
-   :ref:`Network and firewalls`, :ref:`SYN cookies`, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl 
-   :ref:`Network and firewalls`, :ref:`Firewall`, ufw, ufw, ufw, ufw 
-   :ref:`Cryptography`, :ref:`Password hashing`, yescrypt, yescrypt, yescrypt, yescrypt 
-   :ref:`Cryptography`, :ref:`Cloud PRNG seed`, pollinate, pollinate, pollinate, pollinate
-   :ref:`Cryptography`, :ref:`Disable legacy TLS`, policy, policy, policy, policy 
-   :ref:`Process and memory protections`, :ref:`Symlink restrictions`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`Hardlink restrictions`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`FIFO restrictions`, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl
-   :ref:`Process and memory protections`, :ref:`Regular file restrictions`, kernel & sysctl, kernel & sysctl, kernel & sysctl, kernel & sysctl
-   :ref:`Process and memory protections`, :ref:`Stack Protector`, gcc patch, gcc patch, gcc patch, gcc patch 
-   :ref:`Process and memory protections`, :ref:`Heap Protector`, glibc, glibc, glibc, glibc 
-   :ref:`Process and memory protections`, :ref:`Pointer Obfuscation`, glibc, glibc, glibc, glibc 
-   :ref:`Process and memory protections`, :ref:`Stack ASLR`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`Libs/mmap ASLR`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`Exec ASLR`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`brk ASLR`, kernel, kernel, kernel, kernel
-   :ref:`Process and memory protections`, :ref:`vDSO ASLR`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`Built as PIE`, "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others"
-   :ref:`Process and memory protections`, :ref:`Built with Fortify Source`, gcc patch, gcc patch, gcc patch, gcc patch
-   :ref:`Process and memory protections`, :ref:`Built with RELRO`, gcc patch, gcc patch, gcc patch, gcc patch
-   :ref:`Process and memory protections`, :ref:`Built with BIND_NOW`, "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others", "gcc patch (amd64, ppc64el, s390x), package list for others"
-   :ref:`Process and memory protections`, :ref:`Built with -fstack-clash-protection`, "gcc patch (i386, amd64, ppc64el, s390x)", "gcc patch (i386, amd64, ppc64el, s390x)", "gcc patch (i386, amd64, ppc64el, s390x)", "gcc patch (i386, amd64, ppc64el, s390x)"
-   :ref:`Process and memory protections`, :ref:`Built with -fcf-protection`, "gcc patch (i386, amd64)", "gcc patch (i386, amd64)", "gcc patch (i386, amd64)", "gcc patch (i386, amd64)"
-   :ref:`Process and memory protections`, :ref:`Non-Executable Memory`, "PAE, ia32 partial-NX-emulation", "PAE, ia32 partial-NX-emulation", "PAE, ia32 partial-NX-emulation", "PAE, ia32 partial-NX-emulation"
-   :ref:`Process and memory protections`, :ref:`/proc/$pid/maps protection`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`ptrace scope`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`0-address protection`, kernel, kernel, kernel, kernel 
-   :ref:`Process and memory protections`, :ref:`/dev/mem protection`, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`Kernel Lockdown`, "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality", "integrity only, no confidentiality"
-   :ref:`Kernel protections`, :ref:`/dev/kmem disabled`, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`Block module loading`, sysctl, sysctl, sysctl, sysctl
-   :ref:`Kernel protections`, :ref:`Read-only data sections`, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`Kernel Stack protector`, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`Module RO/NX`, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`Kernel Address Display Restriction`, kernel, kernel, kernel, kernel
-   :ref:`Kernel protections`, :ref:`Kernel Address Space Layout Randomisation`, "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)", "kernel (i386, amd64, arm64, and s390 only)"
-   :ref:`Kernel protections`, :ref:`Denylist Rare Protocols`, kernel, kernel, kernel, kernel 
-   :ref:`Kernel protections`, :ref:`dmesg restrictions`, kernel, kernel, kernel, kernel
-   :ref:`Kernel protections`, :ref:`Block kexec`, sysctl, sysctl, sysctl, sysctl
-   :ref:`Platform protections`, :ref:`UEFI Secure Boot`, "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement", "amd64, kernel signature enforcement"
-   :ref:`Platform protections`, :ref:`usbguard`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
-   :ref:`Platform protections`, :ref:`usbauth`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
-   :ref:`Platform protections`, :ref:`bolt`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
-   :ref:`Platform protections`, :ref:`thunderbolt-tools`, "kernel & userspace", "kernel & userspace", "kernel & userspace", "kernel & userspace"
-   :ref:`Security updates`, :ref:`Livepatch`, "22.04 LTS Kernel", "24.04 LTS Kernel", "--", "--"
-   :ref:`Security updates`, :ref:`Automatic security updates`, enabled, enabled, enabled, enabled
-   :ref:`Platform protections`, :ref:`Trusted Platform Module`, "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)", "kernel & userspace (tpm-tools)"
+   .. tab:: Current Releases
+
+      **Supported LTS and Interim Releases**
+
+      .. list-table:: Security features
+         :header-rows: 1
+
+         * - Section
+           - Feature
+           - 25.10
+           - 25.04
+           - 24.04 LTS
+           - 22.04 LTS
+         * - :ref:`configuration`
+           - :ref:`ports`
+           - policy
+           - policy
+           - policy
+           - policy
+         * - :ref:`configuration`
+           - :ref:`hashing`
+           - yescrypt
+           - yescrypt
+           - yescrypt
+           - yescrypt
+         * - :ref:`configuration`
+           - :ref:`syn-cookies`
+           - kernel & sysctl
+           - kernel & sysctl
+           - kernel & sysctl
+           - kernel & sysctl
+         * - :ref:`configuration`
+           - :ref:`unattended-upgrades`
+           - enabled
+           - enabled
+           - enabled
+           - enabled
+         * - :ref:`configuration`
+           - :ref:`kernel-livepatches`
+           - 22.04 LTS Kernel
+           - 22.04 LTS Kernel
+           - 22.04 LTS Kernel
+           - 22.04 LTS Kernel
+         * - :ref:`configuration`
+           - :ref:`disable-legacy-tls`
+           - policy
+           - policy
+           - policy
+           - policy
+         * - :ref:`subsystems`
+           - :ref:`fscaps`
+           - kernel & userspace (default on server)
+           - kernel & userspace (default on server)
+           - kernel & userspace (default on server)
+           - kernel & userspace (default on server)
+         * - :ref:`subsystems`
+           - :ref:`firewall`
+           - ufw
+           - ufw
+           - ufw
+           - ufw
+         * - :ref:`subsystems`
+           - :ref:`prng-cloud`
+           - pollinate
+           - pollinate
+           - pollinate
+           - pollinate
+         * - :ref:`subsystems`
+           - :ref:`seccomp`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`mac`
+           - :ref:`apparmor`
+           - 3.0.4
+           - 3.0.4
+           - 4.1.0
+           - 4.1.0
+         * - :ref:`mac`
+           - :ref:`apparmor-unprivileged-userns-restrictions`
+           - --
+           - --
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`mac`
+           - :ref:`selinux`
+           - universe
+           - universe
+           - universe
+           - universe
+         * - :ref:`mac`
+           - :ref:`smack`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`encryption`
+           - :ref:`encrypted-lvm`
+           - main installer
+           - main installer
+           - main installer
+           - main installer
+         * - :ref:`encryption`
+           - :ref:`encrypted-files`
+           - ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+           - ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+           - ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+           - ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+         * - :ref:`encryption`
+           - :ref:`TPM`
+           - kernel & userspace (tpm-tools)
+           - kernel & userspace (tpm-tools)
+           - kernel & userspace (tpm-tools)
+           - kernel & userspace (tpm-tools)
+         * - :ref:`userspace-hardening`
+           - :ref:`stack-protector`
+           - gcc patch
+           - gcc patch
+           - gcc patch
+           - gcc patch
+         * - :ref:`userspace-hardening`
+           - :ref:`heap-protector`
+           - glibc
+           - glibc
+           - glibc
+           - glibc
+         * - :ref:`userspace-hardening`
+           - :ref:`pointer-obfuscation`
+           - glibc
+           - glibc
+           - glibc
+           - glibc
+         * - :ref:`aslr`
+           - :ref:`stack-aslr`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`mmap-aslr`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`exec-aslr`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`brk-aslr`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`vdso-aslr`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`pie`
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+         * - :ref:`aslr`
+           - :ref:`fortify-source`
+           - gcc patch
+           - gcc patch
+           - gcc patch
+           - gcc patch
+         * - :ref:`aslr`
+           - :ref:`relro`
+           - gcc patch
+           - gcc patch
+           - gcc patch
+           - gcc patch
+         * - :ref:`aslr`
+           - :ref:`bindnow`
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+           - gcc patch (amd64, ppc64el, s390x), package list for others
+         * - :ref:`aslr`
+           - :ref:`stack-clash-protection`
+           - gcc patch (i386, amd64, ppc64el, s390x)
+           - gcc patch (i386, amd64, ppc64el, s390x)
+           - gcc patch (i386, amd64, ppc64el, s390x)
+           - gcc patch (i386, amd64, ppc64el, s390x)
+         * - :ref:`aslr`
+           - :ref:`cf-protection`
+           - gcc patch (i386, amd64)
+           - gcc patch (i386, amd64)
+           - gcc patch (i386, amd64)
+           - gcc patch (i386, amd64)
+         * - :ref:`aslr`
+           - :ref:`nx`
+           - PAE, ia32 partial-NX-emulation
+           - PAE, ia32 partial-NX-emulation
+           - PAE, ia32 partial-NX-emulation
+           - PAE, ia32 partial-NX-emulation
+         * - :ref:`aslr`
+           - :ref:`proc-maps`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`symlink`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`hardlink`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`aslr`
+           - :ref:`protected-fifos`
+           - kernel & sysctl
+           - kernel & sysctl
+           - kernel & sysctl
+           - kernel & sysctl
+         * - :ref:`aslr`
+           - :ref:`protected-regular`
+           - kernel & sysctl
+           - kernel & sysctl
+           - kernel & sysctl
+           - kernel & sysctl
+         * - :ref:`aslr`
+           - :ref:`ptrace`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`null-mmap`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`dev-mem`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`dev-kmem`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`block-modules`
+           - sysctl
+           - sysctl
+           - sysctl
+           - sysctl
+         * - :ref:`kernel-hardening`
+           - :ref:`rodata`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`kernel-stack-protector`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`module-ronx`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`kptr-restrict`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`kASLR`
+           - kernel (i386, amd64, arm64, and s390 only)
+           - kernel (i386, amd64, arm64, and s390 only)
+           - kernel (i386, amd64, arm64, and s390 only)
+           - kernel (i386, amd64, arm64, and s390 only)
+         * - :ref:`kernel-hardening`
+           - :ref:`denylist-rare-net`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`seccomp-filter`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`dmesg-restrict`
+           - kernel
+           - kernel
+           - kernel
+           - kernel
+         * - :ref:`kernel-hardening`
+           - :ref:`kexec`
+           - sysctl
+           - sysctl
+           - sysctl
+           - sysctl
+         * - :ref:`kernel-hardening`
+           - :ref:`secure-boot`
+           - amd64, kernel signature enforcement
+           - amd64, kernel signature enforcement
+           - amd64, kernel signature enforcement
+           - amd64, kernel signature enforcement
+         * - :ref:`kernel-hardening`
+           - :ref:`usbguard`
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`usbauth`
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`bolt`
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`thunderbolt-tools`
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`kernel-lockdown`
+           - integrity only, no confidentiality
+           - integrity only, no confidentiality
+           - integrity only, no confidentiality
+           - integrity only, no confidentiality
+
+   .. tab:: ESM Releases
+
+      **Extended Security Maintenance Releases**
+
+      .. list-table:: Security features
+         :header-rows: 1
+
+         * - Section
+           - Feature
+           - 20.04 ESM
+           - 18.04 ESM
+           - 16.04 ESM
+         * - :ref:`configuration`
+           - :ref:`ports`
+           - --
+           - --
+           - --
+         * - :ref:`configuration`
+           - :ref:`hashing`
+           - --
+           - --
+           - --
+         * - :ref:`configuration`
+           - :ref:`syn-cookies`
+           - --
+           - --
+           - --
+         * - :ref:`configuration`
+           - :ref:`unattended-upgrades`
+           - enabled
+           - enabled
+           - enabled
+         * - :ref:`configuration`
+           - :ref:`kernel-livepatches`
+           - 16.04 LTS Kernel
+           - 18.04 LTS Kernel
+           - 20.04 LTS Kernel
+         * - :ref:`configuration`
+           - :ref:`disable-legacy-tls`
+           - --
+           - --
+           - policy
+         * - :ref:`subsystems`
+           - :ref:`fscaps`
+           - --
+           - --
+           - --
+         * - :ref:`subsystems`
+           - :ref:`firewall`
+           - --
+           - --
+           - --
+         * - :ref:`subsystems`
+           - :ref:`prng-cloud`
+           - --
+           - --
+           - --
+         * - :ref:`subsystems`
+           - :ref:`seccomp`
+           - --
+           - --
+           - --
+         * - :ref:`mac`
+           - :ref:`apparmor`
+           - 2.10.95 (2.11 Beta 1)
+           - 2.12.0
+           - 2.13.3
+         * - :ref:`mac`
+           - :ref:`apparmor-unprivileged-userns-restrictions`
+           - --
+           - --
+           - --
+         * - :ref:`mac`
+           - :ref:`selinux`
+           - --
+           - --
+           - --
+         * - :ref:`mac`
+           - :ref:`smack`
+           - --
+           - --
+           - --
+         * - :ref:`encryption`
+           - :ref:`encrypted-lvm`
+           - --
+           - --
+           - --
+         * - :ref:`encryption`
+           - :ref:`encrypted-files`
+           - --
+           - Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+           - ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+         * - :ref:`encryption`
+           - :ref:`TPM`
+           - --
+           - --
+           - --
+         * - :ref:`userspace-hardening`
+           - :ref:`stack-protector`
+           - --
+           - --
+           - --
+         * - :ref:`userspace-hardening`
+           - :ref:`heap-protector`
+           - --
+           - --
+           - --
+         * - :ref:`userspace-hardening`
+           - :ref:`pointer-obfuscation`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`stack-aslr`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`mmap-aslr`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`exec-aslr`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`brk-aslr`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`vdso-aslr`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`pie`
+           - gcc patch (s390x), package list for others
+           - gcc patch (s390x), package list for others
+           - gcc patch (s390x), package list for others
+         * - :ref:`aslr`
+           - :ref:`fortify-source`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`relro`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`bindnow`
+           - gcc patch (s390x), package list for others
+           - gcc patch (s390x), package list for others
+           - gcc patch (s390x), package list for others
+         * - :ref:`aslr`
+           - :ref:`stack-clash-protection`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`cf-protection`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`nx`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`proc-maps`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`symlink`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`hardlink`
+           - --
+           - --
+           - --
+         * - :ref:`aslr`
+           - :ref:`protected-fifos`
+           - --
+           - --
+           - kernel & sysctl
+         * - :ref:`aslr`
+           - :ref:`protected-regular`
+           - --
+           - --
+           - kernel & sysctl
+         * - :ref:`aslr`
+           - :ref:`ptrace`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`null-mmap`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`dev-mem`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`dev-kmem`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`block-modules`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`rodata`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`kernel-stack-protector`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`module-ronx`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`kptr-restrict`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`kASLR`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`denylist-rare-net`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`seccomp-filter`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`dmesg-restrict`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`kexec`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`secure-boot`
+           - --
+           - amd64, kernel signature enforcement
+           - amd64, kernel signature enforcement
+         * - :ref:`kernel-hardening`
+           - :ref:`usbguard`
+           - --
+           - --
+           - --
+         * - :ref:`kernel-hardening`
+           - :ref:`usbauth`
+           - --
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`bolt`
+           - --
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`thunderbolt-tools`
+           - --
+           - kernel & userspace
+           - kernel & userspace
+         * - :ref:`kernel-hardening`
+           - :ref:`kernel-lockdown`
+           - --
+           - --
+           - integrity only, no confidentiality
+
 
 Additional Documentation
 ========================
@@ -72,8 +667,3 @@ Additional Documentation
 - `Coordination with Debian <https://wiki.debian.org/Hardening>`_
 - `Gentoo's Hardening project <https://www.gentoo.org/proj/en/hardened/hardened-toolchain.xml>`_
 - `Ubuntu Security Features for all releases <https://wiki.ubuntu.com/Security/Features>`_
-
-
-
-
-
