@@ -15,10 +15,10 @@ their default configurations and rationale for having them enabled or disabled.
 
          * - Section
            - Feature
-           - 25.10
-           - 25.04
-           - 24.04 LTS
            - 22.04 LTS
+           - 24.04 LTS
+           - 25.04
+           - 25.10
          * - :ref:`configuration`
            - :ref:`ports`
            - policy
@@ -371,9 +371,9 @@ their default configurations and rationale for having them enabled or disabled.
 
          * - Section
            - Feature
-           - 20.04 ESM
-           - 18.04 ESM
            - 16.04 ESM
+           - 18.04 ESM
+           - 20.04 ESM
          * - :ref:`configuration`
            - :ref:`ports`
            - --
