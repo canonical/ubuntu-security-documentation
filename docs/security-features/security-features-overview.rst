@@ -46,9 +46,9 @@ their default configurations and rationale for having them enabled or disabled.
          * - :ref:`configuration`
            - :ref:`kernel-livepatches`
            - 22.04 LTS Kernel
-           - 22.04 LTS Kernel
-           - 22.04 LTS Kernel
-           - 22.04 LTS Kernel
+           - 24.04 LTS Kernel
+           - --
+           - --
          * - :ref:`configuration`
            - :ref:`disable-legacy-tls`
            - policy
@@ -82,13 +82,13 @@ their default configurations and rationale for having them enabled or disabled.
          * - :ref:`mac`
            - :ref:`apparmor`
            - 3.0.4
-           - 3.0.4
+           - 4.0.1
            - 4.1.0
            - 4.1.0
          * - :ref:`mac`
            - :ref:`apparmor-unprivileged-userns-restrictions`
            - --
-           - --
+           - kernel & userspace
            - kernel & userspace
            - kernel & userspace
          * - :ref:`mac`
@@ -392,8 +392,8 @@ their default configurations and rationale for having them enabled or disabled.
          * - :ref:`configuration`
            - :ref:`unattended-upgrades`
            - enabled
-           - enabled
-           - enabled
+           - --
+           - --
          * - :ref:`configuration`
            - :ref:`kernel-livepatches`
            - 16.04 LTS Kernel
@@ -502,8 +502,8 @@ their default configurations and rationale for having them enabled or disabled.
          * - :ref:`aslr`
            - :ref:`pie`
            - gcc patch (s390x), package list for others
-           - gcc patch (s390x), package list for others
-           - gcc patch (s390x), package list for others
+           - --
+           - --
          * - :ref:`aslr`
            - :ref:`fortify-source`
            - --
@@ -517,8 +517,8 @@ their default configurations and rationale for having them enabled or disabled.
          * - :ref:`aslr`
            - :ref:`bindnow`
            - gcc patch (s390x), package list for others
-           - gcc patch (s390x), package list for others
-           - gcc patch (s390x), package list for others
+           - --
+           - --
          * - :ref:`aslr`
            - :ref:`stack-clash-protection`
            - --
@@ -633,7 +633,7 @@ their default configurations and rationale for having them enabled or disabled.
            - :ref:`secure-boot`
            - --
            - amd64, kernel signature enforcement
-           - amd64, kernel signature enforcement
+           - --
          * - :ref:`kernel-hardening`
            - :ref:`usbguard`
            - --
@@ -643,17 +643,17 @@ their default configurations and rationale for having them enabled or disabled.
            - :ref:`usbauth`
            - --
            - kernel & userspace
-           - kernel & userspace
+           - --
          * - :ref:`kernel-hardening`
            - :ref:`bolt`
            - --
            - kernel & userspace
-           - kernel & userspace
+           - --
          * - :ref:`kernel-hardening`
            - :ref:`thunderbolt-tools`
            - --
            - kernel & userspace
-           - kernel & userspace
+           - --
          * - :ref:`kernel-hardening`
            - :ref:`kernel-lockdown`
            - --
@@ -667,3 +667,4 @@ Additional Documentation
 - `Coordination with Debian <https://wiki.debian.org/Hardening>`_
 - `Gentoo's Hardening project <https://www.gentoo.org/proj/en/hardened/hardened-toolchain.xml>`_
 - `Ubuntu Security Features for all releases <https://wiki.ubuntu.com/Security/Features>`_
+
