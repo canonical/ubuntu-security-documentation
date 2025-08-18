@@ -52,7 +52,7 @@ Understanding Ubuntu's OSV Data
 The OSV format, although easy to parse, might still be difficult to interpret.
 The next sections cover the relevant details of the data we publish.
 
-To facilitate understanding we will consider the following OSV data file
+To facilitate understanding, consider the following OSV data file
 UBUNTU-CVE-2025-6491.json:
 
 .. code:: JSON
@@ -1341,16 +1341,16 @@ and our users.
 
 .. NOTE::
    Severity information is only available for Ubuntu CVE Records. That is
-   because any USN or LSN can relate to one or more CVEs and OSV, currently,
+   because any USN or LSN can relate to one or more CVEs, and OSV currently,
    does not have a standardized way to map out of the list of severities
-   to their respective CVEs. Therefore we recommend always evaluating USNs
+   to their respective CVEs. Therefore, we recommend always evaluating USNs
    and/or LSNs in conjunction with the corresponding Ubuntu CVE records.
 
 Ubuntu priority
 ^^^^^^^^^^^^^^^
 
-If you are unfamiliar with Ubuntu Priority, please check
-`here <https://ubuntu.com/security/cves/about#priority>`_.
+If you are unfamiliar with Ubuntu Priority, see
+`our explanation of it here <https://ubuntu.com/security/cves/about#priority>`_.
 
 The severity field is pretty simple, it is a list of items, where each
 item has a ``type`` and a ``score``. For Ubuntu priority, the ``type``
@@ -1377,15 +1377,15 @@ For example, for UBUNTU-CVE-2025-6491:
 CVSS severity
 ^^^^^^^^^^^^^
 
-If you are familiar with CVSS, you probably know there different versions
-of it, being the V4 the latest. OSV supports the following CVSS ``type``:
+If you are familiar with CVSS, you probably know that there are different
+versions of it, V4 being the latest. OSV supports the following CVSS ``type``:
 
 * CVSS_V2
 * CVSS_V3
 * CVSS_V4
 
-For the ``score`` we have the actual CVSS vector string related to such
-vulnerability. For example:
+For the ``score``, we have the actual CVSS vector string related to such
+vulnerability.
 
 For example, for UBUNTU-CVE-2025-6491 we have:
 
@@ -1421,8 +1421,8 @@ patched/fixed.
 The ``package`` field
 ^^^^^^^^^^^^^^^^^^^^^
 
-Here in this field is where you will understand which Ubuntu release we are
-reporting (``ecosystem`` field), the source package name (``name``) and the
+Here in this field is where you will understand which Ubuntu release is being
+reported (``ecosystem`` field), the source package name (``name``) and the
 package URL (``purl`` field). We will mostly focus on ``ecosystem`` and
 ``name`` fields, but if you want to know more about package URL check its
 `spec <https://github.com/package-url/purl-spec>`_.
@@ -1432,7 +1432,7 @@ The Ubuntu ``ecosystem``
 
 As part of the list of affected packages, the ``ecosystem`` field is used to
 help describe where that package entry is affected. For currently supported
-Ubuntu releases we follow the below pattern:
+Ubuntu releases, we use the below pattern:
 
 ``Ubuntu:YY.MM<:LTS>``
 
@@ -1480,7 +1480,7 @@ vulnerability data for:
 * Ubuntu:Pro:FIPS-updates:22.04:LTS
 * Ubuntu:Pro:FIPS-preview:22.04:LTS
 
-If you are still confused if a fix was released under Pro, we also have a
+If you are still unsure if a fix was released under Pro, we also have a
 field under ``ecosystem_specific`` that describes when a Pro subscription
 is required. For example:
 
@@ -1494,10 +1494,9 @@ The ``name`` field
 ~~~~~~~~~~~~~~~~~~
 
 As mentioned previously, this field is where we specify the **source package
-name**. The bold mention is on purpose, as the Ubuntu Security Team tracks
-vulnerabilities and patch them in source packages. Binary packages (those that
-you install with ``apt-get``) is what is generated from building a source
-package.
+name**. The Ubuntu Security Team tracks vulnerabilities and patch them in
+source packages. Binary packages (those that you install with ``apt-get``)
+is what is generated from building a source package.
 
 Even though tracking source packages and having reports for them makes the
 Ubuntu Security Team's life easier, for users, they care about binary
@@ -1513,251 +1512,16 @@ where we list all the binaries and their versions. For example, for php8.4:
          "binary_version": "8.4.5-1ubuntu1.1"
        },
        {
-         "binary_name": "libapache2-mod-php8.4-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
          "binary_name": "libphp8.4-embed",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "libphp8.4-embed-dbgsym",
          "binary_version": "8.4.5-1ubuntu1.1"
        },
        {
          "binary_name": "php8.4",
          "binary_version": "8.4.5-1ubuntu1.1"
        },
-       {
-         "binary_name": "php8.4-bcmath",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-bcmath-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-bz2",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-bz2-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-cgi",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-cgi-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-cli",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-cli-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-common",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-common-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-curl",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-curl-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-dba",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-dba-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-dev",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-enchant",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-enchant-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-fpm",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-fpm-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-gd",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-gd-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-gmp",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-gmp-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-interbase",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-interbase-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-intl",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-intl-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-ldap",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-ldap-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-mbstring",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-mbstring-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-mysql",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-mysql-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-odbc",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-odbc-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-opcache",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-opcache-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-pgsql",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-pgsql-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-phpdbg",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-phpdbg-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-readline",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-readline-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-snmp",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-snmp-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-soap",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-soap-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-sqlite3",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-sqlite3-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-sybase",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-sybase-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-tidy",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-tidy-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-xml",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-xml-dbgsym",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-xsl",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
+       ...
        {
          "binary_name": "php8.4-zip",
-         "binary_version": "8.4.5-1ubuntu1.1"
-       },
-       {
-         "binary_name": "php8.4-zip-dbgsym",
          "binary_version": "8.4.5-1ubuntu1.1"
        }
      ],
@@ -1765,9 +1529,9 @@ where we list all the binaries and their versions. For example, for php8.4:
    }
 
 
-For LSNs, since there's no particular source package patching involved, and
-instead the kernel is patched during runtime via a kernel module, we list
-instead a regex for the kernel module. For example
+For LSNs, there's no particular source package patching involved. And since
+the kernel is instead patched during runtime via a kernel module, we list
+instead a regular expression for the kernel module. For example
 `LSN-0113-1 <https://github.com/canonical/ubuntu-security-notices/blob/main/osv/lsn/LSN-0113-1.json>`_:
 
 .. code-block:: JSON
@@ -1780,15 +1544,15 @@ instead a regex for the kernel module. For example
 The ``ranges`` field
 ^^^^^^^^^^^^^^^^^^^^
 
-It specifies the ``type`` of versioning scheme being used in an ecosystem and
-the events of when a vulnerability was ``introduced``, ``fixed``, and any
-type-specific fields.
+The ``ranges`` field specifies the ``type`` of versioning scheme being used in
+an ecosystem and the events of when a vulnerability was ``introduced``,
+``fixed``, and any type-specific fields.
 
 Since Debian versioning is not particularly a type supported in OSV yet, the
 ``type`` will always be ``ECOSYSTEM``.
 
 For Ubuntu, the Ubuntu Security Team does not currently track when a
-vulnerability was first introduced and instead focus on identifying out of
+vulnerability was first introduced. Instead, we focus on identifying out of
 the shipped source package versions, which are vulnerable to such CVE.
 Therefore, the ``introduced`` field is always ``0``. And whenever the team
 patches a vulnerability, the source package version is listed in ``fixed``.
@@ -1814,8 +1578,8 @@ For example, a ranges entry:
 The ``versions`` field
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This field contains a list of versions of the source package that is affected
-by the vulnerability in scope for a given Ubuntu Release. For example,
+This field contains a list of versions of the source package that are affected
+by the vulnerability in scope for a given Ubuntu release. For example,
 
 .. code-block:: JSON
 
@@ -1831,7 +1595,7 @@ Mapping Ubuntu CVE Tracker statuses in OSV
 ==========================================
 
 Now that you have a better understanding of Ubuntu's OSV data, you might
-still be trying to understand how do you map the status you see in Ubuntu's
+still be trying to understand how you can map the status you see in Ubuntu's
 CVE tracker (`Web <https://ubuntu.com/security/cves>`_ and/or
 `git <https://code.launchpad.net/ubuntu-cve-tracker>`_) to OSV.
 
@@ -1842,10 +1606,10 @@ First lets do a recap of the
 `statuses <https://git.launchpad.net/ubuntu-cve-tracker/tree/README#n295>`_
 we have in the git version of the tracker:
 
-* DNE: acronym for Does Not Exist, it means that the specific source package
-  is not present (or supported) in that Ubuntu Release
+* ``DNE``: acronym for Does Not Exist, it means that the specific source package
+  is not present (or supported) in that Ubuntu release
 
-* not-affected: The source package (for the given release), while related to
+* ``not-affected``: The source package (for the given release), while related to
   the CVE in some way, is not affected by the vulnerability. This can happen
   for many reasons, like:
 
@@ -1853,25 +1617,25 @@ we have in the git version of the tracker:
   * the source package is only vulnerable in a different OS
   * the vulnerability is for older versions of the source package
 
-* needs-triage: The Ubuntu Security Team has not evaluated the vulnerability
+* ``needs-triage``: The Ubuntu Security Team has not evaluated the vulnerability
   yet
 
-* needed: The package in scope is vulnerable to this CVE
+* ``needed``: The package in scope is vulnerable to this CVE
 
-* released: The vulnerability is patched in the specified version
+* ``released``: The vulnerability is patched in the specified version
 
-* ignored: The Ubuntu Security Team is not going to patch this vulnerability,
-  and this can happen for multiple reasons, but just to name a few:
+* ``ignored``: The Ubuntu Security Team is not going to patch this vulnerability.
+  This can happen for multiple reasons, such as:
 
   * Ubuntu release is end-of-life
   * the actual fix is hard to backport and can lead to regressions
 
-* pending: The fix is currently ready and just awaiting publishing
+* ``pending``: The fix is currently ready and just awaiting publishing
 
-* deferred: As of the date of investigation, the source package is known to
+* ``deferred``: As of the date of investigation, the source package is known to
   be vulnerable but there is no fix available on upstream.
 
-* in-progress: This is a rather new field and has not been used so far, but
+* ``in-progress``: This is a rather new field and has not been used so far, but
   its intent is to show when a vulnerability fix is being actively being
   worked on
 
@@ -1905,9 +1669,9 @@ package:
 Reporting issues in the data
 ============================
 
-If at any point you encounter inconsistencies with Ubuntu's OSV data, please
-report those by sending and email to security@ubuntu.com. We will gladly
-analyze and fix any issues.
+If you find any inconsistencies with Ubuntu's OSV data, please report those by
+sending and email to **security@ubuntu.com**. We will gladly analyze and fix any
+issues.
 
 Downtimes in data generation
 ============================
