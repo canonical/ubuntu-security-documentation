@@ -380,15 +380,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "libapache2-mod-php8.1-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "libphp8.1-embed",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "libphp8.1-embed-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -400,15 +392,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-bcmath-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-bz2",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-bz2-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -416,15 +400,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-cgi-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-cli",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-cli-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -432,15 +408,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-common-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-curl",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-curl-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -448,19 +416,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-dba-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-dev",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-enchant",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-enchant-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -468,15 +424,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-fpm-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-gd",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-gd-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -484,15 +432,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-gmp-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-imap",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-imap-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -500,15 +440,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-interbase-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-intl",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-intl-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -516,15 +448,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-ldap-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-mbstring",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-mbstring-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -532,15 +456,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-mysql-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-odbc",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-odbc-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -548,15 +464,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-opcache-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-pgsql",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-pgsql-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -564,15 +472,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-phpdbg-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-pspell",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-pspell-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -580,15 +480,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-readline-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-snmp",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-snmp-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -596,15 +488,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-soap-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-sqlite3",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-sqlite3-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -612,23 +496,11 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-sybase-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-tidy",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
-               "binary_name": "php8.1-tidy-dbgsym",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
                "binary_name": "php8.1-xml",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-xml-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              },
              {
@@ -637,10 +509,6 @@ UBUNTU-CVE-2025-6491.json:
              },
              {
                "binary_name": "php8.1-zip",
-               "binary_version": "8.1.2-1ubuntu2.22"
-             },
-             {
-               "binary_name": "php8.1-zip-dbgsym",
                "binary_version": "8.1.2-1ubuntu2.22"
              }
            ],
@@ -684,15 +552,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "libapache2-mod-php8.3-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "libphp8.3-embed",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "libphp8.3-embed-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -704,15 +564,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-bcmath-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-bz2",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-bz2-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -720,15 +572,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-cgi-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-cli",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-cli-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -736,15 +580,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-common-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-curl",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-curl-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -752,19 +588,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-dba-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-dev",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-enchant",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-enchant-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -772,15 +596,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-fpm-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-gd",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-gd-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -788,15 +604,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-gmp-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-imap",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-imap-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -804,15 +612,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-interbase-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-intl",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-intl-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -820,15 +620,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-ldap-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-mbstring",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-mbstring-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -836,15 +628,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-mysql-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-odbc",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-odbc-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -852,15 +636,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-opcache-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-pgsql",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-pgsql-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -868,15 +644,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-phpdbg-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-pspell",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-pspell-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -884,15 +652,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-readline-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-snmp",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-snmp-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -900,15 +660,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-soap-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-sqlite3",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-sqlite3-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -916,23 +668,11 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-sybase-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-tidy",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
-               "binary_name": "php8.3-tidy-dbgsym",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
                "binary_name": "php8.3-xml",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-xml-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              },
              {
@@ -941,10 +681,6 @@ UBUNTU-CVE-2025-6491.json:
              },
              {
                "binary_name": "php8.3-zip",
-               "binary_version": "8.3.6-0ubuntu0.24.04.5"
-             },
-             {
-               "binary_name": "php8.3-zip-dbgsym",
                "binary_version": "8.3.6-0ubuntu0.24.04.5"
              }
            ],
@@ -984,15 +720,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "libapache2-mod-php8.4-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "libphp8.4-embed",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "libphp8.4-embed-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1004,15 +732,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-bcmath-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-bz2",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-bz2-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1020,15 +740,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-cgi-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-cli",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-cli-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1036,15 +748,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-common-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-curl",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-curl-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1052,19 +756,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-dba-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-dev",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-enchant",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-enchant-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1072,15 +764,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-fpm-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-gd",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-gd-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1088,15 +772,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-gmp-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-interbase",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-interbase-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1104,15 +780,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-intl-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-ldap",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-ldap-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1120,15 +788,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-mbstring-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-mysql",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-mysql-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1136,15 +796,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-odbc-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-opcache",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-opcache-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1152,15 +804,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-pgsql-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-phpdbg",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-phpdbg-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1168,15 +812,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-readline-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-snmp",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-snmp-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1184,15 +820,7 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-soap-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-sqlite3",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-sqlite3-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1200,23 +828,11 @@ UBUNTU-CVE-2025-6491.json:
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-sybase-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-tidy",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
-               "binary_name": "php8.4-tidy-dbgsym",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
                "binary_name": "php8.4-xml",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-xml-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              },
              {
@@ -1225,10 +841,6 @@ UBUNTU-CVE-2025-6491.json:
              },
              {
                "binary_name": "php8.4-zip",
-               "binary_version": "8.4.5-1ubuntu1.1"
-             },
-             {
-               "binary_name": "php8.4-zip-dbgsym",
                "binary_version": "8.4.5-1ubuntu1.1"
              }
            ],
