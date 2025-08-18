@@ -1432,7 +1432,7 @@ The Ubuntu ``ecosystem``
 
 As part of the list of affected packages, the ``ecosystem`` field is used to
 help describe where that package entry is affected. For currently supported
-Ubuntu releases, we use the below pattern:
+Ubuntu releases, we use the following pattern:
 
 ``Ubuntu:YY.MM<:LTS>``
 
@@ -1498,10 +1498,10 @@ name**. The Ubuntu Security Team tracks vulnerabilities and patch them in
 source packages. Binary packages (those that you install with ``apt-get``)
 is what is generated from building a source package.
 
-Even though tracking source packages and having reports for them makes the
-Ubuntu Security Team's life easier, for users, they care about binary
-packages and to solve that we have a field under ``ecosystem_specific``
-where we list all the binaries and their versions. For example, for php8.4:
+For users, source package names are not as useful as binary package names.
+Therefore, to facilitate the reading, as well as any automation or scanning
+tools, we add under the field ``ecosyste_specific`` the list of binary packages
+and their versions. For example, for php8.4:
 
 .. code-block:: JSON
 
