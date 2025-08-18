@@ -11,6 +11,22 @@
             "dapper": {
                 "comment": "policy",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "policy",
+                "state": "DEFAULT"
             }
         }
     },
@@ -29,6 +45,18 @@
             "jammy": {
                 "comment": "yescrypt",
                 "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "yescrypt",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "yescrypt",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "yescrypt",
+                "state": "DEFAULT"
             }
         }
     },
@@ -43,6 +71,22 @@
             "jaunty": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
             }
         }
     },
@@ -55,6 +99,22 @@
                 "state": "AVAILABLE"
             },
             "xenial": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "enabled",
                 "state": "DEFAULT"
             }
@@ -129,6 +189,22 @@
             "focal": {
                 "comment": "policy",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "policy",
+                "state": "DEFAULT"
             }
         }
     },
@@ -148,6 +224,22 @@
             "trusty": {
                 "comment": "kernel & userspace (default on server)",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
             }
         }
     },
@@ -162,6 +254,22 @@
             "hardy": {
                 "comment": "ufw",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "ufw",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "ufw",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "ufw",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "ufw",
+                "state": "DEFAULT"
             }
         }
     },
@@ -172,6 +280,22 @@
             "trusty": {
                 "comment": "pollinate",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
             }
         }
     },
@@ -180,6 +304,22 @@
         "label": "PR_SET_SECCOMP",
         "changes": {
             "hardy": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "AVAILABLE"
             }
@@ -317,6 +457,18 @@
             "kinetic": {
                 "comment": "3.0.7",
                 "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "4.0.1",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "4.1.0",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "4.1.0",
+                "state": "DEFAULT"
             }
         }
     },
@@ -331,6 +483,14 @@
             "noble": {
                 "comment": "kernel & userspace",
                 "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel & userspace",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel & userspace",
+                "state": "DEFAULT"
             }
         }
     },
@@ -341,6 +501,22 @@
             "hardy": {
                 "comment": "universe",
                 "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "universe",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "universe",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "universe",
+                "state": "AVAILABLE"
+            },
+            "questing": {
+                "comment": "universe",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -349,6 +525,22 @@
         "label": "SMACK",
         "changes": {
             "intrepid": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "AVAILABLE"
             }
@@ -368,6 +560,22 @@
                 "state": "AVAILABLE"
             },
             "quantal": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "main installer",
                 "state": "AVAILABLE"
             }
@@ -392,6 +600,22 @@
             "focal": {
                 "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
                 "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
+            },
+            "questing": {
+                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -400,6 +624,22 @@
         "label": "Trusted Platform Module",
         "changes": {
             "gutsy": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "kernel & userspace (tpm-tools)",
                 "state": "AVAILABLE"
             }
@@ -417,6 +657,22 @@
             "edgy": {
                 "comment": "gcc patch",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
             }
         }
     },
@@ -427,6 +683,22 @@
             "dapper": {
                 "comment": "glibc",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "glibc",
+                "state": "DEFAULT"
             }
         }
     },
@@ -435,6 +707,22 @@
         "label": "Pointer Obfuscation",
         "changes": {
             "hardy": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "glibc",
                 "state": "DEFAULT"
             }
@@ -452,6 +740,22 @@
             "dapper": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -464,6 +768,22 @@
                 "state": "DEFAULT"
             },
             "hardy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -480,6 +800,22 @@
             "intrepid": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -494,6 +830,22 @@
             "intrepid": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -502,6 +854,22 @@
         "label": "VDSO ASLR",
         "changes": {
             "hardy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -522,6 +890,22 @@
             "yakkety": {
                 "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
             }
         }
     },
@@ -532,6 +916,22 @@
             "intrepid": {
                 "comment": "gcc patch",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
             }
         }
     },
@@ -540,6 +940,22 @@
         "label": "Built with RELRO",
         "changes": {
             "intrepid": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "gcc patch",
                 "state": "DEFAULT"
             }
@@ -560,6 +976,22 @@
             "yakkety": {
                 "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
             }
         }
     },
@@ -570,6 +1002,22 @@
             "eoan": {
                 "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "state": "DEFAULT"
             }
         }
     },
@@ -578,6 +1026,22 @@
         "label": "Built with -fcf-protection",
         "changes": {
             "eoan": {
+                "comment": "gcc patch (i386, amd64)",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "gcc patch (i386, amd64)",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "gcc patch (i386, amd64)",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "gcc patch (i386, amd64)",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "gcc patch (i386, amd64)",
                 "state": "DEFAULT"
             }
@@ -594,6 +1058,22 @@
             "karmic": {
                 "comment": "PAE, ia32 partial-NX-emulation",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
             }
         }
     },
@@ -608,6 +1088,22 @@
             "intrepid": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -618,6 +1114,22 @@
             "maverick": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -626,6 +1138,22 @@
         "label": "Hardlink restrictions",
         "changes": {
             "maverick": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -642,6 +1170,22 @@
             "focal": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
             }
         }
     },
@@ -656,6 +1200,22 @@
             "focal": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
             }
         }
     },
@@ -664,6 +1224,22 @@
         "label": "ptrace scope",
         "changes": {
             "maverick": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -683,6 +1259,22 @@
                 "state": "DEFAULT"
             },
             "jaunty": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -707,6 +1299,22 @@
             "intrepid": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -719,6 +1327,22 @@
                 "state": "DEFAULT"
             },
             "intrepid": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -739,6 +1363,22 @@
             "karmic": {
                 "comment": "sysctl",
                 "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "questing": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -747,6 +1387,22 @@
         "label": "Read-only data sections",
         "changes": {
             "hardy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -759,6 +1415,22 @@
             "jaunty": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -769,6 +1441,22 @@
             "natty": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -777,6 +1465,22 @@
         "label": "Kernel Address Display Restriction",
         "changes": {
             "natty": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -801,6 +1505,22 @@
             "eoan": {
                 "comment": "kernel (i386, amd64, arm64, and s390 only)",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel (i386, amd64, arm64, and s390 only)",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel (i386, amd64, arm64, and s390 only)",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel (i386, amd64, arm64, and s390 only)",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel (i386, amd64, arm64, and s390 only)",
+                "state": "DEFAULT"
             }
         }
     },
@@ -811,6 +1531,22 @@
             "natty": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -819,6 +1555,22 @@
         "label": "Syscall Filtering",
         "changes": {
             "oneiric": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "kernel",
                 "state": "AVAILABLE"
             }
@@ -835,6 +1587,22 @@
             "groovy": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -843,6 +1611,22 @@
         "label": "Block kexec",
         "changes": {
             "trusty": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "sysctl",
                 "state": "AVAILABLE"
             }
@@ -859,6 +1643,22 @@
             "bionic": {
                 "comment": "amd64, kernel signature enforcement",
                 "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
             }
         }
     },
@@ -867,6 +1667,22 @@
         "label": "usbguard",
         "changes": {
             "yakkety": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "questing": {
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             }
@@ -879,6 +1695,22 @@
             "bionic": {
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "questing": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -887,6 +1719,22 @@
         "label": "bolt",
         "changes": {
             "bionic": {
+                "comment": "kernel & userspace",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "kernel & userspace",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "kernel & userspace",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "kernel & userspace",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "kernel & userspace",
                 "state": "DEFAULT"
             }
@@ -899,6 +1747,22 @@
             "bionic": {
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
+            },
+            "jammy": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "noble": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "plucky": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "questing": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -907,6 +1771,22 @@
         "label": "Kernel Lockdown",
         "changes": {
             "focal": {
+                "comment": "integrity only, no confidentiality",
+                "state": "DEFAULT"
+            },
+            "jammy": {
+                "comment": "integrity only, no confidentiality",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "integrity only, no confidentiality",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "integrity only, no confidentiality",
+                "state": "DEFAULT"
+            },
+            "questing": {
                 "comment": "integrity only, no confidentiality",
                 "state": "DEFAULT"
             }
