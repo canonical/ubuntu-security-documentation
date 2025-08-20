@@ -11,7 +11,7 @@ Since Ubuntu 6.06 LTS (Dapper Drake), Ubuntu has followed a "No Open Ports" poli
 By default, a new installation should have no listening network services, with only rare exceptions.
 
 Guidelines for network services exposed by default
-++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
 While default Ubuntu installations keep exposed network services to a minimum, 
 some exceptions are allowed. These are limited to services that substantially 
@@ -74,7 +74,7 @@ processes. These issues make identifying and fixing vulnerabilities more difficu
 Therefore, programs with such problems should not be enabled by default.
 
 Sign-off process
----------------
+----------------
 
 Any software that listens on or is advertised to the network in the default installation
 must be approved by the Ubuntu Technical Board and a member of 
