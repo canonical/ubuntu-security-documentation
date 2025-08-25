@@ -12,6 +12,18 @@
                 "comment": "policy",
                 "state": "DEFAULT"
             },
+            "xenial": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "policy",
+                "state": "DEFAULT"
+            },
             "jammy": {
                 "comment": "policy",
                 "state": "DEFAULT"
@@ -27,6 +39,10 @@
             "questing": {
                 "comment": "policy",
                 "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "policy",
+                "state": "DEFAULT"
             }
         }
     },
@@ -39,6 +55,18 @@
                 "state": "DEFAULT"
             },
             "intrepid": {
+                "comment": "sha512",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "sha512",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "sha512",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "sha512",
                 "state": "DEFAULT"
             },
@@ -57,6 +85,10 @@
             "questing": {
                 "comment": "yescrypt",
                 "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "sha512",
+                "state": "DEFAULT"
             }
         }
     },
@@ -69,6 +101,18 @@
                 "state": "AVAILABLE"
             },
             "jaunty": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             },
@@ -85,6 +129,10 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel & sysctl",
+                "state": "DEFAULT"
+            },
+            "eoan": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
             }
@@ -115,6 +163,18 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "enabled",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "enabled",
                 "state": "DEFAULT"
             }
@@ -240,6 +300,22 @@
             "questing": {
                 "comment": "kernel & userspace (default on server)",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel & userspace (default on server)",
+                "state": "DEFAULT"
             }
         }
     },
@@ -270,6 +346,22 @@
             "questing": {
                 "comment": "ufw",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "ufw",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "ufw",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "ufw",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "ufw",
+                "state": "DEFAULT"
             }
         }
     },
@@ -296,6 +388,22 @@
             "questing": {
                 "comment": "pollinate",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "pollinate",
+                "state": "DEFAULT"
             }
         }
     },
@@ -320,6 +428,22 @@
                 "state": "AVAILABLE"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "AVAILABLE"
             }
@@ -517,6 +641,22 @@
             "questing": {
                 "comment": "universe",
                 "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "universe",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "universe",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "universe",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "comment": "universe",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -541,6 +681,22 @@
                 "state": "AVAILABLE"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "AVAILABLE"
             }
@@ -578,6 +734,22 @@
             "questing": {
                 "comment": "main installer",
                 "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "comment": "main installer",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -598,7 +770,7 @@
                 "state": "AVAILABLE"
             },
             "focal": {
-                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
                 "state": "AVAILABLE"
             },
             "jammy": {
@@ -616,8 +788,21 @@
             "questing": {
                 "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
                 "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "Encrypted Home with filename encryption in the installer (eCryptfs)",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+                "state": "AVAILABLE"
             }
         }
+    },
+    {
+        "name": "tpm",
+        "label": "Trusted Platform Module (TPM)",
+        "section": 1
     },
     {
         "name": "TPM",
@@ -640,6 +825,22 @@
                 "state": "AVAILABLE"
             },
             "questing": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "kernel & userspace (tpm-tools)",
+                "state": "AVAILABLE"
+            },
+            "focal": {
                 "comment": "kernel & userspace (tpm-tools)",
                 "state": "AVAILABLE"
             }
@@ -673,6 +874,22 @@
             "questing": {
                 "comment": "gcc patch",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
             }
         }
     },
@@ -699,6 +916,22 @@
             "questing": {
                 "comment": "glibc",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "glibc",
+                "state": "DEFAULT"
             }
         }
     },
@@ -723,6 +956,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "glibc",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "glibc",
                 "state": "DEFAULT"
             }
@@ -756,6 +1005,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -784,6 +1049,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -816,6 +1097,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -846,6 +1143,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -872,8 +1185,29 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
+    },
+    {
+        "name": "userspace-hardening",
+        "label": "Userspace Hardening",
+        "section": 1
     },
     {
         "name": "pie",
@@ -906,6 +1240,18 @@
             "questing": {
                 "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
                 "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
             }
         }
     },
@@ -932,6 +1278,22 @@
             "questing": {
                 "comment": "gcc patch",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
             }
         }
     },
@@ -956,6 +1318,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "gcc patch",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "gcc patch",
                 "state": "DEFAULT"
             }
@@ -992,6 +1370,18 @@
             "questing": {
                 "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
                 "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1018,6 +1408,10 @@
             "questing": {
                 "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
                 "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1042,6 +1436,10 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "gcc patch (i386, amd64)",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "gcc patch (i386, amd64)",
                 "state": "DEFAULT"
             }
@@ -1074,6 +1472,22 @@
             "questing": {
                 "comment": "PAE, ia32 partial-NX-emulation",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "PAE, ia32 partial-NX-emulation",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1104,6 +1518,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1128,6 +1558,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -1156,6 +1602,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1169,7 +1631,7 @@
             },
             "focal": {
                 "comment": "kernel & sysctl",
-                "state": "DEFAULT"
+                "state": "AVAILABLE"
             },
             "jammy": {
                 "comment": "kernel & sysctl",
@@ -1186,6 +1648,10 @@
             "questing": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel & sysctl",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -1199,7 +1665,7 @@
             },
             "focal": {
                 "comment": "kernel & sysctl",
-                "state": "DEFAULT"
+                "state": "AVAILABLE"
             },
             "jammy": {
                 "comment": "kernel & sysctl",
@@ -1216,6 +1682,10 @@
             "questing": {
                 "comment": "kernel & sysctl",
                 "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel & sysctl",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -1240,6 +1710,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -1275,6 +1761,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -1315,6 +1817,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1343,6 +1861,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -1379,6 +1913,22 @@
             "questing": {
                 "comment": "sysctl",
                 "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -1403,6 +1953,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -1431,6 +1997,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1455,6 +2037,22 @@
                 "state": "DEFAULT"
             },
             "questing": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             }
@@ -1483,6 +2081,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1503,8 +2117,8 @@
                 "state": "DEFAULT"
             },
             "eoan": {
-                "comment": "kernel (i386, amd64, arm64, and s390 only)",
-                "state": "DEFAULT"
+                "comment": "kernel (i386 and amd64 only)",
+                "state": "AVAILABLE"
             },
             "jammy": {
                 "comment": "kernel (i386, amd64, arm64, and s390 only)",
@@ -1521,6 +2135,18 @@
             "questing": {
                 "comment": "kernel (i386, amd64, arm64, and s390 only)",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel (i386 and amd64 only)",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "kernel (i386 and amd64 only)",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "comment": "kernel (i386 and amd64 only)",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -1529,6 +2155,18 @@
         "label": "Denylist Rare Protocols",
         "changes": {
             "natty": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "DEFAULT"
+            },
+            "focal": {
                 "comment": "kernel",
                 "state": "DEFAULT"
             },
@@ -1573,6 +2211,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "comment": "kernel",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -1603,6 +2257,22 @@
             "questing": {
                 "comment": "kernel",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "focal": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
             }
         }
     },
@@ -1627,6 +2297,22 @@
                 "state": "AVAILABLE"
             },
             "questing": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "sysctl",
+                "state": "AVAILABLE"
+            },
+            "focal": {
                 "comment": "sysctl",
                 "state": "AVAILABLE"
             }
@@ -1659,6 +2345,18 @@
             "questing": {
                 "comment": "amd64, kernel signature enforcement",
                 "state": "DEFAULT"
+            },
+            "xenial": {
+                "comment": "amd64, kernel fallback",
+                "state": "AVAILABLE"
+            },
+            "eoan": {
+                "comment": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
+            },
+            "focal": {
+                "comment": "amd64, kernel signature enforcement",
+                "state": "DEFAULT"
             }
         }
     },
@@ -1667,6 +2365,18 @@
         "label": "usbguard",
         "changes": {
             "yakkety": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "xenial": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "bionic": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "focal": {
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             },
@@ -1696,6 +2406,10 @@
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             },
+            "focal": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
             "jammy": {
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
@@ -1722,6 +2436,10 @@
                 "comment": "kernel & userspace",
                 "state": "DEFAULT"
             },
+            "focal": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
             "jammy": {
                 "comment": "kernel & userspace",
                 "state": "DEFAULT"
@@ -1745,6 +2463,10 @@
         "label": "thunderbolt-tools",
         "changes": {
             "bionic": {
+                "comment": "kernel & userspace",
+                "state": "AVAILABLE"
+            },
+            "focal": {
                 "comment": "kernel & userspace",
                 "state": "AVAILABLE"
             },
