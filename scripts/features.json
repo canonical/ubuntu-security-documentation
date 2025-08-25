@@ -455,6 +455,28 @@
         "section": 1
     },
     {
+        "name": "encryption-full-disk",
+        "label": "Full disk encryption (FDE)",
+        "changes": {
+            "jammy": {
+                "comment": "LUKS + TPM",
+                "state": "DEFAULT"
+            },
+            "noble": {
+                "comment": "LUKS + TPM",
+                "state": "DEFAULT"
+            },
+            "plucky": {
+                "comment": "LUKS + TPM",
+                "state": "DEFAULT"
+            },
+            "questing": {
+                "comment": "LUKS + TPM",
+                "state": "DEFAULT"
+            }
+        }
+    },
+    {
         "name": "apparmor",
         "label": "AppArmor",
         "changes": {
