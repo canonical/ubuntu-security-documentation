@@ -1,2539 +1,2866 @@
 [
-    {
-        "name": "configuration",
-        "label": "Configuration",
-        "section": 1
-    },
-    {
-        "name": "ports",
-        "label": "No Open Ports",
-        "changes": {
-            "dapper": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "hashing",
-        "label": "Password hashing",
-        "changes": {
-            "dapper": {
-                "comment": "md5",
-                "state": "DEFAULT"
-            },
-            "intrepid": {
-                "comment": "sha512",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "sha512",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "sha512",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "sha512",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "yescrypt",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "yescrypt",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "yescrypt",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "yescrypt",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "sha512",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "syn-cookies",
-        "label": "SYN cookies",
-        "changes": {
-            "warty": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "jaunty": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "unattended-upgrades",
-        "label": "Automatic security updates",
-        "changes": {
-            "dapper": {
-                "comment": "opt-in",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "enabled",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "kernel-livepatches",
-        "label": "Kernel Livepatches",
-        "changes": {
-            "trusty": {
-                "comment": "14.04 LTS Kernel",
-                "state": "AVAILABLE"
-            },
-            "utopic": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "xenial": {
-                "comment": "16.04 LTS Kernel",
-                "state": "AVAILABLE"
-            },
-            "yakkety": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "bionic": {
-                "comment": "18.04 LTS Kernel",
-                "state": "AVAILABLE"
-            },
-            "cosmic": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "disco": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "eoan": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "focal": {
-                "comment": "20.04 LTS Kernel",
-                "state": "AVAILABLE"
-            },
-            "groovy": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "jammy": {
-                "comment": "22.04 LTS Kernel",
-                "state": "AVAILABLE"
-            },
-            "kinetic": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "noble": {
-                "comment": "24.04 LTS Kernel",
-                "state": "AVAILABLE"
-            },
-            "oracular": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            }
-        }
-    },
-    {
-        "name": "disable-legacy-tls",
-        "label": "Disable legacy TLS",
-        "changes": {
-            "focal": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "policy",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "subsystems",
-        "label": "Subsystems",
-        "section": 1
-    },
-    {
-        "name": "fscaps",
-        "label": "Filesystem Capabilities",
-        "changes": {
-            "intrepid": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "trusty": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel & userspace (default on server)",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "firewall",
-        "label": "Configurable Firewall",
-        "changes": {
-            "dapper": {
-                "comment": "iptables",
-                "state": "DEFAULT"
-            },
-            "hardy": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "ufw",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "prng-cloud",
-        "label": "Cloud PRNG seed",
-        "changes": {
-            "trusty": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "pollinate",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "seccomp",
-        "label": "PR_SET_SECCOMP",
-        "changes": {
-            "hardy": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "mac",
-        "label": "Mandatory Access Control (MAC)",
-        "section": 1
-    },
-    {
-        "name": "encryption-full-disk",
-        "label": "Full disk encryption (FDE)",
-        "changes": {
-            "jammy": {
-                "comment": "LUKS + TPM",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "LUKS + TPM",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "LUKS + TPM",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "LUKS + TPM",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "apparmor",
-        "label": "AppArmor",
-        "changes": {
-            "feisty": {
-                "comment": "2.0 (universe)",
-                "state": "AVAILABLE"
-            },
-            "gutsy": {
-                "comment": "2.1",
-                "state": "DEFAULT"
-            },
-            "hardy": {
-                "comment": "2.1",
-                "state": "DEFAULT"
-            },
-            "intrepid": {
-                "comment": "2.3",
-                "state": "DEFAULT"
-            },
-            "karmic": {
-                "comment": "2.3.1",
-                "state": "DEFAULT"
-            },
-            "lucid": {
-                "comment": "2.5",
-                "state": "DEFAULT"
-            },
-            "maverick": {
-                "comment": "2.5.1",
-                "state": "DEFAULT"
-            },
-            "natty": {
-                "comment": "2.6.1",
-                "state": "DEFAULT"
-            },
-            "oneiric": {
-                "comment": "2.7.0~beta1",
-                "state": "DEFAULT"
-            },
-            "precise": {
-                "comment": "2.7.0",
-                "state": "DEFAULT"
-            },
-            "quantal": {
-                "comment": "2.8.0",
-                "state": "DEFAULT"
-            },
-            "raring": {
-                "comment": "2.8.0",
-                "state": "DEFAULT"
-            },
-            "saucy": {
-                "comment": "2.8.0 (with some v3 backports)",
-                "state": "DEFAULT"
-            },
-            "trusty": {
-                "comment": "2.8.95~2430 (with some v3 backports)",
-                "state": "DEFAULT"
-            },
-            "utopic": {
-                "comment": "2.8.98",
-                "state": "DEFAULT"
-            },
-            "vivid": {
-                "comment": "2.9.1",
-                "state": "DEFAULT"
-            },
-            "wily": {
-                "comment": "2.10",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "2.10.95 (2.11 Beta 1)",
-                "state": "DEFAULT"
-            },
-            "yakkety": {
-                "comment": "2.10.95 (2.11 Beta 1)",
-                "state": "DEFAULT"
-            },
-            "zesty": {
-                "comment": "2.11.0",
-                "state": "DEFAULT"
-            },
-            "artful": {
-                "comment": "2.11.0",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "2.12.0",
-                "state": "DEFAULT"
-            },
-            "cosmic": {
-                "comment": "2.12.0",
-                "state": "DEFAULT"
-            },
-            "disco": {
-                "comment": "2.13.2",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "2.13.3",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "2.13.3",
-                "state": "DEFAULT"
-            },
-            "groovy": {
-                "comment": "3.0.0",
-                "state": "DEFAULT"
-            },
-            "hirsute": {
-                "comment": "3.0.0",
-                "state": "DEFAULT"
-            },
-            "impish": {
-                "comment": "3.0.3",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "3.0.4",
-                "state": "DEFAULT"
-            },
-            "kinetic": {
-                "comment": "3.0.7",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "4.0.1",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "4.1.0",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "4.1.0",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "apparmor-unprivileged-userns-restrictions",
-        "label": "AppArmor unprivileged user namespace restrictions",
-        "changes": {
-            "mantic": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "selinux",
-        "label": "SELinux",
-        "changes": {
-            "hardy": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "universe",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "smack",
-        "label": "SMACK",
-        "changes": {
-            "intrepid": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "encryption",
-        "label": "Storage Encryption",
-        "section": 1
-    },
-    {
-        "name": "encrypted-lvm",
-        "label": "Encrypted LVM",
-        "changes": {
-            "dapper": {
-                "comment": "alt installer",
-                "state": "AVAILABLE"
-            },
-            "quantal": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "main installer",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "encrypted-files",
-        "label": "File Encryption",
-        "changes": {
-            "intrepid": {
-                "comment": "Encrypted Private in the installer (eCryptfs)",
-                "state": "AVAILABLE"
-            },
-            "jaunty": {
-                "comment": "Encrypted Home with filename encryption in the installer (eCryptfs)",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "Encrypted Home with filename encryption in the installer (eCryptfs)",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "tpm",
-        "label": "Trusted Platform Module (TPM)",
-        "section": 1
-    },
-    {
-        "name": "TPM",
-        "label": "Trusted Platform Module",
-        "changes": {
-            "gutsy": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel & userspace (tpm-tools)",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "userspace-hardening",
-        "label": "Userspace Hardening",
-        "section": 1
-    },
-    {
-        "name": "stack-protector",
-        "label": "Stack Protector",
-        "changes": {
-            "edgy": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "heap-protector",
-        "label": "Heap Protector",
-        "changes": {
-            "dapper": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "pointer-obfuscation",
-        "label": "Pointer Obfuscation",
-        "changes": {
-            "hardy": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "glibc",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "aslr",
-        "label": "Address Space Layout Randomisation (ASLR)",
-        "section": 1
-    },
-    {
-        "name": "stack-aslr",
-        "label": "Stack ASLR",
-        "changes": {
-            "dapper": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "mmap-aslr",
-        "label": "Libs/mmap ASLR",
-        "changes": {
-            "dapper": {
-                "comment": "kernel (i386 only)",
-                "state": "DEFAULT"
-            },
-            "hardy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "exec-aslr",
-        "label": "Exec ASLR",
-        "changes": {
-            "hardy": {
-                "comment": "kernel (-mm patch)",
-                "state": "DEFAULT"
-            },
-            "intrepid": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "brk-aslr",
-        "label": "brk ASLR",
-        "changes": {
-            "hardy": {
-                "comment": "kernel (exec ASLR)",
-                "state": "AVAILABLE"
-            },
-            "intrepid": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "vdso-aslr",
-        "label": "VDSO ASLR",
-        "changes": {
-            "hardy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "userspace-hardening",
-        "label": "Userspace Hardening",
-        "section": 1
-    },
-    {
-        "name": "pie",
-        "label": "Built as PIE",
-        "changes": {
-            "intrepid": {
-                "comment": "package list",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "gcc patch (s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "yakkety": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "fortify-source",
-        "label": "Built with Fortify Source",
-        "changes": {
-            "intrepid": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "relro",
-        "label": "Built with RELRO",
-        "changes": {
-            "intrepid": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "bindnow",
-        "label": "Built with BIND_NOW",
-        "changes": {
-            "karmic": {
-                "comment": "package list",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "gcc patch (s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "yakkety": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "stack-clash-protection",
-        "label": "Built with -fstack-clash-protection",
-        "changes": {
-            "eoan": {
-                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "cf-protection",
-        "label": "Built with -fcf-protection",
-        "changes": {
-            "eoan": {
-                "comment": "gcc patch (i386, amd64)",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "gcc patch (i386, amd64)",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "gcc patch (i386, amd64)",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "gcc patch (i386, amd64)",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "gcc patch (i386, amd64)",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "gcc patch (i386, amd64)",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "nx",
-        "label": "Non-Executable Memory",
-        "changes": {
-            "dapper": {
-                "comment": "PAE only",
-                "state": "DEFAULT"
-            },
-            "karmic": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "PAE, ia32 partial-NX-emulation",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "proc-maps",
-        "label": "/proc/$pid/maps protection",
-        "changes": {
-            "hardy": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "intrepid": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "symlink",
-        "label": "Symlink restrictions",
-        "changes": {
-            "maverick": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "hardlink",
-        "label": "Hardlink restrictions",
-        "changes": {
-            "maverick": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "protected-fifos",
-        "label": "FIFO restrictions",
-        "changes": {
-            "disco": {
-                "comment": "kernel & sysctl",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel & sysctl",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel & sysctl",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "protected-regular",
-        "label": "Regular file restrictions",
-        "changes": {
-            "disco": {
-                "comment": "kernel & sysctl",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel & sysctl",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel & sysctl",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "ptrace",
-        "label": "ptrace scope",
-        "changes": {
-            "maverick": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "kernel-hardening",
-        "label": "Kernel Hardening",
-        "section": 1
-    },
-    {
-        "name": "null-mmap",
-        "label": "0-address protection",
-        "changes": {
-            "hardy": {
-                "comment": "kernel & sysctl",
-                "state": "DEFAULT"
-            },
-            "jaunty": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "dev-mem",
-        "label": "/dev/mem protection",
-        "changes": {
-            "dapper": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "edgy": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "hardy": {
-                "comment": "kernel (-mm patch)",
-                "state": "DEFAULT"
-            },
-            "intrepid": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "dev-kmem",
-        "label": "/dev/kmem disabled",
-        "changes": {
-            "hardy": {
-                "comment": "kernel (-mm patch)",
-                "state": "DEFAULT"
-            },
-            "intrepid": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "block-modules",
-        "label": "Block module loading",
-        "changes": {
-            "dapper": {
-                "comment": "drop CAP_SYS_MODULES",
-                "state": "AVAILABLE"
-            },
-            "intrepid": {
-                "comment": "--",
-                "state": "UNIMPLEMENTED"
-            },
-            "karmic": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "rodata",
-        "label": "Read-only data sections",
-        "changes": {
-            "hardy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "kernel-stack-protector",
-        "label": "Stack protector",
-        "changes": {
-            "jaunty": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "module-ronx",
-        "label": "Module RO/NX",
-        "changes": {
-            "natty": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "kptr-restrict",
-        "label": "Kernel Address Display Restriction",
-        "changes": {
-            "natty": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "kASLR",
-        "label": "Kernel Address Space Layout Randomisation",
-        "changes": {
-            "utopic": {
-                "comment": "kernel (i386 and amd64 only)",
-                "state": "AVAILABLE"
-            },
-            "yakkety": {
-                "comment": "kernel (i386 and amd64 only)",
-                "state": "DEFAULT"
-            },
-            "zesty": {
-                "comment": "kernel (i386, amd64, and arm64 only)",
-                "state": "DEFAULT"
-            },
-            "eoan": {
-                "comment": "kernel (i386 and amd64 only)",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel (i386, amd64, arm64, and s390 only)",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel (i386, amd64, arm64, and s390 only)",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel (i386, amd64, arm64, and s390 only)",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel (i386, amd64, arm64, and s390 only)",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel (i386 and amd64 only)",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "kernel (i386 and amd64 only)",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel (i386 and amd64 only)",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "denylist-rare-net",
-        "label": "Denylist Rare Protocols",
-        "changes": {
-            "natty": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "seccomp-filter",
-        "label": "Syscall Filtering",
-        "changes": {
-            "oneiric": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "dmesg-restrict",
-        "label": "dmesg restrictions",
-        "changes": {
-            "precise": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "groovy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "kexec",
-        "label": "Block kexec",
-        "changes": {
-            "trusty": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "sysctl",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "secure-boot",
-        "label": "UEFI Secure Boot (amd64)",
-        "changes": {
-            "precise": {
-                "comment": "amd64, kernel fallback",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            },
-            "xenial": {
-                "comment": "amd64, kernel fallback",
-                "state": "AVAILABLE"
-            },
-            "eoan": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "amd64, kernel signature enforcement",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "usbguard",
-        "label": "usbguard",
-        "changes": {
-            "yakkety": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "xenial": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "bionic": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "usbauth",
-        "label": "usbauth",
-        "changes": {
-            "bionic": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "bolt",
-        "label": "bolt",
-        "changes": {
-            "bionic": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            },
-            "focal": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "kernel & userspace",
-                "state": "DEFAULT"
-            }
-        }
-    },
-    {
-        "name": "thunderbolt-tools",
-        "label": "thunderbolt-tools",
-        "changes": {
-            "bionic": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "focal": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "jammy": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "noble": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "plucky": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            },
-            "questing": {
-                "comment": "kernel & userspace",
-                "state": "AVAILABLE"
-            }
-        }
-    },
-    {
-        "name": "kernel-lockdown",
-        "label": "Kernel Lockdown",
-        "changes": {
-            "focal": {
-                "comment": "integrity only, no confidentiality",
-                "state": "DEFAULT"
-            },
-            "jammy": {
-                "comment": "integrity only, no confidentiality",
-                "state": "DEFAULT"
-            },
-            "noble": {
-                "comment": "integrity only, no confidentiality",
-                "state": "DEFAULT"
-            },
-            "plucky": {
-                "comment": "integrity only, no confidentiality",
-                "state": "DEFAULT"
-            },
-            "questing": {
-                "comment": "integrity only, no confidentiality",
-                "state": "DEFAULT"
-            }
-        }
-    }
+  {
+    "name": "configuration",
+    "label": "Configuration",
+    "section": 1
+  },
+  {
+    "name": "ports",
+    "label": "No Open Ports",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "dapper",
+          "disco",
+          "edgy",
+          "eoan",
+          "feisty",
+          "focal",
+          "groovy",
+          "gutsy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "policy",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "hashing",
+    "label": "Password hashing",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jaunty",
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "sha512",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy",
+          "hardy"
+        ],
+        "comment": "md5",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "yescrypt",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "syn-cookies",
+    "label": "SYN cookies",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "breezy",
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy",
+          "hardy",
+          "hoary",
+          "intrepid",
+          "warty"
+        ],
+        "comment": "kernel",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "unattended-upgrades",
+    "label": "Automatic security updates",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "enabled",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy",
+          "hardy",
+          "intrepid",
+          "jaunty",
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily"
+        ],
+        "comment": "opt-in",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "kernel-livepatches",
+    "label": "Kernel Livepatches",
+    "changes": [
+      {
+        "releases": [
+          "bionic"
+        ],
+        "comment": "18.04 LTS Kernel",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "cosmic",
+          "disco",
+          "eoan",
+          "groovy",
+          "kinetic",
+          "oracular",
+          "utopic",
+          "yakkety"
+        ],
+        "comment": "--",
+        "state": "UNIMPLEMENTED"
+      },
+      {
+        "releases": [
+          "focal"
+        ],
+        "comment": "20.04 LTS Kernel",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "jammy"
+        ],
+        "comment": "22.04 LTS Kernel",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "noble"
+        ],
+        "comment": "24.04 LTS Kernel",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "trusty"
+        ],
+        "comment": "14.04 LTS Kernel",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "xenial"
+        ],
+        "comment": "16.04 LTS Kernel",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "disable-legacy-tls",
+    "label": "Disable legacy TLS",
+    "changes": [
+      {
+        "releases": [
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "policy",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "subsystems",
+    "label": "Subsystems",
+    "section": 1
+  },
+  {
+    "name": "fscaps",
+    "label": "Filesystem Capabilities",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel & userspace (default on server)",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "intrepid",
+          "jaunty",
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy"
+        ],
+        "comment": "kernel & userspace",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "firewall",
+    "label": "Configurable Firewall",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "ufw",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy"
+        ],
+        "comment": "iptables",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "prng-cloud",
+    "label": "Cloud PRNG seed",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "pollinate",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "seccomp",
+    "label": "PR_SET_SECCOMP",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "mac",
+    "label": "Mandatory Access Control (MAC)",
+    "section": 1
+  },
+  {
+    "name": "encryption-full-disk",
+    "label": "Full disk encryption (FDE)",
+    "changes": [
+      {
+        "releases": [
+          "jammy",
+          "noble",
+          "plucky",
+          "questing"
+        ],
+        "comment": "LUKS + TPM",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "apparmor",
+    "label": "AppArmor",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "zesty"
+        ],
+        "comment": "2.11.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "bionic",
+          "cosmic"
+        ],
+        "comment": "2.12.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "disco"
+        ],
+        "comment": "2.13.2",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "eoan",
+          "focal"
+        ],
+        "comment": "2.13.3",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "feisty"
+        ],
+        "comment": "2.0 (universe)",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "groovy",
+          "hirsute"
+        ],
+        "comment": "3.0.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "gutsy",
+          "hardy"
+        ],
+        "comment": "2.1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "impish"
+        ],
+        "comment": "3.0.3",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "intrepid",
+          "jaunty"
+        ],
+        "comment": "2.3",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "jammy"
+        ],
+        "comment": "3.0.4",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "karmic"
+        ],
+        "comment": "2.3.1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "kinetic",
+          "lunar",
+          "mantic"
+        ],
+        "comment": "3.0.7",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "lucid"
+        ],
+        "comment": "2.5",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "maverick"
+        ],
+        "comment": "2.5.1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "natty"
+        ],
+        "comment": "2.6.1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "noble"
+        ],
+        "comment": "4.0.1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "oneiric"
+        ],
+        "comment": "2.7.0~beta1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "4.1.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "precise"
+        ],
+        "comment": "2.7.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "quantal",
+          "raring"
+        ],
+        "comment": "2.8.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "saucy"
+        ],
+        "comment": "2.8.0 (with some v3 backports)",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "trusty"
+        ],
+        "comment": "2.8.95~2430 (with some v3 backports)",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "utopic"
+        ],
+        "comment": "2.8.98",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "vivid"
+        ],
+        "comment": "2.9.1",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "wily"
+        ],
+        "comment": "2.10",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "xenial",
+          "yakkety"
+        ],
+        "comment": "2.10.95 (2.11 Beta 1)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "apparmor-unprivileged-userns-restrictions",
+    "label": "AppArmor unprivileged user namespace restrictions",
+    "changes": [
+      {
+        "releases": [
+          "mantic"
+        ],
+        "comment": "kernel & userspace",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel & userspace",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "selinux",
+    "label": "SELinux",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "universe",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "smack",
+    "label": "SMACK",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "encryption",
+    "label": "Storage Encryption",
+    "section": 1
+  },
+  {
+    "name": "encrypted-lvm",
+    "label": "Encrypted LVM",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "main installer",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy",
+          "hardy",
+          "intrepid",
+          "jaunty",
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise"
+        ],
+        "comment": "alt installer",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "encrypted-files",
+    "label": "File Encryption",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "jaunty",
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "Encrypted Home with filename encryption in the installer (eCryptfs)",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan"
+        ],
+        "comment": "Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "intrepid"
+        ],
+        "comment": "Encrypted Private in the installer (eCryptfs)",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "tpm",
+    "label": "Trusted Platform Module (TPM)",
+    "section": 1
+  },
+  {
+    "name": "TPM",
+    "label": "Trusted Platform Module",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "gutsy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel & userspace (tpm-tools)",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "userspace-hardening",
+    "label": "Userspace Hardening",
+    "section": 1
+  },
+  {
+    "name": "stack-protector",
+    "label": "Stack Protector",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "edgy",
+          "eoan",
+          "feisty",
+          "focal",
+          "groovy",
+          "gutsy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "gcc patch",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "heap-protector",
+    "label": "Heap Protector",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "dapper",
+          "disco",
+          "edgy",
+          "eoan",
+          "feisty",
+          "focal",
+          "groovy",
+          "gutsy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "glibc",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "pointer-obfuscation",
+    "label": "Pointer Obfuscation",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "glibc",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "aslr",
+    "label": "Address Space Layout Randomisation (ASLR)",
+    "section": 1
+  },
+  {
+    "name": "stack-aslr",
+    "label": "Stack ASLR",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "dapper",
+          "disco",
+          "edgy",
+          "eoan",
+          "feisty",
+          "focal",
+          "groovy",
+          "gutsy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "mmap-aslr",
+    "label": "Libs/mmap ASLR",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy"
+        ],
+        "comment": "kernel (i386 only)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "exec-aslr",
+    "label": "Exec ASLR",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "hardy"
+        ],
+        "comment": "kernel (-mm patch)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "brk-aslr",
+    "label": "brk ASLR",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "hardy"
+        ],
+        "comment": "kernel (exec ASLR)",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "vdso-aslr",
+    "label": "VDSO ASLR",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "userspace-hardening",
+    "label": "Userspace Hardening",
+    "section": 1
+  },
+  {
+    "name": "pie",
+    "label": "Built as PIE",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "intrepid",
+          "jaunty",
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily"
+        ],
+        "comment": "package list",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "xenial"
+        ],
+        "comment": "gcc patch (s390x), package list for others",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "fortify-source",
+    "label": "Built with Fortify Source",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "gcc patch",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "relro",
+    "label": "Built with RELRO",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "gcc patch",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "bindnow",
+    "label": "Built with BIND_NOW",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "gcc patch (amd64, ppc64el, s390x), package list for others",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "karmic",
+          "lucid",
+          "maverick",
+          "natty",
+          "oneiric",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily"
+        ],
+        "comment": "package list",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "xenial"
+        ],
+        "comment": "gcc patch (s390x), package list for others",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "stack-clash-protection",
+    "label": "Built with -fstack-clash-protection",
+    "changes": [
+      {
+        "releases": [
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "cf-protection",
+    "label": "Built with -fcf-protection",
+    "changes": [
+      {
+        "releases": [
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "gcc patch (i386, amd64)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "nx",
+    "label": "Non-Executable Memory",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "PAE, ia32 partial-NX-emulation",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy",
+          "hardy",
+          "intrepid",
+          "jaunty"
+        ],
+        "comment": "PAE only",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "proc-maps",
+    "label": "/proc/$pid/maps protection",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "hardy"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "symlink",
+    "label": "Symlink restrictions",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "hardlink",
+    "label": "Hardlink restrictions",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "protected-fifos",
+    "label": "FIFO restrictions",
+    "changes": [
+      {
+        "releases": [
+          "disco",
+          "eoan"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "protected-regular",
+    "label": "Regular file restrictions",
+    "changes": [
+      {
+        "releases": [
+          "disco",
+          "eoan"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "ptrace",
+    "label": "ptrace scope",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "kernel-hardening",
+    "label": "Kernel Hardening",
+    "section": 1
+  },
+  {
+    "name": "null-mmap",
+    "label": "0-address protection",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "hardy",
+          "intrepid"
+        ],
+        "comment": "kernel & sysctl",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "dev-mem",
+    "label": "/dev/mem protection",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "dapper",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "edgy"
+        ],
+        "comment": "--",
+        "state": "UNIMPLEMENTED"
+      },
+      {
+        "releases": [
+          "hardy"
+        ],
+        "comment": "kernel (-mm patch)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "dev-kmem",
+    "label": "/dev/kmem disabled",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "hardy"
+        ],
+        "comment": "kernel (-mm patch)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "block-modules",
+    "label": "Block module loading",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "sysctl",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "dapper",
+          "edgy",
+          "feisty",
+          "gutsy",
+          "hardy"
+        ],
+        "comment": "drop CAP_SYS_MODULES",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "intrepid"
+        ],
+        "comment": "--",
+        "state": "UNIMPLEMENTED"
+      }
+    ]
+  },
+  {
+    "name": "rodata",
+    "label": "Read-only data sections",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hardy",
+          "hirsute",
+          "impish",
+          "intrepid",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "kernel-stack-protector",
+    "label": "Stack protector",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "jaunty",
+          "karmic",
+          "kinetic",
+          "lucid",
+          "lunar",
+          "mantic",
+          "maverick",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "module-ronx",
+    "label": "Module RO/NX",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "kptr-restrict",
+    "label": "Kernel Address Display Restriction",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "kASLR",
+    "label": "Kernel Address Space Layout Randomisation",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "zesty"
+        ],
+        "comment": "kernel (i386, amd64, and arm64 only)",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel (i386, amd64, arm64, and s390 only)",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial"
+        ],
+        "comment": "kernel (i386 and amd64 only)",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "yakkety"
+        ],
+        "comment": "kernel (i386 and amd64 only)",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "denylist-rare-net",
+    "label": "Denylist Rare Protocols",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "natty",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "seccomp-filter",
+    "label": "Syscall Filtering",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oneiric",
+          "oracular",
+          "plucky",
+          "precise",
+          "quantal",
+          "questing",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "dmesg-restrict",
+    "label": "dmesg restrictions",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "sysctl",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "kexec",
+    "label": "Block kexec",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "sysctl",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "secure-boot",
+    "label": "UEFI Secure Boot (amd64)",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "precise",
+          "quantal",
+          "raring",
+          "saucy",
+          "trusty",
+          "utopic",
+          "vivid",
+          "wily",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "amd64, kernel fallback",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "amd64, kernel signature enforcement",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "usbguard",
+    "label": "usbguard",
+    "changes": [
+      {
+        "releases": [
+          "artful",
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing",
+          "xenial",
+          "yakkety",
+          "zesty"
+        ],
+        "comment": "kernel & userspace",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "usbauth",
+    "label": "usbauth",
+    "changes": [
+      {
+        "releases": [
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel & userspace",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "bolt",
+    "label": "bolt",
+    "changes": [
+      {
+        "releases": [
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel & userspace",
+        "state": "DEFAULT"
+      }
+    ]
+  },
+  {
+    "name": "thunderbolt-tools",
+    "label": "thunderbolt-tools",
+    "changes": [
+      {
+        "releases": [
+          "bionic",
+          "cosmic",
+          "disco",
+          "eoan",
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "kernel & userspace",
+        "state": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "name": "kernel-lockdown",
+    "label": "Kernel Lockdown",
+    "changes": [
+      {
+        "releases": [
+          "focal",
+          "groovy",
+          "hirsute",
+          "impish",
+          "jammy",
+          "kinetic",
+          "lunar",
+          "mantic",
+          "noble",
+          "oracular",
+          "plucky",
+          "questing"
+        ],
+        "comment": "integrity only, no confidentiality",
+        "state": "DEFAULT"
+      }
+    ]
+  }
 ]
