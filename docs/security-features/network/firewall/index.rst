@@ -82,7 +82,7 @@ Historically, ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` have b
 
 Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables`` tools that work with ``nftables`` API and provide a compatible interface to the legacy implementation. The ``nftables`` backend has been the default since Ubuntu 20.10 Groovy Gorilla. These are managed through the alternatives system and the current configuration can be displayed with the following commands:
 
-.. code-block:: console
+.. code-block:: bash
 
     update-alternatives --display iptables
     update-alternatives --display ip6tables
@@ -99,7 +99,7 @@ nftables
 
 Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a systemd service unit file that is disabled by default. If enabled, the service unit file will automatically load ``nftables`` configuration from the ``/etc/nftables.conf`` file (a mock file that does not perform any filtering is provided in the ``nftables`` package). You can enable this and load the configuration using the following commands:
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo systemctl enable nftables.service
     sudo systemctl start nftables.service
