@@ -230,7 +230,7 @@ def load_features(file: TextIOWrapper) -> Tuple[List[Feature], Dict]:
 
 def build_section_mapping(raw_features: List[dict]) -> Dict:
     """
-    Build a mapping from feature names to their section information.
+    Build a mapping from feature labels to their section information.
 
     Args:
         raw_features: A List of raw feature dictionaries from JSON
@@ -239,15 +239,15 @@ def build_section_mapping(raw_features: List[dict]) -> Dict:
         A dictionary mapping feature names to section information
     """
     feature_to_section = {}
-    current_section_name = None
+    current_section_label = None
 
     for feature_dict in raw_features:
         if feature_dict.get("section"):
-            current_section_name = feature_dict["name"]
-            logger.debug(f"Found section: {current_section_name}")
-        elif "name" in feature_dict and current_section_name:
-            feature_to_section[feature_dict["name"]] = {
-                "name": current_section_name,
+            current_section_label = feature_dict["label"]
+            logger.debug(f"Found section: {current_section_label}")
+        elif "label" in feature_dict and current_section_label:
+            feature_to_section[feature_dict["label"]] = {
+                "label": current_section_label,
             }
 
     logger.debug(f"Built section mapping for {len(feature_to_section)} features")
@@ -430,12 +430,12 @@ class TableGenerator:
         cells = []
 
         # Add the section reference
-        section_info = feature_to_section.get(feature.name, {})
-        section_cell = f":ref:`{section_info['name']}`" if section_info else ""
+        section_info = feature_to_section.get(feature.label, {})
+        section_cell = f":ref:`{section_info['label']}`" if section_info else ""
         cells.append(section_cell)
 
         # Add the feature reference
-        cells.append(f":ref:`{feature.name}`")
+        cells.append(f":ref:`{feature.label}`")
 
         # Add the implementation status for each release
         for release in releases:
