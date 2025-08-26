@@ -16,15 +16,6 @@ This page gradually builds an example ``nftables`` configuration file that is
 adequate for a Linux host which offers network services (such as SSH and HTTP)
 over IPv4 and IPv6 connectivity to a Local Area Network (LAN).
 
-Table of contents
------------------
-
-.. toctree::
-   :maxdepth: 2
-   :glob:
-
-   nftables
-
 Advantages
 ----------
 
