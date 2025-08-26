@@ -694,10 +694,9 @@ primary terminology used is:
   destroy all of the objects: tables, :ref:`sets <Sets>`, :ref:`maps <Maps>`,
   etc. This includes elements defined in sets and maps, or the contents of
   stateful objects (e.g.  counter values). As such, a command such as the
-  following is effectively a no-op: ``(echo "nft flush rulset"; nft list
-  ruleset) | nft -f -`` (FIXME: well, if something changes between ``nft list
-  ruleset`` and ``nft -f -``, it won't be a no-op; counters are very likely to
-  change - should clarify?).
+  following is effectively a no-op (although the state may change between the
+  moment it is read and the moment it is overwritten): ``(echo "nft flush
+  rulset"; nft list ruleset) | nft -f -``.
 * **Tables**: unlike ``xtables``, any number of tables can be defined in
   ``nftables``. These are collections of chains, :ref:`sets <Sets>`, :ref:`maps
   <Maps>` and stateful objects (e.g. counters). The table name does not hold any
@@ -920,10 +919,10 @@ following is the list of verdict statements:
 The following example extends the previous firewall definition with the skeleton
 structure for two new functions, demonstrating some control flow functionality:
 
-* Setting the Netfilter packet mark (FIXME: authoritative docs on nfmark?) for
-  inbound packets to represent where the packet originated from, in order to
-  allow subsequent rules to make decisions based on this criteria. We're calling
-  this the realm, but it should not be confused with `iproute2 realms
+* Setting the Netfilter packet mark for inbound packets to represent where the
+  packet originated from, in order to allow subsequent rules to make decisions
+  based on this criteria. We're calling this the realm, but it should not be
+  confused with `iproute2 realms
   <https://manpages.ubuntu.com/manpages/en/man8/ip-route.8.html>`_. For example,
   the rules below set the mark to the value ``1`` (via the symbolic variable
   ``MARK_REALM_LOCAL``) if the packet was received on one of the loopback
@@ -2317,10 +2316,7 @@ the conntrack timeouts do not occur. The refresh intervals can be configured for
 TCP and UDP via the ``net.netfilter.nf_flowtable_tcp_timeout`` and
 ``net.netfilter.nf_flowtable_udp_timeout`` sysctls, but are otherwise fixed in
 other cases (30 seconds as of Linux 6.15). The conntrack state is synchronized
-according to the received packets. FIXME: I *think* custom conntrack timeouts
-are not applied, but unsure - net/netfilter/nf_flow_table_core.c -
-flow_offload_fixup_ct(), nf_flow_table_tcp_timeout() offload timeouts seem fixed
-and entries are refreshed based on struct net timeouts.
+according to the received packets.
 
 Certain network interface cards (NICs) also support hardware offload of the flow
 information, further optimizing packet forwarding. When this is not available or
