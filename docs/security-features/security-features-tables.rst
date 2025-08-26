@@ -74,6 +74,12 @@
            - kernel
            - kernel
          * - :ref:`mac`
+           - :ref:`encryption-full-disk`
+           - LUKS + TPM
+           - LUKS + TPM
+           - LUKS + TPM
+           - LUKS + TPM
+         * - :ref:`mac`
            - :ref:`apparmor`
            - 3.0.4
            - 4.0.1
@@ -419,6 +425,11 @@
            - kernel
            - kernel
          * - :ref:`mac`
+           - :ref:`encryption-full-disk`
+           - --
+           - --
+           - --
+         * - :ref:`mac`
            - :ref:`apparmor`
            - 2.10.95 (2.11 Beta 1)
            - 2.12.0
@@ -447,7 +458,7 @@
            - :ref:`encrypted-files`
            - Encrypted Home with filename encryption in the installer (eCryptfs)
            - Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
-           - Encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
+           - ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe
          * - :ref:`tpm`
            - :ref:`TPM`
            - kernel & userspace (tpm-tools)
@@ -601,8 +612,8 @@
          * - :ref:`kernel-hardening`
            - :ref:`kASLR`
            - kernel (i386 and amd64 only)
-           - kernel (i386 and amd64 only)
-           - kernel (i386 and amd64 only)
+           - kernel (i386, amd64, and arm64 only)
+           - kernel (i386, amd64, arm64, and s390 only)
          * - :ref:`kernel-hardening`
            - :ref:`denylist-rare-net`
            - kernel

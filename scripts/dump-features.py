@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2008-2016 Canonical, Ltd.
-# Author: Kees Cook <kees@ubuntu.com>
-# Copyright 2025 Canonical, Ltd.
-# Author: Marek Suchánek <marek.suchanek@canonical.com>
+# Copyright 2008-2025 Canonical, Ltd.
 # Author: John Breton <john.breton@canonical.com>
+# Author: Kees Cook <kees@ubuntu.com>
+# Author: Marek Suchánek <marek.suchanek@canonical.com>
 # License: GPLv3
 
 import argparse
 import json
 import logging
 import sys
-from enum import Enum, auto
+from enum import Enum
 from io import TextIOWrapper
 from typing import Dict, List, Optional, Tuple
 
@@ -24,7 +23,6 @@ except ModuleNotFoundError:
     print("$ sudo apt install python3-pydantic", file=sys.stderr)
     sys.exit(1)
 
-
 # --- Constants ---
 PROGRAM_NAME = 'dump-features'
 PROGRAM_DESCRIPTION = '''
@@ -32,9 +30,12 @@ This program generates a table with ReStructuredText markup that lists
 Ubuntu security features and their status in various Ubuntu releases.
 '''
 
+
 # --- Logging Setup ---
 def setup_logging():
-    """Configure logging to output errors to stderr."""
+    """
+    Configure logging to output errors to stderr.
+    """
     logger = logging.getLogger(PROGRAM_NAME)
     logger.setLevel(logging.ERROR)
 
@@ -58,14 +59,18 @@ logger = setup_logging()
 
 # --- Data Models ---
 class State(Enum):
-    """Possible states for a security feature implementation."""
+    """
+    Possible states for a security feature implementation.
+    """
     UNIMPLEMENTED = "UNIMPLEMENTED"
     AVAILABLE = "AVAILABLE"
     DEFAULT = "DEFAULT"
 
 
 class Release(BaseModel):
-    """Represents an Ubuntu release as described in releases.json."""
+    """
+    Represents an Ubuntu release as described in releases.json.
+    """
     code_name: str
     human_name: str
     is_eol: bool
@@ -83,30 +88,52 @@ class Release(BaseModel):
         return '/esm' in self.code_name or 'ESM' in self.human_name
 
 
-class Implementation(BaseModel):
+class ChangeGroup(BaseModel):
     """
-    Represents the implementation status of a security feature
-    in a given Ubuntu release.
+    Represents a group of releases with the same implementation status.
     """
+    releases: List[str]
     comment: str
     state: State
 
-    @classmethod
-    def create_initial(cls) -> 'Implementation':
-        """Create an initial unimplemented state."""
-        return cls(comment="--", state=State.UNIMPLEMENTED)
-
 
 class Feature(BaseModel):
-    """Represents a security feature as listed in features.json."""
+    """
+    Represents a security feature as listed in features.json.
+    """
     name: str
-    section: bool = Field(default=False)
-    changes: Dict[str, Implementation] = Field(default_factory=dict)
+    section: Optional[int] = None
+    subsection: Optional[bool] = None
+    label: Optional[str] = None
+    changes: List[ChangeGroup] = Field(default_factory=list)
+
+    def get_implementation(self, release_code: str) -> Optional[Tuple[str, State]]:
+        """
+        Get the implementation for a specific release.
+
+        Args:
+            release_code: The code name of the release
+
+        Returns:
+            Tuple of (comment, state) if found, None otherwise
+        """
+        for group in self.changes:
+            if release_code in group.releases:
+                return (group.comment, group.state)
+        return None
+
+    def is_section_header(self) -> bool:
+        """
+        Check if this feature is a section header.
+        """
+        return self.section is not None
 
 
 # --- Command Line Interface ---
 def parse_arguments() -> argparse.Namespace:
-    """Parse and return command line arguments."""
+    """
+    Parse and return command line arguments.
+    """
     parser = argparse.ArgumentParser(
         prog=PROGRAM_NAME,
         description=PROGRAM_DESCRIPTION
@@ -164,11 +191,13 @@ def parse_arguments() -> argparse.Namespace:
 
 # --- Data Loading Functions ---
 def load_releases(file: TextIOWrapper) -> List[Release]:
-    """Load and validate releases from a JSON file."""
+    """
+    Load and validate releases from a JSON file.
+    """
     try:
         logger.debug(f"Loading releases from {file.name}")
         raw_releases = json.load(file)
-        releases =  [Release(**r) for r in raw_releases]
+        releases = [Release(**r) for r in raw_releases]
         logger.info(f"Successfully loaded {len(releases)} releases")
         return releases
     except ValidationError as e:
@@ -180,10 +209,13 @@ def load_releases(file: TextIOWrapper) -> List[Release]:
 
 
 def load_features(file: TextIOWrapper) -> Tuple[List[Feature], Dict]:
-    """Load and validate features from a JSON file."""
+    """
+    Load and validate features from a JSON file.
+    """
     try:
         logger.debug(f"Loading features from {file.name}")
         raw_features = json.load(file)
+
         feature_to_section = build_section_mapping(raw_features)
         features = [Feature(**f) for f in raw_features]
         logger.info(f"Successfully loaded {len(features)} features")
@@ -224,9 +256,12 @@ def build_section_mapping(raw_features: List[dict]) -> Dict:
 
 # --- Table Generation Functions ---
 class TableGenerator:
-    """Handles RST table generation for security features."""
+    """
+    Handles RST table generation for security features.
+    """
 
-    def __init__(self, output_file: TextIOWrapper, show_historical: bool, use_tabs: bool = False, tab_extension: str = 'sphinx-tabs'):
+    def __init__(self, output_file: TextIOWrapper, show_historical: bool, use_tabs: bool = False,
+                 tab_extension: str = 'sphinx-tabs'):
         self.output = output_file
         self.show_historical = show_historical
         self.use_tabs = use_tabs
@@ -255,7 +290,9 @@ class TableGenerator:
         return '\n'.join(row_lines) + '\n'
 
     def write_page(self, releases: List[Release], features: List[Feature], feature_to_section: Dict):
-        """Write the page with optional tabs."""
+        """
+        Write the page with optional tabs.
+        """
         if self.use_tabs:
             logger.debug("Using tabbed output format")
             self._write_tabbed_content(releases, features, feature_to_section)
@@ -264,7 +301,9 @@ class TableGenerator:
             self._write_single_table(releases, features, feature_to_section)
 
     def _write_tabbed_content(self, releases: List[Release], features: List[Feature], feature_to_section: Dict):
-        """Write content with tabs for different release types."""
+        """
+        Write content with tabs for different release types.
+        """
         # Separate releases into categories
         esm_releases = [r for r in releases if r.is_esm() and not r.is_eol]
         current_releases = [r for r in releases if not r.is_esm() and not r.is_eol]
@@ -277,8 +316,11 @@ class TableGenerator:
         else:
             self._write_sphinx_design_tabs(esm_releases, current_releases, features, feature_to_section)
 
-    def _write_sphinx_tabs(self, esm_releases: List[Release], current_releases: List[Release], features: List[Feature], feature_to_section: Dict):
-        """Write tabs using sphinx-tabs extension."""
+    def _write_sphinx_tabs(self, esm_releases: List[Release], current_releases: List[Release], features: List[Feature],
+                           feature_to_section: Dict):
+        """
+        Write tabs using sphinx-tabs extension.
+        """
         self.output.write(".. tabs::\n\n")
 
         # Current releases tab
@@ -292,8 +334,11 @@ class TableGenerator:
             self.output.write("      **Extended Security Maintenance Releases**\n\n")
             self._write_table_for_releases(esm_releases, features, feature_to_section, indent=6)
 
-    def _write_sphinx_design_tabs(self, esm_releases: List[Release], current_releases: List[Release], features: List[Feature], feature_to_section: Dict):
-        """Write tabs using sphinx-design extension."""
+    def _write_sphinx_design_tabs(self, esm_releases: List[Release], current_releases: List[Release],
+                                  features: List[Feature], feature_to_section: Dict):
+        """
+        Write tabs using sphinx-design extension.
+        """
         self.output.write(".. tab-set::\n\n")
 
         # Current releases tab
@@ -309,8 +354,11 @@ class TableGenerator:
             self.output.write("      **Extended Security Maintenance Releases**\n\n")
             self._write_table_for_releases(esm_releases, features, feature_to_section, indent=6)
 
-    def _write_table_for_releases(self, releases: List[Release], features: List[Feature], feature_to_section: Dict, indent: int = 0):
-        """Write a table for a specific set of releases."""
+    def _write_table_for_releases(self, releases: List[Release], features: List[Feature], feature_to_section: Dict,
+                                  indent: int = 0):
+        """
+        Write a table for a specific set of releases.
+        """
         indent_str = ' ' * indent
 
         # Start the table
@@ -327,9 +375,9 @@ class TableGenerator:
         self.output.write(indented_header)
 
         # Write feature rows
-        feature_count = 1
+        feature_count = 0
         for feature in features:
-            if not feature.section:
+            if not feature.is_section_header():
                 cells = self._build_feature_row_cells(feature, releases, feature_to_section)
                 row = self.format_table_row(cells)
                 indented_row = '\n'.join(indent_str + line if line else '' for line in row.split('\n'))
@@ -339,8 +387,9 @@ class TableGenerator:
         logger.debug(f"Wrote {feature_count} feature rows for {len(releases)} releases")
 
     def _write_single_table(self, releases: List[Release], features: List[Feature], feature_to_section: Dict):
-        """Write a single table without tabs (original behavior)."""
-
+        """
+        Write a single table without tabs (original behavior).
+        """
         self.output.write(".. list-table:: Security features in releases\n")
         self.output.write("   :header-rows: 1\n\n")
 
@@ -357,7 +406,7 @@ class TableGenerator:
         # Write feature rows
         feature_count = 0
         for feature in features:
-            if not feature.section:
+            if not feature.is_section_header():
                 cells = self._build_feature_row_cells(feature, header_releases, feature_to_section)
                 self.output.write(self.format_table_row(cells))
                 self.output.write('\n')
@@ -366,13 +415,18 @@ class TableGenerator:
         logger.debug(f"Wrote {feature_count} feature rows for {len(header_releases)} releases")
 
     def _get_display_releases(self, releases: List[Release]) -> List[Release]:
-        """Get the list of releases to display based on historical flag."""
+        """
+        Get the list of releases to display based on historical flag.
+        """
         if self.show_historical:
             return releases
         return [r for r in releases if not r.is_eol]
 
-    def _build_feature_row_cells(self, feature: Feature, releases: List[Release], feature_to_section: Dict) -> List[str]:
-        """Build the cell contents for a feature row."""
+    def _build_feature_row_cells(self, feature: Feature, releases: List[Release], feature_to_section: Dict) -> List[
+        str]:
+        """
+        Build the cell contents for a feature row.
+        """
         cells = []
 
         # Add the section reference
@@ -391,18 +445,22 @@ class TableGenerator:
             else:
                 clean_code_name = release.code_name
 
-            # Only show value if there's an explicit entry, otherwise show "--"
-            if clean_code_name in feature.changes:
-                implementation = feature.changes[clean_code_name]
-                cells.append(implementation.comment)
+            # Get implementation from compressed format
+            implementation = feature.get_implementation(clean_code_name)
+            if implementation:
+                comment, _ = implementation  # We only need the comment for the table
+                cells.append(comment)
             else:
                 cells.append("--")
 
         return cells
 
+
 # --- Script Entry Point ---
 def main():
-    """Main program entry point."""
+    """
+    Main program entry point.
+    """
     # Parse the command line arguments
     args = parse_arguments()
 
