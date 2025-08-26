@@ -485,7 +485,7 @@ registered at the ``raw`` priority):
     include "/etc/nftables/tables.d/*.conf"
 
 The two rules will only match UDP datagrams, but irrespective of whether they're
-transported by Ipv4 or IPv6 (``meta l4proto udp``) and then activate rule
+transported by IPv4 or IPv6 (``meta l4proto udp``) and then activate rule
 tracing for those packets (``meta nftrace set 1``). Running the ``nft monitor
 trace`` command will produce messages such as:
 
