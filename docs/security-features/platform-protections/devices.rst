@@ -45,6 +45,9 @@ When you need to authorize a new device, you can temporarily disable the service
 connect the device, use tools like ``lsusb`` to find its attributes, add it to your
 :file:`/etc/usbauth/usbauth.conf` configuration file, and then re-enable the service.
 
+Example workflow
+----------------
+
 Here's an example of what you might add in the 
 :file:`/etc/usbauth/usbauth.conf` configuration file:
 
@@ -57,7 +60,8 @@ Here's an example of what you might add in the
    # Also allow any device that identifies as a Mass Storage device.
    allow class 08
 
-The above rules can be broken down into the following components:
+Each rule in :file:`/etc/usbauth/usbauth.conf` consists of an action and a matcher. For
+example, the file above can be broken down into the following componenets:
 
 * ``allow``: This is the action. It instructs the system to authorize any USB device that matches the criteria that follow.
 * ``046d:c52b``: This is the matcher. It specifically targets the device's ``VendorID:ProductID`` pair. This rule does not distinguish between two identical device models; it allows any device of that exact model to connect.
@@ -95,6 +99,9 @@ When a new device is connected, the ``usbguard`` daemon logs the event, and a us
 to ensure it persists after a reboot. This makes ``usbguard`` a powerful and dynamic tool 
 for managing USB security on a running system.
 
+usbguard for Desktops
+---------------------
+
 While managing ``usbguard`` from the command-line is effective, it can be cumbersome
 on a desktop system. To improve usability, the ``usbguard-notifier`` service is
 available. This tool monitors the ``usbguard`` daemon and provides a desktop
@@ -102,6 +109,9 @@ notification whenever a device is blocked. This notification pop-up allows a use
 immediately authorize the device and add a permanent rule for it, transforming the
 experience from a manual, command-line process into an interactive one. It is the
 successor to older tools like ``usbguard-applet-qt``.
+
+Example workflow
+----------------
 
 Here's an example of what you might add in the :file:`rules.conf`
 file after running ``usbguard generate-policy > /etc/usbguard/rules.conf``:
@@ -113,7 +123,8 @@ file after running ``usbguard generate-policy > /etc/usbguard/rules.conf``:
    allow id 046d:082d name "HD Pro Webcam C920" serial "BADA55C0" via-port "usb3-port1" with-interface { 0e:01:00 0e:02:00 }
    allow id 1d6b:0002 name "Linux Foundation 2.0 root hub" serial "" via-port "" with-interface { 09:00:00 }
 
-The above rules can be broken down into the following components:
+Each rule in :file:`/etc/usbguard/rules.conf` consists of a target and attributes.
+For example, the file above can be broken down into the following components:
 
 * ``allow``: This is the "target", meaning a device matching this rule will be authorized. Other targets are ``block`` and ``reject``.
 * ``id 046d:c52b``: This is the ``VendorID:ProductID`` pair. This is a primary attribute for matching.
