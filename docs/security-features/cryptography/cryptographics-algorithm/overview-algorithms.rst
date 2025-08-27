@@ -13,7 +13,7 @@ Jammy
      - **Name of encryption algorithm**
      - **Name of hash function**
      - **Max key length/hash value (in bits)**
-   * - OpenSSL
+   * - :ref:`OpenSSL`
      - bulk encryption
      - 3DES
      - 
@@ -173,7 +173,7 @@ Jammy
      - 
      - Whirlpool
      - 512
-   * - libgcrypt (gcrypt20)
+   * - :ref:`gcrypt` (gcrypt20)
      - bulk encryption
      - arcfour
      - 
@@ -353,7 +353,7 @@ Jammy
      - 
      - Whirlpool
      - 512
-   * - nettle
+   * - :ref:`nettle`
      - bulk encryption
      - AES
      - 
@@ -503,7 +503,7 @@ Jammy
      - 
      - UMAC
      - 128
-   * - GnuTLS (gnutls30)
+   * - :ref:`gnutls` (gnutls30)
      - bulk encryption
      - AES
      - 
@@ -643,7 +643,7 @@ Jammy
      - 
      - UMAC
      - 128
-   * - NSS
+   * - :ref:`NSS`
      - bulk encryption
      - AES
      - 
@@ -718,7 +718,7 @@ Jammy
      - 
      - MD5
      - 128
-   * - Kernel encryption
+   * - :ref:`Kernel`
      - bulk encryption
      - AES
      - 
@@ -971,7 +971,7 @@ Focal
      - **Name of encryption algorithm**
      - **Name of hash function**
      - **Max key length/hash value (in bits)**
-   * - OpenSSL
+   * - :ref:`OpenSSL`
      - bulk encryption
      - 3DES
      - 
@@ -1126,7 +1126,7 @@ Focal
      - 
      - Whirlpool
      - 512
-   * - libgcrypt (gcrypt20)
+   * - :ref:`gcrypt` (gcrypt20)
      - bulk encryption
      - arcfour
      - 
@@ -1291,7 +1291,7 @@ Focal
      - 
      - Whirlpool
      - 512
-   * - nettle
+   * - :ref:`nettle`
      - bulk encryption
      - AES
      - 
@@ -1421,7 +1421,7 @@ Focal
      - 
      - UMAC
      - 128
-   * - GnuTLS (gnutls30)
+   * - :ref:`gnutls` (gnutls30)
      - bulk encryption
      - AES
      - 
@@ -1541,7 +1541,7 @@ Focal
      - 
      - UMAC
      - 128
-   * - NSS
+   * - :ref:`NSS`
      - bulk encryption
      - AES
      - 
@@ -1616,7 +1616,7 @@ Focal
      - 
      - MD5
      - 128
-   * - Kernel encryption
+   * - :ref:`Kernel`
      - bulk encryption
      - AES
      - 
@@ -1844,7 +1844,7 @@ Bionic
      - **Name of encryption algorithm**
      - **Name of hash function**
      - **Max key length/hash value (in bits)**
-   * - OpenSSL
+   * - :ref:`OpenSSL`
      - bulk encryption
      - 3DES
      - 
@@ -1999,7 +1999,7 @@ Bionic
      - 
      - Whirlpool
      - 512
-   * - libgcrypt (gcrypt20)
+   * - :ref:`gcrypt` (gcrypt20)
      - bulk encryption
      - arcfour
      - 
@@ -2164,7 +2164,7 @@ Bionic
      - 
      - Whirlpool
      - 512
-   * - nettle
+   * - :ref:`nettle`
      - bulk encryption
      - AES
      - 
@@ -2284,7 +2284,7 @@ Bionic
      - 
      - UMAC
      - 128
-   * - GnuTLS (gnutls30)
+   * - :ref:`gnutls` (gnutls30)
      - bulk encryption
      - AES
      - 
@@ -2369,7 +2369,7 @@ Bionic
      - 
      - UMAC
      - 128
-   * - NSS
+   * - :ref:`NSS`
      - bulk encryption
      - AES
      - 
@@ -2444,7 +2444,7 @@ Bionic
      - 
      - MD5
      - 128
-   * - Kernel encryption
+   * - :ref:`Kernel`
      - bulk encryption
      - AES
      - 
@@ -2652,7 +2652,7 @@ Xenial
      - **Name of encryption algorithm**
      - **Name of hash function**
      - **Max key length/hash value (in bits)**
-   * - OpenSSL
+   * - :ref:`OpenSSL`
      - bulk encryption
      - AES
      - 
@@ -2747,7 +2747,7 @@ Xenial
      - 
      - SHA-2
      - 512
-   * - libgcrypt (gcrypt20)
+   * - :ref:`gcrypt` (gcrypt20)
      - bulk encryption
      - arcfour
      - 
@@ -2872,7 +2872,7 @@ Xenial
      - 
      - Whirlpool
      - 512
-   * - nettle
+   * - :ref:`nettle`
      - bulk encryption
      - AES
      - 
@@ -2987,7 +2987,7 @@ Xenial
      - 
      - rmd160
      - 160
-   * - GnuTLS (gnutls28)
+   * - :ref:`gnutls` (gnutls28)
      - bulk encryption
      - AES
      - 
@@ -3067,7 +3067,7 @@ Xenial
      - 
      - UMAC
      - 128
-   * - NSS
+   * - :ref:`NSS`
      - bulk encryption
      - AES
      - 
@@ -3137,7 +3137,7 @@ Xenial
      - 
      - MD5
      - 128
-   * - Kernel encryption
+   * - :ref:`Kernel`
      - bulk encryption
      - AES
      - 
@@ -3275,7 +3275,7 @@ Trusty
      - **Name of encryption algorithm**
      - **Name of hash function**
      - **Max key length/hash value (in bits)**
-   * - OpenSSL
+   * - :ref:`OpenSSL`
      - bulk encryption
      - AES
      - 
@@ -3370,7 +3370,7 @@ Trusty
      - 
      - SHA-2
      - 512
-   * - libgcrypt (gcrypt11)
+   * - :ref:`gcrypt` (gcrypt11)
      - bulk encryption
      - arcfour
      - 
@@ -3470,7 +3470,7 @@ Trusty
      - 
      - Whirlpool
      - 512
-   * - nettle
+   * - :ref:`nettle`
      - bulk encryption
      - AES
      - 
@@ -3575,7 +3575,7 @@ Trusty
      - 
      - rmd160
      - 160
-   * - GnuTLS (gnutls26)
+   * - :ref:`gnutls` (gnutls26)
      - bulk encryption
      - AES
      - 
@@ -3640,7 +3640,7 @@ Trusty
      - 
      - rmd160
      - 160
-   * - NSS
+   * - :ref:`NSS`
      - bulk encryption
      - AES
      - 
@@ -3710,7 +3710,7 @@ Trusty
      - 
      - MD5
      - 128
-   * - Kernel encryption
+   * - :ref:`Kernel`
      - bulk encryption
      - AES
      - 
