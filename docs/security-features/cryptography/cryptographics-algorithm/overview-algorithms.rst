@@ -1,0 +1,3822 @@
+Algorithms per Ubuntu release
+======================================================= 
+
+Jammy
+-----
+
+.. list-table::
+   :header-rows: 1
+   :widths: auto
+
+   * - **Source package**
+     - **Algorithm application**
+     - **Name of encryption algorithm**
+     - **Name of hash function**
+     - **Max key length/hash value (in bits)**
+   * - OpenSSL
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - ARIA
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - DESX
+     - 
+     - 184
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 1024
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - SM4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - CMAC
+     - 
+     - 128
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 571
+   * - 
+     - digital signature
+     - HMAC
+     - 
+     - 512
+   * - 
+     - digital signature
+     - POLY1305
+     - 
+     - 128
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - !SipHash
+     - 
+     - 64
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - KECCAK-KMAC
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHAKE
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - SM3
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - libgcrypt (gcrypt20)
+     - bulk encryption
+     - arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - GOST 28147-89
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Idea
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - RFC2268
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - SAFER_SK
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - SM4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - Elgamal
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2b
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2s
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - HAVAL
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Shake
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog / Stribog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger 1 & 2
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - nettle
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Arctwo
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - CAST-128
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - digital signature
+     - GOSTDSA
+     - 512
+     - 
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - authentication/integrity check
+     - 
+     - CMAC
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - HMAC
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - POLY1305
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHAKE
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - STREEBOG
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - GnuTLS (gnutls30)
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 40
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - GOST 28147-89
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - KUZNYECHIK
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - MAGMA
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - digital signature
+     - Ed25519
+     - 
+     - 256
+   * - 
+     - digital signature
+     - Ed448
+     - 
+     - 224
+   * - 
+     - digital signature
+     - DH
+     - 
+     - 15424
+   * - 
+     - digital signature
+     - GOST3410
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - CMAC
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - GMAC
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - GOST 28147-89
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - OMAC-KUZNYECHIK
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - OMAC-MAGMA
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - NSS
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - Kernel encryption
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Anubis
+     - 
+     - 320
+   * - 
+     - bulk encryption
+     - ARC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Cast6
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Khazad
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - SM4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - TEA
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DH
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - GOST3410
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - AES-CMAC-128
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - AES-CMAC-256
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - GHASH
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - HMAC
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - POLY1305
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SM3
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - mhash (libmhash2)
+     - authentication/integrity check
+     - 
+     - Adler32
+     - 32
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - GOST
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - HAVAL
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Snefru
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+
+Focal
+-----
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 30 20 20 10
+
+   * - **Source package**
+     - **Algorithm application**
+     - **Name of encryption algorithm**
+     - **Name of hash function**
+     - **Max key length/hash value (in bits)**
+   * - OpenSSL
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - ARIA
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - DESX
+     - 
+     - 184
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 1024
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - SM4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - CMAC
+     - 
+     - 128
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 571
+   * - 
+     - digital signature
+     - HMAC
+     - 
+     - 512
+   * - 
+     - digital signature
+     - POLY1305
+     - 
+     - 128
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - !SipHash
+     - 
+     - 64
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHAKE
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - SM3
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - libgcrypt (gcrypt20)
+     - bulk encryption
+     - arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - GOST 28147-89
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Idea
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - Elgamal
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2b
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2s
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - HAVAL
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Shake
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog / Stribog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger 1 & 2
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - nettle
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Arctwo
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - CAST-128
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - CMAC
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - POLY1305
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - GnuTLS (gnutls30)
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 40
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - GOST 28147-89
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - digital signature
+     - Ed25519
+     - 
+     - 256
+   * - 
+     - digital signature
+     - Ed448
+     - 
+     - 224
+   * - 
+     - digital signature
+     - DH
+     - 
+     - 15424
+   * - 
+     - digital signature
+     - GOST3410
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - AES
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - GOST 28147-89
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - NSS
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - Kernel encryption
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Anubis
+     - 
+     - 320
+   * - 
+     - bulk encryption
+     - ARC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Cast6
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Khazad
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - SM4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - TEA
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DH
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - GOST3410
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - POLY1305
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SM3
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - mhash (libmhash2)
+     - authentication/integrity check
+     - 
+     - Adler32
+     - 32
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - GOST
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - HAVAL
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Snefru
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+
+Bionic
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 30 20 20 10
+
+   * - **Source package**
+     - **Algorithm application**
+     - **Name of encryption algorithm**
+     - **Name of hash function**
+     - **Max key length/hash value (in bits)**
+   * - OpenSSL
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - ARIA
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - DESX
+     - 
+     - 184
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 1024
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - SM4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - CMAC
+     - 
+     - 128
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 571
+   * - 
+     - digital signature
+     - HMAC
+     - 
+     - 512
+   * - 
+     - digital signature
+     - POLY1305
+     - 
+     - 128
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - !SipHash
+     - 
+     - 64
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHAKE
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - SM3
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - libgcrypt (gcrypt20)
+     - bulk encryption
+     - arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - GOST 28147-89
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Idea
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - Elgamal
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2b
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Blake2s
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - HAVAL
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Shake
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog / Stribog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger 1 & 2
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - nettle
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Arctwo
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - CAST-128
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - GnuTLS (gnutls30)
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 40
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - digital signature
+     - DH
+     - 
+     - 15424
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - NSS
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - Kernel encryption
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Anubis
+     - 
+     - 320
+   * - 
+     - bulk encryption
+     - ARC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Cast6
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - !ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Khazad
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - TEA
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DH
+     - 
+     - 3072
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - poly1305
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Skein
+     - 1024
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - mhash (libmhash2)
+     - authentication/integrity check
+     - 
+     - Adler32
+     - 32
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - GOST
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - HAVAL
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Snefru
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+
+Xenial
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 30 20 20 10
+
+   * - **Source package**
+     - **Algorithm application**
+     - **Name of encryption algorithm**
+     - **Name of hash function**
+     - **Max key length/hash value (in bits)**
+   * - OpenSSL
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - DESX
+     - 
+     - 184
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 1024
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 571
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - libgcrypt (gcrypt20)
+     - bulk encryption
+     - arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - GOST 28147-89
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - Elgamal
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Streebog
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - nettle
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Arctwo
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - CAST-128
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - GnuTLS (gnutls28)
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 40
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
+   * - NSS
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - Kernel encryption
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Anubis
+     - 
+     - 320
+   * - 
+     - bulk encryption
+     - ARC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Cast6
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - ChaCha20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Khazad
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - TEA
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Skein
+     - 1024
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+
+Trusty
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 30 20 20 10
+
+   * - **Source package**
+     - **Algorithm application**
+     - **Name of encryption algorithm**
+     - **Name of hash function**
+     - **Max key length/hash value (in bits)**
+   * - OpenSSL
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - DESX
+     - 
+     - 184
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 1024
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 2048
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 571
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - libgcrypt (gcrypt11)
+     - bulk encryption
+     - arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 4096
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - Elgamal
+     - 
+     - 2048
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512
+   * - nettle
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Arctwo
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - CAST-128
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - authentication/integrity check
+     - 
+     - Gosthash94
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA3
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - GnuTLS (gnutls26)
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Arcfour
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 40
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - rmd160
+     - 160
+   * - NSS
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - RC2
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - RC4
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 56
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - digital signature
+     - Diffie-Hellman
+     - 
+     - 3072
+   * - 
+     - digital signature
+     - DSA
+     - 
+     - 1024
+   * - 
+     - digital signature
+     - RSA
+     - 
+     - 8192
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD2
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - Kernel encryption
+     - bulk encryption
+     - AES
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Anubis
+     - 
+     - 320
+   * - 
+     - bulk encryption
+     - ARC4
+     - 
+     - 2048
+   * - 
+     - bulk encryption
+     - Blowfish
+     - 
+     - 448
+   * - 
+     - bulk encryption
+     - Camellia
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Cast5
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Cast6
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - DES
+     - 
+     - 64
+   * - 
+     - bulk encryption
+     - 3DES
+     - 
+     - 168
+   * - 
+     - bulk encryption
+     - Khazad
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - Seed
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Serpent
+     - 
+     - 256
+   * - 
+     - bulk encryption
+     - TEA
+     - 
+     - 128
+   * - 
+     - bulk encryption
+     - Twofish
+     - 
+     - 256
+   * - 
+     - authentication/integrity check
+     - 
+     - MD4
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - MD5
+     - 128
+   * - 
+     - authentication/integrity check
+     - 
+     - RIPEMD
+     - 320
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-1
+     - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - SHA-2
+     - 512
+   * - 
+     - authentication/integrity check
+     - 
+     - Tiger
+     - 192
+   * - 
+     - authentication/integrity check
+     - 
+     - Whirlpool
+     - 512

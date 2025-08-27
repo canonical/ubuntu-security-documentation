@@ -1,4 +1,4 @@
-Cryptographic Algorithm
+Cryptographic Algorithms
 ========================
 
 This section covers cryptographic algorithms available in different Ubuntu versions.
@@ -6,9 +6,6 @@ This section covers cryptographic algorithms available in different Ubuntu versi
 .. toctree::
    :maxdepth: 2
 
-   finding-information
-   14.04
-   16.04
-   18.04
-   20.04
-   22.04
+   about-libraries
+   overview-algorithms
+
