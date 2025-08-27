@@ -163,7 +163,7 @@ gnutls
 nettle
 -------
 
-`https://www.lysator.liu.se/~nisse/nettle/ <Nettle>` is a low-level library designed to be easy to integrate into higher-level libraries.
+`https://www.lysator.liu.se/~nisse/nettle/ <Nettle>`_ is a low-level library designed to be easy to integrate into higher-level libraries.
 
 NSS
 ---
