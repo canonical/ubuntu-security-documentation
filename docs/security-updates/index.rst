@@ -172,3 +172,12 @@ VEX
    :maxdepth: 2
 
    vex/index
+
+Automatic security updates
+==========================
+
+Starting with Ubuntu 16.04 LTS, unattended-upgrades is configured to
+automatically apply security updates daily. Earlier Ubuntu releases can
+be
+`configured <https://ubuntu.com/server/docs/package-management#automatic-updates>`__
+to automatically apply security updates.
