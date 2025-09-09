@@ -35,6 +35,7 @@ The VEX format, although easy to parse, might still be difficult to interpret. T
 To facilitate understanding, consider the following OpenVEX data file of `CVE-2025-5994 <https://github.com/canonical/ubuntu-security-notices/blob/main/vex/cve/2025/CVE-2025-5994.json>`_:
 
 .. code:: JSON
+
   {
     "metadata": {
       "@context": "https://openvex.dev/ns/v0.2.0",
