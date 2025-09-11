@@ -1,7 +1,7 @@
 CPU features
 ============
 Four CPU features on x86-based hardware are not always available by default
-box. Many BIOS manufacturers disable the features in a conservative attempt to help
+Many BIOS manufacturers disable the features in a conservative attempt to help
 legacy operating systems that may perform strangely when these features are available.
 
 Ubuntu can fully utilize these features, and as such, these pages will attempt to describe
