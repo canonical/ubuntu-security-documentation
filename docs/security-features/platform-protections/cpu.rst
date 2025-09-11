@@ -17,10 +17,10 @@ to help block the exploitation of security vulnerabilities. This feature is call
 "eXecute-Disable" (XD) or "Non-eXecute" (NX) or Execute Disable Bit (EDB), depending on
 your BIOS manufacturer.
 
-In reading the system's :file:`/proc/cpuinfo` file, the first flags line will include
-``nx`` if the BIOS is not disabling the CPU feature, and the CPU is NX-capable.
-Nearly all 64-bit CPUs are NX-capable. If the flags line contains ``pae``, usually the CPU
-will support NX:
+The :file:`/proc/cpuinfo` file contains information about the CPU, including a line called
+"flags." The flags line lists all the features supported by the CPU. If the ``nx`` flag is
+present in this line, it means that the CPU supports the NX (Non-eXecute) feature. To check
+if the :file:`/proc/cpuinfo` file contains the flag, run:
 
 .. code-block:: shell
   
@@ -32,20 +32,19 @@ Enabling NX depends on the device. In a Dell laptop BIOS, look under "Security" 
 manufacturers have released firmware updates for their BIOS to allow enabling NX
 (e.g. Lenovo IdeaPads) so make sure to install the latest BIOS if the NX option is missing.
 
-On Ubuntu 10.04 Lucid Lynx and later, you can check if your hardware is expected to have NX
-available by running the command:
+You can check if your hardware is expected to have NX available by running the command:
 
 .. code-block:: shell
 
    sudo /usr/sbin/check-bios-nx --verbose
 
-Once the feature is enabled in the BIOS, it will 
-automatically be used if you’re running a 64-bit kernel. If you're using 32-bit, you can start
-using it if you install the ``-server`` or ``-generic-pae`` flavor of the 32-bit kernel. As a 
-bonus, you get to address all your physical RAM if you do this too (since the "PAE" mode is the
-kernel mode that allows NX to work). In Ubuntu 9.10 Karmic Koala and later, if you run 32-bit
-kernels without PAE, you will still have the partial NX emulation. It is required that you use
-PAE if you want true NX support.
+<<<<<<< HEAD
+Once the feature is enabled in the BIOS, it will automatically be used if you’re running a 
+64-bit kernel. If you're using 32-bit, you must install a ``-server`` or ``-generic-pae``
+flavor of the 32-bit kernel. As a bonus, you get to address all your physical RAM if you
+do this too (since the "PAE" mode is the kernel mode that allows NX to work). If you run
+32-bit kernels without PAE, you will still have the partial NX emulation. It is required
+that you use PAE if you want true NX support.
 
 
 .. _sev:
