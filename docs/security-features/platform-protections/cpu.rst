@@ -26,7 +26,7 @@ will support NX:
   
    grep ^flags /proc/cpuinfo | head -n1 | egrep --color=auto ' (pae|nx) '
 
-Enabling NX will depend on the device. In a Dell laptop BIOS, look under "Security" /
+Enabling NX depends on the device. In a Dell laptop BIOS, look under "Security" /
 "CPU XD Support": it should be set to "enabled". In an American Megatrends BIOS, look under 
 "CPU Features" / "Execute Disable Bit": it should be set to "enabled". Some BIOS 
 manufacturers have released firmware updates for their BIOS to allow enabling NX
