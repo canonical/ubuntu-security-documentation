@@ -39,7 +39,7 @@ available by running the command:
 
    sudo /usr/sbin/check-bios-nx --verbose
 
-As far as making use of the CPU feature once it's not disabled in the BIOS, it will 
+Once the feature is enabled in the BIOS, it will 
 automatically be used if you’re running a 64-bit kernel. If you're using 32-bit, you can start
 using it if you install the ``-server`` or ``-generic-pae`` flavor of the 32-bit kernel. As a 
 bonus, you get to address all your physical RAM if you do this too (since the "PAE" mode is the
