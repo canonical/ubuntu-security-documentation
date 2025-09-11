@@ -4,7 +4,7 @@ Four CPU features on x86-based hardware are not always available by default
 Many BIOS manufacturers disable the features in a conservative attempt to help
 legacy operating systems that may perform strangely when these features are available.
 
-Ubuntu can fully utilize these features, and as such, these pages will attempt to describe
+Ubuntu can fully utilize these features. This page describes
 where to find these features in BIOS, and how to turn them on.
 
 
