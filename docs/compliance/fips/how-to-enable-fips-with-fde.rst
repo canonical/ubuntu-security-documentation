@@ -1,4 +1,4 @@
-FIPS mode with full fisk encryption
+FIPS mode with full disk encryption
 ===================================
 
 Ubuntu supports numerous file systems, and the installer provides the option to use Full Disk Encryption (FDE) using either LUKS or ZFS. ZFS is not supported in FIPS mode. It is possible to use LUKS encryption, although an additional manual configuration step is required.
