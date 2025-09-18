@@ -131,4 +131,6 @@ When the system boots, ``initramfs`` loads the sealed blob from the disk and req
 Further reading
 ~~~~~~~~~~~~~~~
 
-* `Ubuntu Core - Full disk encryption <https://ubuntu.com/core/docs/full-disk-encryption#heading--grade>`_ describes the implementation principles of  TPM-backed FDE on Core.
+* `Ubuntu Core - Full disk encryption <https://ubuntu.com/core/docs/full-disk-encryption#heading--grade>`_ describes the implementation principles of TPM-backed FDE on Core.
+
+* `Ubuntu Desktop - Hardware-backed disk encryption <https://canonical-ubuntu-desktop-documentation.readthedocs-hosted.com/en/latest/explanation/hardware-backed-disk-encryption/>`_
