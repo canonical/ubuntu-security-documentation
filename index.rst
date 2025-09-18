@@ -31,6 +31,13 @@ In this documentation
 
         Make your system compliant.
 
+.. grid:: 2
+    :gutter: 1
+
+    .. grid-item-card:: :ref:`Common security mistakes`
+
+        Learn about common security mistakes and how to avoid them.
+
 Project and community
 =====================
 
@@ -47,7 +54,7 @@ Project and community
    docs/security-updates/index
    docs/security-features/index
    docs/compliance/index
-
+   docs/common-mistakes/index
 
 
   
