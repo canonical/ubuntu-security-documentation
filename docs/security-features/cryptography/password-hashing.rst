@@ -29,7 +29,7 @@ Ubuntu stores the password hashes for local users in ``/etc/shadow``. See the `s
    * - Questing (25.10)
      - yescrypt
 
-Ubuntu 14.04 LTS through Ubuntu 20.04 LTS uses the ``SHA-512`` key derivation which produces a fixed length 512 bit output. Although it is considered efficient to compute, its usage has declined due to brute-forcing being more feasible when compared to stronger algorithms.
+Ubuntu 14.04 LTS through Ubuntu 20.04 LTS uses the ``SHA-512`` hash function which produces a fixed length 512 bit output. Although it is considered efficient to compute, its usage has declined due to brute-forcing being more feasible when compared to stronger algorithms.
 
 Ubuntu 22.04 LTS and later use ``yescrypt`` which is based on ``scrypt``, a computationally expensive key derivation. This makes it less practical for adversaries to perform brute-force attacks when attempting to find a hash collision.
 
