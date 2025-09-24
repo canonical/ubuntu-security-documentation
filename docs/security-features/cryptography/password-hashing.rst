@@ -1,38 +1,36 @@
 Password Hashing
 -----------------
 
-.. tab-set::
-    
-    .. tab-item:: 14.04
+Cryptographic hashing enables passwords to be stored without revealing their contents. The hash created can be thought of as a digital fingerprint, with a insignificantly low probability of two different passwords having the same fingerprint, while being computationally intractable to recover the plain text password from the fingerprint. When a password needs to be verified, its hash is computed and compared to the stored hash.
 
-        ``sha512``
+A cryptographic salt is added to passwords before they are hashed to prevent an adversary from precomputing hashes for common passwords. It results in the same password used for different logins having different hashes.
 
-    .. tab-item:: 16.04
-    
-        ``sha512``
-   
-    .. tab-item:: 18.04
-    
-        ``sha512``
+Ubuntu stores the password hashes for local users in ``/etc/shadow``. See the `shadow(5) <https://manpages.ubuntu.com/manpages/en/man5/shadow.5.html>`_ and `crypt(5) <https://manpages.ubuntu.com/manpages/en/man5/crypt.5.html>`_ manual pages for more information.
 
-    .. tab-item:: 20.04
-    
-        ``sha512``
 
-    .. tab-item:: 22.04
-    
-        ``yescrypt``
+.. list-table::
 
-    .. tab-item:: 24.04
-    
-        ``yescrypt``
+   * - Release
+     - Hashing Algorithm
+   * - Trusty LTS (14.04)
+     - SHA-512
+   * - Xenial LTS (16.04)
+     - SHA-512
+   * - Bionic LTS (18.04)
+     - SHA-512
+   * - Focal LTS (20.04)
+     - SHA-512
+   * - Jammy LTS (22.04)
+     - yescrypt
+   * - Noble LTS (24.04)
+     - yescrypt
+   * - Plucky (25.04)
+     - yescrypt
+   * - Questing (25.10)
+     - yescrypt
 
-The system password used for logging into Ubuntu is stored in ``/etc/shadow``. 
+Ubuntu 14.04 LTS through Ubuntu 20.04 LTS uses the ``SHA-512`` hash function which produces a fixed length 512 bit output. Although it is considered efficient to compute, its usage has declined due to brute-forcing being more feasible when compared to stronger algorithms.
 
-Historically, very old-style password hashes were based on DES and visible in ``/etc/passwd``. Modern Linux has long since moved to ``/etc/shadow`` and used salted MD5-based hashes (crypt id 1) for password verification. Since MD5 is considered weak, Ubuntu 8.10 and later proactively moved to using salted SHA-512-based password hashes (crypt id 6), which are significantly harder to brute-force. 
-
-Ubuntu 22.04 LTS and later switched to ``yescrypt`` to provide increased protection against offline password cracking. 
-
-For more details, see the `crypt <https://man7.org/linux/man-pages/man3/crypt.3.html>`_ manpage.
+Ubuntu 22.04 LTS and later use ``yescrypt`` which is based on ``scrypt``, a computationally expensive key derivation. This makes it less practical for adversaries to perform brute-force attacks when attempting to find a hash collision.
 
 Regression tests: `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`_.
