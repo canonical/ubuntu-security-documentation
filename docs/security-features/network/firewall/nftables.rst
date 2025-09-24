@@ -1738,21 +1738,21 @@ Retrieving elements from a set:
 
 .. code-block:: console
 
-   sudo nft get element ip flow-track connections '{ 127.0.0.0 }'
+    sudo nft get element ip flow-track connections '{ 127.0.0.0 }'
 
 Adding an element to a set (alternatively, the similar ``create`` command
 succeeds only if the element does not exist):
 
 .. code-block:: console
 
-   sudo nft add element ip flow-track connections '{ 10.0.0.0 }'
+    sudo nft add element ip flow-track connections '{ 10.0.0.0 }'
 
 Deleting an element from a set (alternatively, the similar ``destroy`` command
 succeeds even if the element does not exist):
 
 .. code-block:: console
 
-   sudo nft delete element ip flow-track connections '{ 10.0.0.0 }'
+    sudo nft delete element ip flow-track connections '{ 10.0.0.0 }'
 
 Maps
 ~~~~
