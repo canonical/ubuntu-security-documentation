@@ -146,6 +146,7 @@ empty chains:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -200,6 +201,7 @@ throughout this documentation:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -260,6 +262,8 @@ exist):
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
+    :emphasize-lines: 21,25
 
     #!/usr/sbin/nft -f
 
@@ -298,6 +302,7 @@ references it:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -373,6 +378,7 @@ them:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -437,6 +443,7 @@ registered at the ``raw`` priority):
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -805,6 +812,7 @@ match only IPv4 packets):
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -836,6 +844,7 @@ section.
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -968,6 +977,7 @@ structure for two new functions, demonstrating some control flow functionality:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -1227,6 +1237,7 @@ example:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -1440,6 +1451,7 @@ The following extends the example firewall configuration with:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -1591,6 +1603,7 @@ redefine the set with the exact same settings:
 
 .. code-block:: nft
     :caption: /etc/nftables/input-services.d/ldap.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -1628,6 +1641,7 @@ limiting - these are explained in the :ref:`Stateful objects` section.
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
+    :linenos:
 
     destroy table ip limits
     table ip limits {
@@ -1658,6 +1672,7 @@ initiated a new flow in the last 10 minutes.
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/flow-track.conf
+    :linenos:
 
     destroy table ip flow-track
     table ip flow-track {
@@ -1774,6 +1789,7 @@ map @ip4-known-addresses return`` can be broken down as:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -2003,6 +2019,7 @@ referenced once the end of the ``limits-inbound`` chain is reached:
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
+    :linenos:
 
     destroy table inet limits
     table inet limits {
@@ -2057,6 +2074,7 @@ met: active number of conntrack flows or rate of creation of new conntrack flows
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
+    :linenos:
 
     destroy table inet limits
     table inet limits {
@@ -2148,6 +2166,7 @@ for tracking flow count and new flow rate per subnet:
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
+    :linenos:
 
     destroy table inet limits
     table inet limits {
@@ -2330,6 +2349,7 @@ registered, even if bridging is enabled.
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/flow-offload.conf
+    :linenos:
 
     define LAN_DEVICES = { eth0, eth1, eth2 }
 
@@ -2372,6 +2392,7 @@ broadcast one.
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
@@ -2402,6 +2423,7 @@ demonstrates this use case. It should be noted that:
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
+    :linenos:
 
     #!/usr/sbin/nft -f
 
