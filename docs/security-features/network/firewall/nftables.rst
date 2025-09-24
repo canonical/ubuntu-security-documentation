@@ -254,11 +254,11 @@ The include directive
 ^^^^^^^^^^^^^^^^^^^^^
 
 Files can be included by using the ``include`` directive. These are interpreted
-in the context in which the directive is used. For example, the following allows
-drop-in files to add rules to the defined ``firewall-input`` chain from
-``/etc/nftables/input-rules.d/`` and any other tables to be defined in files
-under ``/etc/nftables/tables.d/`` (if wildcards are used, the files need not
-exist):
+in the context in which the directive is used. For example, the following
+highlighted lines allow drop-in files to add rules to the defined
+``firewall-input`` chain from ``/etc/nftables/input-rules.d/`` and any other
+tables to be defined in files under ``/etc/nftables/tables.d/`` (if wildcards
+are used, the files need not exist):
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
@@ -298,11 +298,12 @@ Symbolic variables increase the maintainability of the firewall rules by
 associating names to arbitrary expressions, which can then be reused throughout
 the configuration. Associating the name ``IF_LOOPBACK`` to the interface name
 ``lo`` (the standard Linux loopback interface) allows defining a rule that
-references it:
+references it, as the following highlighted lines show:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 3,22-23
 
     #!/usr/sbin/nft -f
 
@@ -372,13 +373,14 @@ Debugging
 Log statement
 .............
 
-The following example demonstrates the use of the ``log`` statement to send any
-packets coming in on the loopback interface to the kernel log, before accepting
-them:
+The highlighted lines in the following example demonstrate the use of the
+``log`` statement to send any packets coming in on the loopback interface to the
+kernel log, before accepting them:
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 23-27
 
     #!/usr/sbin/nft -f
 
@@ -437,13 +439,14 @@ receive this information.
 The ``meta nftrace set 1`` statement can be combined with a match expression to
 set the flag, while ``meta nftrace set 0`` will clear it. If all the rules
 traversed are to be identified, the flag should be set as early as possible. The
-following examples creates two chains attached to the ``prerouting`` and
-``output`` hooks, running as early as feasible (even before other chains
-registered at the ``raw`` priority):
+highlighted lines in the following example create two chains attached to the
+``prerouting`` and ``output`` hooks, running as early as feasible (even before
+other chains registered at the ``raw`` priority):
 
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 16-22,24-29
 
     #!/usr/sbin/nft -f
 
@@ -805,14 +808,15 @@ Rules are composed of expressions and statements, both of which are optional.
 Expressions are used to match packets, while statements dictate what actions
 should be be taken. A rule without statements is valid and can be used for
 debugging purposes, as it will be reported by the :ref:`rule tracing <Rule
-tracing>` for any matched packets. For example, the following rule will match
-locally-generated IPv4 UDP packets without taking any actions (note the use of
-the `ip protocol udp` expression, as opposed to `meta l4proto udp`: this will
-match only IPv4 packets):
+tracing>` for any matched packets. For example, the following highlighted rule
+will match locally-generated IPv4 UDP packets without taking any actions (note
+the use of the ``ip protocol udp`` expression, as opposed to ``meta l4proto
+udp``: this will match only IPv4 packets):
 
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
     :linenos:
+    :emphasize-lines: 8
 
     #!/usr/sbin/nft -f
 
@@ -845,6 +849,7 @@ section.
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
     :linenos:
+    :emphasize-lines: 9,14-18
 
     #!/usr/sbin/nft -f
 
@@ -917,7 +922,8 @@ following is the list of verdict statements:
   subprocedure()``).
 
 The following example extends the previous firewall definition with the skeleton
-structure for two new functions, demonstrating some control flow functionality:
+structure for two new functions in the highlighted lines, demonstrating some
+control flow functionality:
 
 * Setting the Netfilter packet mark for inbound packets to represent where the
   packet originated from, in order to allow subsequent rules to make decisions
@@ -978,6 +984,7 @@ structure for two new functions, demonstrating some control flow functionality:
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 5,18-31,33-36,49,55-64
 
     #!/usr/sbin/nft -f
 
@@ -1220,7 +1227,7 @@ processing is required: one bit (a flag) is used to determine if the packet mark
 can be trusted as having been validated locally.
 
 The following ``nftables`` configuration containss two changes from the previous
-example:
+example in the highlighted lines:
 
 * An extension to the ``early-inbound`` chain, with the two regular chains that
   it invokes (``mark-inbound-determine`` and
@@ -1238,6 +1245,7 @@ example:
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 5-13,15,17-20,22,43-50,53-60,66-79,88-91
 
     #!/usr/sbin/nft -f
 
@@ -1437,7 +1445,7 @@ the more useful ones are:
   5-minute interval.
 * **size**: defines the maximum number of elements that the set can hold.
 
-The following extends the example firewall configuration with:
+The following highlighted lines extend the example firewall configuration with:
 
 * A named set (``input-services``) for services allowed to the local host. These
   are defined based on the Netfilter mark (only the realm bits), the transport
@@ -1452,6 +1460,7 @@ The following extends the example firewall configuration with:
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 30-45,112-114,124-134
 
     #!/usr/sbin/nft -f
 
@@ -1765,13 +1774,13 @@ expression with the same type as the value type of the map. If a corresponding
 key is not found, the statement terminates rule evaluation early and no further
 statements are evaluated.
 
-The following extension of the example makes use of a map from IPv4 and IPv6
-prefixes to Netfilter marks representing the origin realm and sets the Netfilter
-mark using an extensible rule: new elements can be added to map other addresses
-to different Netfilter mark values. In addition to the two new maps
-(``ip4-known-addresses`` and ``ip6-known-addresses``), the changes are made to
-the ``mark-inbound-determine`` regular chain. The rule ``meta mark set ip saddr
-map @ip4-known-addresses return`` can be broken down as:
+The highlighted lines in the following extension of the example make use of a
+map from IPv4 and IPv6 prefixes to Netfilter marks representing the origin realm
+and sets the Netfilter mark using an extensible rule: new elements can be added
+to map other addresses to different Netfilter mark values. In addition to the
+two new maps (``ip4-known-addresses`` and ``ip6-known-addresses``), the changes
+are made to the ``mark-inbound-determine`` regular chain. The rule ``meta mark
+set ip saddr map @ip4-known-addresses return`` can be broken down as:
 
 1. Form the key for the map lookup: ``ip saddr``. This implies that the network
    protocol must be IPv4. For any other packets, the rule is terminated early
@@ -1790,6 +1799,7 @@ map @ip4-known-addresses return`` can be broken down as:
 .. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
+    :emphasize-lines: 47-58,60-69,105-107
 
     #!/usr/sbin/nft -f
 
@@ -2049,8 +2059,8 @@ Resetting the counter data:
 
     sudo nft reset counter ip limits dropped-flows
 
-Anonymous objects can be associated to rules. The following extension to the
-previous example adds some functionality:
+Anonymous objects can be associated to rules. The highlighted lines in the
+following extension to the previous example add some functionality:
 
 * For HTTP traffic (selected using ``tcp dport { 80, 443 }``), use an anonymous
   connection limit (``ct count over 1000``) which conditionally terminates the
@@ -2075,6 +2085,7 @@ met: active number of conntrack flows or rate of creation of new conntrack flows
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
     :linenos:
+    :emphasize-lines: 12-16,18-19,22-36,38-53
 
     destroy table inet limits
     table inet limits {
@@ -2138,7 +2149,7 @@ associated with an arbitrary set of criteria. In effect, this extended syntax
 transforms the ``add`` and ``update`` statements to a lookup operation for a
 stateful object associated to a key and can terminate a rule early (e.g. if a
 token bucket limiter's threshold is reached). The following example adds support
-for tracking flow count and new flow rate per subnet:
+for tracking flow count and new flow rate per subnet in the highlighted lines:
 
 * For tracking flow counts, two sets are created: ``flow-count-ip4`` and
   ``flow-count-ip6``. Elements with IPv4 /24 subnets and IPv6 /48 subnets are
@@ -2167,6 +2178,7 @@ for tracking flow count and new flow rate per subnet:
 .. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
     :linenos:
+    :emphasize-lines: 6-22,24-40,59-66,84-97,99-112
 
     destroy table inet limits
     table inet limits {
