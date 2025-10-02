@@ -89,7 +89,7 @@ External I2C/SPI-based TPM modules are not supported as they are considered gene
 TPM hierarchies
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The TPM has four hierarchies used to protect cryptographic objects. Each hierarchy is rooted in a primary seed, from which primary keys (objects) can be derived. For FDE, we are primarily concerned with the storage hierarchy, which is associated with the device owner and used to manage persistent keys. The other hierarchies are:
+The TPM has four hierarchies used to protect cryptographic objects. Each hierarchy is rooted in a primary seed, from which primary keys (objects) can be derived. For FDE, we are primarily concerned with the storage hierarchy, which is associated with the device owner and used to manage persistent keys.
 
 The other hierarchies are:
 
