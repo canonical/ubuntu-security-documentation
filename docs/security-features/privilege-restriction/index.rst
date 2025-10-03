@@ -11,6 +11,14 @@ AppArmor
 
    apparmor
 
+Cgroups (Control Groups)
+========================
+
+.. toctree::
+   :maxdepth: 1
+
+   cgroups
+
 Filesystem Capabilities
 =======================
 
