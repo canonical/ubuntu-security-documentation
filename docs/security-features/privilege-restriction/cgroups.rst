@@ -12,7 +12,7 @@ stability and security of a modern Ubuntu system, providing the foundation for t
 Core Concepts of Cgroups
 ------------------------
 
-Cgroups operate on a couple key principles: 
+Cgroups operate on the key principles of organizational hierarchy and specific controllers representing system resources.
 
 Hierarchy
 ^^^^^^^^^
@@ -78,8 +78,8 @@ common properties that can be configured for a service:
   
 - **CPU**
 
-  - ``CPUQuota``: Sets a hard cap o nthe percentage of CPU time a service can use.
-  - ``CPUWeight``: Sets a relative "weight for CPU time, influencing its priority during contention.
+  - ``CPUQuota``: Sets a hard cap on the percentage of CPU time a service can use.
+  - ``CPUWeight``: Sets a relative weight for CPU time, influencing its priority during contention.
   - ``AllowedCPUs``: Restricts the service to run only on specific CPU cores.
 
 - **Memory**
