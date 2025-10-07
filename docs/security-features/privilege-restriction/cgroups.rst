@@ -63,8 +63,7 @@ On modern Ubuntu systems, ``systemd`` makes extensive use of cgroups to manage a
 Every service started by ``systemd`` is automatically placed into its own dedicated cgroup. This
 provides several benefits: 
 
-- When a service is stopped, ``systemd`` can reliably terminate the main process of its children
-  by killing all tasks within the service's cgroup.
+- When a service is stopped, ``systemd`` can reliably terminate all processes within the service's cgroup.
 - ``systemd`` can accurately track the resource consumption of each service. Tools like 
   ``systemd-cgtop`` provides a real-time view of CPU, memory, and I/O usage, broken down by service.
 - Administrators can easily apply resource limits directly to a service using:
