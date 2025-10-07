@@ -1,4 +1,4 @@
-Cgroups (Control Groups)
+cgroups (Control Groups)
 ========================
 
 Control Groups, commonly known as cgroups, are a powerful Linux kernel feature that allows for
@@ -9,15 +9,15 @@ stability and security of a modern Ubuntu system, providing the foundation for t
 ``systemd`` and containerization.
 
 
-Core Concepts of Cgroups
+Core Concepts of cgroups
 ------------------------
 
-Cgroups operate on the key principles of organizational hierarchy and specific controllers representing system resources.
+cgroups operate on the key principles of organizational hierarchy and specific controllers representing system resources.
 
 Hierarchy
 ^^^^^^^^^
 
-Cgroups are organized in a tree-like hierarchy, similar to a filesystem. This structure allows
+cgroups are organized in a tree-like hierarchy, similar to a filesystem. This structure allows
 for fine-grained control, where resource limits set on a parent cgroup can be inherited by its
 children and, recursively, all descendant cgroups.
 
@@ -32,10 +32,10 @@ system resource. Key controllers include:
 - ``pids``: Limits the number of processes that can be created within a cgroup, providing a crucial defence against "fork bomb" attacks.
 - ``network_cls``/``network_prio``: Used to tag network packets from processes within a cgroup, allowing for traffic shaping and prioritization.
 
-More information about controllers can be found in `the kernel documentation <https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html>`_.
+To understand more about cgroups and how they work, see `the kernel documentation <https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html>`_.
 
 
-The Role of Cgroups in System Stability and Security
+The Role of cgroups in System Stability and Security
 ----------------------------------------------------
 
 While often seen as a resource management tool, cgroups are a critical component of system
@@ -51,7 +51,7 @@ before it can crash the entire system, preserving the availability of other esse
 
 Foundations of Containerization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Cgroups are the bedrock of container technologies like Docker and LXD. They provide the resource
+cgroups are the bedrock of container technologies like Docker and LXD. They provide the resource
 isolation that makes containers viable. By placing each container into its own cgroup, the system
 can guarantee that one container cannot access more than its allocated share of CPU or memory,
 reducing the impact it can have on other containers or the host system.
@@ -101,7 +101,7 @@ common properties that can be configured for a service:
 .. NOTE:: While ``sudo`` isn't necessary when modifying user services, it is required for ``set-property`` to work for other services. 
    For a complete list of directives and their detailed explanations, refer to the Ubuntu `systemd.resource-control(5) <https://manpages.ubuntu.com/manpages/bionic/man5/systemd.resource-control.5.html>`_ manual page.
 
-Running Ad-Hoc Processes in Cgroups
+Running Ad-Hoc Processes in cgroups
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Beyond managing long-running services, users can use systemd wrappers to run any command
@@ -134,7 +134,7 @@ batch processing. For details on creating these files, consult the Ubuntu
 `systemd.slice(5) <https://manpages.ubuntu.com/manpages/bionic/man5/systemd.slice.5.html>`_ manual page.
 
 
-Inspecting Cgroups on Ubuntu
+Inspecting cgroups on Ubuntu
 ----------------------------
 
 There are several ways to see which cgroup a process belongs to, from high-level tools to
@@ -201,7 +201,7 @@ This command might produce a more complex output:
   1:name=systemd:/system.slice/apache2.service
   0::/system.slice/apache2.service
 
-Unified vs. Legacy Cgroups
+Unified vs. Legacy cgroups
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 One may wonder why ``systemctl`` shows one clean cgroup path while 
 :file:`/proc/<pid>/cgroup` shows many. The reason is the coexistence of two cgroups
@@ -221,7 +221,7 @@ In short, ``systemctl status`` gives users the relevant, modern view for service
 while :file:`/proc/<pid>/cgroup` gives users an exhaustive report of the process's position in
 every active hierarchy, both new and old.
 
-Browse the Cgroup Filesystem
+Browse the cgroup Filesystem
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Users can explore the cgroup hierarchy as a regular filesystem. The cgroup path from ``systemctl``
 maps directory to a directory under :file:`/sys/fs/cgroup`.
