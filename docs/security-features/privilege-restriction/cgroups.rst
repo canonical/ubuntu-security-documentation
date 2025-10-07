@@ -39,7 +39,7 @@ The Role of Cgroups in System Stability and Security
 ----------------------------------------------------
 
 While often seen as a resource management tool, cgroups are a critical component of system
-security and stability.
+security and stability because they prevent misuse of system resources, enable containerization and management of system services.
 
 Preventing Resource Exhaustion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
