@@ -9,7 +9,7 @@ such, it is a successor to the ``xtables`` kernel component and its associated
 
 This documentation uses the term ``nftables`` when referring to the Linux kernel
 component and ``nft`` when referring to the userspace utility. Please note that
-the Ubuntu package that provides the userspace utility is called ``nftables``
+the Ubuntu package that provides the userspace utility is also called ``nftables``
 and this documentation will refer to it as the ``nftables`` Ubuntu package.
 
 This page gradually builds an example ``nftables`` configuration file that is
@@ -28,7 +28,7 @@ There are several advantages to using ``nftables`` over the older alternatives:
   linear rule processing (O(n)), constant time (O(1)) can be achieved.
 * The syntax used by the userspace ``nft`` utility is declarative, instead of
   the procedural format required for ``ip/ip6/arp/ebtables``, simplifying
-  management of firewall configuration
+  management of firewall configuration.
 * Tables and chains are not predefined and the structure allows registering an
   arbitrary number of them: this facilitates the independent management of rules
   by multiple applications.
@@ -43,13 +43,7 @@ Compatibility
 
 In general, most of the rules that can be defined using ``iptables``,
 ``ip6tables``, ``arptables`` and ``ebtables`` can also be defined using
-``nftables``, but not the other way around. It is strongly recommended that you
-only use one of two approaches to managing firewall rules. Otherwise, the
-interaction between the different rules or services that set them up may be
-unexpected and lead to either insecure configurations or block traffic that is
-meant to be allowed. Furthermore, certain applications, such as container
-orchestration systems or VPN utilities may configure firewall rules, resulting
-in unexpected rule interactions.
+``nftables``, but not the other way around. Use only one of two approaches to manage firewall rules. Otherwise, the interaction between the different rules or services that set them up may be unexpected and lead to either insecure configurations or block traffic that is meant to be allowed. Furthermore, certain applications, such as container orchestration systems or VPN utilities may configure firewall rules, resulting in unexpected rule interactions.
 
 There are still certain ``xtables`` rules which cannot be defined using
 ``nftables``, as documented in the `feature compatibility nftables wiki page
@@ -63,7 +57,7 @@ utility yet (e.g. support for rules invoking eBPF programs).
 Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided
 versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables``
 tools that work with the ``nftables`` API and provide a compatible interface to
-the legacy implementation. The ``nftables`` backend, used by the
+the legacy implementation. The ``nftables`` backend, used by 
 ``iptables-nft`` / ``ip6tables-nft`` / ``arptables-nft`` / ``ebtables-nft``
 utilities, has been the default since Ubuntu 20.10 Groovy Gorilla. These are
 managed through the alternatives system and the current configuration can be
