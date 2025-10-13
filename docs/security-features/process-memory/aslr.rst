@@ -82,7 +82,7 @@ Exec ASLR
 *Introduced in the Linux kernel:* 2.6.25, backported to Ubuntu 8.04 LTS
 
 Each execution of a program that has been built with "-fPIE -pie"
-(see :ref:`_pie`) will get loaded into a different memory location.
+(see :ref:`Built as PIE <compiler-flags-pie>`) will get loaded into a different memory location.
 
 
 This makes it harder to locate in memory where to attack or jump to when
