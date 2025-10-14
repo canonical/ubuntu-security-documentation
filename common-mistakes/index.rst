@@ -7,4 +7,11 @@ Direct downloading of .debs
    :maxdepth: 1
    :glob:
 
-   *
+   deb-download-*
+
+Unnecessarily open ports
+========================
+.. toctree::
+   :maxdepth: 1
+
+   unnecessarily-open-ports
