@@ -39,9 +39,9 @@ Or via ``sysctl``::
 
    sysctl -w kernel.randomize_va_space=1
 
-To make it persistent across reboots, add a line to a config file in ``/etc/sysctl.d/``::
+To make it persistent across reboots, add a line to a config file in ``/etc/sysctl.d/``. For example,::
 
-   kernel.randomize_va_space=1
+   echo "kernel.randomize_va_space=1" | sudo tee /etc/sysctl.d/aslr.conf
 
 .. _types-of-aslr:
 
