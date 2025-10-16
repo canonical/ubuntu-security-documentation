@@ -2,9 +2,10 @@ Address Space Layout Randomization (ASLR)
 #########################################
 
 Address Space Layout Randomization (ASLR) is a security feature that randomizes
-the location of memory allocations, implemented by the kernel and the ELF
-loader. This randomization makes it more difficult for attackers to reliably predict memory
-addresses when attempting a memory-corruption exploit.
+memory allocations. The randomization may be performed by the kernel or by the
+ELF loader, depending on the type of ASLR. This makes it more difficult for
+attackers to reliably predict or locate memory addresses when attempting to read
+or corrupt memory.
 
 It is one of the most widely deployed memory safety mitigations in modern
 operating systems. On most modern Linux distributions, ASLR is enabled
