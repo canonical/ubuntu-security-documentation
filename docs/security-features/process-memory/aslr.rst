@@ -55,8 +55,6 @@ See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tr
 Stack ASLR
 ~~~~~~~~~~
 
-*Introduced in the Linux kernel:* 2.6.15 (Ubuntu 6.06)
-
 Each execution of a program results in a different stack memory space layout.
 
 This makes it harder to locate in memory where to attack or deliver an
@@ -66,8 +64,6 @@ executable attack payload.
 
 Libs/mmap ASLR
 ~~~~~~~~~~~~~~
-
-*Introduced in the Linux kernel:* 2.6.15 (Ubuntu 6.06 LTS)
 
 Each execution of a program results in a different ``mmap`` memory space layout.
 
@@ -79,8 +75,6 @@ for "return-to-libc" to similar attacks.
 
 Exec ASLR
 ~~~~~~~~~
-
-*Introduced in the Linux kernel:* 2.6.25, backported to Ubuntu 8.04 LTS
 
 Each execution of a program that has been built with "-fPIE -pie"
 (see :ref:`Built as PIE <compiler-flags-pie>`) will get loaded into a different memory location.
@@ -94,8 +88,6 @@ performing memory-corruption-based attacks.
 ``brk`` ASLR
 ~~~~~~~~~~~~
 
-*Introduced in the Linux kernel:* 2.6.26 (Ubuntu 8.10)
-
 Small ``malloc`` allocations are served from the program break (``brk``)
 segment. Randomizing the gap between the ``exec`` region and ``brk`` makes it
 harder to locate in memory where to attack or jump to.
@@ -105,18 +97,11 @@ harder to locate in memory where to attack or jump to.
 vDSO ASLR
 ~~~~~~~~~
 
-*Introduced in the Linux kernel:* 2.6.18 (x86/PPC), 2.6.22 (x86_64) (Ubuntu 8.04 LTS)
-
 Each execution of a program results in a random vDSO location.
 
 The vDSO (Virtual Dynamic Shared Object) offers a selected set of kernel space
 routines (e.g. ``gettimeofday``) to user space applications to improve
 performance. Randomizing the address avoids "jump-into-syscall" attacks.
-
-In Ubuntu 6.10 and 7.04 the feature was masked by ``COMPAT_VDSO``;
-full randomization has been the default since Ubuntu 8.04 LTS. Legacy software
-that requires a fixed high mapping of vDSO can boot with ``vdso=2`` on
-the kernel command line.
 
 .. _further-reading-for-aslr:
 
