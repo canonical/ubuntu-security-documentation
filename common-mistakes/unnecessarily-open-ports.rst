@@ -2,12 +2,16 @@ Unnecessarily open ports
 ========================
 Introduction
 ++++++++++++
+An `unnecessarily` open port is one that is exposed to an untrusted network
+when it doesn't need to be, or one that belongs to a service that is no longer
+in use.
+
 When a host on a network wishes to provide services (such as a web application
 or SSH access) to other hosts on the network, it must bind the process that is
 running the service to a port on the corresponding network interface. The
 process will then be able to listen for and respond to incoming requests from
 other hosts on the network. In these cases, the port that the service listens
-on is referred to as an "open port".
+on is referred to as an `open port`.
 
 Open ports are essential for allowing hosts to communicate over a network.
 However, open ports carry some security risks as they increase the likelihood
@@ -72,7 +76,8 @@ other processes running on the same system can send packets to the PostgreSQL da
 via this open port.
 
 The ``ss`` output also shows a DHCP client listening on ``192.168.122.37:68``
-and ``172.16.0.155:68``.
+and ``172.16.0.155:68``. This is expected behavior, as the system uses this
+port to obtain its IP address from the network.
 
 Security implications of open ports
 +++++++++++++++++++++++++++++++++++
@@ -129,7 +134,7 @@ information by sending requests to the AJP port.
 
 .. note::
    Apache Tomcat versions shipped in Ubuntu were configured with the AJP
-   listener *disabled* by default, and were therefore not vulnerable to this
+   listener `disabled` by default, and were therefore not impacted by this
    particular vulnerability.
 
 Best practices for open ports
