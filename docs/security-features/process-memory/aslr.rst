@@ -69,7 +69,7 @@ Libs/mmap ASLR
 ~~~~~~~~~~~~~~
 
 Each execution of a program results in different base addresses for dynamically 
-loaded libraries and memory-mapped regions. This means that shared libraries, 
+loaded libraries and ``mmap`` memory regions. This means that shared libraries, 
 memory-mapped files, and other ``mmap``-allocated regions are placed at 
 randomized addresses on each execution.
 
