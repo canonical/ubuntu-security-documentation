@@ -97,8 +97,8 @@ performing memory-corruption-based attacks.
 Each execution of a program results in a different base address for the heap.
 
 Small ``malloc`` allocations are served from the heap by adjusting the program
-break with the ``brk`` system call. Randomizing the starting addresses of the
-executable and the heap makes it harder for an attacker to locate code or
+break with the ``brk`` system call. Randomizing the offset from the
+executable to the heap area makes it harder for an attacker to locate code or
 data for an exploit.
 
 .. _vdso-aslr:
