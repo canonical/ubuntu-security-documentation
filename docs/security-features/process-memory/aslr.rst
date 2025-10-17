@@ -2,8 +2,10 @@ Address Space Layout Randomization (ASLR)
 #########################################
 
 Address Space Layout Randomization (ASLR) is a security feature that randomizes
-memory allocations. The randomization may be performed by the kernel or by the
-ELF loader, depending on the type of ASLR. This makes it more difficult for
+the location of key memory areas. This is implemented jointly; the kernel
+randomizes the initial process layout (i.e., the stack and heap), while the
+user-space Executable and Linkable Format (ELF) loader randomizes the locations
+of the executable and its shared libraries. This makes it more difficult for
 attackers to reliably predict or locate memory addresses when attempting to read
 or corrupt memory.
 
@@ -55,21 +57,25 @@ See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tr
 Stack ASLR
 ~~~~~~~~~~
 
-Each execution of a program results in a different stack memory space layout.
+Each time a program is executed, its stack is placed at a different starting
+address in memory.
 
-This makes it harder to locate in memory where to attack or deliver an
-executable attack payload.
+This makes it harder to locate where to attack or deliver an executable payload
+in memory.
 
 .. _mmap-aslr:
 
 Libs/mmap ASLR
 ~~~~~~~~~~~~~~
 
-Each execution of a program results in a different ``mmap`` memory space layout.
+Each execution of a program results in different base addresses for dynamically 
+loaded libraries and memory-mapped regions. This means that shared libraries, 
+memory-mapped files, and other ``mmap``-allocated regions are placed at 
+randomized addresses on each execution.
 
-It causes the dynamically loaded libraries to get loaded into different
-locations each time. This makes it harder to locate in memory where to jump to
-for "return-to-libc" to similar attacks.
+This randomization makes it significantly harder for attackers to reliably locate 
+memory addresses, which is essential for attacks like "return-to-libc" attacks
+that require known addresses of library functions or mapped content.
 
 .. _exec-aslr:
 
@@ -88,9 +94,12 @@ performing memory-corruption-based attacks.
 ``brk`` ASLR
 ~~~~~~~~~~~~
 
-Small ``malloc`` allocations are served from the program break (``brk``)
-segment. Randomizing the gap between the ``exec`` region and ``brk`` makes it
-harder to locate in memory where to attack or jump to.
+Each execution of a program results in a different base address for the heap.
+
+Small ``malloc`` allocations are served from the heap by adjusting the program
+break with the ``brk`` system call. Randomizing the starting addresses of the
+executable and the heap makes it harder for an attacker to locate code or
+data for an exploit.
 
 .. _vdso-aslr:
 
@@ -100,8 +109,11 @@ vDSO ASLR
 Each execution of a program results in a random vDSO location.
 
 The vDSO (Virtual Dynamic Shared Object) offers a selected set of kernel space
-routines (e.g. ``gettimeofday``) to user space applications to improve
-performance. Randomizing the address avoids "jump-into-syscall" attacks.
+routines (e.g. ``gettimeofday``) to user-space applications to improve the
+performance of system calls by avoiding expensive context switches. Randomizing
+the address of the syscall entry point avoids "jump-into-syscall" attacks which
+require the attacker to reliably guess the address needed to hijack the
+control flow.
 
 .. _further-reading-for-aslr:
 
@@ -112,3 +124,4 @@ Further reading for ASLR
 * `randomize_va_space in the Linux kernel documentation <https://docs.kernel.org/admin-guide/sysctl/kernel.html#randomize-va-space>`_
 * `Address space randomization in 2.6 <https://lwn.net/Articles/121845/>`_
 * `On vsyscalls and the vDSO <https://lwn.net/Articles/446528/>`_
+* `Return-to-libc Attack <https://en.wikipedia.org/wiki/Return-to-libc_attack>`_
