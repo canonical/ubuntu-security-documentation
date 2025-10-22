@@ -50,11 +50,11 @@ Project and community
    :maxdepth: 2
    :hidden:
 
-   docs/software-integrity/index
-   docs/security-updates/index
-   docs/security-features/index
-   docs/compliance/index
-   docs/common-mistakes/index
+   software-integrity/index
+   security-updates/index
+   security-features/index
+   compliance/index
+   common-mistakes/index
 
 
   

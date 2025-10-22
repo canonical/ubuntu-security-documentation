@@ -9,6 +9,7 @@ where to find these features in BIOS, and how to turn them on.
 
 
 .. _non-exec:
+
 Non-Executable Memory
 ---------------------
 
@@ -38,7 +39,6 @@ You can check if your hardware is expected to have NX available by running the c
 
    sudo /usr/sbin/check-bios-nx --verbose
 
-<<<<<<< HEAD
 Once the feature is enabled in the BIOS, it will automatically be used if you’re running a 
 64-bit kernel. If you're using 32-bit, you must install a ``-server`` or ``-generic-pae``
 flavor of the 32-bit kernel. As a bonus, you get to address all your physical RAM if you
@@ -48,6 +48,7 @@ that you use PAE if you want true NX support.
 
 
 .. _sev:
+
 AMD Secure Encrypted Virtualization (SEV)
 -----------------------------------------
 
