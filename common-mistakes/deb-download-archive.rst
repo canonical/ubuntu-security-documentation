@@ -17,7 +17,7 @@ By downloading :file:`.deb` packages manually through a web browser or HTTP clie
 To ensure package authenticity and prevent tampering, always install software through a package manager like APT, which performs full cryptographic verification.
 
 Missed or blocked security updates 
-=================================
+==================================
 
 Installing :file:`.deb` packages manually bypasses APT’s automatic security updates.
 

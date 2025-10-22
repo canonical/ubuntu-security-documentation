@@ -55,7 +55,7 @@ The next sections cover the relevant details of the data we publish.
 To facilitate understanding, consider the following OSV data file
 UBUNTU-CVE-2025-6491.json:
 
-.. code:: JSON
+.. code:: json
 
    {
      "schema_version": "1.7.0",
@@ -897,7 +897,7 @@ What does that actually mean for Ubuntu OSV data is that:
   that matches the ``UBUNTU-CVE-...``. For example ``UBUNTU-CVE-2025-6194``
   will have:
 
-  .. code-block:: JSON
+  .. code-block:: json
 
      "upstream": [
        "CVE-2025-6491"
@@ -908,7 +908,7 @@ What does that actually mean for Ubuntu OSV data is that:
   CVE Records that were fixed in this USN. For example ``USN-7548-1`` will
   have:
 
-  .. code-block:: JSON
+  .. code-block:: json
 
      "upstream": [
        "UBUNTU-CVE-2023-52969",
@@ -922,7 +922,7 @@ What does that actually mean for Ubuntu OSV data is that:
   contain a list of Ubuntu CVE Records that were fix in that LSN. For
   example ``LSN-0112-1``:
 
-  .. code-block:: JSON
+  .. code-block:: json
 
      "upstream": [
        "UBUNTU-CVE-2021-47506",
@@ -977,7 +977,7 @@ our priorities:
 
 For example, for UBUNTU-CVE-2025-6491:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "severity": [
      {
@@ -1001,7 +1001,7 @@ vulnerability.
 
 For example, for UBUNTU-CVE-2025-6491 we have:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "severity": [
      {
@@ -1053,13 +1053,13 @@ to specify if the release is an LTS or not, e.g.:
 
 * Ubuntu 24.04 LTS will be represented as:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "ecosystem": "Ubuntu:24.04:LTS",
 
 * Ubuntu 25.04 will be represented as:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "ecosystem": "Ubuntu:25.04",
 
@@ -1068,7 +1068,7 @@ entry to the ecosystem, e.g.:
 
 * Ubuntu 18.04 LTS will be represented as:
 
-  .. code-block:: JSON
+  .. code-block:: json
 
      "ecosystem": "Ubuntu:Pro:18.04:LTS"
 
@@ -1096,7 +1096,7 @@ If you are still unsure if a fix was released under Pro, we also have a
 field under ``ecosystem_specific`` that describes when a Pro subscription
 is required. For example:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "ecosystem_specific": {
      "availability": "Available with Ubuntu Pro: https://ubuntu.com/pro"
@@ -1115,7 +1115,7 @@ Therefore, to facilitate the reading, as well as any automation or scanning
 tools, we add under the field ``ecosyste_specific`` the list of binary packages
 and their versions. For example, for php8.4:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "ecosystem_specific": {
      "binaries": [
@@ -1140,13 +1140,12 @@ and their versions. For example, for php8.4:
      "availability": "No subscription required"
    }
 
-
 For LSNs, there's no particular source package patching involved. And since
 the kernel is instead patched during runtime via a kernel module, we list
 instead a regular expression for the kernel module. For example
 `LSN-0113-1 <https://github.com/canonical/ubuntu-security-notices/blob/main/osv/lsn/LSN-0113-1.json>`_:
 
-.. code-block:: JSON
+.. code-block:: json
 
    "ecosystem_specific": {
      "availability": "Livepatch subscription required",
@@ -1171,7 +1170,7 @@ patches a vulnerability, the source package version is listed in ``fixed``.
 
 For example, a ranges entry:
 
-.. code:: JSON
+.. code:: json
 
    "ranges": [
      {
@@ -1193,7 +1192,7 @@ The ``versions`` field
 This field contains a list of versions of the source package that are affected
 by the vulnerability in scope for a given Ubuntu release. For example,
 
-.. code-block:: JSON
+.. code-block:: json
 
    "versions": [
      "8.4.1-5",

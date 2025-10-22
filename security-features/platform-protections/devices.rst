@@ -70,9 +70,9 @@ example, the file above can be broken down into the following componenets:
 While these rules provide effective filtering, it's important to understand the limitations
 these rules have for risk reduction. A malicious device can be programmed to lie about its
 attributes, such as its device class, vendor, or product ID. This can allow a malicious
-device to be allowed by existing rules. Because of this ``usbauth`` should be viewed as an effective way to
- reduce the risk external devices connected via USB pose to a user's system, but it doesn't
- eliminate the risk entirely.
+device to be allowed by existing rules. Because of this ``usbauth`` should be viewed as an 
+effective way to reduce the risk external devices connected via USB pose to a user's system,
+but it doesn't eliminate the risk entirely.
 
 You can learn more about ``usbauth`` through its 
 `official manpages <https://manpages.ubuntu.com/manpages/noble/en/man8/usbauth.8.html>`_.
