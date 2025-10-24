@@ -6,17 +6,21 @@ An `unnecessarily` open port is one that is exposed to an untrusted network
 when it doesn't need to be, or one that belongs to a service that is no longer
 in use.
 
-When a host on a network wishes to provide services (such as a web application
+When a host on a network wishes to provide a service (such as a web application
 or SSH access) to other hosts on the network, it must bind the process that is
-running the service to a port on the corresponding network interface. The
-process will then be able to listen for and respond to incoming requests from
-other hosts on the network. In these cases, the port that the service listens
-on is referred to as an `open port`.
+running the service to a transport protocol port and one or more of its IP
+addresses. Other hosts on the network can then use this combination of the
+chosen network address and port number to send packets to the listening service.
+In these cases, the host that provides the services is known as the `server`,
+while the other hosts are the `clients`. The port that the service listens on
+is referred to as an `open port`.
 
-Open ports are essential for allowing hosts to communicate over a network.
-However, open ports carry some security risks as they increase the likelihood
-of certain types of attacks. Thus, it is important to ensure that ports are
-configured correctly and only opened when required.
+Open ports are the very building blocks of network communication. However, since
+the listening service might have vulnerabilities, unnecessarily open ports
+increase the attack surface of the system. Furthermore, threat actors could derive
+information from the very presence of the service. Therefore, it is considered
+good practice to limit the network traffic that can reach open ports (for example,
+by using a firewall) and to close any unnecessarily open ports.
 
 Ubuntu ships with minimal open ports by default. More details about Ubuntu's
 policy on open ports can be found :doc:`here <../security-features/network/open-ports>`.
@@ -24,32 +28,41 @@ policy on open ports can be found :doc:`here <../security-features/network/open-
 Identifying open ports
 ++++++++++++++++++++++
 
-The ``ss`` utility can be used to identify open ports on a system:
+The ``ss`` utility can be used to identify open ports on a system.
+
+The following command lists all open ports for TCP and UDP, which are the main
+transport protocols for communication over the Internet:
 
 .. code-block:: bash
 
-   ss -utln
+   ss -utlnp
 
-It is often desirable to exclude ports listening on the loopback interface:
+.. note::
+   By default, the results from ``ss`` will be for the network namespace of the
+   shell process. The ``-N`` option can be used to specify a specific network
+   namespace to examine with ``ss``.
+
+It is often desirable to exclude open ports that are only reachable from the
+host itself, particularly if everything running on the host is assumed to be
+trusted. This is done by filtering out loopback addresses:
 
 .. code-block:: bash
 
-   ss -utln | grep -vE '127\.0\.0|\[::1\]'
+   ss -utlnp | grep -vE '127(\.[0-9]+){3}|\[::1\]'
 
 With ``root`` access, the ``-p`` flag can be used to see which process
 is listening on each of the open ports:
 
 .. code-block:: bash
 
-   sudo ss -utlnp | grep -vE '127\.0\.0|\[::1\]'
+   ss -utlnp | grep -vE '127(\.[0-9]+){3}|\[::1\]'
 
-Here is what the output of ``ss`` might look like for a system connected to two
-networks and running three network services: an Apache web server, an SSH
-server, and a PostgreSQL database.
+Here is what the output of ``ss`` might look like for a system running three
+network services: an Apache web server, an SSH server, and a PostgreSQL database.
 
 .. code-block:: bash
 
-   $ sudo ss -utlnp | grep -vE '127\.0\.0|\[::1\]'
+   $ sudo ss -utlnp | grep -vE '127(\.[0-9]+){3}|\[::1\]'
    Netid State  Recv-Q Send-Q         Local Address:Port Peer Address:PortProcess                                                
    udp   UNCONN 0      0      192.168.122.37%enp1s0:68        0.0.0.0:*    users:(("systemd-network",pid=421,fd=22))             
    udp   UNCONN 0      0        172.16.0.155%enp2s0:68        0.0.0.0:*    users:(("systemd-network",pid=421,fd=23))             
@@ -58,22 +71,20 @@ server, and a PostgreSQL database.
    $ sudo ss -utlnp | grep postgres
    tcp   LISTEN 0      200                127.0.0.1:5432      0.0.0.0:*    users:(("postgres",pid=5157,fd=6))                    
 
-In this example, the system is using the IP address ``192.168.122.37`` on one
-network and ``172.16.0.155`` on the other. 
+In this example, the system has been assigned two IP addresses: ``192.168.122.37`` 
+and ``172.16.0.155``.
 
 The Apache web server (``apache2``) is bound to ``*:80``. This means that
-it is listening on port ``80`` on **all** of the system's network interfaces.
-Hosts on either of the two networks can send packets to the Apache web server via
-port ``80``.
+it is listening on port ``80`` on **all** of the system's network addresses.
 
-On the other hand, the SSH server (``sshd``) is listening on port ``22`` of only
-the ``192.168.122.37`` network interface, and so only hosts on that network can
-send packets to the SSH server.
+On the other hand, the SSH server (``sshd``) is listening on port ``22`` on only
+the ``192.168.122.37`` address. Only TCP packets with a destination address of
+``192.168.122.37`` and a destination port of ``22`` will be passed to the SSH
+server.
 
 Finally, the PostgreSQL database (``postgres``) is bound to ``127.0.0.1:5432``.
-Since this is an address on the system's loopback interface, only
-other processes running on the same system can send packets to the PostgreSQL database
-via this open port.
+``127.0.0.1`` is an example of a `loopback` address. Only other processes running
+on the same system can send packets to open ports on these addresses.
 
 The ``ss`` output also shows a DHCP client listening on ``192.168.122.37:68``
 and ``172.16.0.155:68``. This is expected behavior, as the system uses this
@@ -81,19 +92,28 @@ port to obtain its IP address from the network.
 
 Security implications of open ports
 +++++++++++++++++++++++++++++++++++
+Exposure of system information
+------------------------------
+Many network services reveal certain information about the host system. By
+sending requests to a network service listening on an open port and analyzing
+the response, it may be possible to determine what software and operating system
+is running on the host, as well as their versions.
+
+Although the exposure of this information is not inherently a security risk,
+it could help a threat actor determine which attacks or exploits can be
+used to target the system.
+
 Denial-of-service attacks
 -------------------------
-An open port allows a host to receive packets from other hosts on a network.
-However, if any of these hosts are malicious, they could send packets
-in a way that consumes excessive resources on the host and prevents it from
-servicing legitimate requests or performing other work.
+A denial-of-service attack occurs when a host connected to a network receives
+packets in a way that consumes excessive resources on the host and prevents it
+from performing other work. Although it is possible to conduct a denial-of-service
+attack against a host with no open ports, certain types of denial-of-service
+attacks require a listening service on the victim host.
 
-For example, if there are multiple malicious hosts on the network, they can be
-used to simultaneously flood the victim host with packets. This is
-known as a distributed denial-of-service (DDoS) attack.
-
-Other types of denial-of-service attacks include Slowloris and SYN flood attacks,
-which exploit certain weaknesses in network protocols.
+For example, a SYN flood attack requires the victim host to have an open TCP
+port accepting incoming connections, and a Slowloris attack requires the victim
+host to have an HTTP server listening on an open port.
 
 .. note::
    All currently supported Ubuntu releases provide some protection against SYN
@@ -113,24 +133,25 @@ open port is using a vulnerable version of the library, a malicious host
 could potentially exploit the vulnerability to execute arbitrary code on the
 victim host.
 
-Exposure of privileged services or sensitive information
---------------------------------------------------------
-Systems may be connected to several different networks, each with its own set
-of ports that services can be bound to. Some networks may be more trusted than
-others. For example, a server may be connected to both an organization's private
-intranet (generally more trusted) and the public Internet (generally less trusted).
-In this case, the server may not want to bind certain services (such as those
-exposing sensitive information or privileged functionality) to a port on its public
-Internet-facing network interface, since doing so may lead to unauthorized
-access of those services.
+Unauthorized access to services due to misconfiguration
+-------------------------------------------------------
+A host can have several IP addresses, each with its own set of ports that
+services can be bound to. These IP addresses may be `public` or `globally
+routable`, which means that they can be reached from the Internet, or they may
+be `private`, which means that they can only be reached from other hosts on
+a private network (such as a local area network or an organization's private
+intranet).
+
+Exposing services on public IP addresses, or on private IP addresses when
+connected to untrusted networks (such as public Wi-Fi networks) could allow
+malicious hosts to access those services.
 
 An example of this is given by the `Ghostcat <https://ubuntu.com/security/CVE-2020-1938>`_
 vulnerability. Certain versions of Apache Tomcat were configured to have an AJP
-listener that would bind to port 8009 on all the network interfaces of the host
-by default (including any Internet-facing or untrusted networks). Since AJP
-provides unauthenticated access to read certain files on the host, this configuration
-could allow a malicious host on the network to obtain potentially sensitive
-information by sending requests to the AJP port.
+listener that would bind to port 8009 on all the network addresses of the host
+by default. Since AJP provides unauthenticated access to read certain files on
+the host, this configuration could allow a malicious host on the same network to
+obtain potentially sensitive information by sending requests to the open AJP port.
 
 .. note::
    Apache Tomcat versions shipped in Ubuntu were configured with the AJP
@@ -142,7 +163,7 @@ Best practices for open ports
 Disable unnecessary network services
 ------------------------------------
 Any network services that are no longer required should be stopped and disabled
-from running automatically on boot.
+from running automatically when the system boots up.
 
 If the service is managed by ``systemd``, this can be done by running:
 
@@ -151,21 +172,30 @@ If the service is managed by ``systemd``, this can be done by running:
    sudo systemctl stop <service>
    sudo systemctl disable <service>
 
-Limit open ports to the required network interfaces
----------------------------------------------------
+.. note::
+   A service disabled using the ``systemctl disable`` command may still start
+   on boot if it is a dependency of other enabled services. In these cases,
+   to truly prevent the service from running on boot, those service must be
+   disabled as well.
+
+Avoid binding to wildcard or public addresses
+---------------------------------------------
 Most network services support binding to *wildcard addresses* such as:
 
-* ``0.0.0.0``: the service listens on all IPv4 network interfaces of the host
-* ``[::]``: the service listens on all IPv6 network interfaces of the host
-* ``*``: the service listens on all network interfaces of the host
+* ``0.0.0.0``: the service listens on all IPv4 addresses of the host
+* ``[::]``: the service listens on all IPv6 addresses of the host
+* ``*``: the service listens on all IPv4 and IPv6 addresses of the host
 
-Unless configured otherwise, many services will bind to a wildcard address by
-default.
+Many services will bind to a wildcard address by default, unless configured
+otherwise.
 
 Whenever possible, wildcard addresses should be avoided, and network services
-should be configured to bind only to the specific network interfaces where they
-are required. This helps prevent unintentionally exposing the services to
-untrusted networks or the Internet.
+should be configured to bind only to the specific network addresses where they
+are required. Binding to public addresses should be avoided unless
+the service needs to be accessible from the Internet.
+
+Services that only need to be exposed to other processes on the same host
+should bind to a loopback address.
 
 Use firewalls to control access to open ports
 ---------------------------------------------
@@ -176,14 +206,13 @@ on various criteria, such as the source IP addresses and port number.
 If only certain hosts on a network need access to a service, a firewall should
 be used to block packets from other sources from reaching the open port.
 
-Firewall rules on Ubuntu can be configured using ``iptables``, ``nftables``, or
-``ufw``. Additional guidance on configuring firewalls in Ubuntu can be found here
+Guidance on configuring firewalls in Ubuntu can be found
 :doc:`here <../security-features/network/firewall/index>`.
 
 Keep software up to date
 ------------------------
-To prevent malicious hosts from exploiting vulnerabilities in network services,
-software updates and security patches should be applied regularly.
+To reduce the risk of malicious hosts exploiting vulnerabilities in network
+services, software updates and security patches should be applied regularly.
 
 The Ubuntu Security Team prepares security updates for supported Ubuntu releases.
 More information about the security update process for software in Ubuntu can
