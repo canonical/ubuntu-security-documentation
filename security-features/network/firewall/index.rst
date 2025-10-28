@@ -111,7 +111,8 @@ Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a sys
     sudo systemctl enable nftables.service
     sudo systemctl start nftables.service
 
-For more information on configuring nftables, please see the `nft manual page <https://manpages.ubuntu.com/manpages/man8/nft.8.html>`_ and the `nftables documentation <https://wiki.nftables.org/wiki-nftables/index.php/Main_Page>`_.
+For more information on configuring nftables, please see the comprehensive guide
+provided in the :doc:`dedicated section <nftables>`.
 
 ufw
 ----
