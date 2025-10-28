@@ -6,4 +6,4 @@ Network and firewalls
    :glob:
 
    *
-   firewall/*
+   firewall/index
