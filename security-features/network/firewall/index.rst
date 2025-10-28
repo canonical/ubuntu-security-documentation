@@ -1,6 +1,13 @@
 Firewall
 ========
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :glob:
+
+   *
+
 .. tab-set::
 
     .. tab-item:: 25.04
