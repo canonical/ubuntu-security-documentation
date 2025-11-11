@@ -2,32 +2,32 @@
 
 AppArmor
 ########
-
+.. Source for versions: https://launchpad.net/apparmor/+packages
 .. tab-set::
 
    .. tab-item:: 24.04
     
-        3.0.7 
+        4.0.1
 
    .. tab-item:: 22.04
     
-        3.0.7
+        3.0.4
 
    .. tab-item:: 20.04
     
-        3.0.7
+        2.13.3
 
    .. tab-item:: 18.04
     
-        3.0.4
+        2.12
 
    .. tab-item:: 16.04
     
-        2.13.3
+        2.10.95
 
    .. tab-item:: 14.04
 
-        N/A
+        2.10.95
 
 `AppArmor <https://apparmor.net/>`__ is a Linux Security Module implementation that restricts applications' capabilities and permissions and supplements the more traditional UNIX model of discretionary access control (DAC).
 
