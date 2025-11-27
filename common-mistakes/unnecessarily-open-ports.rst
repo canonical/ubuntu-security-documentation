@@ -30,12 +30,12 @@ Identifying open ports
 
 The ``ss`` utility can be used to identify open ports on a system.
 
-The following command lists all open ports for TCP and UDP, which are the main
-transport protocols for communication over the Internet:
+The following command lists all open ports for TCP and UDP, which are the most
+commonly used transport protocols for communication over the Internet:
 
 .. code-block:: bash
 
-   ss -utlnp
+   ss -utln
 
 .. note::
    By default, the results from ``ss`` will be for the network namespace of the
@@ -48,7 +48,7 @@ trusted. This is done by filtering out loopback addresses:
 
 .. code-block:: bash
 
-   ss -utlnp | grep -vE '127(\.[0-9]+){3}|\[::1\]'
+   ss -utln | grep -vE '127(\.[0-9]+){3}|\[::1\]'
 
 With ``root`` access, the ``-p`` flag can be used to see which process
 is listening on each of the open ports:
@@ -63,13 +63,18 @@ network services: an Apache web server, an SSH server, and a PostgreSQL database
 .. code-block:: bash
 
    $ sudo ss -utlnp | grep -vE '127(\.[0-9]+){3}|\[::1\]'
-   Netid State  Recv-Q Send-Q         Local Address:Port Peer Address:PortProcess                                                
-   udp   UNCONN 0      0      192.168.122.37%enp1s0:68        0.0.0.0:*    users:(("systemd-network",pid=421,fd=22))             
-   udp   UNCONN 0      0        172.16.0.155%enp2s0:68        0.0.0.0:*    users:(("systemd-network",pid=421,fd=23))             
-   tcp   LISTEN 0      4096          192.168.122.37:22        0.0.0.0:*    users:(("sshd",pid=852,fd=3),("systemd",pid=1,fd=140))
-   tcp   LISTEN 0      511                        *:80              *:*    users:(("apache2",pid=2053,fd=3),("apache2",pid=2052,fd=3),("apache2",pid=2050,fd=3))
-   $ sudo ss -utlnp | grep postgres
-   tcp   LISTEN 0      200                127.0.0.1:5432      0.0.0.0:*    users:(("postgres",pid=5157,fd=6))                    
+   Netid State  Recv-Q Send-Q          Local Address:Port Peer Address:PortProcess
+   udp   UNCONN 0      0       192.168.122.37%enp1s0:68        0.0.0.0:*    users:(("systemd-network",pid=418,fd=22))
+   udp   UNCONN 0      0         172.16.0.155%enp2s0:68        0.0.0.0:*    users:(("systemd-network",pid=418,fd=23))
+   tcp   LISTEN 0      4096           192.168.122.37:22        0.0.0.0:*    users:(("sshd",pid=935,fd=3),("systemd",pid=1,fd=92))
+   tcp   LISTEN 0      511                         *:80              *:*    users:(("apache2",pid=822,fd=4),("apache2",pid=821,fd=4),("apache2",pid=820,fd=4))
+
+   $ sudo ss -utlnp | grep -E '127(\.[0-9]+){3}|\[::1\]'
+   udp   UNCONN 0      0                  127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=545,fd=16))
+   udp   UNCONN 0      0               127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=545,fd=14))
+   tcp   LISTEN 0      4096            127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=545,fd=15))
+   tcp   LISTEN 0      200                 127.0.0.1:5432      0.0.0.0:*    users:(("postgres",pid=732,fd=6))
+   tcp   LISTEN 0      4096               127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=545,fd=17))
 
 In this example, the system has been assigned two IP addresses: ``192.168.122.37`` 
 and ``172.16.0.155``.
@@ -86,9 +91,10 @@ Finally, the PostgreSQL database (``postgres``) is bound to ``127.0.0.1:5432``.
 ``127.0.0.1`` is an example of a `loopback` address. Only other processes running
 on the same system can send packets to open ports on these addresses.
 
-The ``ss`` output also shows a DHCP client listening on ``192.168.122.37:68``
-and ``172.16.0.155:68``. This is expected behavior, as the system uses this
-port to obtain its IP address from the network.
+The ``ss`` output also shows a DHCP client listening on port ``68`` and a DNS
+resolver listening on port ``53``. This is expected behaviour, as the DHCP
+client is used by the system to obtain its IP addresses from the network, while
+the DNS resolver provides name resolution for other processes on the system.
 
 Security implications of open ports
 +++++++++++++++++++++++++++++++++++
