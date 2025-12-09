@@ -17,9 +17,9 @@ updates.
   FIXME: this might also be documented elsewhere. It would be good to also
   reference what LTS and interim releases are.
 
-The level of security support depends on the component in which a
-package resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The
-Ubuntu Security Team is responsible for preparing security updates for supported
+The level of security support depends on the component in which a package
+resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The Ubuntu
+Security Team is responsible for preparing security updates for supported
 Ubuntu releases and working with the community to sponsor community-prepared
 security updates. The following table lists the security maintenance window for
 Ubuntu releases. You can read more about the Ubuntu release cycle `here
@@ -56,6 +56,24 @@ Ubuntu releases. You can read more about the Ubuntu release cycle `here
 Ubuntu Pro is a subscription that provides access to several security-focused
 features and services. You can read more about it in the `Ubuntu Pro
 documentation </pro/services-overview/>`_.
+
+Update Notifications
+====================
+
+Ubuntu users receive notifications when new updates are available as part of
+the ``update-manager`` package (which is known as ``Software & Updates`` in the
+desktop menu). Users can use it to configure the notifications, manage updates,
+as well as manage automatic update settings (with more information in the
+"Automatic security updates" section below)
+
+For Ubuntu Server, users can choose to install ``update-notifier-common``,
+which will notify about pending updates through the message of the day (motd)
+upon logging into the system with the following commands:
+
+.. code-block:: bash
+
+   sudo apt-get update
+   sudo apt-get -y install update-notifier-common
 
 Delivery
 ========
@@ -145,7 +163,8 @@ ESM
 Livepatch
 =========
 
-The Canonical Livepatch service provides security fixes for most major kernel security issues without requiring a reboot. 
+The Canonical Livepatch service provides security fixes for most major kernel
+security issues without requiring a reboot.
 
 * `Livepatch <https://ubuntu.com/security/livepatch/docs>`_
 
@@ -177,7 +196,26 @@ Automatic security updates
 ==========================
 
 Starting with Ubuntu 16.04 LTS, unattended-upgrades is configured to
-automatically apply security updates daily. Earlier Ubuntu releases can
-be
-`configured <https://ubuntu.com/server/docs/package-management#automatic-updates>`__
-to automatically apply security updates.
+automatically apply security updates daily. Earlier Ubuntu releases can be
+`configured
+<https://ubuntu.com/server/docs/package-management#automatic-updates>`__ to
+automatically apply security updates. Updates, by default, will be installed
+after 24 hours for security updates or 7 days for normal updates.
+
+Automatic updates can be managed through the internal ``Software & Updates``
+graphical application available in the menu, or through the default
+configuration file found in ``/etc/apt/apt.conf.d/50unattended-upgrades``,
+which contains explanations for each option available to be modified. Through
+the configuration file you are able to adjust more advanced options, such as
+enabling automatic reboot when needed, along with the automatic reboot time, as
+well as logging capabilities.
+
+.. NOTE::
+
+   Automatic updates through ``unattended-upgrades`` are only configured by
+   default for archive and ESM repositories. In order to configure automatic
+   updates for third party repositories and PPAs, editing the
+   ``/etc/apt/apt.conf.d/50unattended-upgrades`` file is required.
+
+The operations of ``unattended-upgrades`` are logged in
+``/var/log/unattended-upgrades/unattended-upgrades.log``.
