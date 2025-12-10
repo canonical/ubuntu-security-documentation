@@ -53,9 +53,49 @@ Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regress
 SMACK
 =====
 
-SMACK is a flexible inode-based MAC.
+SMACK (Simplified Mandatory Access Control Kernel) is a LSM that implements a label-based Mandatory Access Control (MAC) framework designed for simplicity and minimal administrative overhead. Unlike complex policy-driven systems, SMACK uses straightforward text labels assigned to subjects (processes) and objects (files, sockets, etc.) with access decisions made through simple rule comparisons. This architecture makes SMACK particularly well-suited for embedded systems, IoT devices and environments where security policies need to be easily understood and maintained without extensive expertise.
 
-Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_.
+Access rules are expressed as::
+
+    <subject-label> <object-label> <access>
+
+where access describes the access permitted using the traditional Linux read (R or r) access, write (W or w) access, execute (X or x) access, or append (A or a) access. A dash (-) can be used as a place holder or to express that no access be permitted if used by itself.
+
+SMACK uses several special system labels:
+
+- ``_`` pronounced "floor"
+- ``*`` pronounced "star"
+- ``^`` pronounced "hat"
+
+There are a limited number of pre-defined rules:
+
++---------------+---------------+--------+
+| Subject Label | Object Label  | Access |
++===============+===============+========+
+| \*            | any           | \-     |
++---------------+---------------+--------+
+| any           | \*            | rwxa   |
++---------------+---------------+--------+
+| ordinary      | ordinary      | rwxa   |
++---------------+---------------+--------+
+| any           | \_            | rx     |
++---------------+---------------+--------+
+| ^             | any           | rx     |
++---------------+---------------+--------+
+
+The third rule uses "ordinary" to refer to any label except ``*`` and describes the case where the subject label and the object label are the same.
+
+Compared to `AppArmor <https://documentation.ubuntu.com/server/how-to/security/apparmor/index.html>`_, Ubuntu's default MAC system, SMACK and AppArmor serve different architectural philosophies. AppArmor uses path-based mandatory access controls focused on confining specific applications through profiles that restrict file access, network usage and capabilities. SMACK provides system-wide label-based access control that is more suitable for creating isolated security domains and enforcing consistent policies across all system components. AppArmor excels at application-specific confinement and is easier to deploy incrementally, while SMACK is better suited for environments requiring comprehensive labeling schemes, such as multi-tenant systems or devices where all processes and data need clear security classifications.
+
+SMACK support is available in Ubuntu kernels but is not enabled by default, as AppArmor serves as Ubuntu's primary LSM. To enable SMACK you need to add ``security=smack`` to the kernel line in ``/boot/grub/menu.lst``
+
+Create the directories ``/smack`` and ``/etc/smack``. Add this line to the ``/etc/fstab`` file::
+
+    smackfs /smack smackfs defaults 0 0 
+
+to get the SMACK control interface mounted at boot.
+
+SMACK will create the init process with the floor label and will use the floor label as the default for all filesystems unless instructed otherwise using mount options. Because processes inherit the label of their parent all processes will run with the floor label unless explicitly set otherwise. Because all processes will have the floor label and all files will have the floor label, SMACK will never fail an access check in this configuration. 
 
 Snap Confinement
 ================
