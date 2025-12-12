@@ -64,7 +64,7 @@ You receive notifications when new updates are available as part of
 the ``update-manager`` package (known as ``Software & Updates`` in the
 desktop menu). You can use it to configure the notifications, manage updates,
 and manage automatic update settings (with more information in the
-"Automatic security updates" section below)
+`Automatic security updates`_ section below)
 
 For Ubuntu Server, you can choose to install ``update-notifier-common``.
 This notifies you about pending updates through the Message of the Day (MOTD)
