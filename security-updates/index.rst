@@ -19,9 +19,9 @@ updates.
 
 The level of security support depends on the component in which a package
 resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The Ubuntu
-Security Team is responsible for preparing security updates for supported
-Ubuntu releases and working with the community to sponsor community-prepared
-security updates. The following table lists the security maintenance window for
+Security Team prepares security updates for supported Ubuntu releases 
+and works with the community to sponsor community-prepared security 
+updates. The following table lists the security maintenance window for
 Ubuntu releases. You can read more about the Ubuntu release cycle `here
 <https://ubuntu.com/about/release-cycle>`_.
 
@@ -60,15 +60,15 @@ documentation </pro/services-overview/>`_.
 Update Notifications
 ====================
 
-Ubuntu users receive notifications when new updates are available as part of
-the ``update-manager`` package (which is known as ``Software & Updates`` in the
-desktop menu). Users can use it to configure the notifications, manage updates,
-as well as manage automatic update settings (with more information in the
+You receive notifications when new updates are available as part of
+the ``update-manager`` package (known as ``Software & Updates`` in the
+desktop menu). You can use it to configure the notifications, manage updates,
+and manage automatic update settings (with more information in the
 "Automatic security updates" section below)
 
-For Ubuntu Server, users can choose to install ``update-notifier-common``,
-which will notify about pending updates through the message of the day (motd)
-upon logging into the system with the following commands:
+For Ubuntu Server, you can choose to install ``update-notifier-common``.
+This notifies you about pending updates through the Message of the Day (MOTD)
+upon logging into the system. Run the following commands:
 
 .. code-block:: bash
 
@@ -195,27 +195,26 @@ VEX
 Automatic security updates
 ==========================
 
-Starting with Ubuntu 16.04 LTS, unattended-upgrades is configured to
-automatically apply security updates daily. Earlier Ubuntu releases can be
-`configured
-<https://ubuntu.com/server/docs/package-management#automatic-updates>`__ to
-automatically apply security updates. Updates, by default, will be installed
-after 24 hours for security updates or 7 days for normal updates.
+Starting with Ubuntu 16.04 LTS (Xenial Xerus), we configure ``unattended-upgrades`` to
+automatically apply security updates daily. You can `configure
+<https://ubuntu.com/server/docs/package-management#automatic-updates>`__ 
+earlier Ubuntu releases to automatically apply security updates. By default, the 
+system installs security updates after 24 hours and normal updates after 7 days.
 
-Automatic updates can be managed through the internal ``Software & Updates``
+You can manage automatic updates through the internal ``Software & Updates``
 graphical application available in the menu, or through the default
-configuration file found in ``/etc/apt/apt.conf.d/50unattended-upgrades``,
-which contains explanations for each option available to be modified. Through
-the configuration file you are able to adjust more advanced options, such as
-enabling automatic reboot when needed, along with the automatic reboot time, as
-well as logging capabilities.
+configuration file found in ``/etc/apt/apt.conf.d/50unattended-upgrades``.
+This file contains explanations for each option available for modification. Through
+the configuration file, you can adjust more advanced options, such as
+enabling automatic reboot when needed, setting the automatic reboot time, and
+configuring logging capabilities.
 
-.. NOTE::
+.. note::
 
    Automatic updates through ``unattended-upgrades`` are only configured by
-   default for archive and ESM repositories. In order to configure automatic
-   updates for third party repositories and PPAs, editing the
-   ``/etc/apt/apt.conf.d/50unattended-upgrades`` file is required.
+   default for archive and ESM repositories. To configure automatic
+   updates for third party repositories and PPAs, you must edit the
+   ``/etc/apt/apt.conf.d/50unattended-upgrades`` file.
 
 The operations of ``unattended-upgrades`` are logged in
 ``/var/log/unattended-upgrades/unattended-upgrades.log``.
