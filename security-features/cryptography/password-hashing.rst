@@ -1,36 +1,53 @@
-Password Hashing
------------------
+Password hashing
+################
 
-Cryptographic hashing enables passwords to be stored without revealing their contents. The hash created can be thought of as a digital fingerprint, with a insignificantly low probability of two different passwords having the same fingerprint, while being computationally intractable to recover the plain text password from the fingerprint. When a password needs to be verified, its hash is computed and compared to the stored hash.
+Cryptographic hashing allows you to store passwords without revealing their
+contents. You can think of the hash as a digital fingerprint. It has an
+insignificantly low probability of two different passwords sharing the same
+fingerprint, while making it computationally intractable to recover the plain
+text password from the fingerprint. When verifying a password, the system
+computes its hash and compares it to the stored hash.
 
-A cryptographic salt is added to passwords before they are hashed to prevent an adversary from precomputing hashes for common passwords. It results in the same password used for different logins having different hashes.
+The system adds a cryptographic salt to passwords before hashing them to
+prevent an adversary from precomputing hashes for common passwords. This ensures
+that the same password used for different logins results in different hashes.
 
-Ubuntu stores the password hashes for local users in ``/etc/shadow``. See the `shadow(5) <https://manpages.ubuntu.com/manpages/en/man5/shadow.5.html>`_ and `crypt(5) <https://manpages.ubuntu.com/manpages/en/man5/crypt.5.html>`_ manual pages for more information.
-
+Ubuntu stores password hashes for local users in ``/etc/shadow``. See the
+`shadow(5) <https://manpages.ubuntu.com/manpages/en/man5/shadow.5.html>`_ and
+`crypt(5) <https://manpages.ubuntu.com/manpages/en/man5/crypt.5.html>`_ manual
+pages for more information.
 
 .. list-table::
+   :header-rows: 1
 
    * - Release
-     - Hashing Algorithm
-   * - Trusty LTS (14.04)
+     - Hashing algorithm
+   * - Ubuntu 14.04 LTS (Trusty Tahr)
      - SHA-512
-   * - Xenial LTS (16.04)
+   * - Ubuntu 16.04 LTS (Xenial Xerus)
      - SHA-512
-   * - Bionic LTS (18.04)
+   * - Ubuntu 18.04 LTS (Bionic Beaver)
      - SHA-512
-   * - Focal LTS (20.04)
+   * - Ubuntu 20.04 LTS (Focal Fossa)
      - SHA-512
-   * - Jammy LTS (22.04)
+   * - Ubuntu 22.04 LTS (Jammy Jellyfish)
      - yescrypt
-   * - Noble LTS (24.04)
+   * - Ubuntu 24.04 LTS (Noble Numbat)
      - yescrypt
-   * - Plucky (25.04)
+   * - Ubuntu 25.04 (Plucky Puffin)
      - yescrypt
-   * - Questing (25.10)
+   * - Ubuntu 25.10 (Questing Quokka)
      - yescrypt
 
-Ubuntu 14.04 LTS through Ubuntu 20.04 LTS uses the ``SHA-512`` hash function which produces a fixed length 512 bit output. Although it is considered efficient to compute, its usage has declined due to brute-forcing being more feasible when compared to stronger algorithms.
+Ubuntu 14.04 LTS (Trusty Tahr) through Ubuntu 20.04 LTS (Focal Fossa) use the
+``SHA-512`` hash function, which produces a fixed-length 512-bit output.
+Although efficient to compute, its usage has declined because brute-forcing is
+more feasible compared to stronger algorithms.
 
-Ubuntu 22.04 LTS and later use ``yescrypt`` which is based on ``scrypt``, a computationally expensive key derivation. This makes it less practical for adversaries to perform brute-force attacks when attempting to find a hash collision.
+Ubuntu 22.04 LTS (Jammy Jellyfish) and later use ``yescrypt``, which is based
+on ``scrypt``, a computationally expensive key derivation. This makes it less
+practical for adversaries to perform brute-force attacks when attempting to
+find a hash collision.
 
-Regression tests: `test-glibc-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`_.
+Regression tests: `test-glibc-security.py
+<https://git.launchpad.net/qa-regression-testing/tree/scripts/test-glibc-security.py>`_.
