@@ -34,7 +34,7 @@ Setting `SECCOMP` for a process is meant to confine it to a small subsystem of s
 
 See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_ for regression tests. 
 
-.. _seccomp-filtering:
+
 Seccomp Filtering
 =================
 
@@ -58,7 +58,7 @@ SMACK is a flexible inode-based MAC.
 Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_.
 
 Snap Confinement
-========
+================
 
 .. toctree::
    :maxdepth: 1
