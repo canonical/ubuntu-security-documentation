@@ -1,5 +1,5 @@
-cgroups (Control Groups)
-========================
+cgroups
+=======
 
 Control Groups, commonly known as cgroups, are a powerful Linux kernel feature that allows for
 the management and partitioning of system resources. At their core, cgroups enable a user to 
@@ -9,7 +9,7 @@ stability and security of a modern Ubuntu system, providing the foundation for t
 ``systemd`` and containerization.
 
 
-Core Concepts of cgroups
+Core concepts of cgroups
 ------------------------
 
 cgroups operate on the key principles of organizational hierarchy and specific controllers representing system resources.
@@ -21,7 +21,7 @@ cgroups are organized in a tree-like hierarchy, similar to a filesystem. This st
 for fine-grained control, where resource limits set on a parent cgroup can be inherited by its
 children and, recursively, all descendant cgroups.
 
-Controllers (Subsystems)
+Controllers (subsystems)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 Each hierarchy is associated with one or more "controllers", which represent a specific type of
 system resource. Key controllers include: 
@@ -35,13 +35,13 @@ system resource. Key controllers include:
 To understand more about cgroups and how they work, see `the kernel documentation <https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html>`_.
 
 
-The Role of cgroups in System Stability and Security
+The role of cgroups in system stability and security
 ----------------------------------------------------
 
 While often seen as a resource management tool, cgroups are a critical component of system
 security and stability because they prevent misuse of system resources, enable containerization and management of system services.
 
-Preventing Resource Exhaustion
+Preventing resource exhaustion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The primary security benefit of cgroups is their ability to prevent any single process or service
 from monopolizing system resources. A buggy application with a memory leak or a compromised service
@@ -49,14 +49,14 @@ attempting a denial-of-service attack cannot consume all available memory or CPU
 constrains it. This containment ensures that the rogue process will be terminated or throttled 
 before it can crash the entire system, preserving the availability of other essential services.
 
-Foundations of Containerization
+Foundations of containerization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 cgroups are the bedrock of container technologies like Docker and LXD. They provide the resource
 isolation that makes containers viable. By placing each container into its own cgroup, the system
 can guarantee that one container cannot access more than its allocated share of CPU or memory,
 reducing the impact it can have on other containers or the host system.
 
-Service Management with ``systemd``
+Service management with ``systemd``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 On modern Ubuntu systems, ``systemd`` makes extensive use of cgroups to manage all system services.
@@ -98,9 +98,9 @@ common properties that can be configured for a service:
   - ``LimitNOFILE``: Sets the maximum number of file descriptors a service can have open. 
   
 .. NOTE:: While ``sudo`` isn't necessary when modifying user services, it is required for ``set-property`` to work for other services. 
-   For a complete list of directives and their detailed explanations, refer to the Ubuntu `systemd.resource-control(5) <https://manpages.ubuntu.com/manpages/bionic/man5/systemd.resource-control.5.html>`_ manual page.
+   For a complete list of directives and their detailed explanations, refer to the Ubuntu `systemd.resource-control(5) <https://manpages.ubuntu.com/manpages/resolute/man5/systemd.resource-control.5.html>`_ manual page.
 
-Running Ad-Hoc Processes in cgroups
+Running ad-hoc processes in cgroups
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Beyond managing long-running services, users can use systemd wrappers to run any command
@@ -130,7 +130,7 @@ While ``systemd-run`` is a good choice for temporary tasks, users can also creat
 custom slices. This is done by creating a ``.slice`` unit file in :file:`/etc/systemd/system/`. For 
 instance, a user could create a ``background-jobs.slice`` to group and manage all non-interactive
 batch processing. For details on creating these files, consult the Ubuntu 
-`systemd.slice(5) <https://manpages.ubuntu.com/manpages/bionic/man5/systemd.slice.5.html>`_ manual page.
+`systemd.slice(5) <https://manpages.ubuntu.com/manpages/resolute/man5/systemd.slice.5.html>`_ manual page.
 
 
 Inspecting cgroups on Ubuntu
@@ -173,7 +173,7 @@ the above output:
   
   systemctl status 2305
 
-Using the Proc Filesystem
+Using the proc filesystem
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 For a direct, low-level view, users can inspect the virtual file :file:`/proc/<pid>/cgroup`.
 This file shows the process's path in every active cgroup hierarchy.
@@ -200,7 +200,7 @@ This command might produce a more complex output:
   1:name=systemd:/system.slice/apache2.service
   0::/system.slice/apache2.service
 
-Unified vs. Legacy cgroups
+Unified vs. legacy cgroups
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 One may wonder why ``systemctl`` shows one clean cgroup path while 
 :file:`/proc/<pid>/cgroup` shows many. The reason is the coexistence of two cgroups
@@ -220,7 +220,7 @@ In short, ``systemctl status`` gives users the relevant, modern view for service
 while :file:`/proc/<pid>/cgroup` gives users an exhaustive report of the process's position in
 every active hierarchy, both new and old.
 
-Browse the cgroup Filesystem
+Browse the cgroup filesystem
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Users can explore the cgroup hierarchy as a regular filesystem. The cgroup path from ``systemctl``
 maps directory to a directory under :file:`/sys/fs/cgroup`.

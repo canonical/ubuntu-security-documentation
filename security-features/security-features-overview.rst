@@ -2,7 +2,7 @@ Overview of security features
 ##############################
 
 This page provides a high-level overview of the security features in Ubuntu,
-their default configurations and rationale for having them enabled or disabled.
+their default configurations, and rationale for having them enabled or disabled.
 
 .. include:: security-features-tables.rst
 
