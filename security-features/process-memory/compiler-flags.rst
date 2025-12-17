@@ -1,6 +1,8 @@
 Default compiler and linker flags
 #################################
 
+.. _compiler-flags-pie:
+
 Built as PIE
 ============
 
