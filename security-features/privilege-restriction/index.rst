@@ -46,17 +46,26 @@ See `test-kernel-security.py <https://git.launchpad.net/qa-regression-testing/tr
 SELinux
 =======
 
-`SELinux <https://selinuxproject.org/page/Main_Page>`_ (Security-Enhanced Linux) is a Linux Security Module (LSM) that implements Mandatory Access Control (MAC) through a flexible, policy-driven framework maintained as an open-source project, SELinux provides fine-grained access controls by assigning security contexts (labels) to all system objects including files, processes, network ports and devices. These labels are used by a centralized policy engine to make access control decisions based on predefined security policies.
+`SELinux <https://selinuxproject.org/page/Main_Page>`_ (Security-Enhanced Linux) is a Linux Security Module (LSM) that implements Mandatory Access Control (MAC) through a flexible, policy-driven framework maintained as an open-source project. SELinux provides fine-grained access controls by assigning security contexts (labels) to all system objects including files, processes, network ports and devices. These labels are used by a centralized policy engine to make access control decisions based on predefined security policies.
 
-SELinux operates through three main components: security contexts (labels in the format user:role:type:level), a comprehensive policy language for defining rules and enforcement modes (enforcing, permissive, or disabled). This architecture enables sophisticated security models including Multi-Level Security (MLS) and Multi-Category Security (MCS), making it particularly valuable in high-security environments, government systems and enterprise deployments requiring strict compliance with security standards.
+SELinux operates through three main components: security contexts (labels in the format ``user:role:type:level``), a comprehensive policy language for defining rules and enforcement modes (enforcing, permissive, or disabled). This architecture enables sophisticated security models including Multi-Level Security (MLS) and Multi-Category Security (MCS), making it particularly valuable in high-security environments, government systems and enterprise deployments requiring strict compliance with security standards.
 
 Ubuntu uses `AppArmor <https://documentation.ubuntu.com/server/how-to/security/apparmor/index.html>`_ as its default MAC system instead of SELinux. While both provide mandatory access controls, AppArmor uses a path-based approach that is generally simpler to configure and maintain, whereas SELinux uses an inode-based labeling system that offers more comprehensive coverage but with significantly greater complexity. AppArmor's focus on application confinement through pathname-based rules makes it more suitable for Ubuntu's desktop and server use cases, while SELinux's label-based model excels in environments requiring system-wide policy enforcement.
 
-**Kernel Support**: SELinux support is compiled into Ubuntu's default kernels as a loadable security module, meaning the underlying kernel infrastructure is present and functional. However, SELinux is not the active LSM by default, AppArmor takes precedence as the enabled security module at boot time.
+Kernel support
+--------------
 
-**Userspace Packages**: SELinux userspace tools and policies are available through Ubuntu's ``universe`` repository, including packages such as ``selinux-basics``, ``policycoreutils`` and the ``selinux`` metapackage. These packages provide the essential tools for policy management, system labeling and SELinux administration, but they require manual configuration and are not pre-tuned for Ubuntu's specific package ecosystem.
+SELinux support is compiled into Ubuntu's default kernels as a loadable security module, meaning the underlying kernel infrastructure is present and functional. However, SELinux is not the active LSM by default, AppArmor takes precedence as the enabled security module at boot time.
 
-**Support Level**: SELinux on Ubuntu is community-supported rather than officially supported by Canonical. The SELinux packages in universe are maintained by community contributors and lack the extensive integration testing, policy tuning and commercial support that Ubuntu provides for AppArmor. Users choosing SELinux on Ubuntu should expect to handle policy development, troubleshooting and maintenance themselves, as most Ubuntu documentation, tools and support resources assume AppArmor is in use. For production Ubuntu deployments, `AppArmor <https://documentation.ubuntu.com/server/how-to/security/apparmor/index.html>`_ remains the recommended and fully supported MAC solution.
+Userspace packages
+------------------
+
+SELinux userspace tools and policies are available through Ubuntu's ``universe`` repository, including packages such as ``selinux-basics``, ``policycoreutils`` and the ``selinux`` metapackage. These packages provide the essential tools for policy management, system labeling and SELinux administration, but they require manual configuration and are not pre-tuned for Ubuntu's specific package ecosystem.
+
+Support level
+-------------
+
+SELinux on Ubuntu is community-supported rather than officially supported by Canonical. The SELinux packages in universe are maintained by community contributors and lack the extensive integration testing, policy tuning and commercial support that Ubuntu provides for AppArmor. Users choosing SELinux on Ubuntu should expect to handle policy development, troubleshooting and maintenance themselves, as most Ubuntu documentation, tools and support resources assume AppArmor is in use. For production Ubuntu deployments, `AppArmor <https://documentation.ubuntu.com/server/how-to/security/apparmor/index.html>`_ remains the recommended and fully supported MAC solution.
 
 
 SMACK
