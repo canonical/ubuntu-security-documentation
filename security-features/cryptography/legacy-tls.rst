@@ -1,11 +1,11 @@
-Disable Legacy TLS
+Disable legacy TLS
 ------------------
 
-Ubuntu 20.04 LTS implemented a significant security enhancement by defaulting to **TLS v1.2 or higher** across all major TLS libraries. This change aligns with industry standards that phase out the insecure TLS 1.0 and 1.1 protocols, which contain known cryptographic vulnerabilities such as susceptibility to POODLE, BEAST, and downgrade attacks.
+Ubuntu 20.04 LTS (Focal Fossa) implemented a significant security enhancement by defaulting to **TLS v1.2 or higher** across all major TLS libraries. This change aligns with industry standards that phase out the insecure TLS 1.0 and 1.1 protocols, which contain known cryptographic vulnerabilities such as susceptibility to `POODLE <https://en.wikipedia.org/wiki/POODLE>`_, `BEAST <https://en.wikipedia.org/wiki/Transport_Layer_Security#BEAST_attack>`_, and `downgrade attacks <https://en.wikipedia.org/wiki/Downgrade_attack>`_.
 
 ----
 
-Affected Libraries and Configuration Changes
+Affected libraries and configuration changes
 --------------------------------------------
 
 The following TLS libraries have been updated with new security defaults:
@@ -32,11 +32,13 @@ The following TLS libraries have been updated with new security defaults:
 
 ----
 
-Legacy TLS Re-enablement (Not Recommended)
+Legacy TLS re-enablement (not recommended)
 -------------------------------------------
 
 .. warning::
-   Re-enabling TLS 1.0/1.1 significantly reduces security and exposes systems to serious vulnerabilities. Only use as a temporary measure for critical legacy compatibility. Use at your own risk of data compromise.
+**Security risk**
+
+   Re-enabling TLS 1.0/1.1 significantly reduces security and exposes systems to serious vulnerabilities. Only use as a temporary measure for critical legacy compatibility.
 
 **OpenSSL System-wide Configuration**
 
@@ -57,7 +59,7 @@ Legacy TLS Re-enablement (Not Recommended)
 
 **OpenSSL Per-Application Override**
 
-Use environment variable to specify custom configuration::
+Use the ``OPENSSL_CONF`` environment variable to specify a custom configuration file, which uses the same format as ``/etc/ssl/openssl.cnf``::
 
     export OPENSSL_CONF=/path/to/custom-openssl.cnf
 
@@ -68,28 +70,30 @@ Use environment variable to specify custom configuration::
     [overrides]
     default-priority-string = NORMAL
 
-2. Alternatively, use environment variable::
+2. Alternatively, use the ``GNUTLS_SYSTEM_PRIORITY_FILE`` environment variable to specify a configuration file in the same format as ``/etc/gnutls/config``::
 
     export GNUTLS_SYSTEM_PRIORITY_FILE=/path/to/gnutls-override-config
 
 ----
 
-Common Issues and Troubleshooting
+Common issues and troubleshooting
 ----------------------------------
 
-**Connection Symptoms and Solutions**
+Connection symptoms and solutions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-+-------------------------+---------------------------+--------------------------------+
-| Symptom                 | Likely Cause              | Solution                       |
-+=========================+===========================+================================+
-| Hanging connections     | DNS/network issues        | Check ``resolvectl query``    |
-+-------------------------+---------------------------+--------------------------------+
-| Qt socket error -1      | SECLEVEL=2 restriction    | Application-level workaround   |
-+-------------------------+---------------------------+--------------------------------+
-| Legacy app failures     | TLS version incompatibility| Temporary SECLEVEL=1 override |
-+-------------------------+---------------------------+--------------------------------+
++-------------------------+-----------------------------+--------------------------------+
+| Symptom                 | Possible Cause              | Solution                       |
++=========================+=============================+================================+
+| Hanging connections     | DNS/network issues          | Check ``resolvectl query``     |
++-------------------------+-----------------------------+--------------------------------+
+| Qt socket error -1      | SECLEVEL=2 restriction      | Application-level workaround   |
++-------------------------+-----------------------------+--------------------------------+
+| Legacy app failures     | TLS version incompatibility | Temporary SECLEVEL=1 override  |
++-------------------------+-----------------------------+--------------------------------+
 
-**Diagnostic Commands**
+Diagnostic commands
+~~~~~~~~~~~~~~~~~~~
 
 Test TLS connectivity::
 
@@ -105,7 +109,7 @@ Test TLS connectivity::
 
 ----
 
-Security Implications and Best Practices
+Security implications and best practices
 -----------------------------------------
 
 **Risks of Re-enabling Legacy TLS**:
@@ -127,7 +131,7 @@ Security Implications and Best Practices
 
 ----
 
-Additional Resources
+Additional resources
 --------------------
 
 For comprehensive technical discussion and community troubleshooting, see the Ubuntu Discourse post: `Default to TLS v1.2 in all TLS libraries in 20.04 LTS <https://discourse.ubuntu.com/t/default-to-tls-v1-2-in-all-tls-libraries-in-20-04-lts/12464>`_.
