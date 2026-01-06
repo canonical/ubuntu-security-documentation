@@ -1,50 +1,56 @@
 Ubuntu security documentation
 #############################
 
-Ubuntu prioritizes security through its core principles, emerging as a transparent, secure by design and secure by default platform. Your Ubuntu software benefits from the latest security technologies and long-term security maintenance that allow you to build a strong security posture.
+Ubuntu prioritizes security through its core principles. It is a transparent,
+secure-by-design, and secure-by-default platform. Your Ubuntu software benefits
+from the latest security technologies and long-term maintenance, allowing you
+to build a strong security posture.
 
-Canonical offers comprehensive services, including regular security updates and system hardening tools based on industry standards, to support Ubuntu's built-in security features. It is important to understand how these function in order to ensure your Ubuntu deployments stay secure according to your own needs.
+Canonical offers comprehensive services, including regular security updates and
+system hardening tools based on industry standards, to support Ubuntu's
+built-in security features. Understanding how these function ensures your
+Ubuntu deployments stay secure according to your needs.
 
 
 In this documentation
 =====================
 
 .. grid:: 2
-    :gutter: 1
+   :gutter: 1
 
-    .. grid-item-card:: :ref:`Software integrity`
+   .. grid-item-card:: :ref:`Software integrity`
 
-        Protections against tampering for Ubuntu software.
+      Protections against tampering for Ubuntu software.
 
-    .. grid-item-card:: :ref:`Security updates`
+   .. grid-item-card:: :ref:`Security updates`
 
-        Prevent security risks by receiving security updates to your system in a timely manner.
-
-.. grid:: 2
-    :gutter: 1
-
-    .. grid-item-card:: :ref:`Ubuntu security features`
-
-        Learn about security features that come with Ubuntu.
-
-    .. grid-item-card:: :ref:`Compliance automation`
-
-        Make your system compliant.
+      Prevent security risks by receiving security updates to your system in a
+      timely manner.
 
 .. grid:: 2
-    :gutter: 1
+   :gutter: 1
 
-    .. grid-item-card:: :ref:`Common security mistakes`
+   .. grid-item-card:: :ref:`Ubuntu security features`
 
-        Learn about common security mistakes and how to avoid them.
+      Learn about security features that come with Ubuntu.
+
+   .. grid-item-card:: :ref:`Compliance automation`
+
+      Make your system compliant.
+
+.. grid:: 2
+   :gutter: 1
+
+   .. grid-item-card:: :ref:`Common security mistakes`
+
+      Learn about common security mistakes and how to avoid them.
+
 
 Project and community
 =====================
 
 * `Ubuntu security updates mailing list <https://lists.ubuntu.com/mailman/listinfo/ubuntu-hardened>`_
-
 * `Security announcements mailing list <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`_
-
 
 .. toctree::
    :maxdepth: 2
@@ -55,6 +61,3 @@ Project and community
    security-features/index
    compliance/index
    common-mistakes/index
-
-
-  

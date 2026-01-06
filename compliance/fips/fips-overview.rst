@@ -1,21 +1,31 @@
 Overview of FIPS-certified modules
 ##################################
 
-All of the certified modules are available with Ubuntu Pro. The validated modules are API and ABI compatible with the default Ubuntu packages. The validation testing for Ubuntu was performed by atsec Information Security, a NIST accredited laboratory. 
+All certified modules are available with Ubuntu Pro. The validated modules are
+API and ABI compatible with the default Ubuntu packages. atsec Information
+Security, a NIST-accredited laboratory, performed the validation testing for
+Ubuntu.
 
-Certifications under :ref:`FIPS 140-2 Level 1` will be moved to the historical list after September 2026 (although these products can still be purchased and used), and new products will be certified under :ref:`FIPS 140-3 Level 1`. 
+Certifications under :ref:`FIPS 140-2 Level 1` will move to the historical
+list after September 2026 (although you can still purchase and use these
+products), and new products will be certified under :ref:`FIPS 140-3 Level 1`.
+
 
 FIPS 140-3 Level 1
 ==================
 
-`FIPS 140-3 Level 1 <https://ubuntu.com/blog/ubuntu-22-04-fips-140-3-modules-available-for-preview>`_ is a combined effort of NIST and ISO with the Security and Testing requirements for cryptographic modules being published as ISO/IEC 19790 and ISO/IEC 24759. 
+`FIPS 140-3 Level 1 <https://ubuntu.com/blog/ubuntu-22-04-fips-140-3-modules-available-for-preview>`_
+is a combined effort of NIST and ISO, with the Security and Testing
+requirements for cryptographic modules published as ISO/IEC 19790 and ISO/IEC
+24759.
 
-Ubuntu 22.04 LTS
-----------------
+Ubuntu 22.04 LTS (Jammy Jellyfish)
+----------------------------------
 
-The modules in this release were certified and tested on on x86_64/AMD6, ARM64 and IBM Z architectures.  
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64, ARM64, and
+IBM Z architectures.
 
-.. csv-table:: 
+.. csv-table::
    :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
    "Strongswan", "5.9.5", "FIPS 140-3", "Active", "`#4911 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4911>`_", "2026-12-02"
@@ -24,17 +34,20 @@ The modules in this release were certified and tested on on x86_64/AMD6, ARM64 a
    "OpenSSL", "3.0.2", "FIPS 140-3", "Active", "`#4794 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4794>`_", "2026-09-10"
    "Libgcrypt", "1.9.4", "FIPS 140-3", "Active", "`#4793 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4793>`_", "2026-09-09"
 
+
 FIPS 140-2 Level 1
 ==================
 
-Modules in these releases have been assessed and certified for `FIPS 140-2 Level 1› <https://csrc.nist.gov/pubs/fips/140-2/upd2/final>`_.
+The Ubuntu Security Standards team assessed and certified modules in these releases for `FIPS 140-2 Level 1
+<https://csrc.nist.gov/pubs/fips/140-2/upd2/final>`_.
 
-Ubuntu 20.04 LTS
-----------------
+Ubuntu 20.04 LTS (Focal Fossa)
+------------------------------
 
-The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64 and IBM Z
+architectures.
 
-.. csv-table:: 
+.. csv-table::
    :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
    "Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4366 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4366>`_", "2026-09-21"
@@ -45,13 +58,13 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
    "Strongswan", "5.8.2", "FIPS 140-2", "Active", "`#4046 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4046>`_", "2026-09-21"
    "Libgcrypt", "1.8.5", "FIPS 140-2", "Active", "`#3902 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3902>`_", "2026-04-19"
 
-Ubuntu 18.04 LTS
-----------------
+Ubuntu 18.04 LTS (Bionic Beaver)
+--------------------------------
 
-The modules in this release were certified and tested on on x86_64/AMD6 and IBM Z architectures.  
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64 and IBM Z
+architectures.
 
-
-.. csv-table:: 
+.. csv-table::
    :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
    "Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4018 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4018>`_", "2026-08-29"
@@ -65,12 +78,13 @@ The modules in this release were certified and tested on on x86_64/AMD6 and IBM 
    "OpenSSH client", "1:7.9p1", "FIPS 140-2", "Historical", "`#3633 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3633>`_", "N/A"
    "OpenSSH server", "1:7.9p1", "FIPS 140-2", "Historical", "`#3632 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3632>`_", "N/A"
 
-Ubuntu 16.04 LTS
-----------------
+Ubuntu 16.04 LTS (Xenial Xerus)
+-------------------------------
 
-The modules in this release were certified and tested on on x86_64/AMD6, IBM Z, and IBM Power8 architectures.  
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64, IBM Z, and
+IBM Power8 architectures.
 
-.. csv-table:: 
+.. csv-table::
    :header: "Cryptographic module", "Module version(s)", "Associated package(s)", "Status", "Certificate"
 
    "Kernel Crypto API", "4.4.0", "FIPS 140-2", "Active", "`#4604 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4604>`_", "2025-10-06"
@@ -79,25 +93,44 @@ The modules in this release were certified and tested on on x86_64/AMD6, IBM Z, 
    "OpenSSH client", "1:7.2p2", "FIPS 140-2", "Historical", "`#2907 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/2907>`_", "N/A"
    "OpenSSH server", "1:7.2p2", "FIPS 140-2", "Historical", "`#2906 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/2906>`_", "N/A"
 
-Ubuntu Pro services for FIPS modules 
-======================================
 
-Security vulnerabilities are discovered all the time and Canonical provides fixes for all the software packages within the Ubuntu ecosystem. However, the NIST certification process for FIPS applies to a specific binary version of the cryptographic module, which fixes these packages to the versions that were current at the time we submit the modules to NIST for review. This means that the FIPS certified modules may contain security vulnerabilities.
+Ubuntu Pro services for FIPS modules
+====================================
 
-In order to address this obvious shortcoming, we provide updated versions of the FIPS modules that we patch to fix all relevant security vulnerabilities, and we strongly recommend that you use the updated modules so that your systems remain fully secure.
+We fix a number of software packages within the Ubuntu ecosystem as security
+vulnerabilities are discovered. However, the NIST certification process for
+FIPS applies to a specific binary version of the cryptographic module. This
+fixes these packages to the versions current at the time we submit the modules
+to NIST for review. This means that the FIPS-certified modules may contain
+security vulnerabilities.
 
-As the certification process takes some time, we also provide access to the modules that are awaiting NIST approval in the queue as a preview. At certain intervals we will submit the latest patched modules for recertification, and these will then be available for preview. These modules will have been validated by our testing lab partner and we do not anticipate making any further changes at this point.
+To address this shortcoming, we provide updated versions of the FIPS modules
+patched to fix all relevant security vulnerabilities. We strongly recommend
+that you use the updated modules so that your systems remain fully secure.
 
-There are several FIPS options listed in the Pro client, depending on whether the modules have been reviewed by NIST. 
+As the certification process takes time, we also provide access to the modules
+awaiting NIST approval in the queue as a preview. At certain intervals, we will
+submit the latest patched modules for recertification, and these will then be
+available for preview. Our testing lab partner has already validated these
+modules, and we don't anticipate making any further changes at this point.
+
+There are several FIPS options listed in the Pro client, depending on whether
+NIST has reviewed the modules.
 
 ``fips-updates``
-This is the recommended service. These modules receive all the latest security updates, and the package versions will keep track with the default non-FIPS packages in Ubuntu.
+   This is the recommended service. These modules receive all the latest
+   security updates, and the package versions will keep track with the default
+   non-FIPS packages in Ubuntu.
 
 ``fips-preview``
-This service contains the modules that have been submitted to NIST for review but haven’t been certified yet. The latest FedRAMP guidelines, for instance, require you to install FIPS-certified modules but does allow you to use pre-approved packages that are awaiting NIST certification.
+   This service contains the modules submitted to NIST for review but not yet
+   certified. The latest FedRAMP guidelines, for instance, require you to
+   install FIPS-certified modules but allow you to use pre-approved packages
+   that are awaiting NIST certification.
 
 ``fips``
-This service provides the exact binary versions that NIST has certified. These packages do not include the security updates and are likely to contain vulnerabilities.
+   This service provides the exact binary versions certified by NIST. These
+   packages don't include security updates and are likely to contain
+   vulnerabilities.
 
 For more information about Ubuntu Pro services, see `Compatibility matrix for Ubuntu Pro services <https://canonical-ubuntu-pro-client.readthedocs-hosted.com/en/latest/references/compatibility_matrix/>`_
-

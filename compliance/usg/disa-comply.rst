@@ -1,37 +1,55 @@
-Applying the DISA-STIG rules
-############################
+Apply the DISA-STIG rules
+#########################
 
-The following command will run code to check the system for compliance with the DISA-STIG rules and will fix (remediate) the rules that fail. It is important to have a password set on the administrative account before applying the fix as the DISA profile requires one and will lock you out. After completion, the system must be rebooted, and we recommend auditing again to check potential rules that need custom modifications.  
+Run the following command to check the system for compliance with DISA-STIG
+rules and fix (remediate) failed rules.
+
+Ensure you have a password set on the administrative account before applying
+the fix. The DISA profile requires one and will lock you out if it's missing.
+
+Reboot the system after completion. We recommend auditing again to check for
+potential rules that need custom modifications.
+
 
 Install the FIPS packages
-==========================
+=========================
 
-DISA-STIG requires the system to contain the FIPS validated packages of Ubuntu. We recommend using the fips-updates stream.
-
-.. code-block:: bash
-
-    $ sudo ua enable fips-updates
-
-Apply the necessary changes for the system to comply
-====================================================
+DISA-STIG requires the system to contain Ubuntu's FIPS-validated packages. We
+recommend using the ``fips-updates`` stream.
 
 .. code-block:: bash
 
-    $ sudo usg fix disa_stig
+   sudo ua enable fips-updates
 
 
-This step will take quite a while.
-
-.. WARNING:: Always run the DISA-STIG hardening scripts on fresh installations of Ubuntu. As the hardening scripts adjust the system configuration, if additional non-core services have been installed to the system, the compliance scripts may break them by modifying essential configuration.
-
-Applying the rules to multiple systems
-======================================
-
-When applying the rules to hundreds of systems, it is not always practical to have the usg tool on every system. In that case a bash script can be generated to apply the rules to all systems. The following command generates that script.
-
+Apply system changes
+====================
 
 .. code-block:: bash
 
-    $ sudo usg generate-fix disa_stig --output fix.sh
+   sudo usg fix disa_stig
 
-That script can be distributed and executed on each system that needs to comply with the ruleset.
+This step takes some time.
+
+.. warning::
+   **Fresh installations only**
+
+   Always run the DISA-STIG hardening scripts on fresh installations of Ubuntu.
+   The hardening scripts adjust system configuration. If you have installed
+   additional non-core services, the compliance scripts may break them by
+   modifying essential configuration.
+
+
+Apply rules to multiple systems
+===============================
+
+When applying rules to hundreds of systems, it isn't always practical to have
+the ``usg`` tool on every system. In that case, you can generate a bash script
+to apply the rules to all systems. Run the following command:
+
+.. code-block:: bash
+
+   sudo usg generate-fix disa_stig --output fix.sh
+
+You can distribute and execute that script on each system that needs to comply
+with the ruleset.

@@ -43,7 +43,13 @@ Compatibility
 
 In general, most of the rules that can be defined using ``iptables``,
 ``ip6tables``, ``arptables`` and ``ebtables`` can also be defined using
-``nftables``, but not the other way around. Use only one of two approaches to manage firewall rules. Otherwise, the interaction between the different rules or services that set them up may be unexpected and lead to either insecure configurations or block traffic that is meant to be allowed. Furthermore, certain applications, such as container orchestration systems or VPN utilities may configure firewall rules, resulting in unexpected rule interactions.
+``nftables``, but not the other way around. Use only one of two approaches
+to manage firewall rules. Otherwise, the interaction between the different
+rules or services that set them up may be unexpected and lead to either
+insecure configurations or block traffic that is meant to be allowed. 
+Furthermore, certain applications, such as container orchestration systems or
+VPN utilities may configure firewall rules, resulting in unexpected rule 
+interactions.
 
 There are still certain ``xtables`` rules which cannot be defined using
 ``nftables``, as documented in the `feature compatibility nftables wiki page
@@ -54,7 +60,7 @@ Additionally, it should be noted that some of the functionality available via
 the ``nftables`` Netlink interface may not be supported by the userspace ``nft``
 utility yet (e.g. support for rules invoking eBPF programs).
 
-Starting with Ubuntu 16.04 Xenial Xerus, the ``iptables`` package has provided
+Starting with Ubuntu 16.04 (Xenial Xerus), the ``iptables`` package has provided
 versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables``
 tools that work with the ``nftables`` API and provide a compatible interface to
 the legacy implementation. The ``nftables`` backend, used by 
@@ -90,7 +96,7 @@ allowing applications to alternatively use this low-level interface. This
 documentation will only cover the use of the ``nft`` utility, with a focus on
 the configuration file format.
 
-Starting with Ubuntu 15.04 Vivid Vervet, the ``nftables`` package provides a
+Starting with Ubuntu 15.04 (Vivid Vervet), the ``nftables`` package provides a
 systemd service unit file that is disabled by default. If enabled, the service
 unit file will automatically load ``nftables`` configuration from the
 ``/etc/nftables.conf`` file (a mock file that does not perform any filtering is
@@ -138,7 +144,7 @@ all of the configured rules (``flush ruleset``) and a declarative definition of
 a table named ``filter`` that processes both IPv4 and IPv6 packets in three
 empty chains:
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
 
@@ -193,7 +199,7 @@ on the same line as the object type and name. The following example establishes
 a base for a host firewall configuration file, which will be expanded upon
 throughout this documentation:
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
 
@@ -254,7 +260,7 @@ highlighted lines allow drop-in files to add rules to the defined
 tables to be defined in files under ``/etc/nftables/tables.d/`` (if wildcards
 are used, the files need not exist):
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 21,25
@@ -294,7 +300,7 @@ the configuration. Associating the name ``IF_LOOPBACK`` to the interface name
 ``lo`` (the standard Linux loopback interface) allows defining a rule that
 references it, as the following highlighted lines show:
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 3,22-23
@@ -371,7 +377,7 @@ The highlighted lines in the following example demonstrate the use of the
 ``log`` statement to send any packets coming in on the loopback interface to the
 kernel log, before accepting them:
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 23-27
@@ -437,7 +443,7 @@ highlighted lines in the following example create two chains attached to the
 ``prerouting`` and ``output`` hooks, running as early as feasible (even before
 other chains registered at the ``raw`` priority):
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 16-22,24-29
@@ -533,7 +539,7 @@ For example, listing the ``trace-inbound`` chain created above:
 
 Produces the following output:
 
-.. code-block:: nftables
+.. code-block:: nft-output
 
     inet host-firewall trace-inbound 13
       [ meta load l4proto => reg 1 ]
@@ -807,7 +813,7 @@ will match locally-generated IPv4 UDP packets without taking any actions (note
 the use of the ``ip protocol udp`` expression, as opposed to ``meta l4proto
 udp``: this will match only IPv4 packets):
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
     :linenos:
     :emphasize-lines: 8
@@ -840,7 +846,7 @@ the transport protocol is UDP (implied) and either:
 The ``ip daddr . udp dport`` syntax is explained in the :ref:`Concatenations`
 section.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
     :linenos:
     :emphasize-lines: 9,14-18
@@ -975,7 +981,7 @@ control flow functionality:
     ``ip protocol igmp``), the processing is finalised and no further rules in
     ``firewall-input-multicast`` or ``firewall-input`` are evaluated.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 5,18-31,33-36,49,55-64
@@ -1148,19 +1154,19 @@ The right-hand side of the binary operators must be a constant expression. For
 example, the following expression would match IPv4 packets for which the second
 most-significant byte of the destination IP address is smaller than 16:
 
-.. code-block:: nftables
+.. code-block:: nft
 
     (ip daddr >> 16) & 0xFF < 0x10
 
 Then same condition can be written as:
 
-.. code-block:: nftables
+.. code-block:: nft
 
     ip daddr & 0x00F00000 == 0
 
 Or, in a rather less readable manner, as:
 
-.. code-block:: nftables
+.. code-block:: nft
 
     ip daddr & 0x00F00000 0
 
@@ -1170,7 +1176,7 @@ expression's value is (or, respectively, isn't) within the closed interval. The
 following expression matches IPv4 packets for which the destination address has
 the form A.B.C.D, with B having a value between 10 and 20 (inclusive):
 
-.. code-block:: nftables
+.. code-block:: nft
 
     (ip daddr >> 16) & 0xFF == 10-20
 
@@ -1178,7 +1184,7 @@ IPv4 and IPv6 addresses also support prefix notation, with the following
 matching if the destination IPv4 address is not one of the RFC1918 private
 addresses:
 
-.. code-block:: nftables
+.. code-block:: nft
 
     ip daddr != { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 }
 
@@ -1192,7 +1198,7 @@ possible. For example, the following expression sets the Netfilter packet mark
 to the least-significant 16 bits of the IPv4 source address, combined with bit
 16 set, but only if the IPv4 source address is within the 10.0.0.0/16 prefix.
 
-.. code-block:: nftables
+.. code-block:: nft
 
     ip saddr 10.0.0.0/16 meta mark set (ip saddr & 0xFFFF) | 0x10000
 
@@ -1236,7 +1242,7 @@ example in the highlighted lines:
   * drop packets marked as ``invalid`` by the conntrack module (``ct state
     invalid drop``).
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 5-13,15,17-20,22,43-50,53-60,66-79,88-91
@@ -1371,7 +1377,7 @@ protocol, IPv4 or IPv6), and the transport protocol destination port (``th
 dport`` matches irrespective of the transport protocol, such as TCP, UDP or
 SCTP):
 
-.. code-block:: nftables
+.. code-block:: nft
 
     meta mark . meta l4proto . th dport
 
@@ -1380,7 +1386,7 @@ mark convention established earlier, along with :ref:`anonymous sets <Sets>` for
 specifying alternative values and intervals result in powerful matching
 expressions:
 
-.. code-block:: nftables
+.. code-block:: nft
 
     (meta mark & $MARK_MASK_REALM) . meta l4proto . th dport {
         # Web service allowed from anywhere
@@ -1451,7 +1457,7 @@ The following highlighted lines extend the example firewall configuration with:
   through, by using an anonymous set. These are generally required for the
   correct functioning of IPv6 in local networks.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 30-45,112-114,124-134
@@ -1604,7 +1610,7 @@ The following highlighted lines extend the example firewall configuration with:
 A drawback of the drop-in file configuration is that each file will have to
 redefine the set with the exact same settings:
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/input-services.d/ldap.conf
     :linenos:
 
@@ -1642,7 +1648,7 @@ amount of memory used is bounded. This is only meant for illustration of the
 ``add`` statement, with limits being the preferred means of implementing rate
 limiting - these are explained in the :ref:`Stateful objects` section.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
     :linenos:
 
@@ -1673,7 +1679,7 @@ will not fail if the element already exists. In the following example, the
 timeout is reset, which allows the set to track any IPv4 /24 prefix that
 initiated a new flow in the last 10 minutes.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/flow-track.conf
     :linenos:
 
@@ -1790,7 +1796,7 @@ set ip saddr map @ip4-known-addresses return`` can be broken down as:
    evaluation of the rule, either because the packet was not IPv4 or the key
    could not be found.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables.conf
     :linenos:
     :emphasize-lines: 47-58,60-69,105-107
@@ -1973,7 +1979,7 @@ Netfilter mark or determine one locally if it is not already set, can be
 rewritten with a ``vmap`` statement. It should be noted that the two rules might
 still be more efficient than the use of a red-black tree for this simple branch.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: Rule extract from 'table inet host-firewall' 'chain early-inbound'.
 
     # Instead of the following two rules...
@@ -2021,7 +2027,7 @@ The creation of named stateful objects follows the same convention as for all
 other objects. For example, the following file creates a counter which is
 referenced once the end of the ``limits-inbound`` chain is reached:
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
     :linenos:
 
@@ -2076,7 +2082,7 @@ following extension to the previous example add some functionality:
 Note that new flow-initiating packets are dropped if *either* of the criteria is
 met: active number of conntrack flows or rate of creation of new conntrack flows.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
     :linenos:
     :emphasize-lines: 12-16,18-19,22-36,38-53
@@ -2169,7 +2175,7 @@ for tracking flow count and new flow rate per subnet in the highlighted lines:
 * The previously demonstrated global restrictions, applicable to any IPv4 or
   IPv6 source address, are maintained.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/limits.conf
     :linenos:
     :emphasize-lines: 6-22,24-40,59-66,84-97,99-112
@@ -2353,7 +2359,7 @@ The following example enables accelerated forwarding for packets between a set
 of interfaces. The actual network interface which receive a packet needs to be
 registered, even if bridging is enabled.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/flow-offload.conf
     :linenos:
 
@@ -2396,7 +2402,7 @@ table is usually the first one queried. The following example counts packets for
 which the network layer destination address (``fib daddr``) is either a local or
 broadcast one.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
     :linenos:
 
@@ -2427,7 +2433,7 @@ demonstrates this use case. It should be noted that:
 * IPv6 configurations usually employ the same link-local prefix (``fe80::/64``)
   on all interfaces, requiring special handling.
 
-.. code-block:: nftables
+.. code-block:: nft
     :caption: /etc/nftables/tables.d/test-firewall.conf
     :linenos:
 

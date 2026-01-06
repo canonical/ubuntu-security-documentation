@@ -1,24 +1,44 @@
 FIPS mode with full disk encryption
-===================================
+###################################
 
-Ubuntu supports numerous file systems, and the installer provides the option to use Full Disk Encryption (FDE) using either LUKS or ZFS. ZFS is not supported in FIPS mode. It is possible to use LUKS encryption, although an additional manual configuration step is required.
+Ubuntu supports numerous file systems. The installer provides the option to use
+Full Disk Encryption (FDE) using either LUKS or ZFS. FIPS mode doesn't support
+ZFS. You can use LUKS encryption, but you must perform an additional manual
+configuration step.
 
-By default LUKS uses the Argon2i password hashing algorithm to generate a disk encryption key from the user-supplied password. This modern algorithm was chosen as it is believed to be more secure against the current hardware capabilities available to attackers (see the Password Hashing Competition for more details) than the older PBKDF2 algorithm. At this time, the Argon2 algorithms have not yet been certified by NIST for use in FIPS 140-3, although it is possible to use PBKDF2, and Argon2i is therefore unavailable in FIPS mode.
+By default, LUKS uses the Argon2i password hashing algorithm to generate a disk
+encryption key from the user-supplied password. This modern algorithm provides
+better security against current hardware capabilities than the older PBKDF2
+algorithm (see the Password Hashing Competition for details). Currently, NIST
+hasn't certified the Argon2 algorithms for use in FIPS 140-3, though PBKDF2 is
+allowed. Therefore, Argon2i isn't available in FIPS mode.
 
-The installer creates the LUKS encrypted partitions using Argon2i. Before enabling FIPS mode, you need to add a key slot that uses PBKDF2 in order to be able to decrypt and mount the partition in FIPS mode. This can be done by running the following commands.
+The installer creates the LUKS encrypted partitions using Argon2i. Before
+enabling FIPS mode, you need to add a key slot that uses PBKDF2 to decrypt and
+mount the partition in FIPS mode.
 
-First determine which partition is encrypted with LUKS (your partition will likely be named differently):
+Run the following commands to do this.
+
+First, determine which partition is encrypted with LUKS (your partition will
+likely be named differently):
 
 .. code-block:: bash
-   
-   lsblk --fs -p -r | grep LUKS | awk '{print $1}'
-   > /dev/nvme0n1p3
 
-Then add a keyslot to LUKS using the PBKDF2 algorithm (substituting the partition name listed in the previous command):
+   lsblk --fs -p -r | grep LUKS | awk '{print $1}'
+
+Output:
+
+.. code-block:: text
+
+   /dev/nvme0n1p3
+
+Then, add a key slot to LUKS using the PBKDF2 algorithm (substitute
+``<partition name>`` with the partition listed in the previous command):
 
 .. code-block:: bash
 
    sudo cryptsetup --pbkdf=pbkdf2 luksAddKey <partition name>
 
-You can re-use the existing disk encryption password for this step.
-Now enable FIPS, as detailed previously, and reboot.
+You can reuse the existing disk encryption password for this step.
+
+Finally, enable FIPS and reboot.

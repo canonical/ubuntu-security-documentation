@@ -1,7 +1,11 @@
 FIPS 140 for Ubuntu
 ###################
 
-Canonical provides FIPS 140 certified cryptographic packages, which are available with an Ubuntu Pro subscription, enabling you to run Ubuntu and deploy workloads in environments where FIPS 140 is a requirement, such as FISMA, FedRAMP, CMMC & DISA-STIG.
+Canonical provides FIPS 140 certified cryptographic packages available with an
+Ubuntu Pro subscription. These packages enable you to run Ubuntu and deploy
+workloads in environments where FIPS 140 is a requirement, such as FISMA,
+FedRAMP, CMMC, and DISA-STIG.
+
 
 About FIPS
 ==========
@@ -26,6 +30,7 @@ How to get FIPS-certified packages
    how-to-switch-ubuntu-to-fips
    how-to-enable-fips-with-fde
    how-to-enable-wifi
+
 
 Troubleshooting
 ===============
