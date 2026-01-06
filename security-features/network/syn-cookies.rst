@@ -26,15 +26,12 @@ Configuration values
 ====================
 
 * ``0``: Disables SYN cookies.
-* ``1``: Enables SYN cookies only when the kernel detects a SYN flood attack.
+* ``1``: Enables SYN cookies only when the kernel detects a possible SYN flood attack.
 * ``2``: Permanently enables SYN cookies.
 
 Since SYN cookies increase the computational load on the server, we recommend
 leaving the value at ``1`` unless specific circumstances require otherwise.
 Since Ubuntu 9.04 (Jaunty Jackalope), the default value is ``1``.
-
-Check and modify configuration
-==============================
 
 Run the following command to check the current value:
 
@@ -68,7 +65,7 @@ you enable other protection mechanisms against SYN flood attacks.
 
 Consider other aspects when using SYN cookies. For example, SYN packets still
 reach the system, which may saturate bandwidth. Additionally, the server
-**won't** retransmit the SYN/ACK packet if it **doesn't** receive the ACK
+won't retransmit the SYN/ACK packet if it doesn't receive the ACK
 packet (the third packet in the handshake), which could potentially lead to
 hung connections.
 

@@ -54,7 +54,7 @@ true NX support.
 AMD Secure Encrypted Virtualization (SEV)
 -----------------------------------------
 
-Available on modern AMD CPUs (typically from the EPYC and Ryzen Pro lines),
+Available on certain AMD CPUs (such as from the EPYC and Ryzen Pro lines),
 Secure Encrypted Virtualization (SEV) allows you to encrypt the memory of a
 guest virtual machine. This protects the guest from the host hypervisor,
 meaning that even the system administrator of the host machine cannot access
@@ -62,7 +62,7 @@ the memory of the running guest. You must enable this feature in the BIOS
 before Ubuntu can use it.
 
 First, check if your CPU reports the SEV capability by looking for the ``sev``
-flag in ``/proc/cpuinfo``:
+flag in :file:`/proc/cpuinfo`:
 
 .. code-block:: bash
 
@@ -74,7 +74,7 @@ boot with the following command:
 
 .. code-block:: bash
 
-   dmesg | grep "SEV is enabled"
+   sudo dmesg | grep "SEV is enabled"
 
 If this command returns output, SEV is active. If not, you need to reboot into
 your BIOS. In a typical BIOS, find the SEV setting under the **Advanced** tab,
@@ -96,7 +96,7 @@ Intel Trust Domain Extensions (TDX) is a security technology that creates a
 hardware-isolated environment called a Trust Domain. Like `AMD SEV <sev_>`_, it
 encrypts and isolates the memory and CPU state of a virtual machine to protect
 it from the host hypervisor and other software on the system. Support for TDX
-is a newer feature and requires both a modern Intel CPU and a recent Ubuntu
+is a newer feature and requires both a supported Intel CPU and a supported Ubuntu
 kernel.
 
 To see if your CPU supports TDX, check for the ``tdx`` flag in
@@ -112,7 +112,7 @@ kernel's boot messages:
 
 .. code-block:: bash
 
-   dmesg | grep "TDX initialized"
+   sudo dmesg | grep "TDX initialized"
 
 If you don't see this line, enable the feature in your system's BIOS. Look for
 **Intel Trust Domain Extensions (TDX)** under the **Advanced** or **Security**
@@ -154,7 +154,7 @@ module:
 
 .. code-block:: bash
 
-   dmesg | grep "kvm: disabled by bios"
+   sudo dmesg | grep "kvm: disabled by bios"
 
 You can check if your hardware is expected to have VT available by running the
 following command from the ``qemu-kvm`` package:

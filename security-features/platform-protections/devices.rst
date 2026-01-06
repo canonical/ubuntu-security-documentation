@@ -53,7 +53,7 @@ re-enable the service.
 Example workflow
 ----------------
 
-Here's an example of what you might add in the ``/etc/usbauth/usbauth.conf``
+Here's an example of what you might add in the :file:`/etc/usbauth/usbauth.conf`
 configuration file:
 
 .. code-block:: text
@@ -65,7 +65,7 @@ configuration file:
    # Also allow any device that identifies as a Mass Storage device.
    allow class 08
 
-Each rule in ``/etc/usbauth/usbauth.conf`` consists of an action and a
+Each rule in :file:`/etc/usbauth/usbauth.conf` consists of an action and a
 matcher. For example, we can break down the file above into the following
 components:
 
@@ -89,7 +89,7 @@ effective way to reduce the risk external devices connected via USB pose to a
 user's system, but understand it doesn't eliminate the risk entirely.
 
 You can learn more about ``usbauth`` through its `official manpages
-<https://manpages.ubuntu.com/manpages/noble/en/man8/usbauth.8.html>`_.
+<https://manpages.ubuntu.com/manpages/resolute/en/man8/usbauth.8.html>`_.
 
 
 usbguard
@@ -131,7 +131,7 @@ interactive one. It is the successor to older tools like
 Example workflow
 ----------------
 
-Here's an example of what you might add in the ``rules.conf`` file after
+Here's an example of what you might add in the :file:`rules.conf` file after
 running ``usbguard generate-policy > /etc/usbguard/rules.conf``:
 
 .. code-block:: text

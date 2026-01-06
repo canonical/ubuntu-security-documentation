@@ -116,7 +116,7 @@ following commands:
 nftables
 --------
 
-`nftables <https://www.nftables.org/projects/nftables/index.html>`_ succeeds
+`nftables <https://www.nftables.org/projects/nftables/index.html>`_ is a successor to
 the ``iptables`` component in the Linux Netfilter subsystem. It simplifies and
 enhances Linux firewall management.
 
@@ -127,7 +127,7 @@ manage rules previously managed by ``arptables`` and ``ebtables``, while
 additionally supporting common IPv4 and IPv6 rules.
 
 Starting with Ubuntu 15.04 (Vivid Vervet), the ``nftables`` package provides a
-systemd service unit file that is disabled by default. If enabled, the service
+``systemd`` service unit file that is disabled by default. If enabled, the service
 unit file automatically loads ``nftables`` configuration from the
 ``/etc/nftables.conf`` file (a mock file that does not perform any filtering is
 provided in the ``nftables`` package). You can enable this and load the

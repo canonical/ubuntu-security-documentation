@@ -1369,6 +1369,11 @@ Ubuntu 20.04 LTS (Focal Fossa)
    * -
      - Authentication/integrity check
      -
+     - CMAC
+     - 128
+  *  - 
+     - Authentication/integrity check
+     - 
      - Gosthash94
      - 256
    * -
@@ -2304,7 +2309,7 @@ Ubuntu 18.04 LTS (Bionic Beaver)
      -
      - UMAC
      - 128
-   * - :ref:`gnutls` (gnutls28)
+   * - :ref:`gnutls` (gnutls30)
      - Bulk encryption
      - AES
      -
@@ -2624,6 +2629,11 @@ Ubuntu 18.04 LTS (Bionic Beaver)
      -
      - SHA-3
      - 512
+   * -
+     - authentication/integrity check
+     - 
+     - Skein
+     - 1024
    * -
      - Authentication/integrity check
      -
@@ -3057,7 +3067,7 @@ Ubuntu 16.04 LTS (Xenial Xerus)
      -
      - UMAC
      - 128
-   * - :ref:`gnutls` (gnutls26)
+   * - :ref:`gnutls` (gnutls28)
      - Bulk encryption
      - AES
      -
@@ -3087,6 +3097,11 @@ Ubuntu 16.04 LTS (Xenial Xerus)
      - 3DES
      -
      - 168
+   * - 
+     - bulk encryption
+     - Salsa20
+     - 
+     - 256
    * -
      - Digital signature
      - RSA
@@ -3097,6 +3112,11 @@ Ubuntu 16.04 LTS (Xenial Xerus)
      - DSA
      -
      - 1024
+   * - 
+     - digital signature
+     - ECC
+     - 
+     - 521
    * -
      - Authentication/integrity check
      -
@@ -3122,6 +3142,11 @@ Ubuntu 16.04 LTS (Xenial Xerus)
      -
      - rmd160
      - 160
+   * - 
+     - authentication/integrity check
+     - 
+     - UMAC
+     - 128
    * - :ref:`NSS`
      - Bulk encryption
      - AES

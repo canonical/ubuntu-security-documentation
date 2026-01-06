@@ -8,7 +8,7 @@ Exposing open ports on untrusted networks poses a security risk if the
 listening service has a vulnerability or is misconfigured.
 
 Since Ubuntu 6.06 LTS (Dapper Drake), Ubuntu has followed a "No Open Ports"
-policy. By default, a new installation has no listening network services, with
+policy. By default, a new installation should have no listening network services, with
 only rare exceptions.
 
 Guidelines for network services exposed by default
@@ -20,7 +20,7 @@ the out-of-the-box user experience.
 
 All such network services must comply with the following guidelines.
 
-Expose local information to the network
+Exposing local information to the network
 ---------------------------------------
 
 A default Ubuntu installation must not expose any application-level data to the
@@ -40,7 +40,7 @@ DHCP client broadcasts the device's MAC address during DHCP discovery.
 Package or distribution upgrades must not expose any information not previously
 exposed.
 
-Detect and use remote services
+Detecting and using remote services
 ------------------------------
 
 The default Ubuntu Desktop installation automatically detects services offered
@@ -72,7 +72,7 @@ privileges.
 Software that offers network services may have other security problems, such as
 complexity, poor code quality, or inadequate upstream security response
 processes. These issues make identifying and fixing vulnerabilities more
-difficult. Therefore, we don't enable programs with such problems by default.
+difficult. Therefore, you shouldn't enable programs with such problems by default.
 
 Sign-off process
 ----------------
@@ -84,7 +84,7 @@ in the default installation.
 Exceptions to the "No Open Ports" policy
 ++++++++++++++++++++++++++++++++++++++++
 
-Notable exceptions to the "No Open Ports" policy include:
+Notable exceptions to the "No Open Ports" policy are listed below.
 
 Ubuntu Desktop
 --------------

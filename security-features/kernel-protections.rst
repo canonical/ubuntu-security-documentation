@@ -156,7 +156,7 @@ Regression tests for this are included in `test-kernel-security.py
 <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_.
 
 
-Kernel Lockdown
+Kernel lockdown
 ===============
 
 Starting with Ubuntu 20.04 LTS (Focal Fossa), we enable the Linux kernel's
@@ -165,7 +165,7 @@ arbitrary modules or BPF programs that can manipulate kernel data structures.
 Lockdown enforcement is tied to UEFI Secure Boot.
 
 
-Kernel Stack Protector
+Kernel stack protector
 ======================
 
 The kernel stack protector is a security feature that detects memory corruption

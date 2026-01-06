@@ -45,7 +45,7 @@ Although efficient to compute, its usage has declined because brute-forcing is
 more feasible compared to stronger algorithms.
 
 Ubuntu 22.04 LTS (Jammy Jellyfish) and later use ``yescrypt``, which is based
-on ``scrypt``, a computationally expensive key derivation. This makes it less
+on ``scrypt``, a computationally expensive key derivation function. This makes it less
 practical for adversaries to perform brute-force attacks when attempting to
 find a hash collision.
 
