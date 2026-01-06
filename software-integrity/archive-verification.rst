@@ -67,8 +67,8 @@ archive, such as a PPA, before you install any software from them. As part of
 the installation, upgrades or removal, the software will execute code with
 elevated privileges (as ``root``).
 
-Ubuntu distributes a large collection of over 36,000 software packages in its
-official Ubuntu Archive to simplify this provisioning task.
+Ubuntu distributes a large collection of software packages in its official
+Ubuntu Archive to simplify this provisioning task.
 
 Insecure settings
 -----------------
@@ -179,15 +179,15 @@ The following diagram depicts the Ubuntu Archive signature scheme:
 The Ubuntu Archive keys use an embedded PGP signature in the ``InRelease`` file
 associated with each archive pocket. For example, for the Ubuntu 24.04 LTS
 (Noble Numbat) security pocket, the InRelease file can be found at
-https://archive.ubuntu.com/ubuntu/dists/noble-security/InRelease. The current
-Archive keys use 4096-bit RSA. If the ``InRelease`` file were to be tampered
-with, its PGP signature would no longer match.
+https://archive.ubuntu.com/ubuntu/dists/noble-security/InRelease. As of January
+2026, the Archive keys use 4096-bit RSA. If the ``InRelease`` file were to be
+tampered with, its PGP signature would no longer match.
 
 The ``InRelease`` file contains cryptographic hashes for a number of metadata
 files, including a ``Packages`` file for each component (Main, Restricted,
 Universe and Multiverse) and each architecture. The cryptographic hashes use
-various algorithms, such as SHA2-256. For example, the 24.04 LTS security pocket
-amd64 Main ``Packages`` file is located at
+various algorithms, such as SHA2-256. For example, the Ubuntu 24.04 LTS (Noble
+Number) security pocket amd64 Main ``Packages`` file is located at
 https://archive.ubuntu.com/ubuntu/dists/noble-security/main/binary-amd64/Packages,
 with its hash included in the signed ``InRelease`` file. If the ``Packages``
 file were to be tampered with, its hash would no longer match the one present in
@@ -197,7 +197,7 @@ verification.
 
 The ``Packages`` file contains the relative filename of the ``.deb`` package for
 the latest version, as well as cryptographic hashes of the contents of the
-``.deb`` file. The cryptographic hashes use various algorithms such as SHA2-256
+``.deb`` file. The cryptographic hashes use various algorithms, such as SHA2-256
 and SHA2-512. If the contents of a ``.deb`` file were to be tampered with, its
 hash would no longer match the one present in the ``Packages`` file. If the
 ``Packages`` file were to be adjusted with the modified hash, this change would
