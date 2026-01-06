@@ -2,9 +2,9 @@ Compliance automation
 #####################
 
 Ubuntu Pro simplifies security compliance burden for frameworks 
-such as NIST, FedRAMP, PCI-DSS, ISO27001, or CIS. Pro includes 
+such as NIST CSF, FedRAMP, PCI-DSS, ISO27001, or CIS Benchmarks. Pro includes 
 security vulnerability patching for up to 12 years, FIPS-validated
-cryptographic modules, and automated system hardening for CIS and
+cryptographic modules, and automated system hardening for CIS Benchmarks and
 DISA STIG. You can deploy it on-premise or in the public cloud. 
 
 Ubuntu Security Guide

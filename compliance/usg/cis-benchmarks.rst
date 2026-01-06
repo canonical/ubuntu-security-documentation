@@ -1,11 +1,11 @@
-CIS benchmarks and profiles
+CIS Benchmarks and profiles
 ###########################
 
-`CIS benchmarks <https://www.cisecurity.org/benchmark/ubuntu_linux>`_ are
+`CIS Benchmarks <https://www.cisecurity.org/benchmark/ubuntu_linux>`_ are
 security configuration recommendations developed for Ubuntu Linux.
 
 The levels represent different sets of recommendations depending on the
-security requirements of the environment. See the `CIS FAQ
+security requirements of the environment. See the `CIS Benchmarks FAQ
 <https://www.cisecurity.org/cis-benchmarks/cis-benchmarks-faq>`_ to learn what
 each level represents.
 

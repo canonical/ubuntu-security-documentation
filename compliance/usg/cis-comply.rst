@@ -1,7 +1,7 @@
-Apply the CIS rules to the current system
-#########################################
+Apply the CIS Benchmarks rules to the current system
+####################################################
 
-To modify a system to comply with the CIS benchmark using USG, run the following
+To modify a system to comply with the CIS Benchmarks using USG, run the following
 command:
 
 .. code-block:: bash

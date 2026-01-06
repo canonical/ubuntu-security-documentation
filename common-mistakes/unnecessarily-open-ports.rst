@@ -40,7 +40,7 @@ commonly used transport protocols for communication over the internet:
    By default, ``ss`` results show the network namespace of the shell process.
    Use the ``-N`` option to specify a network namespace to examine.
 
-Filter out loopback addresses to exclude open ports reachable only from the
+You can filter out loopback addresses to exclude open ports reachable only from the
 host itself, particularly if everything running on the host is trusted:
 
 .. code-block:: bash
@@ -150,7 +150,7 @@ crashes (leading to a denial of service) to remote code execution.
 
 For example, `Log4Shell
 <https://ubuntu.com/security/vulnerabilities/log4shell>`_ is a vulnerability in
-a popular logging library. If the software bound to an open port uses a
+a popular Java logging library. If the software bound to an open port uses a
 vulnerable version of the library, a malicious host could potentially exploit
 the vulnerability to execute arbitrary code on the victim host.
 
@@ -184,7 +184,7 @@ Best practices for open ports
 Disable unnecessary network services
 ------------------------------------
 
-Stop any network services that are no longer required and disable them from
+We strongly advise that you stop any network services that are no longer required and disable them from
 running automatically at boot.
 
 If ``systemd`` manages the service, run:
@@ -216,7 +216,7 @@ only to the specific network addresses where they are required. Avoid binding
 to public addresses unless the service needs to be accessible from the
 internet.
 
-Bind services that only need exposure to other processes on the same host to a
+You should bind services that only need exposure to other processes on the same host to a
 loopback address.
 
 Use firewalls to control access to open ports

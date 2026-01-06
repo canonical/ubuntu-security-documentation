@@ -3,7 +3,7 @@ Downloading .debs from untrusted sources
 
 Packages offer a convenient way to distribute software, but this ease of
 distribution comes with risks. For example, a user might provide a direct
-download link for a package on a public forum.
+download link for a package on a public forum or another untrusted source.
 
 .. warning::
    **Security risk**
@@ -22,15 +22,14 @@ file from an untrusted source likely hasn't undergone security screening. This
 lack of verification means that attackers may have modified the software inside
 the package.
 
-When possible, always source packages from trusted sources rather than public
-forums.
+When possible, always source packages from trusted sources rather than untrusted sources.
 
 
 Potential for malware
 =====================
 
 Installing a package system-wide almost always requires ``root`` privileges. If
-an attacker has modified a ``.deb`` file, granting ``root`` privileges
+an attacker has modified a :file:`.deb` file, granting ``root`` privileges
 increases the risk of installing malware, ransomware, spyware, or keyloggers on
 your system.
 
@@ -44,9 +43,8 @@ System instability and dependency issues
 Software from trusted sources, such as the Ubuntu Archive, is built and tested
 to work with other packages on your system. In contrast, a package from an
 unknown or untrusted source might have been built for a different version of
-Ubuntu or have conflicting dependencies.
-
-Installing such a ``.deb`` can cause system instability due to these conflicts,
+Ubuntu or have conflicting dependencies. Installing such a :file:`.deb`
+can cause system instability due to these conflicts,
 which in the worst case can render a system unusable.
 
 To avoid dependency issues and ensure system stability, it's always best to

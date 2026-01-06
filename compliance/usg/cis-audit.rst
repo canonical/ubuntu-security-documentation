@@ -1,5 +1,5 @@
-Auditing an Ubuntu system for CIS compliance
-############################################
+Auditing an Ubuntu system for CIS Benchmarks compliance
+#######################################################
 
 Audit the system
 ================

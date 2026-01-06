@@ -1,5 +1,5 @@
-Customizing CIS profiles
-########################
+Customizing CIS Benchmarks profiles
+###################################
 
 Compliance with a benchmark isn't an all-or-nothing task. Each environment is
 different, and options considered niche in one place might be essential in

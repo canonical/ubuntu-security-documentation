@@ -7,7 +7,7 @@ Prerequisites
 
 * An `Ubuntu One account <https://login.ubuntu.com/>`_ with the email address
   you used to purchase your subscription.
-* An Ubuntu machine running Ubuntu Server or Desktop 20.04 LTS.
+* An Ubuntu machine running Ubuntu Server or Desktop 20.04 LTS (Focal Fossa).
 
 .. note::
    Hardening an existing Ubuntu image with USG can take a long time due to
@@ -131,7 +131,7 @@ Transition from previous compliance tooling
 ===========================================
 
 Previous compliance tools available in Ubuntu provided per-release scripts for
-CIS compliance. The following table maps the old commands to the Ubuntu
+CIS Benchmarks compliance. The following table maps the old commands to the Ubuntu
 Security Guide syntax.
 
 .. csv-table::

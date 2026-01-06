@@ -179,7 +179,7 @@ nettle
 ------
 
 `Nettle <https://www.lysator.liu.se/~nisse/nettle/>`_ is a low-level library
-designed to be easy to integrate into higher-level libraries.
+designed to be easy to integrate into higher-level libraries and applications.
 
 NSS
 ---

@@ -22,7 +22,7 @@ requirements for cryptographic modules published as ISO/IEC 19790 and ISO/IEC
 Ubuntu 22.04 LTS (Jammy Jellyfish)
 ----------------------------------
 
-We certified and tested the modules in this release on x86_64/AMD64, ARM64, and
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64, ARM64, and
 IBM Z architectures.
 
 .. csv-table::
@@ -38,13 +38,13 @@ IBM Z architectures.
 FIPS 140-2 Level 1
 ==================
 
-We assessed and certified modules in these releases for `FIPS 140-2 Level 1
+The Ubuntu Security Standards team assessed and certified modules in these releases for `FIPS 140-2 Level 1
 <https://csrc.nist.gov/pubs/fips/140-2/upd2/final>`_.
 
 Ubuntu 20.04 LTS (Focal Fossa)
 ------------------------------
 
-We certified and tested the modules in this release on x86_64/AMD64 and IBM Z
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64 and IBM Z
 architectures.
 
 .. csv-table::
@@ -61,7 +61,7 @@ architectures.
 Ubuntu 18.04 LTS (Bionic Beaver)
 --------------------------------
 
-We certified and tested the modules in this release on x86_64/AMD64 and IBM Z
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64 and IBM Z
 architectures.
 
 .. csv-table::
@@ -81,7 +81,7 @@ architectures.
 Ubuntu 16.04 LTS (Xenial Xerus)
 -------------------------------
 
-We certified and tested the modules in this release on x86_64/AMD64, IBM Z, and
+The Ubuntu Security Standards team certified and tested the modules in this release on x86_64/AMD64, IBM Z, and
 IBM Power8 architectures.
 
 .. csv-table::
@@ -97,7 +97,7 @@ IBM Power8 architectures.
 Ubuntu Pro services for FIPS modules
 ====================================
 
-We fix all software packages within the Ubuntu ecosystem as security
+We fix a number of software packages within the Ubuntu ecosystem as security
 vulnerabilities are discovered. However, the NIST certification process for
 FIPS applies to a specific binary version of the cryptographic module. This
 fixes these packages to the versions current at the time we submit the modules
@@ -112,7 +112,7 @@ As the certification process takes time, we also provide access to the modules
 awaiting NIST approval in the queue as a preview. At certain intervals, we will
 submit the latest patched modules for recertification, and these will then be
 available for preview. Our testing lab partner has already validated these
-modules, and we **don't** anticipate making any further changes at this point.
+modules, and we don't anticipate making any further changes at this point.
 
 There are several FIPS options listed in the Pro client, depending on whether
 NIST has reviewed the modules.
@@ -130,7 +130,7 @@ NIST has reviewed the modules.
 
 ``fips``
    This service provides the exact binary versions certified by NIST. These
-   packages **don't** include security updates and are likely to contain
+   packages don't include security updates and are likely to contain
    vulnerabilities.
 
 For more information about Ubuntu Pro services, see `Compatibility matrix for Ubuntu Pro services <https://canonical-ubuntu-pro-client.readthedocs-hosted.com/en/latest/references/compatibility_matrix/>`_
