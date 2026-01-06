@@ -12,11 +12,11 @@ the duration and level of support.
 Configuration
 =============
 
-Enable ESM through the Pro client after attaching a Pro subscription, as
+You can enable ESM through the Pro client after attaching a Pro subscription, as
 described in the `Pro Client Documentation
 <https://documentation.ubuntu.com/pro/account-setup/>`_.
 
-The distribution delivers ESM security updates via the same mechanism as all
+Ubuntu distributions deliver ESM security updates via the same mechanism as all
 packages. You can use ``apt``, ``apt-get``, ``aptitude``, or any other APT
 frontend to apply them. The Pro client manages the correct APT sources in
 ``/etc/apt/sources.list.d/``. Manage this according to the instructions in the

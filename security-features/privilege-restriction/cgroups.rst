@@ -56,8 +56,8 @@ isolation that makes containers viable. By placing each container into its own c
 can guarantee that one container cannot access more than its allocated share of CPU or memory,
 reducing the impact it can have on other containers or the host system.
 
-Service management with ``systemd``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Service management with systemd
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 On modern Ubuntu systems, ``systemd`` makes extensive use of cgroups to manage all system services.
 Every service started by ``systemd`` is automatically placed into its own dedicated cgroup. This

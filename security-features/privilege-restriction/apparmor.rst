@@ -100,7 +100,7 @@ policy loading. ``systemd`` calls ``apparmor_parser`` to load AppArmor profiles
 from the compiled policy cache location ``/etc/apparmor/earlypolicy/``.
 
 When early policy isn't configured, the AppArmor systemd unit file (typically
-named ``apparmor.service``) loads the rest of the policies by default behavior.
+named ``apparmor.service``) loads the remaining policies.
 This file specifies how AppArmor starts and reloads. Note that the stop command
 is intentionally a no-op because of how ``systemd`` implements the reload
 command (typically by a stop followed by a start). A true stop could lead to

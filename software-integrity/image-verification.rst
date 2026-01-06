@@ -154,7 +154,7 @@ using the Ubuntu Image Signing key, alongside the installation media itself.
 For a particular Ubuntu release, download the hashsums and the signature of the
 hashsums using the following commands. Because the integrity of the files is
 cryptographically verified, you don't need to download these over a secure
-channel.
+channel or from a trusted location.
 
 .. code-block:: console
 
@@ -200,3 +200,4 @@ Run the following commands to sign all public keys in the downloaded keyring:
     gpg --import ./ubuntu.gpg
 
     # Sign keys for future validation
+    gpg --quiet --with-colons --no-default-keyring --keyring ./ubuntu.gpg --list-keys 2>/dev/null | awk -F: '$1 == "fpr" { print $10 }' | xargs gpg --quick-lsign-key

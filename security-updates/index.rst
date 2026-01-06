@@ -1,13 +1,17 @@
 Security updates
 ################
-
+..
+  FIXME: may be useful to introduce documentation links to SRU and the updates
+  pocket.
 Ubuntu is a fixed-release Linux distribution. As such, Ubuntu releases receive
 security updates during the support window in the form of backported patches.
 This means that security updates won't generally introduce new
 functionality, and we achieve stability by maintaining backward compatibility.
 Note that some packages in Ubuntu receive feature updates through the Stable
 Release Update process, but this is independent of security updates.
-
+..
+  FIXME: this might also be documented elsewhere. It would be good to also
+  reference what LTS and interim releases are.
 The level of security support depends on the component in which a package
 resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The Ubuntu
 Security Team prepares security updates for supported Ubuntu releases and works

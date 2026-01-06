@@ -48,7 +48,7 @@ At the core of the encryption process is a securely generated Volume Key (also
 called the master encryption key). The system uses this key to encrypt and
 decrypt data stored on the device. LUKS supports various encryption algorithms
 and cipher modes, offering flexibility to choose the desired level of security
-and performance. By default, Ubuntu uses AES-256 in XTS mode, but you can
+and performance. By default, Ubuntu uses AES-256 in XTS mode (which requires a 512-bit key), but you can
 specify alternative algorithms, key sizes, and modes if needed.
 
 When you encrypt a device, the system encrypts the Volume Key itself and stores
@@ -71,12 +71,12 @@ that allows either a passphrase or TPM-based unlocking.
 Password-based FDE
 ------------------
 
-To configure password-based encryption, provide a passphrase. The system
+To configure password-based encryption, you'll need to provide a passphrase. The system
 processes this through a Key Derivation Function (KDF) to generate a key
 suitable for encrypting the Volume Key (the actual encryption key for the disk
 data).
 
-During installation, the system prompts you to enable Full Disk Encryption
+During installation of Ubuntu, the system prompts you to enable Full Disk Encryption
 (FDE). If you trigger the FDE process, you must provide a passphrase. The
 system doesn't use this passphrase directly as the encryption key. Instead, it
 passes it through a KDF that produces a Key Encryption Key (KEK). The system

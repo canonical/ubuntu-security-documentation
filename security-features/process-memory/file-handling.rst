@@ -54,11 +54,10 @@ class of security issues, most commonly seen in world-writable directories like
 boundaries when following a given symlink (for example, a root user follows a
 symlink belonging to another user).
 
-In Ubuntu 10.10 (Maverick Meerkat) and later, the system prevents following
-symlinks in world-writable sticky directories (such as ``/tmp``) if the
-follower and directory owner don't match the symlink owner. You can control
-this behavior through the ``/proc/sys/kernel/yama/protected_sticky_symlinks``
-sysctl, available via Yama.
+In modern Ubuntu releases, the system prevents following symlinks
+in world-writable sticky directories (such as :file:`/tmp`) if the follower and
+directory owner don't match the symlink owner. You can control this
+behavior through the ``fs.protected_symlinks`` sysctl.
 
 See `test-kernel-security.py
 <https://git.launchpad.net/qa-regression-testing/tree/scripts/test-kernel-security.py>`_

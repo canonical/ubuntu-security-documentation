@@ -1111,7 +1111,7 @@ tracks vulnerabilities and patches them in source packages. Binary packages
 package.
 
 Source package names aren't as useful for users as binary package names.
-Therefore, to simplify reading, as well as automation or scanning, we add the
+Therefore, to simplify reading, automation, and scanning, we add the
 list of binary packages and their versions under the ``ecosystem_specific``
 field. For example, for ``php8.4``:
 

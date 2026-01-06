@@ -10,7 +10,7 @@ HTTP or FTP client (such as a browser).
 .. warning::
    **Check your installation media**
 
-   If you download installation media, you must perform an integrity check,
+   If you download installation media, we strongly recommend performing an integrity check,
    even if you used a TLS-protected channel. The download workflow can't
    automatically perform this test for you.
 

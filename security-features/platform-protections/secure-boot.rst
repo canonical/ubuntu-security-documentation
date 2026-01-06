@@ -143,7 +143,7 @@ The MOKs generated at installation time or on upgrade are machine-specific. The
 kernel or ``shim`` allows them only to sign kernel modules by using a specific
 KeyUsage OID (``1.3.6.1.4.1.2312.16.1.2``) denoting the limitations of the MOK.
 
-Recent ``shim`` versions have stricter limitations for module-signing-only
+Starting with ``shim`` version 15.4, introduced in Ubuntu 21.04 (Hirsute Hippo), ``shim`` has stricter limitations for module-signing-only
 keys. Keys marked with the ``Module-signing only`` KeyUsage OID
 (``1.3.6.1.4.1.2312.16.1.2``) are enrolled in the firmware in the ``shim``
 trust database but are ignored when ``shim`` or GRUB validate images to load in
@@ -190,7 +190,7 @@ might enable Secure Boot later. The system should work properly in that case.
 A new installation
 ~~~~~~~~~~~~~~~~~~
 
-You step through the installer. Early on, when preparing to install and only if
+Early on, when preparing to install and only if
 the system requires third-party modules, you are prompted for a system password
 clearly marked as required after the install is complete. While the system
 installs, a new MOK is automatically generated without further user
@@ -214,15 +214,15 @@ load as necessary.
 Upgrade of a system
 ~~~~~~~~~~~~~~~~~~~
 
-On upgrade, the ``shim`` and ``shim-signed`` packages upgrade. The
+On system upgrade, the ``shim`` and ``shim-signed`` packages upgrade. The
 ``shim-signed`` package's post-install tasks generate a new MOK and prompt you
 for a password required once the upgrade completes and the system reboots.
 
-During the upgrade, kernel packages and third-party modules upgrade.
-Third-party modules rebuild for the new kernels, and their post-build process
+During a system upgrade, kernel packages and third-party modules upgrade.
+Third-party modules are rebuilt for the new kernels, and their post-build process
 automatically signs them with the MOK.
 
-After the upgrade, we recommend rebooting the system.
+After the system upgrade, we recommend rebooting the system.
 
 On reboot, ``MokManager`` presents a set of text-mode panels allowing you to
 enroll the generated MOK. Select **Enroll MOK**, view the certificate
@@ -251,8 +251,8 @@ UEFI Secure Boot key management
 Key management is crucial for maintaining a working UEFI Secure Boot policy.
 Ubuntu handles this automatically by guiding users through the steps needed
 when signing keys change or new keys are required. For typical Ubuntu users, no
-extra work is necessary as keys are managed as part of the embedded Canonical
-public certificate in the shim binary signed by Microsoft. The GRUB bootloader
+extra work is necessary as keys are managed as part of the Canonical
+public certificate in the embedded shim binary signed by Microsoft. The GRUB bootloader
 and kernel images and modules are signed with the private portion of that key.
 
 The Ubuntu boot process trusts the Canonical key because it is part of the
