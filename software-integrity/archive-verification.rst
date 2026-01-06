@@ -128,6 +128,16 @@ Signature scheme
 
 ..
    Mermaid code for diagram:
+   ---
+   config:
+       theme: 'base'
+       themeVariables:
+           primaryColor: '#ffffff'
+           lineColor: '#e95420'
+           secondaryColor: '#ffffff'
+           primaryTextColor: '#111111'
+           primaryBorderColor: '#e95420'
+   ---
    block-beta
     columns 4
         AK(("Archive key")) space:1
