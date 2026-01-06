@@ -25,7 +25,7 @@ File handling protections
    file-handling
 
 
-Address Space Layout Randomisation (ASLR)
+Address Space Layout Randomization (ASLR)
 =========================================
 
 The kernel and the ELF loader implement ASLR by randomizing the location of
@@ -90,6 +90,12 @@ The randomization of the ``brk`` offset from exec memory was added in 2.6.26
 in Ubuntu 8.04 LTS since exec was ASLR, and ``brk`` is allocated immediately
 after the exec region (so it was technically randomized, but not randomized
 with respect to the text region until 8.10).
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   aslr
 
 
 0-address protection
