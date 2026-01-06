@@ -1,7 +1,7 @@
 Direct downloading of .debs from the archive
 ############################################
 
-You can download a ``.deb`` package directly from the Ubuntu Archive website
+You can download a :file:`.deb` package directly from the Ubuntu Archive website
 without using the APT manager. However, APT provides critical security
 features: it manages dependencies, verifies package integrity, and ensures
 integration with the system’s update mechanism.
@@ -9,7 +9,7 @@ integration with the system’s update mechanism.
 .. warning::
    **Security risk**
 
-   By downloading ``.deb`` packages directly, you bypass these protections and
+   By downloading :file:`.deb` packages directly, you bypass these protections and
    introduce security risks.
 
 
@@ -25,9 +25,9 @@ before installation.
 See more in :doc:`Ubuntu archive integrity verification
 <../software-integrity/archive-verification>`.
 
-By downloading ``.deb`` packages manually through a web browser or HTTP client,
+By downloading :file:`.deb` packages manually through a web browser or HTTP client,
 you bypass this verification process. While HTTPS reduces the risk of tampering
-by providing encryption and basic integrity protection, it **doesn't** validate
+by providing encryption and basic integrity protection, it doesn't validate
 the file against the repository’s cryptographic signatures. This leaves an
 opening for machine-in-the-middle (MitM) attacks where an attacker could serve
 a modified package.
@@ -40,17 +40,17 @@ verification.
 Missed or blocked security updates
 ==================================
 
-Installing ``.deb`` packages manually bypasses APT’s automatic security
+Installing :file:`.deb` packages manually bypasses APT’s automatic security
 updates.
 
-If the manually installed package **isn't** included in your configured
-repositories, APT **won't** check for or apply updates. You must manually
+If the manually installed package isn't included in your configured
+repositories, APT won't check for or apply updates. You must manually
 track, download, and install any future security patches.
 
 If the manually installed package comes from a newer Ubuntu release or a
 testing repository, it can block future security patches. Such packages may
 have a higher version number than in your current release. As a result, APT
-**won't** replace them with the officially supported version, even if a
+won't replace them with the officially supported version, even if a
 security update is available. This can leave your system pinned to an unpatched
 version.
 
