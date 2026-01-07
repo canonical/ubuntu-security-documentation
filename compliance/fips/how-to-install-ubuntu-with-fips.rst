@@ -1,14 +1,14 @@
 How to install Ubuntu with FIPS mode enabled
 ============================================
 
-Enabling FIPS during installation ensures that your system is compliant from the first boot. This process is supported in the Ubuntu Server (Subiquity) and Ubuntu Desktop installers for 22.04 LTS and later.
+Enabling FIPS during installation ensures that your system is compliant from the first boot. This process is supported in the Ubuntu Server (Subiquity) and Ubuntu Desktop installers for Ubuntu 22.04 LTS (Jammy Jellyfish) and later.
 
 Prerequisites
 -------------
 
 Before starting the installation, ensure you have an **Ubuntu Pro token**. You can obtain a free token for personal use (up to 5 machines) at the `Ubuntu Pro website <https://ubuntu.com/pro/subscribe>`_.
 
-Installation Steps
+Installation steps
 ------------------
 
 1. **Start the Installer**: Boot your machine using the Ubuntu installation media.
@@ -34,7 +34,7 @@ Once the system boots, you can verify that FIPS is active by running:
 
 A return value of ``1`` indicates that FIPS mode is successfully enabled.
 
-Automated Installation (Autoinstall)
+Automated installation (autoinstall)
 ------------------------------------
 
 If you are using **autoinstall** (cloud-init), you can enable FIPS by adding your token and the service to the ``user-data`` configuration:
