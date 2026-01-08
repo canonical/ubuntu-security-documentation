@@ -18,7 +18,7 @@ Starting with Ubuntu 18.04 Bionic Beaver, the ``bolt`` package is available in `
 desktop-oriented tool for using the Linux kernel's Thunderbolt authorization support. Bolt implements
 the user-space component of the kernel's Thunderbolt security framework, designed to protect against
 unauthorized Thunderbolt device access and potential security threats like direct memory access
-(DMA) attacks.
+(DMA) attacks. For server environments, see the section on ``thunderbolt-tools`` below.
 
 The bolt daemon (``boltd``) runs as a system service and manages Thunderbolt device authorization
 using the kernel's Thunderbolt security levels. When a new Thunderbolt device is connected, ``bolt`` can
@@ -128,10 +128,10 @@ Configuration approaches
 
 Unlike desktop-oriented ``bolt``, ``thunderbolt-tools`` requires more manual configuration:
 
-1. **Direct sysfs manipulation**: Interacting with kernel interfaces in ``/sys/bus/thunderbolt/``
-2. **Scripted authorization**: Creating custom scripts for device approval workflows
-3. **Security policy enforcement**: Implementing organizational policies through automation
-4. **Integration with system management**: Incorporating Thunderbolt management into larger infrastructure management tools
+1. **Direct sysfs manipulation**: Users can interact with kernel interfaces in ``/sys/bus/thunderbolt/`` directly to configure devices.
+2. **Scripted authorization**: Users can create custom scripts for device approval workflows.
+3. **Security policy enforcement**: Users can implement organizational policies through automation.
+4. **Integration with system management**: Users can incorporate Thunderbolt management into larger infrastructure management tools.
 
 Use cases
 ---------
@@ -151,7 +151,7 @@ When using ``thunderbolt-tools`` in production environments:
 
 - Implement strict device allowlists based on device identifiers
 - Monitor device connection events through system logs
-- Consider disabling Thunderbolt entirely if not needed for security-critical systems
+- Consider disabling Thunderbolt entirely if not needed for security-critical systems via BIOS/UEFI settings
 - Use the highest appropriate security level supported by your hardware
 - Regularly audit authorized devices and remove unused entries
 
