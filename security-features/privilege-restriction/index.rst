@@ -53,7 +53,7 @@ Regression tests: `test-kernel-security.py <https://git.launchpad.net/qa-regress
 SMACK
 =====
 
-SMACK (Simplified Mandatory Access Control Kernel) is a Linux Security Module (LSM) that implements a label-based Mandatory Access Control (MAC) framework designed for simplicity and minimal administrative overhead. Unlike complex policy-driven systems, SMACK uses straightforward text labels assigned to subjects (processes) and objects (files, sockets, etc.) with access decisions made through simple rule comparisons. This architecture makes SMACK particularly well-suited for embedded systems, IoT devices and environments where security policies need to be easily understood and maintained without extensive expertise.
+SMACK (Simplified Mandatory Access Control Kernel) is a Linux Security Module (LSM) that implements a label-based Mandatory Access Control (MAC) framework designed for simplicity and minimal administrative overhead. Unlike complex policy-driven systems, SMACK uses straightforward text labels assigned to subjects (processes) and objects (files, sockets, etc.) with access decisions made through simple rule comparisons. This architecture prioritizes ease of understanding and maintenance, making security policies accessible without requiring extensive expertise in complex policy languages.
 
 Access rules are expressed as::
 
@@ -83,11 +83,16 @@ There are a limited number of pre-defined rules:
 | ^             | any           | rx      |
 +---------------+---------------+---------+
 
-The third rule uses "ordinary" to refer to any label except ``*`` and describes the case where the subject label and the object label are the same. For example, if a process labeled ``user`` accesses a file also labeled ``user``, the access is allowed with ``rwxa`` permissions. If the same process accesses a file labeled ``_`` (floor), the access is restricted to ``rx``, regardless of the subject label.
+The third rule uses "ordinary" to refer to any label except ``*`` and describes the case where the subject label and the object label are the same. For example, if a process labeled ``foo`` accesses a file also labeled ``foo``, the access is allowed with ``rwxa`` permissions. If the same process accesses a file labeled ``_`` (floor), the access is restricted to ``rx``, regardless of the subject label.
 
 Compared to `AppArmor <https://documentation.ubuntu.com/server/how-to/security/apparmor/index.html>`_, Ubuntu's default MAC system, SMACK serves a different architectural philosophy. AppArmor uses path-based mandatory access controls focused on confining specific applications through profiles that restrict file access, network usage and capabilities. SMACK provides system-wide label-based access control that is more suitable for creating isolated security domains and enforcing consistent policies across all system components. AppArmor excels at application-specific confinement and is easier to deploy incrementally, while SMACK is better suited for environments requiring comprehensive labeling schemes, such as multi-tenant systems or devices where all processes and data need clear security classifications.
 
-SMACK support is available in Ubuntu kernels (**2.6.25** or newer) starting with Ubuntu 8.10 (Intrepid Ibex) but is not enabled by default, as AppArmor serves as Ubuntu's primary LSM. To enable SMACK you need to add ``security=smack`` to the kernel line in ``/boot/grub/menu.lst``
+SMACK support is available in Ubuntu kernels (**2.6.25** or newer) starting with Ubuntu 8.10 (Intrepid Ibex) but is not enabled by default, as AppArmor serves as Ubuntu's primary LSM. To enable SMACK, you need to add the kernel parameter ``security=smack`` to the GRUB configuration. The recommended approach is to use a drop-in file::
+
+    echo 'GRUB_CMDLINE_LINUX="${GRUB_CMDLINE_LINUX} security=smack"' | sudo tee /etc/default/grub.d/smack.cfg
+    sudo update-grub
+
+For older releases that do not support drop-in files in ``/etc/default/grub.d/``, you will need to manually edit ``/etc/default/grub`` and add ``security=smack`` to the ``GRUB_CMDLINE_LINUX`` variable, then run ``sudo update-grub``.
 
 Create the directories ``/smack`` and ``/etc/smack``. Add this line to the ``/etc/fstab`` file::
 
