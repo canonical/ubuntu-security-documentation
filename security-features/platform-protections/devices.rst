@@ -15,7 +15,71 @@ bolt
 ====
 
 Starting with Ubuntu 18.04 Bionic Beaver, the ``bolt`` package is available in ``main`` to provide a
-desktop-oriented tool for using the Linux kernel's Thunderbolt authorization support. 
+desktop-oriented tool for using the Linux kernel's Thunderbolt authorization support. Bolt implements
+the user-space component of the kernel's Thunderbolt security framework, designed to protect against
+unauthorized Thunderbolt device access and potential security threats like direct memory access
+(DMA) attacks. For server environments, see the section on ``thunderbolt-tools`` below.
+
+The bolt daemon (``boltd``) runs as a system service and manages Thunderbolt device authorization
+using the kernel's Thunderbolt security levels. When a new Thunderbolt device is connected, ``bolt`` can
+automatically authorize trusted devices or prompt the user for authorization decisions, depending on
+the configured security policy.
+
+Bolt stores device information and policies in ``/var/lib/boltd/`` and integrates seamlessly with
+desktop environments through D-Bus interfaces. GNOME Settings and other desktop applications can
+interact with ``bolt`` to provide user-friendly device management interfaces.
+
+Security levels
+---------------
+
+Bolt supports multiple Thunderbolt security levels that determine how devices are handled:
+
+1. **none**: No security - all devices are automatically authorized (legacy mode)
+2. **user**: User authorization required - devices must be manually approved
+3. **secure**: Secure connection with challenge-response authentication
+4. **dponly**: DisplayPort-only mode - only video output devices are allowed
+
+Example workflow
+----------------
+
+The typical ``bolt`` workflow involves:
+
+1. **Device Detection**: When a Thunderbolt device connects, the kernel detects it but doesn't authorize it
+2. **Policy Check**: Bolt checks if the device is in its database and what policy applies
+3. **User Interaction**: For unknown devices, ``bolt`` may prompt for user authorization through desktop notifications
+4. **Authorization**: Approved devices receive authorization and become functional
+5. **Enrollment**: Devices can be "enrolled" to remember authorization decisions for future connections
+
+You can manage ``bolt`` through the command line using the ``boltctl`` utility.
+
+.. code-block:: bash
+
+    # List connected devices
+    boltctl list
+
+    # Show device details
+    boltctl info <device-id>
+
+    # Enroll a device (authorize and remember)
+    boltctl enroll <device-id>
+
+    # Authorize a device temporarily
+    boltctl authorize <device-id>
+
+Configuration
+-------------
+
+Bolt's main configuration is typically handled automatically, but advanced users can modify behavior
+through:
+
+- **Policy files**: Located in ``/etc/bolt/``
+- **Device database**: Stored in ``/var/lib/bolt/``
+- **Security level**: Usually configured through firmware/BIOS settings
+
+You can learn more about ``boltctl`` through its
+`official manpages <https://manpages.ubuntu.com/manpages/resolute/man1/boltctl.1.html>`_. 
+You can also learn more about ``boltd`` through its
+`official manpages <https://manpages.ubuntu.com/manpages/resolute/man8/boltd.8.html>`_
 
 
 thunderbolt-tools
@@ -23,7 +87,82 @@ thunderbolt-tools
 
 Starting with Ubuntu 18.04 Bionic Beaver, the ``thunderbolt-tools`` package is available in
 ``universe`` to provide a server-oriented tool for using the Linux kernel's Thunderbolt
-authorization support. 
+authorization support. Unlike ``bolt``, which focuses on desktop integration, ``thunderbolt-tools`` provides
+low-level command-line utilities for Thunderbolt management in server and embedded environments
+where desktop services may not be available.
+
+The package includes several utilities for direct interaction with the kernel's Thunderbolt
+subsystem, making it suitable for scripting, automation, and headless systems where fine-grained
+control over Thunderbolt devices is required.
+
+Key components
+--------------
+
+The ``thunderbolt-tools`` package provides:
+
+1. **tbtadm**: The primary administrative tool for Thunderbolt management
+2. **Kernel interface access**: Direct access to ``/sys/bus/thunderbolt/`` interfaces
+3. **Security management**: Tools for configuring and managing Thunderbolt security policies
+
+Example workflow
+----------------
+
+Here's how you might use ``thunderbolt-tools`` in a server environment:
+
+.. code-block:: bash
+
+    # Show Thunderbolt topology
+    tbtadm topology
+
+    # List all currently connected Thunderbolt devices
+    tbtadm devices
+
+    # Approve a specific device
+    tbtadm approve <device-uuid>
+
+    # Print ACLs
+    tbtadm acl
+
+Configuration approaches
+------------------------
+
+Unlike desktop-oriented ``bolt``, ``thunderbolt-tools`` requires more manual configuration.
+The primary tool for configuration is ``tbtadm``, which provides a rich command-line interface
+that can meet most user needs:
+
+1. **Command-line management with tbtadm**: Use ``tbtadm`` to approve devices, manage ACLs, and inspect topology.
+2. **Scripted authorization**: Users can create custom scripts for device approval workflows.
+3. **Security policy enforcement**: Users can implement organizational policies through automation.
+4. **Integration with system management**: Users can incorporate Thunderbolt management into larger infrastructure management tools.
+
+Use cases
+---------
+
+``thunderbolt-tools`` is particularly valuable for:
+
+- **Server environments**: Managing Thunderbolt storage arrays or network adapters
+- **Embedded systems**: Implementing custom Thunderbolt authorization logic
+- **Automation scripts**: Building automated device management workflows
+- **Security auditing**: Inspecting and logging Thunderbolt device connections
+- **Custom implementations**: Developing specialized Thunderbolt management solutions
+
+Security considerations
+-----------------------
+
+When using ``thunderbolt-tools`` in production environments:
+
+- Implement strict device allowlists based on device identifiers
+- Monitor device connection events through system logs
+- Consider disabling Thunderbolt entirely if not needed for security-critical systems via BIOS/UEFI settings
+- Use the highest appropriate security level supported by your hardware
+- Regularly audit authorized devices and remove unused entries
+
+Both ``bolt`` and ``thunderbolt-tools`` work with the same underlying kernel Thunderbolt security framework
+but serve different use cases, ``bolt`` for desktop users seeking seamless integration, and
+``thunderbolt-tools`` for administrators requiring direct control and scriptable interfaces.
+
+You can learn more about ``tbtadm`` through its
+`official manpages <https://manpages.ubuntu.com/manpages/resolute/man1/tbtadm.1.html>`_.
 
 
 usbauth
