@@ -126,9 +126,11 @@ Here's how you might use ``thunderbolt-tools`` in a server environment:
 Configuration approaches
 ------------------------
 
-Unlike desktop-oriented ``bolt``, ``thunderbolt-tools`` requires more manual configuration:
+Unlike desktop-oriented ``bolt``, ``thunderbolt-tools`` requires more manual configuration.
+The primary tool for configuration is ``tbtadm``, which provides a rich command-line interface
+that can meet most user needs:
 
-1. **Direct sysfs manipulation**: Users can interact with kernel interfaces in ``/sys/bus/thunderbolt/`` directly to configure devices.
+1. **Command-line management with tbtadm**: Use ``tbtadm`` to approve devices, manage ACLs, and inspect topology.
 2. **Scripted authorization**: Users can create custom scripts for device approval workflows.
 3. **Security policy enforcement**: Users can implement organizational policies through automation.
 4. **Integration with system management**: Users can incorporate Thunderbolt management into larger infrastructure management tools.
