@@ -17,11 +17,11 @@ updates.
   FIXME: this might also be documented elsewhere. It would be good to also
   reference what LTS and interim releases are.
 
-The level of security support depends on the component in which a
-package resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The
-Ubuntu Security Team is responsible for preparing security updates for supported
-Ubuntu releases and working with the community to sponsor community-prepared
-security updates. The following table lists the security maintenance window for
+The level of security support depends on the component in which a package
+resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The Ubuntu
+Security Team prepares security updates for supported Ubuntu releases 
+and works with the community to sponsor community-prepared security 
+updates. The following table lists the security maintenance window for
 Ubuntu releases. You can read more about the Ubuntu release cycle `here
 <https://ubuntu.com/about/release-cycle>`_.
 
@@ -56,6 +56,25 @@ Ubuntu releases. You can read more about the Ubuntu release cycle `here
 Ubuntu Pro is a subscription that provides access to several security-focused
 features and services. You can read more about it in the `Ubuntu Pro
 documentation </pro/services-overview/>`_.
+
+Update Notifications
+====================
+
+For Ubuntu Desktop, you receive notifications when new updates are available as
+part of the ``update-manager`` package (known as ``Software & Updates`` in the
+desktop menu). You can use it to configure the notifications, manage updates,
+and manage automatic update settings (with more information in the `Automatic
+security updates`_ section below)
+
+For Ubuntu Server, ``update-notifier-common`` provides notifications about
+pending updates through the Message of the Day (MOTD) upon logging into the
+system. It is installed by default on Ubuntu 18.04 and later versions. To
+install it on earlier versions of Ubuntu, you can run the following commands:
+
+.. code-block:: bash
+
+   sudo apt update
+   sudo apt -y install update-notifier-common
 
 Delivery
 ========
@@ -145,7 +164,8 @@ ESM
 Livepatch
 =========
 
-The Canonical Livepatch service provides security fixes for most major kernel security issues without requiring a reboot. 
+The Canonical Livepatch service provides security fixes for most major kernel
+security issues without requiring a reboot.
 
 * `Livepatch <https://ubuntu.com/security/livepatch/docs>`_
 
@@ -176,8 +196,40 @@ VEX
 Automatic security updates
 ==========================
 
-Starting with Ubuntu 16.04 LTS, unattended-upgrades is configured to
-automatically apply security updates daily. Earlier Ubuntu releases can
-be
-`configured <https://ubuntu.com/server/docs/package-management#automatic-updates>`__
-to automatically apply security updates.
+Starting with Ubuntu 18.04 LTS (Bionic Beaver), ``unattended-upgrades`` is
+included in the default Ubuntu Desktop and Server installations to
+automatically apply security updates daily. You can `configure
+<https://ubuntu.com/server/docs/package-management#automatic-updates>`__ for
+earlier Ubuntu releases to automatically apply security updates. By default,
+the system installs security updates after 24 hours and normal updates after 7
+days.
+
+For Ubuntu Desktop, you can manage automatic updates through the internal
+``Software & Updates`` graphical application available in the menu. For Ubuntu
+Server, or if you choose not to use the graphical application, you can
+configure updates through the default configuration file found in
+``/etc/apt/apt.conf.d/50unattended-upgrades``. This file contains explanations
+for each option available for modification. Through the configuration file, you
+can adjust more advanced options, such as enabling automatic reboot when
+needed, setting the automatic reboot time, and configuring logging
+capabilities.
+
+You can also enable/disable automatic updates through the command terminal
+without editing the configuration file by running the following command:
+
+.. code-block:: bash
+
+   sudo dpkg-reconfigure unattended-upgrades
+
+.. note::
+
+   Automatic updates through ``unattended-upgrades`` are only configured by
+   default for archive repositories (as well as ESM if Ubuntu Pro is enabled).
+   To configure automatic updates for third party repositories and PPAs, you
+   must edit the ``/etc/apt/apt.conf.d/50unattended-upgrades`` file.
+
+   For more information, you can read the `manual page
+   <https://manpages.ubuntu.com/manpages/resolute/en/man8/unattended-upgrade.8.html>`_.
+
+The operations of ``unattended-upgrades`` are logged in
+``/var/log/unattended-upgrades/unattended-upgrades.log``.
