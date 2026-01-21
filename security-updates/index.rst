@@ -207,12 +207,24 @@ days.
 For Ubuntu Desktop, you can manage automatic updates through the internal
 ``Software & Updates`` graphical application available in the menu. For Ubuntu
 Server, or if you choose not to use the graphical application, you can
-configure updates through the default configuration file found in
-``/etc/apt/apt.conf.d/50unattended-upgrades``. This file contains explanations
-for each option available for modification. Through the configuration file, you
-can adjust more advanced options, such as enabling automatic reboot when
-needed, setting the automatic reboot time, and configuring logging
-capabilities.
+configure updates through a custom new drop-in configuration file in the
+``/etc/apt/apt.conf.d/`` directory, basing it off of the original
+``50unattended-upgrades`` file located in that same directory. In order for
+your custom rules to take precedence, ensure that the new configuration file
+comes after the original file in lexicographic order, by naming it with a
+higher preceding number (like ``60custom-unattendeed-upgrades``). The original
+config contains explanations for each option available for modification.
+Through a new configuration file, you can adjust more advanced options, such as
+enabling automatic reboot when needed, setting the automatic reboot time, and
+configuring logging capabilities.
+
+.. warning::
+
+   Editing the original configuration file is highly discouraged as it can
+   create problems after a system upgrade. If the configuration file is updated
+   from the original defaults, it will cause issues if it was modified
+   beforehand. Drop-in files are an alternative designed to solve these types
+   of issues.
 
 You can also enable/disable automatic updates through the command terminal
 without editing the configuration file by running the following command:
@@ -226,7 +238,7 @@ without editing the configuration file by running the following command:
    Automatic updates through ``unattended-upgrades`` are only configured by
    default for archive repositories (as well as ESM if Ubuntu Pro is enabled).
    To configure automatic updates for third party repositories and PPAs, you
-   must edit the ``/etc/apt/apt.conf.d/50unattended-upgrades`` file.
+   must create a new drop in file in the ``/etc/apt/apt.conf.d/`` directory.
 
    For more information, you can read the `manual page
    <https://manpages.ubuntu.com/manpages/resolute/en/man8/unattended-upgrade.8.html>`_.
