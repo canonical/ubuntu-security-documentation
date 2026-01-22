@@ -1,61 +1,63 @@
 Ubuntu OSV data
 ***************
 
-Ubuntu's Security Team publishes vulnerability data in the structured, human
+The Ubuntu Security Team publishes vulnerability data in the structured, human-
 and machine-readable `Open Source Vulnerability (OSV)
-<https://ossf.github.io/osv-schema/>`_ format for all supported Ubuntu releases.
-As with the other vulnerability data feeds, Ubuntu's OSV data can be used in
-vulnerability and patch management processes.
+<https://ossf.github.io/osv-schema/>`_ format for all supported Ubuntu
+releases. As with other vulnerability data feeds, you can use Ubuntu's OSV data
+in vulnerability and patch management processes.
 
 .. _osv-data:
+
 
 Available OSV data
 ==================
 
 The following types of vulnerability data are available in the OSV format:
 
-* Ubuntu CVE records, which mirror the per-vulnerability information available
-  in the `Ubuntu Security Tracker <https://ubuntu.com/security/cves>`_ and
-  contains information for known, publicly-disclosed vulnerabilities, even if
-  security updates are not yet available.
-* Ubuntu Security Notices (USNs), which contain `announcements
-  <https://ubuntu.com/security/notices>`_ of available security updates and the
-  vulnerabilities they address.
-* Livepatch Security Notices (LSNs), which contain announcements of kernel
-  security updates available through the `Livepatch service <../livepatch/>`_.
+* **Ubuntu CVE records:** These mirror the per-vulnerability information
+  available in the `Ubuntu Security Tracker
+  <https://ubuntu.com/security/cves>`_. They contain information for known,
+  publicly disclosed vulnerabilities, even if security updates aren't yet
+  available.
+* **Ubuntu Security Notices (USNs):** These contain `announcements
+  <https://ubuntu.com/security/notices>`_ of available security updates and
+  the vulnerabilities they address.
+* **Livepatch Security Notices (LSNs):** These contain announcements of kernel
+  security updates available through the `Livepatch service <../../compliance/fips/livepatch-and-fips/>`_.
 
-OSV data for Ubuntu releases is available from three official sources:
+You can get OSV data for Ubuntu releases from three official sources:
 
 * The `Canonical security metadata page
   <https://security-metadata.canonical.com/osv/>`_, as a compressed tarball
   updated whenever changes to the vulnerability are made available.
 * The `Ubuntu Security Notices GitHub repository
   <https://github.com/canonical/ubuntu-security-notices>`_, under the ``osv``
-  directory, with individual files for each CVE record, USN or LSN.
-* The `central OSV database <https://osv.dev/list?q=&ecosystem=Ubuntu>`_, which
-  provides an API to query the data.
+  directory, with individual files for each CVE record, USN, or LSN.
+* The `central OSV database <https://osv.dev/list?q=&ecosystem=Ubuntu>`_,
+  which provides an API to query the data.
 
 
 Using OSV data
 ==============
 
-As a standardized, machine-friendly format, the OSV data feed can be used by any
-vulnerability management tool that supports it. In particular, the OSV project
+As a standardized, machine-friendly format, any vulnerability management tool
+that supports OSV can use the data feed. In particular, the OSV project
 contains a reference implementation for a scanner, `OSV-Scanner
-<https://google.github.io/osv-scanner/>`_ and links to `community-maintained
+<https://google.github.io/osv-scanner/>`_, and links to `community-maintained
 tools <https://google.github.io/osv.dev/third-party/>`_.
 
 
-Understanding Ubuntu's OSV Data
+Understanding Ubuntu's OSV data
 ===============================
 
 The OSV format, although easy to parse, might still be difficult to interpret.
 The next sections cover the relevant details of the data we publish.
 
-To facilitate understanding, consider the following OSV data file
-UBUNTU-CVE-2025-6491.json:
+To better understand the format, consider the following OSV data file
+``UBUNTU-CVE-2025-6491.json``:
 
-.. code:: json
+.. code-block:: json
 
    {
      "schema_version": "1.7.0",
@@ -872,30 +874,31 @@ The ``id`` field
 ----------------
 
 We mentioned in :ref:`osv-data` the available vulnerability data. Each type
-can easily be identified with the ``id`` field:
+can be easily identified with the ``id`` field:
 
-* Ubuntu CVE Records: the ``id`` is of the form ``UBUNTU-CVE-...``
-* Ubuntu Security Notices: the ``id`` is of the form ``USN-...``
-* Livepatch Security Notices: the ``id`` is of the form ``LSN-...``
+* **Ubuntu CVE Records:** The ``id`` is of the form ``UBUNTU-CVE-...``
+* **Ubuntu Security Notices:** The ``id`` is of the form ``USN-...``
+* **Livepatch Security Notices:** The ``id`` is of the form ``LSN-...``
 
-.. NOTE::
-   Why aren't Ubuntu CVE Records identified as ``CVE-...``?
-   Because IDs in OSV need to be exclusive and the ``CVE-...`` id is already
-   reserved for the data synced from the CVE Program. Therefore Ubuntu
-   CVE records have the ``UBUNTU-`` prefix.
+.. note::
+   **Why aren't Ubuntu CVE Records identified as CVE-...?**
+
+   IDs in OSV need to be exclusive. The ``CVE-...`` id is already reserved for
+   the data synced from the CVE Program. Therefore, Ubuntu CVE records have the
+   ``UBUNTU-`` prefix.
 
 The ``upstream`` field
 ----------------------
 
-The OSV documentation describes it as:
-"The ``upstream`` field gives a list of IDs of upstream vulnerabilities that
-are referred to by the vulnerability entry."
+The OSV documentation describes it as: "The ``upstream`` field gives a list of
+IDs of upstream vulnerabilities that are referred to by the vulnerability
+entry."
 
-What does that actually mean for Ubuntu OSV data is that:
+For Ubuntu OSV data, this means:
 
-* Ubuntu CVE Records: the upstream field will contain the exact ``CVE-...``
-  that matches the ``UBUNTU-CVE-...``. For example ``UBUNTU-CVE-2025-6194``
-  will have:
+* **Ubuntu CVE Records:** The upstream field contains the exact ``CVE-...``
+  that matches the ``UBUNTU-CVE-...``. For example, ``UBUNTU-CVE-2025-6194``
+  has:
 
   .. code-block:: json
 
@@ -903,10 +906,8 @@ What does that actually mean for Ubuntu OSV data is that:
        "CVE-2025-6491"
      ],
 
-
-* Ubuntu Security Notices: the upstream field contain the list of Ubuntu
-  CVE Records that were fixed in this USN. For example ``USN-7548-1`` will
-  have:
+* **Ubuntu Security Notices:** The upstream field contains the list of Ubuntu
+  CVE Records that were fixed in this USN. For example, ``USN-7548-1`` has:
 
   .. code-block:: json
 
@@ -918,9 +919,9 @@ What does that actually mean for Ubuntu OSV data is that:
        "UBUNTU-CVE-2025-30722"
      ],
 
-* Livepatch Security Notices: much like USNs, its ``upstream`` field will
-  contain a list of Ubuntu CVE Records that were fix in that LSN. For
-  example ``LSN-0112-1``:
+* **Livepatch Security Notices:** Much like USNs, its ``upstream`` field
+  contains a list of Ubuntu CVE Records fixed in that LSN. For example,
+  ``LSN-0112-1`` has:
 
   .. code-block:: json
 
@@ -948,26 +949,25 @@ The ``severity`` field
 
 This field contains a list of severities of different types. It currently
 supports CVSS entries and Ubuntu priorities. More severity types might be
-added later, but for Ubuntu, for now, those are the ones that matter to us
-and our users.
+added later, but for Ubuntu, those are the ones that matter to us and our
+users.
 
-.. NOTE::
-   Severity information is only available for Ubuntu CVE Records. That is
-   because any USN or LSN can relate to one or more CVEs, and OSV currently,
-   does not have a standardized way to map out of the list of severities
-   to their respective CVEs. Therefore, we recommend always evaluating USNs
-   and/or LSNs in conjunction with the corresponding Ubuntu CVE records.
+.. note::
+   Severity information is only available for Ubuntu CVE Records. This is
+   because any USN or LSN can relate to one or more CVEs, and OSV currently
+   doesn't have a standardized way to map the list of severities to their
+   respective CVEs. Therefore, we recommend always evaluating USNs and LSNs
+   in conjunction with the corresponding Ubuntu CVE records.
 
 Ubuntu priority
 ^^^^^^^^^^^^^^^
 
-If you are unfamiliar with Ubuntu Priority, see
-`our explanation of it here <https://ubuntu.com/security/cves/about#priority>`_.
+If you aren't familiar with Ubuntu Priority, see `our explanation of it here
+<https://ubuntu.com/security/cves/about#priority>`_.
 
-The severity field is pretty simple, it is a list of items, where each
-item has a ``type`` and a ``score``. For Ubuntu priority, the ``type``
-is ``Ubuntu`` and the ``score`` is a lowercase string matching one of
-our priorities:
+The severity field is a list of items, where each item has a ``type`` and a
+``score``. For Ubuntu priority, the ``type`` is ``Ubuntu`` and the ``score``
+is a lowercase string matching one of our priorities:
 
 * critical
 * high
@@ -975,7 +975,7 @@ our priorities:
 * low
 * negligible
 
-For example, for UBUNTU-CVE-2025-6491:
+For example, for ``UBUNTU-CVE-2025-6491``:
 
 .. code-block:: json
 
@@ -990,7 +990,8 @@ CVSS severity
 ^^^^^^^^^^^^^
 
 If you are familiar with CVSS, you probably know that there are different
-versions of it, V4 being the latest. OSV supports the following CVSS ``type``:
+versions of it, V4 being the latest. OSV supports the following CVSS
+``type``:
 
 * CVSS_V2
 * CVSS_V3
@@ -999,7 +1000,7 @@ versions of it, V4 being the latest. OSV supports the following CVSS ``type``:
 For the ``score``, we have the actual CVSS vector string related to such
 vulnerability.
 
-For example, for UBUNTU-CVE-2025-6491 we have:
+For example, for ``UBUNTU-CVE-2025-6491`` we have:
 
 .. code-block:: json
 
@@ -1013,68 +1014,67 @@ For example, for UBUNTU-CVE-2025-6491 we have:
 The ``withdrawn`` field
 -----------------------
 
-Some Ubuntu CVE records might be created for new vulnerabilities that after
-a while might be rejected by the CVE program, such as not being an actual
-security issue. In those cases, instead of removing the data we use the
-``withdrawn`` to indicate that such CVE record has been removed.
+We create some Ubuntu CVE records for new vulnerabilities that might later be
+rejected by the CVE program (for example, if they aren't actual security
+issues). In those cases, instead of removing the data, we use the
+``withdrawn`` field to indicate that the CVE record has been removed.
 
-This field gives the time the entry should be considered to have been
-withdrawn, as an RFC3339-formatted timestamp in UTC (ending in "Z"). If the
-field is missing, then the entry has not been withdrawn.
+This field gives the time the entry should be considered withdrawn, as an
+RFC3339-formatted timestamp in UTC (ending in "Z"). If the field is missing,
+the entry hasn't been withdrawn.
 
 The ``affected`` field
 ----------------------
 
-The affected field is a list of objects where you will find the bulk of
-the information you are looking for in terms of source packages and
-Ubuntu releases, as well as its vulnerable versions and it if was
-patched/fixed.
+The affected field is a list of objects where you will find the bulk of the
+information regarding source packages and Ubuntu releases, as well as
+vulnerable versions and patch status.
 
 The ``package`` field
 ^^^^^^^^^^^^^^^^^^^^^
 
-Here in this field is where you will understand which Ubuntu release is being
-reported (``ecosystem`` field), the source package name (``name``) and the
-package URL (``purl`` field). We will mostly focus on ``ecosystem`` and
-``name`` fields, but if you want to know more about package URL check its
-`spec <https://github.com/package-url/purl-spec>`_.
+This field identifies which Ubuntu release is being reported (``ecosystem``
+field), the source package name (``name``), and the package URL (``purl``
+field). We will mostly focus on ``ecosystem`` and ``name`` fields, but if you
+want to know more about package URL, check its `spec
+<https://github.com/package-url/purl-spec>`_.
 
 The Ubuntu ``ecosystem``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-As part of the list of affected packages, the ``ecosystem`` field is used to
-help describe where that package entry is affected. For currently supported
-Ubuntu releases, we use the following pattern:
+As part of the list of affected packages, the ``ecosystem`` field helps
+describe where that package entry is affected. For currently supported Ubuntu
+releases, we use the following pattern:
 
 ``Ubuntu:YY.MM<:LTS>``
 
-where ``YY.MM`` relates to the Ubuntu release number and ``:LTS`` is a suffix
-to specify if the release is an LTS or not, e.g.:
+Here, ``YY.MM`` relates to the Ubuntu release number and ``:LTS`` is a suffix
+to specify if the release is an LTS or not.
 
-* Ubuntu 24.04 LTS will be represented as:
+* Ubuntu 24.04 LTS (Noble Numbat) is represented as:
 
-.. code-block:: json
+  .. code-block:: json
 
-   "ecosystem": "Ubuntu:24.04:LTS",
+     "ecosystem": "Ubuntu:24.04:LTS",
 
-* Ubuntu 25.04 will be represented as:
+* Ubuntu 25.04 (Plucky Puffin) is represented as:
 
-.. code-block:: json
+  .. code-block:: json
 
-   "ecosystem": "Ubuntu:25.04",
+     "ecosystem": "Ubuntu:25.04",
 
-For fixes that are distributed via :ref:`esm`, we add a positional ``:Pro:``
-entry to the ecosystem, e.g.:
+For fixes distributed via :ref:`esm`, we add a positional ``:Pro:`` entry to
+the ecosystem.
 
-* Ubuntu 18.04 LTS will be represented as:
+* Ubuntu 18.04 LTS (Bionic Beaver) is represented as:
 
   .. code-block:: json
 
      "ecosystem": "Ubuntu:Pro:18.04:LTS"
 
-Ubuntu Pro includes more services besides ESM, like FIPS, Livepatch and
-others. Below is a current list of Ubuntu Pro services which we have
-vulnerability data for:
+Ubuntu Pro includes more services besides ESM, like FIPS, Livepatch, and
+others. Below is a current list of Ubuntu Pro services for which we have
+vulnerability data:
 
 * Ubuntu:Pro:14.04:LTS
 * Ubuntu:Pro:16.04:LTS
@@ -1092,9 +1092,9 @@ vulnerability data for:
 * Ubuntu:Pro:FIPS-updates:22.04:LTS
 * Ubuntu:Pro:FIPS-preview:22.04:LTS
 
-If you are still unsure if a fix was released under Pro, we also have a
-field under ``ecosystem_specific`` that describes when a Pro subscription
-is required. For example:
+If you are still unsure if a fix was released under Pro, check the
+``ecosystem_specific`` field, which describes when a Pro subscription is
+required. For example:
 
 .. code-block:: json
 
@@ -1105,15 +1105,15 @@ is required. For example:
 The ``name`` field
 ~~~~~~~~~~~~~~~~~~
 
-As mentioned previously, this field is where we specify the **source package
-name**. The Ubuntu Security Team tracks vulnerabilities and patch them in
-source packages. Binary packages (those that you install with ``apt-get``)
-is what is generated from building a source package.
+This field specifies the **source package name**. The Ubuntu Security Team
+tracks vulnerabilities and patches them in source packages. Binary packages
+(those that you install with ``apt-get``) are generated from building a source
+package.
 
-For users, source package names are not as useful as binary package names.
-Therefore, to facilitate the reading, as well as any automation or scanning
-tools, we add under the field ``ecosyste_specific`` the list of binary packages
-and their versions. For example, for php8.4:
+Source package names aren't as useful for users as binary package names.
+Therefore, to simplify reading, automation, and scanning, we add the
+list of binary packages and their versions under the ``ecosystem_specific``
+field. For example, for ``php8.4``:
 
 .. code-block:: json
 
@@ -1140,10 +1140,10 @@ and their versions. For example, for php8.4:
      "availability": "No subscription required"
    }
 
-For LSNs, there's no particular source package patching involved. And since
-the kernel is instead patched during runtime via a kernel module, we list
-instead a regular expression for the kernel module. For example
-`LSN-0113-1 <https://github.com/canonical/ubuntu-security-notices/blob/main/osv/lsn/LSN-0113-1.json>`_:
+For LSNs, there's no particular source package patching involved. Since the
+kernel is patched during runtime via a kernel module, we list a regular
+expression for the kernel module instead. For example `LSN-0113-1
+<https://github.com/canonical/ubuntu-security-notices/blob/main/osv/lsn/LSN-0113-1.json>`_:
 
 .. code-block:: json
 
@@ -1159,18 +1159,18 @@ The ``ranges`` field specifies the ``type`` of versioning scheme being used in
 an ecosystem and the events of when a vulnerability was ``introduced``,
 ``fixed``, and any type-specific fields.
 
-Since Debian versioning is not particularly a type supported in OSV yet, the
-``type`` will always be ``ECOSYSTEM``.
+Since Debian versioning is not yet a supported type in OSV, the ``type`` will
+always be ``ECOSYSTEM``.
 
-For Ubuntu, the Ubuntu Security Team does not currently track when a
-vulnerability was first introduced. Instead, we focus on identifying out of
-the shipped source package versions, which are vulnerable to such CVE.
-Therefore, the ``introduced`` field is always ``0``. And whenever the team
-patches a vulnerability, the source package version is listed in ``fixed``.
+The Ubuntu Security Team doesn't currently track when a vulnerability was
+first introduced. Instead, we focus on identifying which of the shipped source
+package versions are vulnerable to such CVE. Therefore, the ``introduced``
+field is always ``0``. Whenever the team patches a vulnerability, the source
+package version is listed in ``fixed``.
 
 For example, a ranges entry:
 
-.. code:: json
+.. code-block:: json
 
    "ranges": [
      {
@@ -1189,8 +1189,8 @@ For example, a ranges entry:
 The ``versions`` field
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This field contains a list of versions of the source package that are affected
-by the vulnerability in scope for a given Ubuntu release. For example,
+This field contains a list of source package versions that are affected by the
+vulnerability in scope for a given Ubuntu release. For example:
 
 .. code-block:: json
 
@@ -1205,57 +1205,47 @@ by the vulnerability in scope for a given Ubuntu release. For example,
 Mapping Ubuntu CVE Tracker statuses in OSV
 ==========================================
 
-Now that you have a better understanding of Ubuntu's OSV data, you might
-still be trying to understand how you can map the status you see in Ubuntu's
-CVE tracker (`Web <https://ubuntu.com/security/cves>`_ and/or
-`git <https://code.launchpad.net/ubuntu-cve-tracker>`_) to OSV.
+Now that you have a better understanding of Ubuntu's OSV data, you might want
+to know how to map the status from Ubuntu's CVE tracker (`Web
+<https://ubuntu.com/security/cves>`_ and/or `git
+<https://code.launchpad.net/ubuntu-cve-tracker>`_) to OSV.
 
-For any given vulnerability (CVE), the Ubuntu Security Team will track a
-source package in the different Ubuntu releases that are supported. For any
-combination of source package and Ubuntu releases, then we assign a status.
-First lets do a recap of the
-`statuses <https://git.launchpad.net/ubuntu-cve-tracker/tree/README#n295>`_
-we have in the git version of the tracker:
+For any given vulnerability (CVE), the Ubuntu Security Team tracks a source
+package in the different Ubuntu releases that are supported. For any
+combination of source package and Ubuntu release, we assign a status.
 
-* ``DNE``: acronym for Does Not Exist, it means that the specific source package
-  is not present (or supported) in that Ubuntu release
+Here is a recap of the `statuses
+<https://git.launchpad.net/ubuntu-cve-tracker/tree/README#n295>`_ in the git
+version of the tracker:
 
-* ``not-affected``: The source package (for the given release), while related to
-  the CVE in some way, is not affected by the vulnerability. This can happen
-  for many reasons, like:
+* ``DNE``: Acronym for Does Not Exist. It means that the specific source
+  package is not present (or supported) in that Ubuntu release.
+* ``not-affected``: The source package (for the given release), while related
+  to the CVE in some way, is not affected by the vulnerability. This can happen
+  for many reasons, such as:
+    * The vulnerable code isn't present in that version of the source package.
+    * The source package is only vulnerable in a different OS.
+    * The vulnerability is for older versions of the source package.
+* ``needs-triage``: The Ubuntu Security Team hasn't evaluated the
+  vulnerability yet.
+* ``needed``: The package in scope is vulnerable to this CVE.
+* ``released``: The vulnerability is patched in the specified version.
+* ``ignored``: The Ubuntu Security Team isn't going to patch this
+  vulnerability. This can happen for multiple reasons, such as:
+    * The Ubuntu release is end-of-life.
+    * The actual fix is hard to backport and can lead to regressions.
+* ``pending``: The fix is currently ready and just awaiting publishing.
+* ``deferred``: As of the date of investigation, the source package is known
+  to be vulnerable but there is no fix available upstream.
+* ``in-progress``: This is a rather new field and hasn't been used so far. Its
+  intent is to show when a vulnerability fix is actively being worked on.
 
-  * the vulnerable code is not present in that version of the source package
-  * the source package is only vulnerable in a different OS
-  * the vulnerability is for older versions of the source package
+Now let's map the statuses from ``git`` to the `Web statuses
+<https://ubuntu.com/security/cves/about#statuses>`_, as the latter has a more
+human-readable and simplified status. We also show how this appears in the OSV
+``affected`` field.
 
-* ``needs-triage``: The Ubuntu Security Team has not evaluated the vulnerability
-  yet
-
-* ``needed``: The package in scope is vulnerable to this CVE
-
-* ``released``: The vulnerability is patched in the specified version
-
-* ``ignored``: The Ubuntu Security Team is not going to patch this vulnerability.
-  This can happen for multiple reasons, such as:
-
-  * Ubuntu release is end-of-life
-  * the actual fix is hard to backport and can lead to regressions
-
-* ``pending``: The fix is currently ready and just awaiting publishing
-
-* ``deferred``: As of the date of investigation, the source package is known to
-  be vulnerable but there is no fix available on upstream.
-
-* ``in-progress``: This is a rather new field and has not been used so far, but
-  its intent is to show when a vulnerability fix is being actively being
-  worked on
-
-
-Now let's map the statuses from ``git`` to the
-`Web statuses <https://ubuntu.com/security/cves/about#statuses>`_, as the
-latter has a more human-readable and simplified status and also how this
-shows up in OSV ``affected`` field. For a given Ubuntu release and source
-package:
+For a given Ubuntu release and source package:
 
 .. csv-table::
    :header: "git tracker", "Web tracker", "OSV"
@@ -1271,22 +1261,21 @@ package:
    "deferred", "Vulnerable, fix deferred", "Listed under affected and fixed is not set"
    "in-progress", "Vulnerable, work in progress", "Listed under affected and fixed is not set"
 
-.. NOTE::
-   We recommend users and partners to use one of our data formats (OSV, OVAL,
+.. note::
+   We recommend that users and partners use one of our data formats (OSV, OVAL,
    VEX) instead of trying to consume the information directly from the Web
-   tracker or git tracker as those tend to change and can even be replaced
-   with time.
-   
+   tracker or git tracker, as those tend to change and can even be replaced
+   over time.
+
 Reporting issues in the data
 ============================
 
-If you find any inconsistencies with Ubuntu's OSV data, please report those by
-sending and email to **security@ubuntu.com**. We will gladly analyze and fix any
-issues.
+If you find any inconsistencies with Ubuntu's OSV data, send an email to
+``security@ubuntu.com``. We will gladly analyze and fix any issues.
 
 Downtimes in data generation
 ============================
 
-As any other service, we might need to take our data generation offline for
-updates, or for server maintenance and so forth. Those announcements will be
-delivered in the top of this `page <https://security-metadata.canonical.com/osv/>`_.
+Like any other service, we might need to take our data generation offline for
+updates, server maintenance, and so forth. We will deliver those announcements
+at the top of this `page <https://security-metadata.canonical.com/osv/>`_.

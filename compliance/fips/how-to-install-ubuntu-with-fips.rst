@@ -1,7 +1,9 @@
-How to install Ubuntu with FIPS mode enabled
-============================================
+Install FIPS mode alongside Ubuntu
+##################################
 
-FIPS requires an Ubuntu Pro token, which you can get `here <https://ubuntu.com/pro/subscribe>`_ - Ubuntu Pro is available for free for up to 5 machines and only requires an email address to sign up.
+FIPS requires an Ubuntu Pro token. You can get one `here
+<https://ubuntu.com/pro/subscribe>`_. Ubuntu Pro is available for free for up
+to 5 machines and only requires an email address to sign up.
 
 .. code-block:: bash
 
@@ -9,3 +11,7 @@ FIPS requires an Ubuntu Pro token, which you can get `here <https://ubuntu.com/p
    sudo pro attach <token>
    sudo pro enable fips-updates
 
+.. 
+   FIXME: This page is a copy of another page, this should really manage how to 
+   install and enable FIPS from Ubuntu's installation, not just how to enable it
+   after Ubuntu has already been installed.
