@@ -3,3 +3,4 @@ sphinx-autobuild
 sphinxcontrib-svg2pdfconverter[CairoSVG]
 sphinx-last-updated-by-git
 Pygments>=2.3.0
+myst-parser~=4.0

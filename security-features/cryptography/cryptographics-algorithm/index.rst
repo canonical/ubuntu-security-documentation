@@ -1,4 +1,4 @@
-Cryptographic Algorithms
+Cryptographic algorithms
 ========================
 
 This section covers cryptographic algorithms available in different Ubuntu versions.
