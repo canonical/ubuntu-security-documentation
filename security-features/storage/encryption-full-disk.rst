@@ -3,33 +3,33 @@ Full disk encryption (FDE)
 
 .. tab-set::
 
-   .. tab-item:: Ubuntu 24.04 LTS (Noble Numbat)
+   .. tab-item:: 24.04
 
        **LUKS:** Supported
 
        **TPM:** Supported in Ubuntu Core and Ubuntu Desktop
 
-   .. tab-item:: Ubuntu 22.04 LTS (Jammy Jellyfish)
+   .. tab-item:: 22.04
 
        **LUKS:** Supported
 
        **TPM:** Supported in Ubuntu Core and Ubuntu Desktop
 
-   .. tab-item:: Ubuntu 20.04 LTS (Focal Fossa)
+   .. tab-item:: 20.04
 
        **LUKS:** Supported
 
        **TPM:** Supported in Ubuntu Core and Ubuntu Desktop
 
-   .. tab-item:: Ubuntu 18.04 LTS (Bionic Beaver)
+   .. tab-item:: 18.04
 
        **LUKS:** Supported
 
-   .. tab-item:: Ubuntu 16.04 LTS (Xenial Xerus)
+   .. tab-item:: 16.04
 
        **LUKS:** Supported
 
-   .. tab-item:: Ubuntu 14.04 LTS (Trusty Tahr)
+   .. tab-item:: 14.04
 
        **LUKS:** Supported
 
@@ -48,7 +48,7 @@ At the core of the encryption process is a securely generated Volume Key (also
 called the master encryption key). The system uses this key to encrypt and
 decrypt data stored on the device. LUKS supports various encryption algorithms
 and cipher modes, offering flexibility to choose the desired level of security
-and performance. By default, Ubuntu uses AES-256 in XTS mode (which requires a 512-bit key), but you can
+and performance. By default, Ubuntu uses AES-256 in XTS mode, but you can
 specify alternative algorithms, key sizes, and modes if needed.
 
 When you encrypt a device, the system encrypts the Volume Key itself and stores

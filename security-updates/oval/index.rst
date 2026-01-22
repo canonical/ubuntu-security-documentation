@@ -48,7 +48,7 @@ Using OpenSCAP
 
       oscap oval eval --report report.html com.ubuntu.$(lsb_release -cs).usn.oval.xml
 
-4. The output generates the file ``report.html``. Open it using your browser:
+4. The output is generated in the file ``report.html``. Open it using your browser:
 
    .. code-block:: bash
 
@@ -72,7 +72,7 @@ data.
    In the example below, we use Ubuntu 20.04 LTS (Focal Fossa). Replace
    ``focal`` with the version you are inspecting.
 
-1. Download an Ubuntu image:
+1. Download the OVAL USN data:
 
    .. code-block:: bash
 
@@ -91,7 +91,7 @@ data.
 
       oscap oval eval --report report.html oci.com.ubuntu.focal.usn.oval.xml
 
-4. The output generates the file ``report.html``. Open it using your browser:
+4. The output is generated in the file ``report.html``. Open it using your browser:
 
    .. code-block:: bash
 

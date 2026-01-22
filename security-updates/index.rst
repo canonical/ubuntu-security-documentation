@@ -49,7 +49,8 @@ can read more about the Ubuntu release cycle `here
      - ✓
 
 Ubuntu Pro is a subscription that provides access to several security-focused
-features and services. You can read more about it `here <https://documentation.ubuntu.com/pro/>`_.
+features and services. You can read more about it in the `Ubuntu Pro 
+documenation <https://documentation.ubuntu.com/pro/>`_.
 
 
 Delivery
@@ -170,7 +171,7 @@ VEX
 Automatic security updates
 ==========================
 
-Starting with Ubuntu 16.04 LTS (Xenial Xerus), we configure
+Starting with Ubuntu 16.04 LTS (Xenial Xerus), the Ubuntu installer configures
 ``unattended-upgrades`` to automatically apply security updates daily. You can
 `configure
 <https://ubuntu.com/server/docs/package-management#automatic-updates>`__

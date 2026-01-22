@@ -129,7 +129,7 @@ for regression tests.
 ==========================
 
 With ASLR, a process's memory space layout becomes valuable to attackers. The
-``maps`` file is read-only except to the process itself or the owner of the
+``maps`` file is only readable by the process itself or by the owner of the
 process. This went into the mainline kernel with a sysctl toggle in 2.6.22. The
 toggle became non-optional in 2.6.27, forcing the privacy to be enabled
 regardless of sysctl settings.
@@ -169,11 +169,11 @@ Most modern CPUs protect against executing non-executable memory regions (heap,
 stack, and so on). This is known either as Non-eXecute (NX) or eXecute-Disable
 (XD). Some BIOS manufacturers disable it by default, so check your BIOS
 settings. This protection reduces the areas an attacker can use to perform
-arbitrary code execution. It requires that the kernel use "PAE" addressing
-(which also allows addressing of physical addresses above 3GB). The 64-bit and
-32-bit ``-server`` and ``-generic-pae`` kernels are compiled with PAE
-addressing. Starting in Ubuntu 9.10 (Karmic Koala), this protection is
-partially emulated for processors lacking NX when running on a 32-bit kernel
+arbitrary code execution. On x86-32, it requires that the kernel use "PAE" 
+addressing (which also allows addressing of physical addresses above 3GB). 
+The 64-bit and 32-bit ``-server`` and ``-generic-pae`` kernels are compiled 
+with PAE addressing. Starting in Ubuntu 9.10 (Karmic Koala), this protection 
+is partially emulated for processors lacking NX when running on a 32-bit kernel
 (built with or without PAE). After booting, you can see what NX protection is
 in effect:
 

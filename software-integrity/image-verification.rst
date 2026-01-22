@@ -71,7 +71,8 @@ assurance.
         integrity verification process described here.
 
         Assuming you previously trusted all public keys in the keyring
-        downloaded in Step 1, the following command must not print anything:
+        downloaded in Step 1, the following command must **not** print 
+        anything:
 
         .. code-block:: console
 
@@ -101,7 +102,7 @@ assurance.
 
             apt install ubuntu-archive-keyring
 
-        Compare the two keys using the following command. It must not print
+        Compare the two keys using the following command. It must **not** print
         anything (it prints an error for each key not found in the keyring):
 
         .. code-block:: console

@@ -3,25 +3,25 @@ File encryption
 
 .. tab-set::
 
-    .. tab-item:: Ubuntu 24.04.2 LTS (Noble Numbat)
+    .. tab-item:: 24.04.2
 
         `fscrypt <https://github.com/google/fscrypt>`_ is available for
         encrypting directories on ``ext4`` filesystems, but it **is not
         officially supported**.
 
-    .. tab-item:: Ubuntu 22.04.5 LTS (Jammy Jellyfish)
+    .. tab-item:: 22.04.5
 
         `fscrypt <https://github.com/google/fscrypt>`_ is available for
         encrypting directories on ``ext4`` filesystems, but it **is not
         officially supported**.
 
-    .. tab-item:: Ubuntu 20.04.6 LTS (Focal Fossa)
+    .. tab-item:: 20.04.6
 
         `fscrypt <https://github.com/google/fscrypt>`_ is available for
         encrypting directories on ``ext4`` filesystems, but it **is not
         officially supported**.
 
-    .. tab-item:: Ubuntu 18.04.6 LTS (Bionic Beaver)
+    .. tab-item:: 18.04.6
 
         We no longer support Encrypted Home directories.
 
@@ -32,14 +32,14 @@ File encryption
         encrypting directories on ``ext4`` filesystems, but it **is not
         officially supported**.
 
-    .. tab-item:: Ubuntu 16.04.7 LTS (Xenial Xerus)
+    .. tab-item:: 16.04.7
 
         We support Encrypted Home directories.
 
         We support Encrypted Private directories using `eCryptfs
         <https://ecryptfs.org/>`_.
 
-    .. tab-item:: Ubuntu 14.04.6 LTS (Trusty Tahr)
+    .. tab-item:: 14.04.6
 
         We support Encrypted Home directories.
 

@@ -16,11 +16,11 @@ You can enable ESM through the Pro client after attaching a Pro subscription, as
 described in the `Pro Client Documentation
 <https://documentation.ubuntu.com/pro/account-setup/>`_.
 
-Ubuntu distributions deliver ESM security updates via the same mechanism as all
+Ubuntu delivers ESM security updates via the same mechanism as all
 packages. You can use ``apt``, ``apt-get``, ``aptitude``, or any other APT
 frontend to apply them. The Pro client manages the correct APT sources in
-``/etc/apt/sources.list.d/``. Manage this according to the instructions in the
-`Pro Client ESM Documentation
+``/etc/apt/sources.list.d/`` and you can configure it according to the 
+instructions in the `Pro Client ESM Documentation
 <https://documentation.ubuntu.com/pro/pro-client/enable_esm_infra/>`_.
 
 We use special-purpose Archive pockets for ESM updates. The ``Infra`` pockets
