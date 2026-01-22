@@ -151,7 +151,7 @@ phishing or trojans.
 
 In Ubuntu 10.10 (Maverick Meerkat) and later, users cannot ptrace processes
 that aren't a descendant of the debugger. You can control this behavior through
-the ``/proc/sys/kernel/yama/ptrace_scope`` sysctl, available via Yama.
+the ``/proc/sys/kernel/yama/ptrace_scope`` sysctl, available via the Yama Linux Security Module.
 
 In the case of automatic crash handlers, a crashing process can specifically
 allow an existing crash handler process to attach on a process-by-process basis
