@@ -235,6 +235,24 @@ without editing the configuration file by running the following command:
    To configure automatic updates for third party repositories and PPAs, you
    must create a new drop in file in the ``/etc/apt/apt.conf.d/`` directory.
 
+   For example, in order to enable unattended upgrades for the hypothetical
+   ubuntu-security/demo PPA, run the following command:
+
+   .. code-block:: bash
+
+      echo 'Unattended-Upgrade::Allowed-Origins { "LP-PPA-ubuntu-security-demo:${distro_codename}"; };' | sudo tee /etc/apt/apt.conf.d/90-unattended-ubuntu-security-ppa.conf
+   
+   Do note that files with higher priority replace the specific configurations
+   of the lower priority files, so if having more PPAs be part of the
+   unattended upgrades process is desired, you would need to edit the same
+   ``90-unattended-ubuntu-security-ppa.conf`` file in this scenario and add
+   more PPA choices, or modify the above command before running it. This also
+   applies to the command above, as it would replace the already configured
+   ``50unattended-upgrade.conf`` file and skip any entries that may be there,
+   such as normal archive entries. Therefore, double check that the drop-in
+   file has all the required origins, including archive entires, ESM PPAs if
+   Ubuntu Pro is enabled, as well as your own custom PPAs.
+
    For more information, you can read the `manual page
    <https://manpages.ubuntu.com/manpages/resolute/en/man8/unattended-upgrade.8.html>`_.
 
