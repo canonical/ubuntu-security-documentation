@@ -65,7 +65,10 @@ Establish supplier trust
 It is crucial that you establish trust in the owners of an alternative package
 archive, such as a PPA, before you install any software from them. As part of
 the installation, upgrades or removal, the software will execute code with
-elevated privileges (as ``root``).
+elevated privileges (as ``root``). This also means you should take measures to
+protect the integrity of the trusted keys mentioned in the :ref:`Trust anchor`
+section, as these directly impact whether malicious software packages can be
+installed.
 
 Ubuntu distributes a large collection of software packages in its official
 Ubuntu Archive to simplify this provisioning task.
@@ -80,9 +83,9 @@ configured in ``/etc/apt/apt.conf`` (or the file specified in
 ``Dir::Etc::Parts``), the file specified by the ``APT_CONFIG`` environment
 variable, or directly passed on the command-line to a package manager.
 
-Particular attention should be payed to the following settings (these should
-only be considered acceptable in particular environments, once their
-implications are understood):
+Particular attention should be paid to the following settings (these should only
+be considered acceptable in particular environments, once their implications are
+understood):
 
 * The ``Trusted`` option for an APT sources entry, if set to ``yes``, as
   verification checks will be disabled.
@@ -123,6 +126,13 @@ keyring is bootstrapped by the ``ubuntu-keyring`` package, which is installed by
 default and creates GPG keyrings containing the Ubuntu Archive signing public
 keys under the ``/etc/apt/trusted.gpg.d/`` directory.
 
+Debian distributes the Ubuntu Archive keys in the ``ubuntu-keyring`` package.
+Install it with the following command:
+
+.. code-block:: bash
+
+   apt install ubuntu-keyring
+
 Signature scheme
 ================
 
@@ -141,7 +151,7 @@ Signature scheme
    block-beta
     columns 4
         AK(("Archive key")) space:1
-        P["<code>ubuntu-archive</code><br>package"] space:1
+        P["<code>ubuntu-keyring</code><br>package"] space:1
         space:4
         R1["noble<br><code>InRelease</code><br>file"]
         R2["noble-updates<br><code>InRelease</code><br>file"]
@@ -197,7 +207,7 @@ The ``InRelease`` file contains cryptographic hashes for a number of metadata
 files, including a ``Packages`` file for each component (Main, Restricted,
 Universe and Multiverse) and each architecture. The cryptographic hashes use
 various algorithms, such as SHA2-256. For example, the Ubuntu 24.04 LTS (Noble
-Number) security pocket amd64 Main ``Packages`` file is located at
+Numbat) security pocket amd64 Main ``Packages`` file is located at
 https://archive.ubuntu.com/ubuntu/dists/noble-security/main/binary-amd64/Packages,
 with its hash included in the signed ``InRelease`` file. If the ``Packages``
 file were to be tampered with, its hash would no longer match the one present in

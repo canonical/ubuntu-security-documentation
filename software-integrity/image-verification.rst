@@ -95,12 +95,11 @@ assurance.
         described here.
 
         Debian distributes the Ubuntu Image signing public key in the
-        ``ubuntu-archive-keyring`` package. Install it with the following
-        command:
+        ``ubuntu-keyring`` package. Install it with the following command:
 
         .. code-block:: console
 
-            apt install ubuntu-archive-keyring
+            apt install ubuntu-keyring
 
         Compare the two keys using the following command. It must **not** print
         anything (it prints an error for each key not found in the keyring):

@@ -28,10 +28,11 @@ When possible, always source packages from trusted sources rather than untrusted
 Potential for malware
 =====================
 
-Installing a package system-wide almost always requires ``root`` privileges. If
-an attacker has modified a :file:`.deb` file, granting ``root`` privileges
-increases the risk of installing malware, ransomware, spyware, or keyloggers on
-your system.
+Installing a package system-wide requires ``root`` privileges, as the package
+itself is allowed to execute arbitrary code with ``root`` privileges during the
+installation. Therefore, a malicious :file:`.deb` file, which was either
+distributed or modified by an attacker, will lead to system compromise if
+installed.
 
 Whenever running a command with ``root`` privileges, always ensure you know
 what the command is going to do and that the inputs come from trusted sources.
