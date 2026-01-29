@@ -58,10 +58,13 @@ Update Notifications
 ====================
 
 For Ubuntu Desktop, you receive notifications when new updates are available as
-part of the ``update-manager`` package (known as ``Software & Updates`` in the
-desktop menu). You can use it to configure the notifications, manage updates,
-and manage automatic update settings (with more information in the `Automatic
-security updates`_ section below)
+part of the ``update-notifier`` package. You can also configure automatic
+updates with the ``software-properties`` package (known as ``Software &
+Updates`` in the desktop menu). You can use it to configure the notifications,
+manage updates, and manage automatic update settings (with more information in
+the `Automatic security updates`_ section below). The ``update-manager`` (known
+as ``Software Updater`` in the desktop menu) in turn installs any available
+updates.
 
 For Ubuntu Server, ``update-notifier-common`` provides notifications about
 pending updates through the Message of the Day (MOTD) upon logging into the
@@ -72,6 +75,9 @@ install it on earlier versions of Ubuntu, you can run the following commands:
 
    sudo apt update
    sudo apt -y install update-notifier-common
+
+In order for this to be displayed, the file in ``/etc/ssh/sshd_config`` on the
+connecting client needs to have the ``UsePAM yes`` line configured.
 
 Delivery
 ========
@@ -242,16 +248,11 @@ without editing the configuration file by running the following command:
 
       echo 'Unattended-Upgrade::Allowed-Origins { "LP-PPA-ubuntu-security-demo:${distro_codename}"; };' | sudo tee /etc/apt/apt.conf.d/90-unattended-ubuntu-security-ppa.conf
    
-   Do note that files with higher priority replace the specific configurations
-   of the lower priority files, so if having more PPAs be part of the
-   unattended upgrades process is desired, you would need to edit the same
-   ``90-unattended-ubuntu-security-ppa.conf`` file in this scenario and add
-   more PPA choices, or modify the above command before running it. This also
-   applies to the command above, as it would replace the already configured
-   ``50unattended-upgrade.conf`` file and skip any entries that may be there,
-   such as normal archive entries. Therefore, double check that the drop-in
-   file has all the required origins, including archive entires, ESM PPAs if
-   Ubuntu Pro is enabled, as well as your own custom PPAs.
+   The new file will configure the ``Allowed-Origins`` option, which will be
+   added with the pre-existing ``Allowed-Origins`` configuration in the
+   ``50unattended-upgrades`` file. These will not replace the option in files
+   with lower priority, allowing the creation of a separate configuration file
+   for each PPA if needed.
 
    For more information, you can read the `manual page
    <https://manpages.ubuntu.com/manpages/resolute/en/man8/unattended-upgrade.8.html>`_.
