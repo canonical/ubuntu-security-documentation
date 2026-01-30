@@ -76,9 +76,6 @@ install it on earlier versions of Ubuntu, you can run the following commands:
    sudo apt update
    sudo apt -y install update-notifier-common
 
-In order for this to be displayed, the file in ``/etc/ssh/sshd_config`` on the
-connecting client needs to have the ``UsePAM yes`` line configured.
-
 Delivery
 ========
 
@@ -250,9 +247,10 @@ without editing the configuration file by running the following command:
    
    The new file will configure the ``Allowed-Origins`` option, which will be
    added with the pre-existing ``Allowed-Origins`` configuration in the
-   ``50unattended-upgrades`` file. These will not replace the option in files
-   with lower priority, allowing the creation of a separate configuration file
-   for each PPA if needed.
+   ``50unattended-upgrades`` file. As the ``Allowed-Origins`` option is a list
+   option, it will not replace the option in files with lower priority,
+   allowing the creation of a separate configuration file for each PPA if
+   needed, which will be added together.
 
    For more information, you can read the `manual page
    <https://manpages.ubuntu.com/manpages/resolute/en/man8/unattended-upgrade.8.html>`_.
