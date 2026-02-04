@@ -12,12 +12,13 @@ Release Update process, but this is independent of security updates.
 ..
   FIXME: this might also be documented elsewhere. It would be good to also
   reference what LTS and interim releases are.
+
 The level of security support depends on the component in which a package
 resides (``Main``, ``Restricted``, ``Universe`` or ``Multiverse``). The Ubuntu
-Security Team prepares security updates for supported Ubuntu releases and works
-with the community to sponsor community-prepared security updates. The
-following table lists the security maintenance window for Ubuntu releases. You
-can read more about the Ubuntu release cycle `here
+Security Team prepares security updates for supported Ubuntu releases 
+and works with the community to sponsor community-prepared security 
+updates. The following table lists the security maintenance window for
+Ubuntu releases. You can read more about the Ubuntu release cycle `here
 <https://ubuntu.com/about/release-cycle>`_.
 
 .. list-table::
@@ -52,6 +53,28 @@ Ubuntu Pro is a subscription that provides access to several security-focused
 features and services. You can read more about it in the `Ubuntu Pro 
 documenation <https://documentation.ubuntu.com/pro/>`_.
 
+
+Update Notifications
+====================
+
+For Ubuntu Desktop, you receive notifications when new updates are available as
+part of the ``update-notifier`` package. You can also configure automatic
+updates with the ``software-properties`` package (known as ``Software &
+Updates`` in the desktop menu). You can use it to configure the notifications,
+manage updates, and manage automatic update settings (with more information in
+the `Automatic security updates`_ section below). The ``update-manager`` (known
+as ``Software Updater`` in the desktop menu) in turn installs any available
+updates.
+
+For Ubuntu Server, ``update-notifier-common`` provides notifications about
+pending updates through the Message of the Day (MOTD) upon logging into the
+system. It is installed by default on Ubuntu 18.04 and later versions. To
+install it on earlier versions of Ubuntu, you can run the following commands:
+
+.. code-block:: bash
+
+   sudo apt update
+   sudo apt -y install update-notifier-common
 
 Delivery
 ========
@@ -171,8 +194,66 @@ VEX
 Automatic security updates
 ==========================
 
-Starting with Ubuntu 16.04 LTS (Xenial Xerus), the Ubuntu installer configures
-``unattended-upgrades`` to automatically apply security updates daily. You can
-`configure
-<https://ubuntu.com/server/docs/package-management#automatic-updates>`__
-earlier Ubuntu releases to automatically apply security updates.
+Starting with Ubuntu 18.04 LTS (Bionic Beaver), ``unattended-upgrades`` is
+included in the default Ubuntu Desktop and Server installations to
+automatically apply security updates daily. You can `configure
+<https://ubuntu.com/server/docs/package-management#automatic-updates>`__ for
+earlier Ubuntu releases to automatically apply security updates. By default,
+the system installs security updates after 24 hours and normal updates after 7
+days.
+
+For Ubuntu Desktop, you can manage automatic updates through the internal
+``Software & Updates`` graphical application available in the menu. For Ubuntu
+Server, or if you choose not to use the graphical application, you can
+configure updates through a custom new drop-in configuration file in the
+``/etc/apt/apt.conf.d/`` directory, basing it off of the original
+``50unattended-upgrades`` file located in that same directory. In order for
+your custom rules to take precedence, ensure that the new configuration file
+comes after the original file in lexicographic order, by naming it with a
+higher preceding number (like ``60custom-unattendeed-upgrades``). The original
+config contains explanations for each option available for modification.
+Through a new configuration file, you can adjust more advanced options, such as
+enabling automatic reboot when needed, setting the automatic reboot time, and
+configuring logging capabilities.
+
+.. warning::
+
+   Editing the original configuration file is highly discouraged as it can
+   create problems after a system upgrade. If the configuration file is updated
+   from the original defaults, it will cause issues if it was modified
+   beforehand. Drop-in files are an alternative designed to solve these types
+   of issues.
+
+You can also enable/disable automatic updates through the command terminal
+without editing the configuration file by running the following command:
+
+.. code-block:: bash
+
+   sudo dpkg-reconfigure unattended-upgrades
+
+.. note::
+
+   Automatic updates through ``unattended-upgrades`` are only configured by
+   default for archive repositories (as well as ESM if Ubuntu Pro is enabled).
+   To configure automatic updates for third party repositories and PPAs, you
+   must create a new drop in file in the ``/etc/apt/apt.conf.d/`` directory.
+
+   For example, in order to enable unattended upgrades for the hypothetical
+   ubuntu-security/demo PPA, run the following command:
+
+   .. code-block:: bash
+
+      echo 'Unattended-Upgrade::Allowed-Origins { "LP-PPA-ubuntu-security-demo:${distro_codename}"; };' | sudo tee /etc/apt/apt.conf.d/90-unattended-ubuntu-security-ppa.conf
+   
+   The new file will configure the ``Allowed-Origins`` option, which will be
+   added with the pre-existing ``Allowed-Origins`` configuration in the
+   ``50unattended-upgrades`` file. As the ``Allowed-Origins`` option is a list
+   option, it will not replace the option in files with lower priority,
+   allowing the creation of a separate configuration file for each PPA if
+   needed, which will be added together.
+
+   For more information, you can read the `manual page
+   <https://manpages.ubuntu.com/manpages/resolute/en/man8/unattended-upgrade.8.html>`_.
+
+The operations of ``unattended-upgrades`` are logged in
+``/var/log/unattended-upgrades/unattended-upgrades.log``.
