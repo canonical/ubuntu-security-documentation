@@ -1,20 +1,21 @@
+Troubleshoot common issues
+##########################
 
-How to troubleshoot and solve common issues
-############################################
+FIPS modules fail to install with NVIDIA drivers
+================================================
 
-FIPS modules fail to install on machines with NVIDIA drivers
-============================================================
+Machines using NVIDIA drivers might fail to install FIPS modules. This occurs
+because installed i386 libraries lack FIPS-compliant replacements. While we
+address this issue, you can work around it by uninstalling the i386 libraries.
 
-There can be cases where machines using NVIDIA drivers fail to install the FIPS modules, which is due to an i386 libraries being installed without any option to replace them with FIPS versions. Whilst this issue is being addressed, the workaround is to uninstall the i386 libraries.
+If you see the following error message:
 
-If the following error message is shown:
-
-.. code-block:: bash
+.. code-block:: text
 
    Unexpected APT error.
    Failed running command 'apt-get install --assume-yes --allow-downgrades -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" ubuntu-fips' [exit(100)]. Message: E: Unable to correct problems, you have held broken packages.
 
-The solution is to purge the unneeded library:
+Purge the unneeded library:
 
 .. code-block:: bash
 

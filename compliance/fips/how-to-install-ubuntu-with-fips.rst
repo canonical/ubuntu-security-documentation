@@ -1,5 +1,5 @@
-How to install Ubuntu with FIPS mode enabled
-============================================
+Install FIPS mode alongside Ubuntu
+##################################
 
 Enabling FIPS during installation ensures that your system is compliant from the first boot. This process is supported in the Ubuntu Server (Subiquity) and Ubuntu Desktop installers for Ubuntu 22.04 LTS (Jammy Jellyfish) and later.
 
