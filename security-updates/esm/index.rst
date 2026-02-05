@@ -4,7 +4,7 @@ Expanded Security Maintenance (ESM)
 ###################################
 
 Ubuntu Pro extends the standard security maintenance scope for Ubuntu LTS
-releases through the `Extended Security Maintenance (ESM)
+releases through the `Expanded Security Maintenance (ESM)
 <https://ubuntu.com/security/esm>`_ service. The product description defines
 the duration and level of support.
 

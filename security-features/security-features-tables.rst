@@ -305,7 +305,7 @@
 
    .. tab:: ESM Releases
 
-      **Extended Security Maintenance Releases**
+      **Expanded Security Maintenance Releases**
 
       .. list-table:: Security features
          :header-rows: 1

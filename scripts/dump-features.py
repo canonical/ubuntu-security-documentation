@@ -331,7 +331,7 @@ class TableGenerator:
         # ESM releases tab
         if esm_releases:
             self.output.write("\n   .. tab:: ESM Releases\n\n")
-            self.output.write("      **Extended Security Maintenance Releases**\n\n")
+            self.output.write("      **Expanded Security Maintenance Releases**\n\n")
             self._write_table_for_releases(esm_releases, features, feature_to_section, indent=6)
 
     def _write_sphinx_design_tabs(self, esm_releases: List[Release], current_releases: List[Release],
@@ -351,7 +351,7 @@ class TableGenerator:
         if esm_releases:
             self.output.write("\n   .. tab-item:: ESM Releases\n")
             self.output.write("      :sync: esm\n\n")
-            self.output.write("      **Extended Security Maintenance Releases**\n\n")
+            self.output.write("      **Expanded Security Maintenance Releases**\n\n")
             self._write_table_for_releases(esm_releases, features, feature_to_section, indent=6)
 
     def _write_table_for_releases(self, releases: List[Release], features: List[Feature], feature_to_section: Dict,
