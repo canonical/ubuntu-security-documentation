@@ -37,8 +37,8 @@ AppArmor uses **application profiles** to determine the permissions the
 application process has.
 
 AppArmor is a core technology for the Linux Security Module (LSM) on Ubuntu, as
-well as for `Snappy for Ubuntu Core
-<https://developer.ubuntu.com/en/snappy/guides/security-policy/>`_.
+well as for `Snaps in Ubuntu Core
+<https://documentation.ubuntu.com/core/explanation/security-and-sandboxing/>`_.
 
 Discretionary Access Control (DAC) vs. Mandatory Access Control (MAC)
 =====================================================================
