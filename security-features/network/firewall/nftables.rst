@@ -661,19 +661,14 @@ several times, in conditions such as the followings:
 * the packet is sent out a virtual interface that loops the packet back to the
   same Linux kernel (e.g. `veth
   <https://manpages.ubuntu.com/manpages/en/man4/veth.4.html>`_ interfaces),
-  although the list of hooks are not going to overlap completely; FIXME: does
-  this even make sense? Of course a packet sent out a veth is going to come back
-  in on the pair... nfmark is not maintained - for all intents and purposes,
-  this is a new packet.
+  although the list of hooks are not going to overlap completely;
 * Virtual Routing and Forwarding (VRF) is in use - a packet will traverse the L3
   prerouting hook twice, once with the input interface set to the L3 interface
   and once with the input interface set to the VRF interface.
 * the packet is processed and reinjected by the kernel into the networking stack
   (e.g. after IPsec encryption/decryption and ESP encapsulation/decapsulation in
   tunnel mode - although the packet is admittedly different, some of the state
-  is maintained across this operation, such as the Netfilter mark). FIXME:
-  technically, this is a different packet - does it even make sense? Same
-  applies to other L3 encapsulations, e.g. vxlan.
+  is maintained across this operation, such as the Netfilter mark).
 
 The Netfilter hooks and, hence, the ``nftables`` rules are managed independently
 per `network namespace
