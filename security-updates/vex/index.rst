@@ -183,6 +183,8 @@ VEX document to have a **fixed** status. The *status_notes* indicate if the
 update is widely available or if you need an Ubuntu Pro subscription.
 
 
+.. _vex-limitations-of-the-standard:
+
 Limitations of the standard
 ===========================
 
