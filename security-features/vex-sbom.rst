@@ -9,28 +9,28 @@ open vulnerabilities for any Ubuntu-based system or workload.
 
 This guide explains how to perform that cross-reference: how to obtain Ubuntu
 VEX data, how to identify packages using Package URLs (PURLs), and how to match
-them to find open CVEs.
+them to find open vulnerabilities.
 
 
-Why use VEX rather than a generic CVE database?
+Why use Ubuntu VEX data rather than a generic vulnerability database?
 ===============================================
 
-Generic CVE databases (such as the NVD or Github Advisory Database) report 
+Generic vulnerability databases (such as the NVD or GitHub Advisory Database) report 
 vulnerabilities at the level of the upstream software component. 
-They may flag a CVE as affecting ``curl`` without accounting for whether
+They may flag a vulnerability as affecting ``curl`` without accounting for whether
 the version shipped in Ubuntu is actually vulnerable. 
 The Ubuntu Security team regularly applies targeted patches,
 backports fixes, or determines that upstream vulnerabilities do not affect the
 Ubuntu build. Thus, the following scenarios are common:
 
-* A CVE may be listed as "affected" in the NVD but "not affected" in Ubuntu
+* A vulnerability may be listed as "affected" in the NVD but "not affected" in Ubuntu
   because the vulnerable code path is absent from the Ubuntu package or has
   already been patched.
-* A CVE may already be fixed in an Ubuntu security update whose status does not
+* A vulnerability may already be fixed in an Ubuntu security update whose status does not
   yet propagate to third-party databases. Those updates result in version bumps
   with `+ubuntuX.Y` suffixes, which are not recognized by generic databases.
 
-Ubuntu's VEX data reflects the **actual, current status** of each CVE for each
+Ubuntu's VEX data reflects the **actual, current status** of each vulnerability for each
 specific Ubuntu package version as tracked by the Ubuntu CVE Tracker (UCT). It
 is the most accurate single source for Ubuntu-specific vulnerability
 intelligence, and avoids both false positives and false negatives compared to
@@ -73,7 +73,7 @@ sources:
 
 * The `Canonical security metadata page
   <https://security-metadata.canonical.com/vex/>`_, which provides a
-  compressed tarball of all CVE records, updated continuously as vulnerability
+  compressed tarball of all vulnerability records, updated continuously as vulnerability
   assessments are made or changed.
 * The `Ubuntu Security Notices GitHub repository
   <https://github.com/canonical/ubuntu-security-notices>`_, under the ``vex``
@@ -201,7 +201,7 @@ To generate PURLs for all installed Ubuntu packages at once, and save them to a 
 Finding open vulnerabilities
 =============================
 
-With a list of PURLs and the Ubuntu VEX data, you can determine which CVEs
+With a list of PURLs and the Ubuntu VEX data, you can determine which vulnerabilities
 affect your packages. The algorithm is:
 
 #. For each PURL in your package list:
@@ -210,9 +210,9 @@ affect your packages. The algorithm is:
       PURL (ignoring the ``?arch=…`` qualifier if needed for robustness).
    b. From the matching statements, keep only those with status ``affected``
       or ``under_investigation``. These represent open vulnerabilities.
-   c. Record the CVE name, status, and any available notes.
+   c. Record the vulnerability name, status, and any available notes.
 
-#. Report the collected CVEs as the open vulnerability list.
+#. Report the collected vulnerabilities as the open vulnerability list.
 
 PURL matching considerations
 -----------------------------
@@ -222,7 +222,7 @@ When comparing PURLs from your SBOM with those in the VEX data, keep in mind:
 * **Qualifiers** (the ``?key=value`` part) are optional. Implementations
   should compare PURLs with qualifiers stripped unless explicitly filtering by
   architecture.
-* **Case sensitivity:** The ``pkg:deb/ubuntu`` prefix is case-insensitive; the
+  * **Case sensitivity:** The PURL scheme (``pkg``) and type (``deb``) are case-insensitive; the
   package name and version are case-sensitive.
 * **Exact version match:** Each VEX statement records a specific package
   version. Using a different version string (for example, a shortened one)
@@ -234,7 +234,7 @@ library provides spec-compliant parsing and normalisation. Install it with:
 
 .. code-block:: bash
 
-   pip install packageurl-python
+   python3 -m pip install packageurl-python
 
 ``PackageURL.from_string()`` parses any PURL string into its structured
 components (``type``, ``namespace``, ``name``, ``version``, ``qualifiers``,
@@ -266,9 +266,9 @@ The Python example below uses this approach.
 Example: automated search with Python
 ---------------------------------------
 
-The following Python function accepts either a CycloneDX SBOM JSON file or a
-plain text file of PURLs (one per line), and reports all open vulnerabilities
-from the Ubuntu VEX data directory.
+The following Python function accepts either a list of PURLs 
+(which can either be retrieved by an SBOM or be provided in a plaintext file),
+and reports all open vulnerabilities from the Ubuntu VEX data directory.
 
 .. code-block:: python
 
@@ -284,7 +284,7 @@ from the Ubuntu VEX data directory.
 
 
    def find_open_vulnerabilities(purls: list[str], vex_dir: str) -> list[dict]:
-       """Return open CVEs from VEX data matching the given PURLs."""
+       """Return open vulnerabilities from VEX data matching the given PURLs."""
        targets = {purl_key(p) for p in purls} - {None}
        findings = []
 
@@ -380,12 +380,12 @@ generic scanners.
 
 An **application security engineer** reviewing an Ubuntu-based container image
 before a production release can run the same cross-reference against the image
-SBOM to produce a precise list of open CVEs, their severity, and their current
+SBOM to produce a precise list of open vulnerabilities, their severity, and their current
 fix status.
 
 A **security scanner developer** integrating Ubuntu support into a scanning tool
 can replace or augment NVD lookups with Ubuntu VEX data to provide
-Ubuntu-specific verdicts. Rather than flagging every CVE that touches an
+Ubuntu-specific verdicts. Rather than flagging every vulnerability that touches an
 upstream package name, the tool surfaces only those entries where Ubuntu's own
 assessment confirms the package version in question is ``affected`` or
 ``under_investigation``.
