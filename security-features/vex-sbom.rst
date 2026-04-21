@@ -84,12 +84,17 @@ page:
 
 .. code-block:: bash
 
-   wget https://security-metadata.canonical.com/vex/<tarball-name>.tar.gz
-   mkdir -p ubuntu-vex && tar xzf <tarball-name>.tar.gz -C ubuntu-vex
+   wget https://security-metadata.canonical.com/vex/vex-all.tar.xz
+   mkdir -p ubuntu-vex && tar -xf vex-all.tar.xz -C ubuntu-vex
 
 Once extracted, the data is organised as one JSON file per CVE under
 ``vex/cve/<year>/``.
 
+Due to the size of the `ubuntu-security-notices` repository, the most practical
+solution for a local setup is to download the tarball and perform queries 
+against the extracted JSON files. The rest of this guide assumes you have the
+VEX data available locally through extraction from the tarball, 
+but you can also query the GitHub repository directly if preferred.
 
 Identifying packages: working with PURLs
 =========================================
@@ -100,17 +105,17 @@ A PURL for an Ubuntu Debian package takes the form:
 
 .. code-block::
 
-   pkg:deb/ubuntu/<name>@<version>?arch=<arch>
+   pkg:deb/ubuntu/<name>@<version>?arch=<arch>&distro=<distro>
 
 For example:
 
 .. code-block::
 
-   pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.15?arch=amd64
+   pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23?arch=amd64&distro=jammy  
 
-The qualifiers (``?arch=…``) are optional in the PURL specification, and some
+The qualifiers (``?arch=…`` and ``&distro=…``) are optional in the PURL specification, and some
 tools omit them. The version field must be **the full Debian version string**,
-including the revision suffix (for example, ``-1ubuntu1.15``), to uniquely
+including the revision suffix (for example, ``-1ubuntu1.23``), to uniquely
 identify the package build successfully.
 
 
@@ -127,8 +132,8 @@ matching against the VEX data.
    {
      "type": "library",
      "name": "curl",
-     "version": "7.81.0-1ubuntu1.15",
-     "purl": "pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.15?arch=amd64"
+     "version": "7.81.0-1ubuntu1.23",
+     "purl": "pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23?arch=amd64&distro=jammy"
    }
 
 Extract all Ubuntu package PURLs from a CycloneDX SBOM with ``jq`` or similar JSON query tool:
@@ -145,12 +150,12 @@ Extract all Ubuntu package PURLs from a CycloneDX SBOM with ``jq`` or similar JS
    {
      "SPDXID": "SPDXRef-curl",
      "name": "curl",
-     "versionInfo": "7.81.0-1ubuntu1.15",
+     "versionInfo": "7.81.0-1ubuntu1.23",
      "externalRefs": [
        {
          "referenceCategory": "PACKAGE-MANAGER",
          "referenceType": "purl",
-         "referenceLocator": "pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.15?arch=amd64"
+         "referenceLocator": "pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23?arch=amd64&distro=jammy"
        }
      ]
    }
@@ -176,19 +181,19 @@ Find the name, version, and architecture of an installed package:
 
 .. code-block:: bash
 
-   dpkg-query -W -f='${Package} ${Version} ${Architecture}\n' curl
+dpkg-query -W -f='${Package} ${Version} ${Architecture} '$(lsb_release -sc)'\n' curl
 
 Example output:
 
 .. code-block::
 
-   curl 7.81.0-1ubuntu1.15 amd64
+   curl 7.81.0-1ubuntu1.23 amd64 jammy
 
 The PURL will then be:
 
 .. code-block::
 
-   pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.15?arch=amd64
+   pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23?arch=amd64&distro=jammy
 
 To generate PURLs for all installed Ubuntu packages at once, and save them to a file:
 
@@ -251,8 +256,8 @@ ignoring qualifiers:
        """Return a comparable (type, namespace, name, version) tuple from a PURL string.
 
        Qualifiers and subpath are intentionally excluded so that
-       ``pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.15?arch=amd64`` and
-       ``pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.15`` compare as equal.
+       ``pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23?arch=amd64&distro=jammy`` and
+       ``pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23`` compare as equal.
        Returns None for unparseable PURLs.
        """
        try:
