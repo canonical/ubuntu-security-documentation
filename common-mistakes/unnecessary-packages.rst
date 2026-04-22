@@ -7,6 +7,12 @@ channel for your open source software. Nevertheless, security hardening guides
 recommend keeping the install base at a minimum, as each software package has
 the potential to increase the attack surface of your system.
 
+We recommend that you remove previously-installed packages that are no longer
+needed. At the same time, while some default packages or non-strict dependencies
+are not categorically required, their removal could result in unexpected loss of
+functionality. We recommend that you understand the implications of such an
+action before acting on it.
+
 This page provides a high-level overview of the package relationships in Ubuntu,
 as inherited from Debian via the dpkg and APT package management systems. As the
 end-user, it is your decision which packages to have installed, based on the use
