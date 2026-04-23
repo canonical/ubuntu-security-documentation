@@ -3,9 +3,9 @@ Disabling AppArmor
 
 :doc:`AppArmor <../security-features/privilege-restriction/apparmor>` is the
 default Mandatory Access Control (MAC) system on Ubuntu. It enforces policies
-for the running processes based on an allow-list of actions that the processes
-can take, such as files it can access, network connections it can establish or
-capabilities that the process can hold.
+for the running processes based on an allow-list of actions that they can take,
+such as files that can be accessed, network connections that can established or
+capabilities that the processes can hold.
 
 If an application's profile restricts an action that the process should
 legitimately take, the application may not function correctly, or as expected.

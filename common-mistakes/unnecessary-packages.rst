@@ -31,8 +31,8 @@ the form of fields, which makes the package management system powerful.
 Essential and Priority
 ----------------------
 
-There two methods to annotate the relative importance of a package to a Ubuntu
-system: the **Essential** and the **Priority** fields.
+There are two methods to annotate the relative importance of a package to a
+Ubuntu system: the **Essential** and the **Priority** fields.
 
 A small number of packages are marked **Essential**, as without them the package
 management system will not work. This is a flag: a package is either
@@ -114,7 +114,7 @@ package depends on them. You can list them with:
 
     apt list '?automatic'
 
-To mark a package as either manually installed, you can run:
+To mark a package as manually installed, you can run:
 
 .. code-block:: console
 

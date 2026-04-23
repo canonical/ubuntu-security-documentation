@@ -70,7 +70,7 @@ obtain access to the crash data (the core dump), as it would leak sensitive
 data. This parameter works in conjunction with the ``kernel.core_pattern``
 sysctl.
 
-Ubuntu recommends never setting this parameter to ``0``, which allows
+Ubuntu recommends never setting this parameter to ``1``, which allows
 unrestricted core dumping of setuid executables.
 
 kernel.core_pattern
@@ -152,7 +152,7 @@ kernel.yama.ptrace_scope
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 The powerful `ptrace
-<https://manpages.ubuntu.com/manpages/resolute/man2/ptrace.2.html>` system call
+<https://manpages.ubuntu.com/manpages/resolute/man2/ptrace.2.html>`_ system call
 can be used to inspect and manage a running process. This parameter can restrict
 which processes can use ``ptrace`` on a running process and is documented
 :doc:`here <../security-features/process-memory/ptrace-scope>`.
@@ -177,12 +177,12 @@ and are appropriate for the local network configuration.
 net.ipv4.conf.*.rp_filter
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Hosts connected to multiple network segments often expect to receive packets on
-the same interface which would be used for sending packets out (that is, in the
-reverse direction). Reverse-path filtering ensures that packets with a
-particular source address arrive on the expected interface. However, this
-restriction does not hold for complex routing setups, such as asymmetric
-routing.
+Hosts connected to multiple network segments can often expect to receive packets
+from a host on the same interface which would be used for sending packets out to
+that same host (that is, in the reverse direction). Reverse-path filtering
+ensures that packets with a particular source address arrive on the expected
+interface. However, this restriction does not hold for complex routing setups,
+such as asymmetric routing.
 
 The default value of ``2`` provides a loose, but widely-compatible
 configuration. Ubuntu recommends only setting the value to ``0``, which disables
