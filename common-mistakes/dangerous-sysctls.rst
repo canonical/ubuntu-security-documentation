@@ -33,8 +33,8 @@ fs.protected_fifos
 ^^^^^^^^^^^^^^^^^^
 
 Unintentional writes to an attacker-controlled FIFO could pose security risk.
-This parameter can restrict unsafe operations and is documented :doc:`here
-<../security-features/process-memory/file-handling#fifo-restrictions>`.
+This parameter can restrict unsafe operations and is documented :ref:`here <FIFO
+restrictions>`.
 
 Ubuntu recommends setting this parameter to ``1``, which enables the
 restrictions.
@@ -44,8 +44,7 @@ fs.protected_hardlinks
 
 A race-condition-prone use of hardlinks could pose security risks for
 applications. This parameter restricts certain unsafe operations and is
-documented :doc:`here
-<../security-features/process-memory/file-handling#hardlink-restrictions>`.
+documented :ref:`here <Hardlink restrictions>`.
 
 Ubuntu recommends setting this parameter to ``1``, which enables the
 restrictions.
@@ -55,8 +54,7 @@ fs.protected_symlinks
 
 A race-conditoin-prone use of sysmlinks, commonly in world-writable directories
 (such as ``/tmp``), could pose security risks. This parameter restricts certain
-unsafe operations and is documented :doc:`here
-<../security-features/process-memory/file-handling#symlink-restrictions>`.
+unsafe operations and is documented :ref:`here <Symlink restrictions>`.
 
 Ubuntu recommends setting this parameter to ``1``, which enables the
 restrictions.
@@ -93,8 +91,8 @@ kernel.dmesg_restrict
 
 This parameters controls whether the `dmesg
 <https://manpages.ubuntu.com/manpages/resolute/man1/dmesg.1.html>`_ log buffer
-is accessible to unprivileged users, as documented :doc:`here
-<../security-features/kernel-protections#dmesg-restrictions>`
+is accessible to unprivileged users, as documented :ref:`here <dmesg
+restrictions>`.
 
 Ubuntu recommends setting this parameter to ``1``, which restricts access to
 privileged users.
@@ -104,8 +102,8 @@ kernel.kexec_load_disabled
 
 The `kexec <https://manpages.ubuntu.com/manpages/resolute/man8/kexec.8.html>`_
 system call allows loading another kernel from the currently running one. This
-parameter can disable the functionality and is documented :doc:`here
-<../security-features/kernel-protections#block-kexec>`.
+parameter can disable the functionality and is documented :ref:`here <Block
+kexec>`.
 
 Ubuntu recommends only enabling this restriction when the kexec function
 functionality is not needed. By default, the restriction is not enabled and the
@@ -114,11 +112,10 @@ parameter is set to ``0``.
 kernel.kptr_restrict
 ^^^^^^^^^^^^^^^^^^^^
 
-The ability to know in-use kernel addresses can help defeat :doc:`kASLR
-<../security-features/kernel-protections#kernel-address-space-layout-randomization>`
-protections. This parameter can restrict users' access to logs containing kernel
-addresses, as documented :doc:`here
-<../security-features/kernel-protections#kernel-address-display-restriction>`.
+The ability to know in-use kernel addresses can help defeat :ref:`kASLR <Kernel
+Address Space Layout Randomisation>` protections. This parameter can restrict
+users' access to logs containing kernel addresses, as documented :ref:`here
+<Kernel Address Display Restriction>`.
 
 Ubuntu recommends setting this parameter to ``1`` or ``2``, which enables the
 restrictions.
@@ -129,8 +126,7 @@ kernel.modules_disabled
 Loaded kernel modules are, by definition, highly privileged as they form part of
 the running kernel. This parameter can reduce the risk of an attacker loading a
 malicious module or a legitimate one that has exploitable vulnerabilities and is
-documented :doc:`here
-<../security-features/kernel-protections#block-module-loading>`.
+documented :ref:`here <Block module loading>`.
 
 Enabling this restriction will stop modules from being dynamically loaded when
 their functionality is required, a feature that systems often rely on. The
@@ -141,9 +137,9 @@ implications are fully accounted for.
 kernel.randomize_va_space
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This parameter controls :doc:`kASLR <../security-features/process-memory/aslr>`,
-a feature that can reduce the risk of exploiting code execution and memory
-access kernel vulnerabilities.
+This parameter controls :ref:`kASLR <Kernel Address Space Layout
+Randomisation>`, a feature that can reduce the risk of exploiting code execution
+and memory access kernel vulnerabilities.
 
 Ubuntu recommends setting this parameter to ``2``, which enable randomization of
 both address bases and the kernel heap.
@@ -188,8 +184,7 @@ The default value of ``2`` provides a loose, but widely-compatible
 configuration. Ubuntu recommends only setting the value to ``0``, which disables
 the restriction altogether, if the implications are understood or if other types
 of reverse-path filtering are enabled. Nftables supports a much more flexible
-:doc:`reverse-path filtering
-<../security-features/network/firewall/nftables#fib-lookup-and-reverse-path-filtering>`
+:ref:`reverse-path filtering <FIB lookup and reverse-path filtering>`
 configuration.
 
 net.ipv4.tcp_syncookies
@@ -220,8 +215,8 @@ vm.mmap_min_addr
 
 NULL-dereference attacks could have implications beyond crashes if memory at
 low-addresses is valid. This parameter controls the minimum address at which
-pages are mapped in a process' address space and is documented :doc:`here
-<../security-features/process-memory#address-protection>`.
+pages are mapped in a process' address space and is documented :ref:`here
+<0-address protection>`.
 
 vm.mmap_rnd_bits and vm.mmap_rnd_compat_bits
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
