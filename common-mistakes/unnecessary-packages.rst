@@ -187,7 +187,9 @@ automatically installed using `apt-mark
 Note that, depending on your ``APT::AutoRemove::RecommendsImportant`` and
 ``APT::AutoRemove::SuggestsImportant`` configuration options, this may or may
 not result in the removal of packages which are non-strict (**Recommends** or
-**Suggests**) dependencies.
+**Suggests**) dependencies and could therefore lead to unexpected loss of
+functionality. We recommend that you always evaluate what packages are
+automatically-removed.
 
 Reviewing manual packages
 -------------------------
