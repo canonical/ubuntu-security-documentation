@@ -7,11 +7,12 @@ channel for your open source software. Nevertheless, security hardening guides
 recommend keeping the install base at a minimum, as each software package has
 the potential to increase the attack surface of your system.
 
-We recommend that you remove previously-installed packages that are no longer
-needed. At the same time, while some default packages or non-strict dependencies
-are not categorically required, their removal could result in unexpected loss of
-functionality. We recommend that you understand the implications of such an
-action before acting on it.
+We recommend that you handle such advise with care. It is safe to remove
+packages that were previously manually-installed and are no longer needed.
+However, removing packages that are part of the default installation could
+result in unexpected loss of functionality, even when they are not strictly
+required. We recommend that you start with the smallest default installation
+that suits your needs and add packages on top of that.
 
 This page provides a high-level overview of the package relationships in Ubuntu,
 as inherited from Debian via the dpkg and APT package management systems. As the
@@ -42,22 +43,23 @@ management system will not work. This is a flag: a package is either
 
     apt list '?essential'
 
-Packages also have a **Priority** field, with a value of:
+Packages also have a **Priority** field. Note that its use does not strictly
+mirror that in Debian. We do not recommend that you use the **Priority** field
+to determine which packages to have installed. The possible values are:
 
 - **required**: these are necessary for the system to function. Without one, a
   system, including the package management, may become unusable.
 
-- **important**: these form the foundation of a Linux system and provide the
-  functionality which users expect to see.
+- **important**: these generally form the foundation of a Linux system and
+  provide the functionality which users expect to see.
 
-- **standard**: these are part of the default Ubuntu installations and contain
-  utilities for a fully-fledged experience.
+- **standard**: these are generally part of the default Ubuntu installations and
+  contain utilities for a fully-fledged experience.
 
-- **optional**: these form the vast majority of the Ubuntu packages and provide
-  functionality which you may choose to enable via their manual installation.
-
-- **extra**: this priority is deprecated and should be considered similar to
-  **optional**.
+- **optional** and **extra**: these form the vast majority of the Ubuntu
+  packages and provide functionality which you may choose to enable via their
+  manual installation; they are considered interchangeable for the purpose of
+  this page.
 
 Packages with a **Priority** of **required**, but which aren't **Essential** can
 be listed with:
@@ -67,8 +69,8 @@ be listed with:
     apt list '?priority(required) ?not(?essential)'
 
 Packages that are **Essential** and those with a **Priority** of **required**
-must not be uninstalled. All other packages can be removed, but the resulting
-lack of functionality may be unexpected.
+must not be uninstalled. While all other packages can be removed, the resulting
+lack of functionality may be unexpected and we do not recommend that.
 
 Dependencies
 ------------
@@ -114,7 +116,9 @@ package depends on them. You can list them with:
 
     apt list '?automatic'
 
-To mark a package as manually installed, you can run:
+Any package which is not **automatic** is considered a **manual** package. They
+are either part of the default Ubuntu installation or were manually installed by
+the user with dpkg or APT. To mark a package as manually installed, you can run:
 
 .. code-block:: console
 
@@ -143,7 +147,9 @@ Reducing installed packages
 
 This section details actions you can take to reduce the number of installed
 packages. You must choose the configuration appropriate for your requirements,
-as the system may become unusable.
+as the system may become unusable. We recommend that you choose a minimal
+default installation that suits your needs, rather than removing packages
+installed by default.
 
 Avoiding Recommends and Suggests
 --------------------------------
@@ -160,19 +166,47 @@ well as automate the removal of such dependencies, using APT configuration:
     APT::AutoRemove::SuggestsImportant "false";
     EOF
 
-Removing based on Priority
+Minimizing manual packages
 --------------------------
 
-You can mark packages as automatically installed based on their **Priority**
-field. The ``autoremove`` function can then trigger the deinstallation of the
-unnecessary ones. For example, to mark any installed package that is not
-**Essential** or with a **Priority** of **required** or **important** as
-automatically installed and then trigger autoremove:
+Metapackages are packages which don't contain actual software, but depend on
+other packages. For example, the ``ubuntu-server`` metapackage depends on a
+number of utilities which form part of the standard Ubuntu Server installation.
+Similarly, the ``linux-image-generic`` metapackage depends on the latest
+non-`HWE <https://ubuntu.com/kernel/lifecycle>`_ generic kernel image available.
+
+You can mark any installed direct or transitive dependencies of metapackages as
+automatically installed using `apt-mark
+<https://manpages.ubuntu.com/manpages/resolute/man8/apt-mark.8.html>`_:
 
 .. code-block:: console
 
-    sudo apt-mark auto '?installed ?not(?essential) ?not(?priority(required)) ?not(?priority(important))'
+    sudo apt-mark minimize-manual
     sudo apt autoremove
+
+Note that, depending on your ``APT::AutoRemove::RecommendsImportant`` and
+``APT::AutoRemove::SuggestsImportant`` configuration options, this may or may
+not result in the removal of packages which are non-strict (**Recommends** or
+**Suggests**) dependencies.
+
+Reviewing manual packages
+-------------------------
+
+You can review the packages marked as manually-installed and, if determined to
+be unnecessary, mark them as automatically installed. Note that manual
+packages could be part of the default installation or could be strict or
+non-strict dependencies of other manual packages. The following command will
+list manual packages with a **Priority** of ``optional`` or ``extra``.
+
+.. code-block:: console
+
+    apt-mark showmanual '?priority(optional) | ?priority(extra)'
+
+Note that the Linux kernel packages have a **Priority** of **optional**, as do
+the bootloaders or other important packages, and will show up in the output.
+These are required for bare-metal or virtual machine installations. Therefore,
+we do not recommend using the **Priority** field exclusively to determine which
+packages can be removed or marked as automatically-installed.
 
 Purging packages
 ----------------
