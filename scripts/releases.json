@@ -242,11 +242,21 @@
     {
         "code_name": "plucky",
         "human_name": "Ubuntu 25.04",
-        "is_eol": false
+        "is_eol": true
     },
     {
         "code_name": "questing",
         "human_name": "Ubuntu 25.10",
+        "is_eol": false
+    },
+    {
+        "code_name": "resolute",
+        "human_name": "Ubuntu 26.04 LTS",
+        "is_eol": false
+    },
+    {
+        "code_name": "stonking",
+        "human_name": "Ubuntu 26.10",
         "is_eol": false
     }
 ]

@@ -160,7 +160,9 @@
       },
       {
         "releases": [
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "5.0.0",
         "state": "DEFAULT"
@@ -226,7 +228,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel & userspace",
         "state": "DEFAULT"
@@ -267,7 +271,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -314,7 +320,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -362,7 +370,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -403,7 +413,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -440,6 +452,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -484,7 +498,9 @@
           "jammy",
           "noble",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "LUKS + TPM",
         "state": "DEFAULT"
@@ -516,7 +532,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -600,7 +618,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
         "state": "AVAILABLE"
@@ -657,7 +677,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -703,7 +725,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -766,7 +790,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -852,7 +878,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "yescrypt",
         "state": "DEFAULT"
@@ -882,6 +910,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -912,7 +942,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "policy",
         "state": "DEFAULT"
@@ -953,7 +985,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -996,7 +1030,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1035,7 +1071,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel & sysctl",
         "state": "DEFAULT"
@@ -1067,7 +1105,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel & sysctl",
         "state": "DEFAULT"
@@ -1111,7 +1151,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1163,7 +1205,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1211,7 +1255,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1263,7 +1309,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1311,7 +1359,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1368,7 +1418,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1422,7 +1474,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1477,7 +1531,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1514,6 +1570,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "yakkety",
           "zesty"
         ],
@@ -1583,7 +1641,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1630,7 +1690,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1667,6 +1729,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "yakkety",
           "zesty"
         ],
@@ -1719,7 +1783,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
         "state": "DEFAULT"
@@ -1744,7 +1810,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "gcc patch (i386, amd64)",
         "state": "DEFAULT"
@@ -1782,7 +1850,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1842,7 +1912,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1892,7 +1964,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1938,7 +2012,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -1994,7 +2070,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2044,7 +2122,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "integrity only, no confidentiality",
         "state": "DEFAULT"
@@ -2084,7 +2164,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2136,7 +2218,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2202,7 +2286,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2248,7 +2334,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2290,7 +2378,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2332,7 +2422,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2375,7 +2467,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel (i386, amd64, arm64, and s390 only)",
         "state": "DEFAULT"
@@ -2427,7 +2521,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2480,7 +2576,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel",
         "state": "DEFAULT"
@@ -2510,6 +2608,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2567,7 +2667,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "amd64, kernel signature enforcement",
         "state": "DEFAULT"
@@ -2597,6 +2699,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "xenial",
           "yakkety",
           "zesty"
@@ -2627,7 +2731,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel & userspace",
         "state": "AVAILABLE"
@@ -2655,7 +2761,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel & userspace",
         "state": "DEFAULT"
@@ -2683,7 +2791,9 @@
           "noble",
           "oracular",
           "plucky",
-          "questing"
+          "questing",
+          "resolute",
+          "stonking"
         ],
         "comment": "kernel & userspace",
         "state": "AVAILABLE"
@@ -2725,7 +2835,9 @@
           "quantal",
           "questing",
           "raring",
+          "resolute",
           "saucy",
+          "stonking",
           "trusty",
           "utopic",
           "vivid",
@@ -2763,6 +2875,9 @@
           "groovy",
           "kinetic",
           "oracular",
+          "plucky",
+          "questing",
+          "stonking",
           "utopic",
           "yakkety"
         ],
@@ -2788,6 +2903,13 @@
           "noble"
         ],
         "comment": "24.04 LTS Kernel",
+        "state": "AVAILABLE"
+      },
+      {
+        "releases": [
+          "resolute"
+        ],
+        "comment": "26.04 LTS Kernel",
         "state": "AVAILABLE"
       },
       {
@@ -2829,6 +2951,8 @@
           "oracular",
           "plucky",
           "questing",
+          "resolute",
+          "stonking",
           "xenial",
           "yakkety",
           "zesty"
