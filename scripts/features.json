@@ -138,8 +138,7 @@
       {
         "releases": [
           "oracular",
-          "plucky",
-          "questing"
+          "plucky"
         ],
         "comment": "4.1.0",
         "state": "DEFAULT"
@@ -157,6 +156,13 @@
           "raring"
         ],
         "comment": "2.8.0",
+        "state": "DEFAULT"
+      },
+      {
+        "releases": [
+          "questing"
+        ],
+        "comment": "5.0.0",
         "state": "DEFAULT"
       },
       {
