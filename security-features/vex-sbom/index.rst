@@ -324,39 +324,6 @@ Once you have the name, version, architecture, and distro, assemble the PURL
 in the form ``pkg:deb/ubuntu/<name>@<version>?arch=<arch>&distro=<distro>``.
 
 
-Constructing a PURL from a package name and version
------------------------------------------------------
-
-If your SBOM does not include PURLs, or you are working from a package list
-rather than an SBOM, construct the PURL from the installed package name,
-version, and architecture.
-
-Find the name, version, and architecture of an installed package:
-
-.. code-block:: bash
-
-   dpkg-query -W -f='${Package} ${Version} ${Architecture} '$(lsb_release -sc)'\n' curl
-
-Example output:
-
-.. code-block::
-
-   curl 7.81.0-1ubuntu1.23 amd64 jammy
-
-The PURL will then be:
-
-.. code-block::
-
-   pkg:deb/ubuntu/curl@7.81.0-1ubuntu1.23?arch=amd64&distro=jammy
-
-To generate PURLs for all installed Ubuntu packages at once, and save them to a file:
-
-.. code-block:: bash
-
-   dpkg-query -W -f='pkg:deb/ubuntu/${Package}@${Version}?arch=${Architecture}\n' \
-     > system_purls.txt
-
-
 Finding open vulnerabilities
 =============================
 
