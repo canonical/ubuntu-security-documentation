@@ -170,6 +170,71 @@ Extract all Ubuntu package PURLs from an SPDX SBOM with ``jq`` or similar JSON q
      .referenceLocator' sbom.spdx.json
 
 
+Constructing a PURL from SBOM fields when no PURL is present
+--------------------------------------------------------------
+
+If your SBOM contains Ubuntu packages without a ``purl`` external
+reference, you can construct one from the standard package fields.
+The minimum required fields are ``name`` and ``versionInfo``. Architecture
+and distro allow a more precise PURL as there might be the same package version in two
+different Ubuntu releases, or a specific architecture might be vulnerable while another is not.
+However, those fields are optional for VEX matching (see `PURL matching considerations`_ below).
+
+**Extracting name and version**
+
+``name`` and ``versionInfo`` are top-level fields on every SPDX package
+entry. To extract them for all packages that lack a PURL:
+
+.. code-block:: bash
+
+   jq -r '.packages[] |
+     select(
+       ((.externalRefs // []) |
+        map(select(.referenceType == "purl")) |
+        length) == 0
+     ) |
+     "\(.name)\t\(.versionInfo)"' sbom.spdx.json
+
+**Finding the architecture**
+
+Architecture is not a top-level SPDX field. It may appear in places like these:
+
+* A CPE 2.3 external reference, in the ``target_hw`` position (the twelfth
+  colon-delimited field):
+
+  .. code-block:: json
+
+     {
+       "referenceCategory": "SECURITY",
+       "referenceType": "cpe23Type",
+       "referenceLocator": "cpe:2.3:a:haxx:curl:7.81.0-1ubuntu1.23:*:*:*:*:*:amd64:*"
+     }
+
+* A package annotation whose ``comment`` contains the architecture, for
+  example ``arch=amd64``.
+
+  .. code-block:: json
+
+     {
+       "annotationType": "OTHER",
+       "annotator": "Tool: sbom-generator",
+       "comment": "arch=amd64"
+     }
+
+**Finding the distro**
+
+The Ubuntu release codename (for example, ``jammy``) is not stored per-package
+in SPDX. It is typically recorded in one of these locations:
+
+* A top-level ``packages`` entry for the operating system itself, whose
+  ``name`` is ``ubuntu`` and whose ``versionInfo`` contains the codename or
+  version number.
+* A document-level annotation on the SBOM.
+
+Once you have the name, version, architecture, and distro, assemble the PURL
+in the form ``pkg:deb/ubuntu/<name>@<version>?arch=<arch>&distro=<distro>``.
+
+
 Constructing a PURL from a package name and version
 -----------------------------------------------------
 
@@ -181,7 +246,7 @@ Find the name, version, and architecture of an installed package:
 
 .. code-block:: bash
 
-dpkg-query -W -f='${Package} ${Version} ${Architecture} '$(lsb_release -sc)'\n' curl
+   dpkg-query -W -f='${Package} ${Version} ${Architecture} '$(lsb_release -sc)'\n' curl
 
 Example output:
 
@@ -218,6 +283,8 @@ affect your packages. The algorithm is:
    c. Record the vulnerability name, status, and any available notes.
 
 #. Report the collected vulnerabilities as the open vulnerability list.
+
+.. _PURL matching considerations:
 
 PURL matching considerations
 -----------------------------
