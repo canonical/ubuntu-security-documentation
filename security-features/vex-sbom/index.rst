@@ -96,6 +96,47 @@ against the extracted JSON files. The rest of this guide assumes you have the
 VEX data available locally through extraction from the tarball, 
 but you can also query the GitHub repository directly if preferred.
 
+Matching against an SBOM created at a point in time
+-----------------------------------------------------
+
+VEX data is updated continuously. If you are auditing an SBOM that was
+generated at a specific point in the past, using the current VEX data may
+report vulnerabilities that did not exist yet when the SBOM was created, or
+miss vulnerabilities that have since been resolved. To reproduce the
+vulnerability state as it was when the SBOM was generated, check out the
+``ubuntu-security-notices`` repository at the corresponding commit.
+
+Clone the repository (using ``--filter=blob:none`` to avoid downloading the
+full history of large files):
+
+.. code-block:: bash
+
+   git clone --filter=blob:none \
+     https://github.com/canonical/ubuntu-security-notices.git
+   cd ubuntu-security-notices
+
+Find the commit that was current at the time the SBOM was created. If the SBOM
+records its creation timestamp, use it directly with ``git log``:
+
+.. code-block:: bash
+
+   git log --oneline --before="2024-11-01T00:00:00Z" -1
+
+Check out the repository at that commit:
+
+.. code-block:: bash
+
+   git checkout <commit-hash>
+
+The ``vex/`` directory now reflects the vulnerability data as it was at that
+point in time. Run your cross-reference queries against ``vex/cve/`` as usual.
+
+To return to the latest data afterwards:
+
+.. code-block:: bash
+
+   git checkout main
+
 Identifying packages: working with PURLs
 =========================================
 
@@ -180,7 +221,7 @@ and distro allow a more precise PURL as there might be the same package version 
 different Ubuntu releases, or a specific architecture might be vulnerable while another is not.
 However, those fields are optional for VEX matching (see `PURL matching considerations`_ below).
 
-**Extracting name and version**
+**SPDX JSON**
 
 ``name`` and ``versionInfo`` are top-level fields on every SPDX package
 entry. To extract them for all packages that lack a PURL:
@@ -194,8 +235,6 @@ entry. To extract them for all packages that lack a PURL:
         length) == 0
      ) |
      "\(.name)\t\(.versionInfo)"' sbom.spdx.json
-
-**Finding the architecture**
 
 Architecture is not a top-level SPDX field. It may appear in places like these:
 
@@ -221,8 +260,6 @@ Architecture is not a top-level SPDX field. It may appear in places like these:
        "comment": "arch=amd64"
      }
 
-**Finding the distro**
-
 The Ubuntu release codename (for example, ``jammy``) is not stored per-package
 in SPDX. It is typically recorded in one of these locations:
 
@@ -230,6 +267,58 @@ in SPDX. It is typically recorded in one of these locations:
   ``name`` is ``ubuntu`` and whose ``versionInfo`` contains the codename or
   version number.
 * A document-level annotation on the SBOM.
+
+**CycloneDX JSON**
+
+``name`` and ``version`` are top-level fields on every CycloneDX component
+entry. To extract them for all components that lack a ``purl`` field:
+
+.. code-block:: bash
+
+   jq -r '.components[] |
+     select(.purl == null or .purl == "") |
+     "\(.name)\t\(.version)"' sbom.cdx.json
+
+Architecture in CycloneDX is stored in the ``properties`` array. Common
+property names used by SBOM generators include ``arch``, ``dpkg:architecture``,
+and ``syft:package:arch``. For example:
+
+.. code-block:: json
+
+   {
+     "name": "curl",
+     "version": "7.81.0-1ubuntu1.23",
+     "properties": [
+       { "name": "dpkg:architecture", "value": "amd64" }
+     ]
+   }
+
+Extract the architecture from the ``dpkg:architecture`` property with ``jq``:
+
+.. code-block:: bash
+
+   jq -r '.components[] |
+     select(.purl == null or .purl == "") |
+     .name as $name |
+     ((.properties // [])[] | select(.name == "dpkg:architecture") | .value) as $arch |
+     "\($name)\t\($arch)"' sbom.cdx.json
+
+The Ubuntu release codename is not stored per-component in CycloneDX. It is
+typically found in one of these locations:
+
+* The ``metadata.component`` object, which describes the subject of the SBOM
+  (for example, the container image or system). Its ``name`` or ``version``
+  field may contain the Ubuntu codename or version string.
+* A component of ``type: operating-system`` in the ``components`` array,
+  whose ``name`` is ``ubuntu`` and whose ``version`` contains the codename.
+
+Extract the distro codename from an operating-system component with ``jq``:
+
+.. code-block:: bash
+
+   jq -r '.components[] |
+     select(.type == "operating-system" and (.name | ascii_downcase | startswith("ubuntu"))) |
+     .version' sbom.cdx.json
 
 Once you have the name, version, architecture, and distro, assemble the PURL
 in the form ``pkg:deb/ubuntu/<name>@<version>?arch=<arch>&distro=<distro>``.
@@ -469,6 +558,9 @@ Further information
 * :doc:`Ubuntu VEX data documentation <../security-updates/vex/index>`
   — full reference for the VEX data format, available data types, and how
   vulnerability statuses are assigned.
+* `Ubuntu security data feeds <https://documentation.ubuntu.com/security/security-updates/#data-feeds>`_
+  — overview of all machine-readable security data published by Canonical,
+  including VEX, OVAL, and OSV.
 * `OpenVEX specification <https://openvex.dev/>`_ — the upstream specification
   that Ubuntu's VEX data conforms to.
 * `vexctl <https://github.com/openvex/vexctl>`_ — the OpenSSF open source CLI
