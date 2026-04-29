@@ -522,7 +522,7 @@ assessment confirms the package version in question is ``affected`` or
 Further information
 ====================
 
-* :doc:`Ubuntu VEX data documentation <../security-updates/vex/>`
+* `Ubuntu VEX data documentation <https://documentation.ubuntu.com/security/security-updates/vex/>`_
   — full reference for the VEX data format, available data types, and how
   vulnerability statuses are assigned.
 * `Ubuntu security data feeds <https://documentation.ubuntu.com/security/security-updates/#data-feeds>`_
