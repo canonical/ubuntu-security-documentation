@@ -68,3 +68,11 @@ Network and firewalls
 
    network/index
 
+Combining SBOM with VEX data
+======================
+
+.. toctree::
+   :maxdepth: 2
+   
+   vex-sbom/index
+
