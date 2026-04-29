@@ -350,7 +350,7 @@ When comparing PURLs from your SBOM with those in the VEX data, keep in mind:
 * **Qualifiers** (the ``?key=value`` part) are optional. Implementations
   should compare PURLs with qualifiers stripped unless explicitly filtering by
   architecture.
-  * **Case sensitivity:** The PURL scheme (``pkg``) and type (``deb``) are case-insensitive; the
+* **Case sensitivity:** The PURL scheme (``pkg``) and type (``deb``) are case-insensitive; the
   package name and version are case-sensitive.
 * **Exact version match:** Each VEX statement records a specific package
   version. Using a different version string (for example, a shortened one)
@@ -522,7 +522,7 @@ assessment confirms the package version in question is ``affected`` or
 Further information
 ====================
 
-* :doc:`Ubuntu VEX data documentation <../security-updates/vex/index>`
+* :doc:`Ubuntu VEX data documentation <../security-updates/vex/>`
   — full reference for the VEX data format, available data types, and how
   vulnerability statuses are assigned.
 * `Ubuntu security data feeds <https://documentation.ubuntu.com/security/security-updates/#data-feeds>`_
