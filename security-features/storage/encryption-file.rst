@@ -48,10 +48,16 @@ File encryption
 
 Ubuntu 8.10 (Intrepid Ibex) introduced Encrypted Private directories using
 `eCryptfs <https://ecryptfs.org/>`_, allowing users to store sensitive data
-securely.
+securely. Ubuntu 9.04 (Jaunty Jackalope) introduced Encrypted Home directories
+using the same technology.
 
-* Ubuntu 9.04 (Jaunty Jackalope) introduced Encrypted Home directories.
-* Ubuntu 18.04 LTS (Bionic Beaver) dropped support for Encrypted Private and
-  Encrypted Home directories.
-* You can still set up encrypted directories manually using
-  ``ecryptfs-setup-private``.
+Ubuntu 18.04 LTS (Bionic Beaver) dropped support for Encrypted Private and
+Encrypted Home directories. eCryptfs is considered deprecated. You can still set
+up encrypted directories manually using `fscrypt
+<https://www.kernel.org/doc/html/v4.18/filesystems/fscrypt.html>`_ and the
+``ecryptfs-setup-private`` utility. Similarly to ``eCryptfs``, ``fscrypt`` is a
+Linux kernel feature, but these are distinct implementations.
+
+Full Disk Encryption (FDE) using :doc:`dm-crypt with LUKS
+<encryption-full-disk>` is the recommended approach for file system encryption
+and should be preferred instead of ``fscrypt``.
