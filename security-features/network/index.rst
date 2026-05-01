@@ -7,3 +7,4 @@ Network and firewalls
 
    *
    firewall/index
+   version-banners/index
