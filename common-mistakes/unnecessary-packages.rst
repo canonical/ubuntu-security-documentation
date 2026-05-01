@@ -94,6 +94,17 @@ are always declared by the package that requests the presence of another package
   enhance of functionality of a package, but is not expected to be useful to a
   majority of users.
 
+Note that a dependency could be to a virtual package: a generic name that does
+not correspond to an actual package in the Ubuntu Archive, but describes an
+interface and has concrete implementations in other concrete packages. For
+example, the ``mail-transport-agent`` virtual package has multiple
+implementations: ``exim4-daemon-light``, ``nullmailer``, ``postfix``,
+``sendmail-bin``, etc. A package can depend on ``mail-transport-agent``, even
+though a package with such a name does not exist. The concrete packages which
+implement the functionality have a ``Provides`` field that references the
+virtual package name. The expectation is that the concrete packages can be used
+interchangeably and provide a common interface.
+
 A package will exist on a system, either because its installation was requested
 by a user or because it is a dependency of an installed package. A package does
 not need to establish a dependency on an **Essential** package or one with a
