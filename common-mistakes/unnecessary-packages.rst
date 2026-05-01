@@ -7,7 +7,7 @@ channel for your open source software. Nevertheless, security hardening guides
 recommend keeping the install base at a minimum, as each software package has
 the potential to increase the attack surface of your system.
 
-We recommend that you handle such advise with care. It is safe to remove
+We recommend that you handle such advice with care. It is safe to remove
 packages that were previously manually-installed and are no longer needed.
 However, removing packages that are part of the default installation could
 result in unexpected loss of functionality, even when they are not strictly

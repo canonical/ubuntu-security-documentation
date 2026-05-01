@@ -12,8 +12,8 @@ legitimately take, the application may not function correctly, or as expected.
 In such an instance, people or online forums might suggest `disabling AppArmor
 altogether
 <https://ubuntu.com/server/docs/how-to/security/apparmor/#disabling-or-re-enabling-apparmor>`_.
-Ubuntu stronly advises against this, as it would disable the protections for all
-the other applications installed, as well as for :doc:`snaps
+Ubuntu strongly advises against this, as it would disable the protections for
+all the other applications installed, as well as for :doc:`snaps
 <../security-features/privilege-restriction/snap-confinement>`.
 
 Instead, you should take one or more of the following steps:

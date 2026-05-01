@@ -52,7 +52,7 @@ restrictions.
 fs.protected_symlinks
 ^^^^^^^^^^^^^^^^^^^^^
 
-A race-conditoin-prone use of sysmlinks, commonly in world-writable directories
+A race-condition-prone use of symlinks, commonly in world-writable directories
 (such as ``/tmp``), could pose security risks. This parameter restricts certain
 unsafe operations and is documented :ref:`here <Symlink restrictions>`.
 
@@ -190,8 +190,8 @@ configuration.
 net.ipv4.tcp_syncookies
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-TCP SYN cookies are used as a protective measure in case TCP SYN DoS attacks.
-This parameter controls the feature and are documented :doc:`here
+TCP SYN cookies are used as a protective measure in case of TCP SYN DoS attacks.
+This parameter controls the feature and is documented :doc:`here
 <../security-features/network/syn-cookies>`.
 
 Ubuntu recommends setting this parameter to ``1``, which enables the
