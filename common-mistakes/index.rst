@@ -24,3 +24,12 @@ Unnecessarily open ports
    :maxdepth: 1
 
    unnecessarily-open-ports
+
+Dangerous configuration
+=======================
+.. toctree::
+   :maxdepth: 1
+
+   disabling-apparmor
+   dangerous-sysctls
+   unnecessary-packages
