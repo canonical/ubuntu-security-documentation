@@ -12,4 +12,4 @@ cloud images include the Pollinate client, which seeds the PRNG with input from
 `Ubuntu's entropy service <https://entropy.ubuntu.com>`_ during the first boot.
 
 Regression tests: `pollen_test.go
-<https://bazaar.launchpad.net/~kirkland/pollen/trunk/view/head:/pollen_test.go>`_.
+<https://github.com/dustinkirkland/pollen/blob/master/pollen_test.go>`_.
