@@ -54,7 +54,7 @@ Ubuntu releases. You can read more about the Ubuntu release cycle `here
 
 Ubuntu Pro is a subscription that provides access to several security-focused
 features and services. You can read more about it in the `Ubuntu Pro 
-documenation <https://documentation.ubuntu.com/pro/>`_.
+documentation <https://documentation.ubuntu.com/pro/>`_.
 
 
 Update Notifications

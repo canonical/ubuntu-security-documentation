@@ -44,9 +44,14 @@ Stack ASLR
 ----------
 
 Each execution of a program results in a different stack memory space layout.
+
+.. vale Canonical.003-Ubuntu-names-versions = NO
+
 This makes it harder to locate where to attack or deliver an executable attack
 payload in memory. This has been available in the mainline kernel since 2.6.15
 (Ubuntu 6.06 LTS (Dapper Drake)).
+
+.. vale Canonical.003-Ubuntu-names-versions = YES
 
 vDSO ASLR
 ---------
@@ -69,8 +74,14 @@ Libs/mmap ASLR
 Each execution of a program results in a different ``mmap`` memory space layout
 (which causes the dynamically loaded libraries to load into different locations
 each time). This makes it harder to locate where to jump to in memory for
-"return to libc" or similar attacks. This has been available in the mainline
+"return to libc" or similar attacks.
+
+.. vale Canonical.003-Ubuntu-names-versions = NO
+
+This has been available in the mainline
 kernel since 2.6.15 (Ubuntu 6.06 LTS).
+
+.. vale Canonical.003-Ubuntu-names-versions = YES
 
 Exec ASLR
 ---------

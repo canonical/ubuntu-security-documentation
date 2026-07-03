@@ -16,7 +16,7 @@ interact with your system.
 bolt
 ====
 
-Starting with Ubuntu 18.04 Bionic Beaver, the ``bolt`` package is available 
+Starting with Ubuntu 18.04 LTS (Bionic Beaver), the ``bolt`` package is available 
 in ``main`` to provide a desktop-oriented tool for using the Linux kernel's 
 Thunderbolt authorization support. Bolt implements the user-space component of 
 the kernel's Thunderbolt security framework, designed to protect against 
@@ -92,7 +92,7 @@ You can also learn more about ``boltd`` through its
 thunderbolt-tools
 =================
 
-Starting with Ubuntu 18.04 Bionic Beaver, the ``thunderbolt-tools`` 
+Starting with Ubuntu 18.04 LTS (Bionic Beaver), the ``thunderbolt-tools`` 
 package is available in ``universe`` to provide a server-oriented tool 
 for using the Linux kernel's Thunderbolt authorization support. Unlike 
 ``bolt``, which focuses on desktop integration, ``thunderbolt-tools`` provides 

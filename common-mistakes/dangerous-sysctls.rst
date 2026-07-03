@@ -8,7 +8,7 @@ managed through the `sysctl
 <https://manpages.ubuntu.com/manpages/resolute/man8/sysctl.8.html>`_ utility.
 
 This page provides a non-exhaustive list of sysctls which have important
-security implications and require dilligence before changing. They are referred
+security implications and require diligence before changing. They are referred
 to be their qualified sysctl name, but they can be managed through multiple
 means.
 

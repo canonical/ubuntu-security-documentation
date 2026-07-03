@@ -60,7 +60,7 @@ Additionally, it should be noted that some of the functionality available via
 the ``nftables`` Netlink interface may not be supported by the userspace ``nft``
 utility yet (e.g. support for rules invoking eBPF programs).
 
-Starting with Ubuntu 16.04 (Xenial Xerus), the ``iptables`` package has provided
+Starting with Ubuntu 16.04 LTS (Xenial Xerus), the ``iptables`` package has provided
 versions of the ``iptables``, ``ip6tables``, ``arptables`` and ``ebtables``
 tools that work with the ``nftables`` API and provide a compatible interface to
 the legacy implementation. The ``nftables`` backend, used by 
@@ -681,7 +681,7 @@ processed by independent firewall rules.
 Structure
 ---------
 
-``nftables`` structures objects for managing the firewall in a hiearchy. The
+``nftables`` structures objects for managing the firewall in a hierarchy. The
 primary terminology used is:
 
 * **Rulesets**: this refers to all of the objects defined in ``nftables``; the
@@ -1088,7 +1088,7 @@ commonly-used ones are:
   matches the input key. It is explained in more detail in the :ref:`Maps`
   section.
 * **vmap statement**: allows dynamically determining the verdict for a rule
-  based on an abitrary key and is explained in more detail in the :ref:`Verdict
+  based on an arbitrary key and is explained in more detail in the :ref:`Verdict
   maps` section.
 
 Expressions
@@ -1137,7 +1137,7 @@ which are used for matching packets. These are:
   than, lower than or equal and greater than or equal, respectively, to a
   constant value (e.g. ``udp dport < 1024`` matches privileged UDP ports).
 
-Expressions can also be combinated with binary operators, such as:
+Expressions can also be combined with binary operators, such as:
 
 * ``and`` / ``&``: bitwise AND
 * ``or`` / ``|``: bitwise OR
@@ -1221,7 +1221,7 @@ extension) and is copied when packets are decapsulated (e.g. IPsec), special
 processing is required: one bit (a flag) is used to determine if the packet mark
 can be trusted as having been validated locally.
 
-The following ``nftables`` configuration containss two changes from the previous
+The following ``nftables`` configuration contains two changes from the previous
 example in the highlighted lines:
 
 * An extension to the ``early-inbound`` chain, with the two regular chains that
