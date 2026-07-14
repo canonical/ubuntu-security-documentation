@@ -45,7 +45,7 @@ which provides disk encryption at the block level. You can encrypt data on a
 partition or an entire disk.
 
 At the core of the encryption process is a securely generated Volume Key (also
-called the primary encryption key). The system uses this key to encrypt and
+called the :vale-ignore:`Master` Encryption Key (MEK)). The system uses this key to encrypt and
 decrypt data stored on the device. LUKS supports various encryption algorithms
 and cipher modes, offering flexibility to choose the desired level of security
 and performance. By default, Ubuntu uses AES-256 in XTS mode, but you can
