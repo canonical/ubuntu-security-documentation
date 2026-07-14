@@ -5,3 +5,27 @@
 .highlight .hll {
     background-color: rgba(255, 215, 0, 0.25) !important;
 }
+
+#header ul.p-navigation__links {
+    flex-wrap: wrap;
+    max-width: none;
+}
+
+#header ul.p-navigation__links > li {
+    flex: 0 0 auto;
+    margin: 0;
+    width: auto !important;
+}
+
+#header ul.p-navigation__links > li + li {
+    margin-left: 2rem;
+}
+
+#header ul.p-navigation__links > li > a {
+    overflow: visible;
+    width: auto;
+}
+
+#header .nav-more-links {
+    padding-right: 2.5rem;
+}
