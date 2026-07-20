@@ -1,7 +1,7 @@
 Common security mistakes
 ########################
 
-Ubuntu is designed to be secure by default, but it's easy to accidently
+Ubuntu is designed to be secure by default, but it's easy to accidentally
 weaken those defenses through specific configuration choices or usage
 habits. This section highlights frequent errors that can expose your
 system to unnecessary risk, such as bypassing package verification or

@@ -7,9 +7,16 @@ incoming connections or packets.
 Exposing open ports on untrusted networks poses a security risk if the
 listening service has a vulnerability or is misconfigured.
 
+.. Suppress a known false positive in Canonical.003: the rule mis-flags the
+   correct form "Ubuntu 6.06 LTS (Dapper Drake)".
+
+.. vale Canonical.003-Ubuntu-names-versions = NO
+
 Since Ubuntu 6.06 LTS (Dapper Drake), Ubuntu has followed a "No Open Ports"
 policy. By default, a new installation should have no listening network services, with
 only rare exceptions.
+
+.. vale Canonical.003-Ubuntu-names-versions = YES
 
 Guidelines for network services exposed by default
 ++++++++++++++++++++++++++++++++++++++++++++++++++
