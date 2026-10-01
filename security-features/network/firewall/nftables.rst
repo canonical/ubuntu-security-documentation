@@ -692,7 +692,7 @@ primary terminology used is:
   stateful objects (e.g.  counter values). As such, a command such as the
   following is effectively a no-op (although the state may change between the
   moment it is read and the moment it is overwritten): ``(echo "nft flush
-  rulset"; nft list ruleset) | nft -f -``.
+  ruleset"; nft list ruleset) | nft -f -``.
 * **Tables**: unlike ``xtables``, any number of tables can be defined in
   ``nftables``. These are collections of chains, :ref:`sets <Sets>`, :ref:`maps
   <Maps>` and stateful objects (e.g. counters). The table name does not hold any
