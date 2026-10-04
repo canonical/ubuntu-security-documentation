@@ -4,7 +4,8 @@ Auditing an Ubuntu system for CIS Benchmarks compliance
 Audit the system
 ================
 
-An Ubuntu system can be audited for the CIS rules using the ``usg`` command.
+An Ubuntu system can be audited for the
+`CIS rules <https://www.cisecurity.org/benchmark/ubuntu_linux>`_ using the ``usg`` command.
 
 .. code-block:: bash
     
