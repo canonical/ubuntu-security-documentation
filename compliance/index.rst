@@ -2,10 +2,14 @@ Compliance automation
 #####################
 
 Ubuntu Pro simplifies security compliance burden for frameworks 
-such as NIST CSF, FedRAMP, PCI-DSS, ISO27001, or CIS Benchmarks. Pro includes 
+such as `NIST CSF <https://www.nist.gov/cyberframework>`_,
+`FedRAMP <https://www.fedramp.gov/>`_,
+`PCI-DSS <https://www.pcisecuritystandards.org/standards/pci-dss/>`_, ISO27001,
+or `CIS Benchmarks <https://www.cisecurity.org/benchmark/ubuntu_linux>`_. Pro includes 
 security vulnerability patching for up to 12 years, FIPS-validated
 cryptographic modules, and automated system hardening for CIS Benchmarks and
-DISA STIG. You can deploy it on-premise or in the public cloud. 
+`DISA STIG <https://www.cyber.mil/stigs/>`_. You can deploy it on-premise or in
+the public cloud. 
 
 Ubuntu Security Guide
 =====================
@@ -25,9 +29,12 @@ on-premise or ready-built on public clouds.
 FIPS-certified packages
 =======================
 
-Ubuntu Pro provides access to FIPS 140 certified cryptographic packages,
+Ubuntu Pro provides access to `FIPS 140 <https://csrc.nist.gov/pubs/fips/140-3/final>`_
+certified cryptographic packages,
 so you can deploy workloads that need to operate under compliance regimes
-like FedRAMP, HIPAA, and PCI-DSS. Canonical works with NIST-approved 
+like FedRAMP,
+`HIPAA <https://www.nist.gov/programs-projects/security-health-information-technology/hipaa-security-rule>`_,
+and PCI-DSS. Canonical works with NIST-approved 
 testing labs to certify the core cryptographic modules within Ubuntu for
 FIPS 140 requirements. This enables applications to use these libraries 
 in compliance with the FIPS standard. 

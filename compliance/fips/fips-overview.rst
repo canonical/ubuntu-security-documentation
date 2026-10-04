@@ -89,7 +89,7 @@ IBM Power8 architectures.
 
    "Kernel Crypto API", "4.4.0", "FIPS 140-2", "Active", "`#4604 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4604>`_", "2025-10-06"
    "OpenSSL", "1.0.2g", "FIPS 140-2", "Active", "`#4589 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4589>`_", "2025-10-08"
-   "Strongswan", "5.3.5", "FIPS 140-2", "Historical", "`#3648 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3648>`_", "SP 800-56Arev3 transition "
+   "Strongswan", "5.3.5", "FIPS 140-2", "Historical", "`#3648 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/3648>`_", "`SP 800-56Arev3 <https://csrc.nist.gov/pubs/sp/800/56/a/r3/final>`_ transition "
    "OpenSSH client", "1:7.2p2", "FIPS 140-2", "Historical", "`#2907 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/2907>`_", "N/A"
    "OpenSSH server", "1:7.2p2", "FIPS 140-2", "Historical", "`#2906 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/2906>`_", "N/A"
 
@@ -124,7 +124,7 @@ NIST has reviewed the modules.
 
 ``fips-preview``
    This service contains the modules submitted to NIST for review but not yet
-   certified. The latest FedRAMP guidelines, for instance, require you to
+   certified. The latest `FedRAMP <https://www.fedramp.gov/>`_ guidelines, for instance, require you to
    install FIPS-certified modules but allow you to use pre-approved packages
    that are awaiting NIST certification.
 

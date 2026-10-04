@@ -1,8 +1,9 @@
 Apply the DISA-STIG rules
 #########################
 
-Run the following command to check the system for compliance with DISA-STIG
-rules and fix (remediate) failed rules.
+Run the following command to check the system for compliance with
+`DISA-STIG <https://www.cyber.mil/stigs/>`_ rules and fix (remediate) failed
+rules.
 
 Ensure you have a password set on the administrative account before applying
 the fix. The DISA profile requires one and will lock you out if it's missing.
