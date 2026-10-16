@@ -162,7 +162,8 @@
         "releases": [
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "5.0.0",
         "state": "DEFAULT"
@@ -230,7 +231,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel & userspace",
         "state": "DEFAULT"
@@ -274,6 +276,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -323,6 +326,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -373,6 +377,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -416,6 +421,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -454,6 +460,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -500,7 +507,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "LUKS + TPM",
         "state": "DEFAULT"
@@ -535,6 +543,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -620,7 +629,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "ZFS dataset encryption available, encrypted Home (eCryptfs) and ext4 encryption (fscrypt) available in universe",
         "state": "AVAILABLE"
@@ -680,6 +690,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -728,6 +739,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -793,6 +805,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -880,7 +893,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "yescrypt",
         "state": "DEFAULT"
@@ -912,6 +926,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -944,7 +959,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "policy",
         "state": "DEFAULT"
@@ -988,6 +1004,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1033,6 +1050,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1073,7 +1091,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel & sysctl",
         "state": "DEFAULT"
@@ -1107,7 +1126,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel & sysctl",
         "state": "DEFAULT"
@@ -1154,6 +1174,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1208,6 +1229,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1258,6 +1280,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1312,6 +1335,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1362,6 +1386,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1421,6 +1446,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1477,6 +1503,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1534,6 +1561,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1572,6 +1600,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "yakkety",
           "zesty"
         ],
@@ -1644,6 +1673,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1693,6 +1723,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1731,6 +1762,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "yakkety",
           "zesty"
         ],
@@ -1785,7 +1817,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "gcc patch (i386, amd64, ppc64el, s390x)",
         "state": "DEFAULT"
@@ -1812,7 +1845,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "gcc patch (i386, amd64)",
         "state": "DEFAULT"
@@ -1853,6 +1887,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1915,6 +1950,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -1967,6 +2003,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2015,6 +2052,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2073,6 +2111,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2124,7 +2163,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "integrity only, no confidentiality",
         "state": "DEFAULT"
@@ -2167,6 +2207,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2221,6 +2262,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2289,6 +2331,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2337,6 +2380,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2381,6 +2425,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2425,6 +2470,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2469,7 +2515,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel (i386, amd64, arm64, and s390 only)",
         "state": "DEFAULT"
@@ -2524,6 +2571,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2578,7 +2626,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel",
         "state": "DEFAULT"
@@ -2610,6 +2659,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2669,7 +2719,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "amd64, kernel signature enforcement",
         "state": "DEFAULT"
@@ -2701,6 +2752,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "xenial",
           "yakkety",
           "zesty"
@@ -2733,7 +2785,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel & userspace",
         "state": "AVAILABLE"
@@ -2763,7 +2816,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel & userspace",
         "state": "DEFAULT"
@@ -2793,7 +2847,8 @@
           "plucky",
           "questing",
           "resolute",
-          "stonking"
+          "stonking",
+          "tenacious"
         ],
         "comment": "kernel & userspace",
         "state": "AVAILABLE"
@@ -2838,6 +2893,7 @@
           "resolute",
           "saucy",
           "stonking",
+          "tenacious",
           "trusty",
           "utopic",
           "vivid",
@@ -2878,6 +2934,7 @@
           "plucky",
           "questing",
           "stonking",
+          "tenacious",
           "utopic",
           "yakkety"
         ],
@@ -2953,6 +3010,7 @@
           "questing",
           "resolute",
           "stonking",
+          "tenacious",
           "xenial",
           "yakkety",
           "zesty"

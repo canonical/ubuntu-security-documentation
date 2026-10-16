@@ -258,5 +258,10 @@
         "code_name": "stonking",
         "human_name": "Ubuntu 26.10",
         "is_eol": false
+    },
+    {
+        "code_name": "tenacious",
+        "human_name": "Ubuntu 27.04",
+        "is_eol": false
     }
 ]
