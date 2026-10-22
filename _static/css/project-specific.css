@@ -29,3 +29,7 @@
 #header .nav-more-links {
     padding-right: 2.5rem;
 }
+
+table.large-font-table {
+    font-size: large;
+}

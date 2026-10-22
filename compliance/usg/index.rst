@@ -7,6 +7,24 @@ hardening and auditing a Linux system is often tedious. The Ubuntu Security
 Guide (USG) simplifies this process and allows you to customize configurations
 for your specific environment.
 
+Available profiles
+==================
+
+.. table::
+   :class: large-font-table
+
+   +------------------------+-----------+---------+--------+
+   |                        | 20.04     | 22.04   | 24.04  |
+   +========================+===========+=========+========+
+   | CIS Level 1            |           |         |        |
+   | Server / Workstation   | v1.0.0    | v2.0.0  | v1.0.0 |
+   +------------------------+-----------+---------+--------+
+   | CIS Level 2            |           |         |        | 
+   | Server / Workstation   | v1.0.0    | v2.0.0  | v1.0.0 |
+   +------------------------+-----------+---------+--------+
+   | DISA-STIG              | V1R12     | V2R8    | V1R1   |
+   +------------------------+-----------+---------+--------+
+
 
 Installation
 ============

@@ -26,6 +26,7 @@ The Ubuntu Security Standards team certified and tested the modules in this rele
 IBM Z architectures.
 
 .. csv-table::
+   :class: large-font-table
    :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
    "Strongswan", "5.9.5", "FIPS 140-3", "Active", "`#4911 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4911>`_", "2026-12-02"
@@ -48,6 +49,7 @@ The Ubuntu Security Standards team certified and tested the modules in this rele
 architectures.
 
 .. csv-table::
+   :class: large-font-table
    :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
    "Kernel Crypto API", "5.4.0", "FIPS 140-2", "Active", "`#4366 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4366>`_", "2026-09-21"
@@ -65,6 +67,7 @@ The Ubuntu Security Standards team certified and tested the modules in this rele
 architectures.
 
 .. csv-table::
+   :class: large-font-table
    :header: "Cryptographic module", "Version", "Standard", "Status", "Certificate", "Sunset date"
 
    "Kernel Crypto API", "4.15.0", "FIPS 140-2", "Active", "`#4018 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4018>`_", "2026-08-29"
@@ -85,6 +88,7 @@ The Ubuntu Security Standards team certified and tested the modules in this rele
 IBM Power8 architectures.
 
 .. csv-table::
+   :class: large-font-table
    :header: "Cryptographic module", "Module version(s)", "Associated package(s)", "Status", "Certificate"
 
    "Kernel Crypto API", "4.4.0", "FIPS 140-2", "Active", "`#4604 <https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4604>`_", "2025-10-06"
