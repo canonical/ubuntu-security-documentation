@@ -1,8 +1,9 @@
 Apply the CIS Benchmarks rules to the current system
 ####################################################
 
-To modify a system to comply with the CIS Benchmarks using USG, run the following
-command:
+To modify a system to comply with the
+`CIS Benchmarks <https://www.cisecurity.org/benchmark/ubuntu_linux>`_ using USG,
+run the following command:
 
 .. code-block:: bash
 

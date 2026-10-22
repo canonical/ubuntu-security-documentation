@@ -1,8 +1,10 @@
 Ubuntu Security Guide (USG)
 ###########################
 
-Security Technical Implementation Guides, such as the CIS Benchmarks or
-DISA-STIG, contain hundreds of configuration recommendations. Manually
+Security Technical Implementation Guides, such as the
+`CIS Benchmarks <https://www.cisecurity.org/benchmark/ubuntu_linux>`_ or
+`DISA-STIG <https://www.cyber.mil/stigs/>`_, contain hundreds of configuration
+recommendations. Manually
 hardening and auditing a Linux system is often tedious. The Ubuntu Security
 Guide (USG) simplifies this process and allows you to customize configurations
 for your specific environment.

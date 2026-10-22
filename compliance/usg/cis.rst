@@ -2,7 +2,8 @@ CIS Benchmarks compliance
 #########################
 
 
-The Center for Internet Security (CIS) Benchmarks are globally recognized best
+The `Center for Internet Security (CIS) Benchmarks
+<https://www.cisecurity.org/benchmark/ubuntu_linux>`_ are globally recognized best
 practices for securing IT systems. Ubuntu simplifies compliance by providing
 tools to audit and apply these configurations automatically using the Ubuntu
 Security Guide (USG).

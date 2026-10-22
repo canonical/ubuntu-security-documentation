@@ -10,7 +10,8 @@ By default, LUKS uses the Argon2i password hashing algorithm to generate a disk
 encryption key from the user-supplied password. This modern algorithm provides
 better security against current hardware capabilities than the older PBKDF2
 algorithm (see the Password Hashing Competition for details). Currently, NIST
-hasn't certified the Argon2 algorithms for use in FIPS 140-3, though PBKDF2 is
+hasn't certified the Argon2 algorithms for use in
+`FIPS 140-3 <https://csrc.nist.gov/pubs/fips/140-3/final>`_, though PBKDF2 is
 allowed. Therefore, Argon2i isn't available in FIPS mode.
 
 The installer creates the LUKS encrypted partitions using Argon2i. Before

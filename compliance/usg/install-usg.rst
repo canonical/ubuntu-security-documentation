@@ -131,7 +131,8 @@ Transition from previous compliance tooling
 ===========================================
 
 Previous compliance tools available in Ubuntu provided per-release scripts for
-CIS Benchmarks compliance. The following table maps the old commands to the Ubuntu
+`CIS Benchmarks <https://www.cisecurity.org/benchmark/ubuntu_linux>`_
+compliance. The following table maps the old commands to the Ubuntu
 Security Guide syntax.
 
 .. csv-table::
