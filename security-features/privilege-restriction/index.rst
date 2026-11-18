@@ -208,7 +208,16 @@ run with the floor label unless explicitly set otherwise. Because all processes
 will have the floor label and all files will have the floor label, SMACK will 
 never fail an access check in this configuration. 
 
+Root-Equivalent Groups
+======================
+
+.. toctree::
+   :maxdepth: 1
+
+   root-equivalent-groups
+
 Snap Confinement
+================
 
 .. toctree::
    :maxdepth: 1
