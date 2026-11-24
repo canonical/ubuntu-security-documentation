@@ -259,3 +259,9 @@ The other files correspond to the resource limits discussed above. When a user r
 ``systemctl set-property apache2.service MemoryMax=512M``, ``systemd`` is simply writing 
 "536870912" (512 MB in bytes) into the ``memory.max`` file in this directory. This filesystem
 interface is the underlying mechanism that makes all cgroup-based management possible.
+
+Limitations
+----------------------------
+
+Processes started through non-interactive services such as cron are not attached to systemd session scopes due to the absence of pam_systemd.so in common-session-noninteractive. As a result, resource limits applied at the session scope level can be bypassed.
+You can enable pam_systemd.so for non-interactive cron session by adding ``session optional        pam_systemd.so`` to :file:`/etc/pam.d/cron`. You can also configure :file:`/etc/security/limits.conf` since pam_limits.so is enabled for cron.
