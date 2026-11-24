@@ -19,7 +19,7 @@ is a combined effort of NIST and ISO, with the Security and Testing
 requirements for cryptographic modules published as ISO/IEC 19790 and ISO/IEC
 24759.
 
-Ubuntu 24.04 LTS (Resolute Raccoon)
+Ubuntu 24.04 LTS (Noble Numbat)
 -----------------------------------
 
 Ubuntu 24.04 LTS has been assessed for FIPS 140-3 on the x86_64/AMD64, ARM64 and IBM Z architectures,
